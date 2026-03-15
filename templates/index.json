@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero_pp": {
@@ -108,9 +117,9 @@
           "name": "t:names.collection_card",
           "static": true,
           "settings": {
+            "placement": "below_image",
             "horizontal_alignment": "flex-start",
             "vertical_alignment": "center",
-            "placement": "below_image",
             "inherit_color_scheme": true,
             "color_scheme": "",
             "border": "none",
@@ -131,6 +140,9 @@
               "type": "collection-title",
               "name": "t:names.collection_title",
               "settings": {
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "center",
                 "type_preset": "rte",
                 "font": "var(--font-body--family)",
                 "font_size": "12px",
@@ -138,9 +150,6 @@
                 "letter_spacing": "normal",
                 "case": "none",
                 "wrap": "pretty",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "center",
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
@@ -148,10 +157,11 @@
               }
             }
           },
-          "block_order": ["collection-title"]
+          "block_order": [
+            "collection-title"
+          ]
         }
       },
-      "block_order": [],
       "settings": {
         "collection_list": [],
         "layout_type": "carousel",
@@ -373,13 +383,44 @@
     "features_bar_pp": {
       "type": "pp-features-bar",
       "blocks": {
-        "feat_1": { "type": "feature", "settings": { "label": "Pet Friendly" } },
-        "feat_2": { "type": "feature", "settings": { "label": "Autorriegos" } },
-        "feat_3": { "type": "feature", "settings": { "label": "Poca Luz" } },
-        "feat_4": { "type": "feature", "settings": { "label": "Fáciles de cuidar" } },
-        "feat_5": { "type": "feature", "settings": { "label": "Terrarios" } }
+        "feat_1": {
+          "type": "feature",
+          "settings": {
+            "label": "Pet Friendly"
+          }
+        },
+        "feat_2": {
+          "type": "feature",
+          "settings": {
+            "label": "Autorriegos"
+          }
+        },
+        "feat_3": {
+          "type": "feature",
+          "settings": {
+            "label": "Poca Luz"
+          }
+        },
+        "feat_4": {
+          "type": "feature",
+          "settings": {
+            "label": "Fáciles de cuidar"
+          }
+        },
+        "feat_5": {
+          "type": "feature",
+          "settings": {
+            "label": "Terrarios"
+          }
+        }
       },
-      "block_order": ["feat_1", "feat_2", "feat_3", "feat_4", "feat_5"],
+      "block_order": [
+        "feat_1",
+        "feat_2",
+        "feat_3",
+        "feat_4",
+        "feat_5"
+      ],
       "settings": {
         "section_width": "page-width",
         "color_scheme": "scheme-2",
@@ -390,11 +431,24 @@
     "ugc_gallery_pp": {
       "type": "pp-ugc-gallery",
       "blocks": {
-        "ugc_1": { "type": "image" },
-        "ugc_2": { "type": "image" },
-        "ugc_3": { "type": "image" }
+        "ugc_1": {
+          "type": "image",
+          "settings": {}
+        },
+        "ugc_2": {
+          "type": "image",
+          "settings": {}
+        },
+        "ugc_3": {
+          "type": "image",
+          "settings": {}
+        }
       },
-      "block_order": ["ugc_1", "ugc_2", "ugc_3"],
+      "block_order": [
+        "ugc_1",
+        "ugc_2",
+        "ugc_3"
+      ],
       "settings": {
         "button_label": "Opiniones",
         "section_width": "page-width",
