@@ -641,9 +641,9 @@
 }
 
 /* Product card in list view */
-.pp-collection__grid--list .rc-product-card,
-.product-grid--list .rc-product-card,
-.product-grid[data-layout="list"] .rc-product-card,
+.pp-collection__grid--list .pp-product-card,
+.product-grid--list .pp-product-card,
+.product-grid[data-layout="list"] .pp-product-card,
 .pp-collection__grid--list .product-card,
 .product-grid--list .product-card,
 .product-grid[data-layout="list"] .product-card {
@@ -651,9 +651,9 @@
 }
 
 /* Image container in list view */
-.pp-collection__grid--list .rc-product-card__media,
-.product-grid--list .rc-product-card__media,
-.product-grid[data-layout="list"] .rc-product-card__media,
+.pp-collection__grid--list .pp-product-card__media,
+.product-grid--list .pp-product-card__media,
+.product-grid[data-layout="list"] .pp-product-card__media,
 .pp-collection__grid--list .product-card__media,
 .product-grid--list .product-card__media,
 .product-grid[data-layout="list"] .product-card__media {
@@ -662,9 +662,9 @@
 }
 
 /* Content in list view */
-.pp-collection__grid--list .rc-product-card__content,
-.product-grid--list .rc-product-card__content,
-.product-grid[data-layout="list"] .rc-product-card__content,
+.pp-collection__grid--list .pp-product-card__content,
+.product-grid--list .pp-product-card__content,
+.product-grid[data-layout="list"] .pp-product-card__content,
 .pp-collection__grid--list .product-card__content,
 .product-grid--list .product-card__content,
 .product-grid[data-layout="list"] .product-card__content {
@@ -675,9 +675,9 @@
 }
 
 /* Title in list view */
-.pp-collection__grid--list .rc-product-card__title,
-.product-grid--list .rc-product-card__title,
-.product-grid[data-layout="list"] .rc-product-card__title,
+.pp-collection__grid--list .pp-product-card__title,
+.product-grid--list .pp-product-card__title,
+.product-grid[data-layout="list"] .pp-product-card__title,
 .pp-collection__grid--list .product-card__title,
 .product-grid--list .product-card__title,
 .product-grid[data-layout="list"] .product-card__title {
@@ -686,9 +686,9 @@
 }
 
 /* Price in list view */
-.pp-collection__grid--list .rc-product-card__price,
-.product-grid--list .rc-product-card__price,
-.product-grid[data-layout="list"] .rc-product-card__price,
+.pp-collection__grid--list .pp-product-card__price,
+.product-grid--list .pp-product-card__price,
+.product-grid[data-layout="list"] .pp-product-card__price,
 .pp-collection__grid--list .product-card__price,
 .product-grid--list .product-card__price,
 .product-grid[data-layout="list"] .product-card__price {

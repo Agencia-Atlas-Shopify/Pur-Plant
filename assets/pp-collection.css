@@ -4,7 +4,7 @@
 
 .pp-collection {
   --pp-collection-gap: 10px;
-  --rc-items-per-row: 2;
+  --pp-items-per-row: 2;
   padding-block: var(--section-vertical-spacing, 40px);
   padding-block-end: var(--section-vertical-spacing-bottom, var(--section-vertical-spacing, 40px));
 }
@@ -42,7 +42,7 @@
 /* Grid */
 .pp-collection__grid {
   display: grid;
-  grid-template-columns: repeat(var(--rc-items-per-row), 1fr);
+  grid-template-columns: repeat(var(--pp-items-per-row), 1fr);
   gap: var(--pp-collection-gap);
 }
 

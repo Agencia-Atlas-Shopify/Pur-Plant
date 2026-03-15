@@ -17,13 +17,13 @@
     justify-content: center;
     gap: 0.5rem;
     padding: 0.75rem 1rem;
-    font-size: var(--rc-text-xs, 0.6875rem);
+    font-size: var(--pp-text-xs, 0.6875rem);
     font-weight: 500;
     letter-spacing: 0.05em;
     text-transform: uppercase;
     background: transparent;
-    border: 1px solid rgb(var(--rc-product-text, 0 0 0) / 0.2);
-    color: rgb(var(--rc-product-text, 0 0 0));
+    border: 1px solid rgb(var(--pp-product-text, 0 0 0) / 0.2);
+    color: rgb(var(--pp-product-text, 0 0 0));
     cursor: pointer;
     transition: all 0.2s ease;
   }
@@ -71,8 +71,8 @@
     cursor: pointer;
   }
 
-  .rc-product-card-standalone:hover .pp-wishlist-btn--icon,
-  .rc-product-card:hover .pp-wishlist-btn--icon,
+  .pp-product-card-standalone:hover .pp-wishlist-btn--icon,
+  .pp-product-card:hover .pp-wishlist-btn--icon,
   .pp-wishlist-btn--icon.is-wishlisted {
     opacity: 1;
   }
@@ -123,8 +123,8 @@
     padding: 0 5px;
     font-size: 10px;
     font-weight: 600;
-    background: rgb(var(--rc-header-text, 0 0 0));
-    color: rgb(var(--rc-header-bg, 255 255 255));
+    background: rgb(var(--pp-header-text, 0 0 0));
+    color: rgb(var(--pp-header-bg, 255 255 255));
     border-radius: 50%;
     opacity: 1;
     transform: scale(1);
@@ -155,14 +155,14 @@
     min-height: 60vh;
   }
 
-  .pp-wishlist-page .rc-container {
+  .pp-wishlist-page .pp-container {
     max-width: 76rem;
     margin: 0 auto;
     padding: 0 20px;
   }
 
   @media screen and (min-width: 1000px) {
-    .pp-wishlist-page .rc-container {
+    .pp-wishlist-page .pp-container {
       padding: 0 30px;
     }
   }
@@ -171,13 +171,13 @@
     text-align: center;
     margin-bottom: 3.5rem;
     padding-bottom: 2rem;
-    border-bottom: 1px solid rgb(var(--rc-product-text, 0 0 0) / 0.1);
+    border-bottom: 1px solid rgb(var(--pp-product-text, 0 0 0) / 0.1);
   }
 
   .pp-wishlist-page__title {
-    font-family: var(--rc-heading-font-family);
-    font-size: var(--rc-text-h3, 1.5rem);
-    font-weight: var(--rc-heading-font-weight, 400);
+    font-family: var(--pp-heading-font-family);
+    font-size: var(--pp-text-h3, 1.5rem);
+    font-weight: var(--pp-heading-font-weight, 400);
     letter-spacing: 0.1em;
     text-transform: uppercase;
     margin: 0 0 1rem;
@@ -185,7 +185,7 @@
 
   @media screen and (min-width: 750px) {
     .pp-wishlist-page__title {
-      font-size: var(--rc-text-h2, 1.75rem);
+      font-size: var(--pp-text-h2, 1.75rem);
     }
   }
 
@@ -193,11 +193,11 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: var(--rc-text-sm, 0.75rem);
+    font-size: var(--pp-text-sm, 0.75rem);
     font-weight: 400;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    color: rgb(var(--rc-product-text, 0 0 0) / 0.6);
+    color: rgb(var(--pp-product-text, 0 0 0) / 0.6);
   }
 
   .pp-wishlist-page__count span {
@@ -207,8 +207,8 @@
     min-width: 24px;
     height: 24px;
     padding: 0 8px;
-    background: rgb(var(--rc-product-text, 0 0 0));
-    color: rgb(var(--rc-product-bg, 255 255 255));
+    background: rgb(var(--pp-product-text, 0 0 0));
+    color: rgb(var(--pp-product-bg, 255 255 255));
     border-radius: 12px;
     font-weight: 600;
     font-size: 11px;
@@ -216,7 +216,7 @@
 
   .pp-wishlist-page__count span[data-count="0"],
   .pp-wishlist-page__count span:empty {
-    background: rgb(var(--rc-product-text, 0 0 0) / 0.2);
+    background: rgb(var(--pp-product-text, 0 0 0) / 0.2);
   }
 
   .pp-wishlist-page__grid {
@@ -243,12 +243,12 @@
   }
 
   .pp-wishlist-page__empty-title {
-    font-size: var(--rc-text-lg, 1rem);
+    font-size: var(--pp-text-lg, 1rem);
     margin: 0 0 0.5rem;
   }
 
   .pp-wishlist-page__empty-text {
-    font-size: var(--rc-text-sm, 0.75rem);
+    font-size: var(--pp-text-sm, 0.75rem);
     opacity: 0.6;
     margin: 0 0 1.5rem;
   }
@@ -256,13 +256,13 @@
   .pp-wishlist-page__empty-link {
     display: inline-block;
     padding: 0.875rem 2rem;
-    font-size: var(--rc-text-xs, 0.6875rem);
+    font-size: var(--pp-text-xs, 0.6875rem);
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     text-decoration: none;
-    background: rgb(var(--rc-product-text, 0 0 0));
-    color: rgb(var(--rc-product-bg, 255 255 255));
+    background: rgb(var(--pp-product-text, 0 0 0));
+    color: rgb(var(--pp-product-bg, 255 255 255));
   }
 {%- endstyle -%}
 
@@ -278,7 +278,7 @@
 {%- elsif type == 'page' -%}
   {%- comment -%} Wishlist page content {%- endcomment -%}
   <section class="pp-wishlist-page">
-    <div class="rc-container">
+    <div class="pp-container">
       <header class="pp-wishlist-page__header">
         <h1 class="pp-wishlist-page__title">{{ 'wishlist.title' | t | default: 'My Wishlist' }}</h1>
         <p class="pp-wishlist-page__count">
@@ -462,7 +462,7 @@
           }
 
           const productCard = document.createElement('div');
-          productCard.className = 'rc-product-card';
+          productCard.className = 'pp-product-card';
           productCard.innerHTML = `
             <div style="position: relative;">
               <a href="/products/${product.handle}" style="display: block;">

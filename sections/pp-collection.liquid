@@ -23,7 +23,7 @@
 {%- style -%}
   #RC-Collection-{{ section.id }} {
     --pp-collection-gap: {{ section.settings.gap_mobile }}px;
-    --rc-items-per-row: {{ products_per_row_mobile }};
+    --pp-items-per-row: {{ products_per_row_mobile }};
     --section-vertical-spacing: {{ section.settings.padding_top }}px;
     --section-vertical-spacing-bottom: {{ section.settings.padding_bottom }}px;
   }
@@ -31,14 +31,14 @@
   @media screen and (min-width: 700px) {
     #RC-Collection-{{ section.id }} {
       --pp-collection-gap: {{ section.settings.gap_tablet }}px;
-      --rc-items-per-row: {{ products_per_row_tablet }};
+      --pp-items-per-row: {{ products_per_row_tablet }};
     }
   }
 
   @media screen and (min-width: 1000px) {
     #RC-Collection-{{ section.id }} {
       --pp-collection-gap: {{ section.settings.gap_desktop }}px;
-      --rc-items-per-row: {{ products_per_row_desktop }};
+      --pp-items-per-row: {{ products_per_row_desktop }};
     }
   }
 {%- endstyle -%}

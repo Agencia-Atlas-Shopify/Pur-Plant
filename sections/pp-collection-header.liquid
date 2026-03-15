@@ -423,12 +423,12 @@
         const finalDesktop = desktop || defaultDesktop;
         const finalMobile = mobile || defaultMobile;
 
-        grid.style.setProperty('--rc-cols-desktop', finalDesktop);
-        grid.style.setProperty('--rc-cols-mobile', finalMobile);
+        grid.style.setProperty('--pp-cols-desktop', finalDesktop);
+        grid.style.setProperty('--pp-cols-mobile', finalMobile);
 
         // Tablet is between mobile and desktop
         const tablet = Math.max(2, Math.min(parseInt(finalDesktop) - 1, parseInt(finalMobile) + 1));
-        grid.style.setProperty('--rc-cols-tablet', tablet);
+        grid.style.setProperty('--pp-cols-tablet', tablet);
       }
 
       // Layout Toggle (Grid/List)
