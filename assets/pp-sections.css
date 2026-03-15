@@ -2,6 +2,15 @@
    Pur Plant — Custom sections CSS
    ═══════════════════════════════════════════ */
 
+/* ── Collection List card titles ── */
+.collection-card__content .text-block p {
+  font-family: 'Aileron', var(--font-body--family), sans-serif !important;
+  font-size: 23.6px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.05em !important;
+  line-height: 0.8 !important;
+}
+
 /* ── Features Bar ── */
 
 .pp-features-bar__heading {
