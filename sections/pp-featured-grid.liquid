@@ -78,33 +78,43 @@
                 "
                 {{ block.shopify_attributes }}
               >
-                <div class="pp-collection__banner-inner">
-                  {%- if block.type == 'video_block' and block.settings.video_url != blank -%}
-                    <video
-                      class="pp-collection__banner-video"
-                      autoplay muted loop playsinline
-                      {% if block.settings.image != blank %}
-                        poster="{{ block.settings.image | image_url: width: 1200 }}"
-                      {% endif %}
-                    >
-                      <source src="{{ block.settings.video_url }}" type="video/mp4">
-                    </video>
-                  {%- elsif block.settings.image != blank -%}
-                    <img
-                      src="{{ block.settings.image | image_url: width: 1600 }}"
-                      srcset="{{ block.settings.image | image_url: width: 600 }} 600w, {{ block.settings.image | image_url: width: 900 }} 900w, {{ block.settings.image | image_url: width: 1200 }} 1200w, {{ block.settings.image | image_url: width: 1600 }} 1600w"
-                      alt="{{ block.settings.image.alt | escape }}"
-                      class="pp-collection__banner-image"
-                      loading="lazy"
-                    >
-                  {%- else -%}
-                    {{ 'lifestyle-1' | placeholder_svg_tag: 'pp-collection__banner-placeholder' }}
+                <div class="pp-collection__banner-inner{% if block.type == 'text_block' %} pp-collection__banner-inner--text{% endif %}"
+                  {% if block.type == 'text_block' %}
+                    style="background: {{ block.settings.bg_color }}; color: {{ block.settings.text_color }};"
+                  {% endif %}
+                >
+                  {%- if block.type == 'video_block' -%}
+                    {%- if block.settings.video != blank -%}
+                      {{ block.settings.video | video_tag: autoplay: true, muted: true, loop: true, playsinline: true, class: 'pp-collection__banner-video' }}
+                    {%- elsif block.settings.video_url != blank -%}
+                      <video
+                        class="pp-collection__banner-video"
+                        autoplay muted loop playsinline
+                        {% if block.settings.image != blank %}poster="{{ block.settings.image | image_url: width: 1200 }}"{% endif %}
+                      >
+                        <source src="{{ block.settings.video_url }}" type="video/mp4">
+                      </video>
+                    {%- elsif block.settings.image != blank -%}
+                      <img src="{{ block.settings.image | image_url: width: 1600 }}" alt="{{ block.settings.image.alt | escape }}" class="pp-collection__banner-image" loading="lazy">
+                    {%- endif -%}
+                  {%- elsif block.type == 'banner' -%}
+                    {%- if block.settings.image != blank -%}
+                      <img
+                        src="{{ block.settings.image | image_url: width: 1600 }}"
+                        srcset="{{ block.settings.image | image_url: width: 600 }} 600w, {{ block.settings.image | image_url: width: 900 }} 900w, {{ block.settings.image | image_url: width: 1200 }} 1200w, {{ block.settings.image | image_url: width: 1600 }} 1600w"
+                        alt="{{ block.settings.image.alt | escape }}"
+                        class="pp-collection__banner-image"
+                        loading="lazy"
+                      >
+                    {%- else -%}
+                      {{ 'lifestyle-1' | placeholder_svg_tag: 'pp-collection__banner-placeholder' }}
+                    {%- endif -%}
                   {%- endif -%}
 
                   {%- if block.settings.title != blank or block.settings.subtitle != blank or block.settings.button_text != blank -%}
                     <div
                       class="pp-collection__banner-content pp-collection__banner-content--{{ block.settings.content_position }}"
-                      style="color: {{ block.settings.text_color }};"
+                      {% unless block.type == 'text_block' %}style="color: {{ block.settings.text_color }};"{% endunless %}
                     >
                       {%- if block.settings.title != blank -%}
                         <h3 class="pp-collection__banner-title">{{ block.settings.title }}</h3>
@@ -154,24 +164,24 @@
               "
               {{ block.shopify_attributes }}
             >
-              <div class="pp-collection__banner-inner">
-                {%- if block.type == 'video_block' and block.settings.video_url != blank -%}
-                  <video class="pp-collection__banner-video" autoplay muted loop playsinline>
-                    <source src="{{ block.settings.video_url }}" type="video/mp4">
-                  </video>
-                {%- elsif block.settings.image != blank -%}
-                  <img
-                    src="{{ block.settings.image | image_url: width: 1600 }}"
-                    alt="{{ block.settings.image.alt | escape }}"
-                    class="pp-collection__banner-image"
-                    loading="lazy"
-                  >
+              <div class="pp-collection__banner-inner{% if block.type == 'text_block' %} pp-collection__banner-inner--text{% endif %}"
+                {% if block.type == 'text_block' %}style="background: {{ block.settings.bg_color }}; color: {{ block.settings.text_color }};"{% endif %}
+              >
+                {%- if block.type == 'video_block' -%}
+                  {%- if block.settings.video != blank -%}
+                    {{ block.settings.video | video_tag: autoplay: true, muted: true, loop: true, playsinline: true, class: 'pp-collection__banner-video' }}
+                  {%- elsif block.settings.video_url != blank -%}
+                    <video class="pp-collection__banner-video" autoplay muted loop playsinline>
+                      <source src="{{ block.settings.video_url }}" type="video/mp4">
+                    </video>
+                  {%- endif -%}
+                {%- elsif block.type == 'banner' and block.settings.image != blank -%}
+                  <img src="{{ block.settings.image | image_url: width: 1600 }}" alt="{{ block.settings.image.alt | escape }}" class="pp-collection__banner-image" loading="lazy">
                 {%- endif -%}
 
                 {%- if block.settings.title != blank or block.settings.button_text != blank -%}
-                  <div
-                    class="pp-collection__banner-content pp-collection__banner-content--{{ block.settings.content_position }}"
-                    style="color: {{ block.settings.text_color }};"
+                  <div class="pp-collection__banner-content pp-collection__banner-content--{{ block.settings.content_position }}"
+                    {% unless block.type == 'text_block' %}style="color: {{ block.settings.text_color }};"{% endunless %}
                   >
                     {%- if block.settings.title != blank -%}
                       <h3 class="pp-collection__banner-title">{{ block.settings.title }}</h3>
@@ -180,9 +190,7 @@
                       <p class="pp-collection__banner-subtitle">{{ block.settings.subtitle }}</p>
                     {%- endif -%}
                     {%- if block.settings.button_text != blank -%}
-                      <a href="{{ block.settings.button_link | default: '#' }}" class="pp-collection__banner-button">
-                        {{ block.settings.button_text }}
-                      </a>
+                      <a href="{{ block.settings.button_link | default: '#' }}" class="pp-collection__banner-button">{{ block.settings.button_text }}</a>
                     {%- endif -%}
                   </div>
                 {%- endif -%}
@@ -233,6 +241,44 @@
     inset: 0;
     z-index: 1;
     pointer-events: none;
+  }
+
+  .pp-collection__banner-inner--text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    min-height: 100%;
+  }
+
+  .pp-collection__banner-inner--text .pp-collection__banner-content {
+    position: static;
+    transform: none;
+    max-width: 100%;
+  }
+
+  .pp-collection__banner-inner--text .pp-collection__banner-content--top-left {
+    align-self: flex-start;
+    text-align: left;
+  }
+
+  .pp-collection__banner-inner--text .pp-collection__banner-content--top-center {
+    align-self: flex-start;
+    text-align: center;
+  }
+
+  .pp-collection__banner-inner--text .pp-collection__banner-content--center {
+    text-align: center;
+  }
+
+  .pp-collection__banner-inner--text .pp-collection__banner-content--bottom-left {
+    align-self: flex-end;
+    text-align: left;
+  }
+
+  .pp-collection__banner-inner--text .pp-collection__banner-content--bottom-center {
+    align-self: flex-end;
+    text-align: center;
   }
 {%- endstyle -%}
 
@@ -547,9 +593,16 @@
           "content": "Media"
         },
         {
+          "type": "video",
+          "id": "video",
+          "label": "Video (upload/drag)",
+          "info": "Upload a video directly from your files"
+        },
+        {
           "type": "url",
           "id": "video_url",
-          "label": "Video URL (MP4)"
+          "label": "Video URL (MP4)",
+          "info": "Alternative: paste an external MP4 URL"
         },
         {
           "type": "image_picker",
@@ -617,6 +670,110 @@
           "min": 0, "max": 100, "step": 5, "default": 0,
           "unit": "%",
           "label": "Overlay opacity"
+        }
+      ]
+    },
+    {
+      "type": "text_block",
+      "name": "Text Block",
+      "settings": [
+        {
+          "type": "number",
+          "id": "position",
+          "label": "Insert before product #",
+          "default": 7
+        },
+        {
+          "type": "header",
+          "content": "Size"
+        },
+        {
+          "type": "range",
+          "id": "width_mobile",
+          "min": 1, "max": 3, "step": 1, "default": 2,
+          "label": "Width mobile (columns)"
+        },
+        {
+          "type": "range",
+          "id": "width_tablet",
+          "min": 1, "max": 4, "step": 1, "default": 2,
+          "label": "Width tablet (columns)"
+        },
+        {
+          "type": "range",
+          "id": "width_desktop",
+          "min": 1, "max": 6, "step": 1, "default": 2,
+          "label": "Width desktop (columns)"
+        },
+        {
+          "type": "select",
+          "id": "height",
+          "label": "Height",
+          "options": [
+            { "value": "auto", "label": "Auto (fit content)" },
+            { "value": "square", "label": "Square (1:1)" },
+            { "value": "portrait", "label": "Portrait (3:4)" },
+            { "value": "landscape", "label": "Landscape (4:3)" }
+          ],
+          "default": "auto"
+        },
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "subtitle",
+          "label": "Body text"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button text"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Block link (whole block clickable)"
+        },
+        {
+          "type": "select",
+          "id": "content_position",
+          "label": "Content alignment",
+          "options": [
+            { "value": "top-left", "label": "Top left" },
+            { "value": "top-center", "label": "Top center" },
+            { "value": "center", "label": "Center" },
+            { "value": "bottom-left", "label": "Bottom left" },
+            { "value": "bottom-center", "label": "Bottom center" }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "header",
+          "content": "Colors"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background color",
+          "default": "#23372C"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#DAFFD3"
         }
       ]
     }
