@@ -9,104 +9,92 @@
  */
 {
   "sections": {
-    "hero_pp": {
-      "type": "hero",
+    "rc_hero_slider_AxHwpm": {
+      "type": "rc-hero-slider",
       "blocks": {
-        "hero_label": {
-          "type": "text",
+        "slide_qYQWmy": {
+          "type": "slide",
           "settings": {
-            "text": "<p>PRIMAVERA</p>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "h6",
-            "font": "var(--font-body--family)",
-            "font_size": "13px",
-            "line_height": "normal",
-            "letter_spacing": "0.12em",
-            "case": "uppercase",
-            "wrap": "pretty",
-            "color": "var(--color-foreground-heading)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
+            "subheading": "Tu espacio verde",
+            "heading": "PUR PLANT",
+            "content_position": "bottom-center",
+            "button_text": "DESCUBRIR",
+            "button_link": "",
+            "button_style": "normal",
+            "button_text_2": "",
+            "button_link_2": "",
+            "button_style_2": "inverted",
+            "link": "",
+            "heading_font": "default",
+            "heading_size": 0,
+            "heading_size_mobile": 0,
+            "heading_weight": "default",
+            "heading_color": "",
+            "subheading_font": "default",
+            "subheading_size": 0,
+            "subheading_size_mobile": 0,
+            "subheading_weight": "default",
+            "subheading_color": "",
+            "btn_font": "default",
+            "btn_size": 0,
+            "btn_weight": "default",
+            "btn_bg_color": "",
+            "btn_text_color": ""
           }
         },
-        "hero_title": {
-          "type": "text",
+        "slide_44PCU8": {
+          "type": "slide",
           "settings": {
-            "text": "<h1>FIESTA DE LA NATURALEZA QUE BROTA</h1>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "h1",
-            "font": "var(--font-body--family)",
-            "font_size": "64px",
-            "line_height": "display-tight",
-            "letter_spacing": "normal",
-            "case": "uppercase",
-            "wrap": "pretty",
-            "color": "var(--color-foreground-heading)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          }
-        },
-        "hero_cta": {
-          "type": "button",
-          "settings": {
-            "label": "Descubrir",
-            "link": "shopify://collections/all",
-            "open_in_new_tab": false,
-            "style_class": "button-primary",
-            "width": "fit-content",
-            "custom_width": 100,
-            "width_mobile": "fit-content",
-            "custom_width_mobile": 100
+            "subheading": "",
+            "heading": "NUEVA COLECCION",
+            "content_position": "bottom-center",
+            "button_text": "VER MAS",
+            "button_link": "",
+            "button_style": "normal",
+            "button_text_2": "",
+            "button_link_2": "",
+            "button_style_2": "inverted",
+            "link": "",
+            "heading_font": "default",
+            "heading_size": 0,
+            "heading_size_mobile": 0,
+            "heading_weight": "default",
+            "heading_color": "",
+            "subheading_font": "default",
+            "subheading_size": 0,
+            "subheading_size_mobile": 0,
+            "subheading_weight": "default",
+            "subheading_color": "",
+            "btn_font": "default",
+            "btn_size": 0,
+            "btn_weight": "default",
+            "btn_bg_color": "",
+            "btn_text_color": ""
           }
         }
       },
       "block_order": [
-        "hero_label",
-        "hero_title",
-        "hero_cta"
+        "slide_qYQWmy",
+        "slide_44PCU8"
       ],
+      "name": "RC Hero Slider",
       "settings": {
-        "media_type_1": "image",
-        "media_type_2": "image",
-        "stack_media_on_mobile": false,
-        "custom_mobile_media": false,
-        "media_type_1_mobile": "image",
-        "media_type_2_mobile": "image",
-        "open_in_new_tab": false,
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "flex-end",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
-        "vertical_alignment_flex_direction_column": "flex-end",
-        "gap": 8,
-        "section_width": "full-width",
-        "section_height": "large",
-        "section_height_custom": 70,
-        "color_scheme": "scheme-6",
-        "toggle_overlay": false,
-        "overlay_color": "#12121266",
-        "overlay_style": "solid",
-        "gradient_direction": "to bottom",
-        "blurred_reflection": false,
-        "reflection_opacity": 75,
-        "padding-block-start": 100,
-        "padding-block-end": 48
+        "enable_transparent_header": false,
+        "full_height_mobile": false,
+        "height_mobile": 500,
+        "full_height_desktop": false,
+        "height_desktop": 700,
+        "autoplay": true,
+        "autoplay_speed": 5,
+        "show_dots": true,
+        "show_arrows": true,
+        "content_max_width": 600,
+        "overlay_opacity": 0,
+        "overlay_direction": "to top",
+        "background_color": "0 0 0",
+        "text_color": "255 255 255",
+        "button_background": "255 255 255",
+        "button_text_color": "0 0 0"
       }
     },
     "cat_nav_pp": {
@@ -120,6 +108,7 @@
             "placement": "below_image",
             "horizontal_alignment": "flex-start",
             "vertical_alignment": "center",
+            "collection_card_gap": 8,
             "inherit_color_scheme": true,
             "color_scheme": "",
             "border": "none",
@@ -128,14 +117,6 @@
             "border_radius": 0
           },
           "blocks": {
-            "collection-card-image": {
-              "type": "_collection-card-image",
-              "name": "t:names.collection_card_image",
-              "static": true,
-              "settings": {
-                "image_ratio": "square"
-              }
-            },
             "collection-title": {
               "type": "collection-title",
               "name": "t:names.collection_title",
@@ -150,11 +131,33 @@
                 "letter_spacing": "normal",
                 "case": "none",
                 "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
-              }
+              },
+              "blocks": {}
+            },
+            "collection-card-image": {
+              "type": "_collection-card-image",
+              "name": "t:names.collection_card_image",
+              "static": true,
+              "settings": {
+                "image_ratio": "square",
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0
+              },
+              "blocks": {}
             }
           },
           "block_order": [
@@ -170,7 +173,9 @@
         "mobile_columns": "2",
         "mobile_card_size": "44cqw",
         "columns_gap": 16,
+        "bento_gap": 8,
         "rows_gap": 8,
+        "max_collections": 4,
         "icons_style": "none",
         "icons_shape": "none",
         "section_width": "page-width",
@@ -240,7 +245,8 @@
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
-              }
+              },
+              "blocks": {}
             },
             "must_viewall": {
               "type": "_product-list-button",
@@ -253,7 +259,8 @@
                 "custom_width": 100,
                 "width_mobile": "fit-content",
                 "custom_width_mobile": 100
-              }
+              },
+              "blocks": {}
             }
           },
           "block_order": [
@@ -292,7 +299,8 @@
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
-              }
+              },
+              "blocks": {}
             },
             "product_title": {
               "type": "product-title",
@@ -316,7 +324,8 @@
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
-              }
+              },
+              "blocks": {}
             },
             "product_price": {
               "type": "price",
@@ -338,7 +347,8 @@
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
-              }
+              },
+              "blocks": {}
             }
           },
           "block_order": [
@@ -372,12 +382,16 @@
       "type": "pp-brand-banner",
       "settings": {
         "heading": "PUR PLANT ES LA MARCA QUE CREE EN EL PODER DE LAS PLANTAS",
+        "subheading": "",
         "button_label": "Más sobre Nosotrxs",
+        "button_link": "",
+        "video_url": "",
         "image_position": "right",
-        "section_width": "page-width",
-        "color_scheme": "scheme-5",
-        "padding-block-start": 64,
-        "padding-block-end": 64
+        "image_overflow": 48,
+        "bg_color": "#23372c",
+        "text_color": "#daffd3",
+        "padding_top": 40,
+        "padding_bottom": 40
       }
     },
     "features_bar_pp": {
@@ -386,31 +400,36 @@
         "feat_1": {
           "type": "feature",
           "settings": {
-            "label": "Pet Friendly"
+            "label": "Pet Friendly",
+            "link": ""
           }
         },
         "feat_2": {
           "type": "feature",
           "settings": {
-            "label": "Autorriegos"
+            "label": "Autorriegos",
+            "link": ""
           }
         },
         "feat_3": {
           "type": "feature",
           "settings": {
-            "label": "Poca Luz"
+            "label": "Poca Luz",
+            "link": ""
           }
         },
         "feat_4": {
           "type": "feature",
           "settings": {
-            "label": "Fáciles de cuidar"
+            "label": "Fáciles de cuidar",
+            "link": ""
           }
         },
         "feat_5": {
           "type": "feature",
           "settings": {
-            "label": "Terrarios"
+            "label": "Terrarios",
+            "link": ""
           }
         }
       },
@@ -422,6 +441,7 @@
         "feat_5"
       ],
       "settings": {
+        "heading": "",
         "section_width": "page-width",
         "color_scheme": "scheme-2",
         "padding-block-start": 40,
@@ -433,15 +453,21 @@
       "blocks": {
         "ugc_1": {
           "type": "image",
-          "settings": {}
+          "settings": {
+            "link": ""
+          }
         },
         "ugc_2": {
           "type": "image",
-          "settings": {}
+          "settings": {
+            "link": ""
+          }
         },
         "ugc_3": {
           "type": "image",
-          "settings": {}
+          "settings": {
+            "link": ""
+          }
         }
       },
       "block_order": [
@@ -450,7 +476,9 @@
         "ugc_3"
       ],
       "settings": {
+        "heading": "",
         "button_label": "Opiniones",
+        "button_link": "",
         "section_width": "page-width",
         "color_scheme": "scheme-1",
         "padding-block-start": 48,
@@ -459,7 +487,7 @@
     }
   },
   "order": [
-    "hero_pp",
+    "rc_hero_slider_AxHwpm",
     "cat_nav_pp",
     "products_must_pp",
     "brand_banner_pp",
