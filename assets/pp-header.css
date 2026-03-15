@@ -135,9 +135,7 @@ body.pp-transparent-header-needs-offset.template-product main.content-for-layout
   top: 0;
   left: 0;
   right: 0;
-  background-color: rgb(var(--pp-header-bg) / 0.92);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background-color: transparent;
   color: rgb(var(--pp-header-transparent-text));
 }
 
@@ -145,13 +143,10 @@ body.pp-transparent-header-needs-offset.template-product main.content-for-layout
   position: fixed;
 }
 
-/* When hovering, menu/search is open, OR scrolled - solid green */
+/* When hovering, menu/search is open, OR scrolled - don't override announcement */
 .pp-header--transparent:hover,
 .pp-header--transparent.pp-header--open,
 .pp-header--transparent.pp-header--scrolled {
-  background-color: rgb(var(--pp-header-bg));
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   color: rgb(var(--pp-header-text));
 }
 
