@@ -1,72 +1,77 @@
 /* ═══════════════════════════════════════════
    Pur Plant — Header custom styles
-   Rounded bottom corners, inset from edges
-   Transparent over hero on homepage
+   Rounded bottom corners, 30px side inset
+   Floats over hero on homepage (no visible gap)
    ═══════════════════════════════════════════ */
 
 :root {
-  --pp-header-margin: 24px;
+  --pp-header-margin: 30px;
   --pp-header-radius: 16px;
 }
 
-@media screen and (min-width: 750px) {
-  :root {
-    --pp-header-margin: 32px;
-  }
-}
-
-/* The header section wrapper — centered with side margins */
+/* ── Header section: inset with rounded bottom corners ── */
 .header-section {
-  margin-inline: var(--pp-header-margin);
-  max-width: calc(100% - var(--pp-header-margin) * 2);
-  margin-left: auto;
-  margin-right: auto;
+  position: relative;
+  z-index: 100;
 }
 
-/* The header component gets rounded bottom corners */
 .header-section #header-component {
   border-radius: 0 0 var(--pp-header-radius) var(--pp-header-radius);
   overflow: hidden;
+  margin-inline: var(--pp-header-margin);
 }
 
-/* When sticky, maintain the rounded corners and side margins */
+/* Sticky header: also inset and rounded */
 #header-component[sticky='always'],
 #header-component[sticky='scroll-up'][data-sticky-state='active'] {
-  left: var(--pp-header-margin);
-  right: var(--pp-header-margin);
-  width: calc(100% - var(--pp-header-margin) * 2);
+  left: var(--pp-header-margin) !important;
+  right: var(--pp-header-margin) !important;
+  width: calc(100% - var(--pp-header-margin) * 2) !important;
   border-radius: 0 0 var(--pp-header-radius) var(--pp-header-radius);
   overflow: hidden;
 }
 
-/* ── Transparent header on homepage ──
-   Header overlaps the hero, hero content passes underneath */
-body.template-index .header-section {
+/* ── Homepage: header floats over the hero ──
+   The header-group pulls up into the hero via negative margin-bottom
+   so the hero fills behind the header gaps on the sides. */
+body.template-index #header-group {
   position: relative;
   z-index: 100;
-  margin-bottom: calc(-1 * var(--header-group-height, 80px));
+  margin-bottom: calc(-1 * var(--header-group-height, 120px));
 }
 
-body.template-index #header-component {
+/* Make the header background transparent on home so hero shows through */
+body.template-index .header-section #header-component {
   background-color: transparent !important;
 }
 
-body.template-index #header-component .section-background {
+body.template-index .header-section #header-component > .section-background {
   display: none;
 }
 
-/* When sticky and scrolled, restore the background */
+/* When scrolled/sticky, restore a solid background */
 body.template-index #header-component[sticky='always'][data-sticky-state='active'] {
   background-color: var(--color-background) !important;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
-body.template-index #header-component[sticky='always'][data-sticky-state='active'] .section-background {
+body.template-index #header-component[sticky='always'][data-sticky-state='active'] > .section-background {
   display: block;
 }
 
-/* Announcement bar — flush width, no side margins */
-.shopify-section:has(.announcement-bar) {
-  margin-inline: 0;
+/* Also make announcement bar transparent on home so hero shows through */
+body.template-index .shopify-section:has(.announcement-bar) {
+  background: transparent;
+}
+
+body.template-index .shopify-section:has(.announcement-bar) .section-background {
+  display: none;
+}
+
+/* ── Mobile adjustments ── */
+@media screen and (max-width: 749px) {
+  :root {
+    --pp-header-margin: 16px;
+  }
 }
