@@ -1,37 +1,16 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "type": "header",
   "name": "Header",
   "sections": {
-    "header_announcements_9jGBFp": {
-      "type": "header-announcements",
-      "blocks": {
-        "announcement_BxgCk9": {
-          "type": "_announcement",
-          "settings": {
-            "text": "Welcome to our store",
-            "link": "",
-            "font": "var(--font-subheading--family)",
-            "font_size": "0.75rem",
-            "weight": "",
-            "letter_spacing": "normal",
-            "case": "none"
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "announcement_BxgCk9"
-      ],
-      "disabled": true,
-      "settings": {
-        "speed": 5,
-        "section_width": "page-width",
-        "color_scheme": "scheme-1",
-        "divider_width": 1,
-        "padding-block-start": 15,
-        "padding-block-end": 15
-      }
-    },
     "header_section": {
       "type": "header",
       "blocks": {
@@ -195,20 +174,19 @@
         "logo_mobile_width": 90,
         "show_announcement": true,
         "announcement_text": "ENVÍO GRATIS PEDIDOS +49€ — ENVÍO GRATIS PEDIDOS +49€ — ENVÍO GRATIS PEDIDOS +49€ —",
-        "announcement_bg_color": "#23372C",
-        "announcement_text_color": "#DAFFD3",
+        "announcement_bg_color": "#23372c",
+        "announcement_text_color": "#daffd3",
         "menu": "main-menu",
         "secondary_menu": "",
         "sticky_header": true,
         "transparent_header": true,
-        "transparent_text_color": "#23372C",
-        "transparent_bg_hover": "#DAFFD3",
-        "transparent_text_hover": "#23372C"
+        "transparent_text_color": "#23372c",
+        "transparent_bg_hover": "#daffd3",
+        "transparent_text_hover": "#23372c"
       }
     }
   },
   "order": [
-    "header_announcements_9jGBFp",
     "header_section",
     "pp_header"
   ]
