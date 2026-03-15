@@ -179,7 +179,7 @@
         "menu": "main-menu",
         "secondary_menu": "",
         "sticky_header": true,
-        "transparent_header": true,
+        "transparent_header": false,
         "transparent_text_color": "#23372c",
         "transparent_bg_hover": "#daffd3",
         "transparent_text_hover": "#23372c"
