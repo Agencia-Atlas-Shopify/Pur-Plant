@@ -80,6 +80,7 @@
           "blocks": {}
         }
       },
+      "disabled": true,
       "settings": {
         "logo_position": "center",
         "menu_position": "left",
@@ -115,10 +116,99 @@
         "enable_transparent_header_collection": false,
         "collection_color_scheme": "default"
       }
+    },
+    "pp_header_wFFTQA": {
+      "type": "pp-header",
+      "blocks": {
+        "menu_item_x6wK8x": {
+          "type": "menu_item",
+          "settings": {
+            "label": "NEW IN",
+            "url": "",
+            "superscript": "NUEVO",
+            "highlight": false,
+            "submenu": ""
+          }
+        },
+        "menu_item_P8JmEF": {
+          "type": "menu_item",
+          "settings": {
+            "label": "COLLECTIONS",
+            "url": "",
+            "superscript": "",
+            "highlight": false,
+            "submenu": ""
+          }
+        },
+        "menu_item_T7mhhk": {
+          "type": "menu_item",
+          "settings": {
+            "label": "SHOP ALL",
+            "url": "",
+            "superscript": "",
+            "highlight": false,
+            "submenu": ""
+          }
+        },
+        "divider_RYnGpK": {
+          "type": "divider",
+          "settings": {}
+        },
+        "menu_item_78qJxT": {
+          "type": "menu_item",
+          "settings": {
+            "label": "GIFT CARD",
+            "url": "",
+            "superscript": "",
+            "highlight": false,
+            "submenu": ""
+          }
+        },
+        "mobile_promo_C84cae": {
+          "type": "mobile_promo",
+          "settings": {
+            "promo_title": "BEST SELLERS",
+            "promo_link": ""
+          }
+        },
+        "mobile_promo_BXL8CB": {
+          "type": "mobile_promo",
+          "settings": {
+            "promo_title": "ACCESSORIES",
+            "promo_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "menu_item_x6wK8x",
+        "menu_item_P8JmEF",
+        "menu_item_T7mhhk",
+        "divider_RYnGpK",
+        "menu_item_78qJxT",
+        "mobile_promo_C84cae",
+        "mobile_promo_BXL8CB"
+      ],
+      "name": "PP Header",
+      "settings": {
+        "logo_width": 120,
+        "logo_mobile_width": 90,
+        "show_announcement": false,
+        "announcement_text": "FREE SHIPPING ON ORDERS OVER 100€ — FREE SHIPPING ON ORDERS OVER 100€ — FREE SHIPPING ON ORDERS OVER 100€ —",
+        "announcement_bg_color": "#f1ede7",
+        "announcement_text_color": "#000000",
+        "menu": "main-menu",
+        "secondary_menu": "",
+        "sticky_header": true,
+        "transparent_header": false,
+        "transparent_text_color": "#ffffff",
+        "transparent_bg_hover": "#ffffff",
+        "transparent_text_hover": "#000000"
+      }
     }
   },
   "order": [
     "header_announcements_9jGBFp",
-    "header_section"
+    "header_section",
+    "pp_header_wFFTQA"
   ]
 }
