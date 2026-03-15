@@ -247,7 +247,7 @@
         "view_all_text": "Ver todo",
         "view_all_link": "",
         "collection": "accesorios",
-        "max_products": 12,
+        "max_products": 16,
         "image_ratio": "portrait",
         "products_per_row_mobile": 2,
         "products_per_row_tablet": 3,
