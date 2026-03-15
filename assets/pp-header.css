@@ -1,11 +1,13 @@
 /* ═══════════════════════════════════════════
-   Pur Plant — Header: floating, rounded, transparent on home
-   Based on Race Code header approach
+   Pur Plant — Header: floating, rounded, over hero
+   Green semi-transparent background (#DAFFD3)
    ═══════════════════════════════════════════ */
 
 :root {
   --pp-header-margin: 30px;
   --pp-header-radius: 16px;
+  --pp-header-bg: rgba(218, 255, 211, 0.92);
+  --pp-header-bg-solid: #DAFFD3;
 }
 
 @media screen and (max-width: 749px) {
@@ -16,18 +18,24 @@
 
 /* ── Floating header with rounded corners and side margins ── */
 
-/* The shopify-section wrapper that contains header-component */
-.shopify-section-group-header-group.header-section {
-  position: relative;
-  z-index: 999;
-}
-
-/* The header-component itself: add margin + border-radius */
 #header-component {
   margin-inline: var(--pp-header-margin) !important;
   border-radius: 0 0 var(--pp-header-radius) var(--pp-header-radius) !important;
   overflow: hidden !important;
   width: auto !important;
+  background-color: var(--pp-header-bg) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+
+/* Override the color scheme background on the rows */
+#header-component .header__row--top {
+  background-color: transparent !important;
+}
+
+#header-component .header__row--top .section-background,
+#header-component .header__underlay {
+  display: none !important;
 }
 
 /* When sticky/fixed, keep the inset and rounded corners */
@@ -38,7 +46,7 @@
   border-radius: 0 0 var(--pp-header-radius) var(--pp-header-radius) !important;
 }
 
-/* ── Homepage: header-group is absolute, hero passes underneath ── */
+/* ── Homepage: header-group is absolute so hero passes underneath ── */
 body.pp-home #header-group {
   position: absolute !important;
   top: 0;
@@ -52,50 +60,30 @@ body.pp-home #header-group > * {
   pointer-events: auto;
 }
 
-/* Transparent header on home */
-body.pp-home #header-component {
-  background-color: transparent !important;
-}
-
-body.pp-home #header-component .header__underlay,
-body.pp-home #header-component > .section-background {
+/* Announcement bar section — also transparent on home, hero shows through */
+body.pp-home .shopify-section-group-header-group:not(.header-section) .section-background {
   display: none !important;
 }
 
-/* The top row background — make it transparent on home */
-body.pp-home #header-component .header__row--top {
-  background-color: transparent !important;
-}
-
-body.pp-home #header-component .header__row--top > .section-background {
-  display: none !important;
-}
-
-/* Announcement bar — transparent on home */
-body.pp-home .shopify-section-group-header-group:has(.announcement-bar) {
+body.pp-home .shopify-section-group-header-group:not(.header-section) .announcement-bar {
   background: transparent !important;
 }
 
-body.pp-home .shopify-section-group-header-group .announcement-bar {
-  background: transparent !important;
+/* ── Text color: dark green to contrast with light green bg ── */
+#header-component,
+#header-component .header__row--top,
+#header-component .menu-list__link,
+#header-component .header-actions__action,
+#header-component .header__icon,
+#header-component .header-logo,
+#header-component .header-drawer .header__icon {
+  color: #23372C !important;
 }
 
-body.pp-home .shopify-section-group-header-group .section-background {
-  display: none !important;
-}
-
-/* ── Sticky scrolled state: restore frosted glass background ── */
-body.pp-home #header-component[data-sticky-state='active'] {
-  background-color: rgba(255, 255, 255, 0.88) !important;
+/* ── Sticky scrolled state: solid green background ── */
+#header-component[data-sticky-state='active'] {
+  background-color: var(--pp-header-bg-solid) !important;
   backdrop-filter: blur(20px) !important;
   -webkit-backdrop-filter: blur(20px) !important;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06) !important;
-}
-
-body.pp-home #header-component[data-sticky-state='active'] .header__underlay {
-  display: block !important;
-}
-
-body.pp-home #header-component[data-sticky-state='active'] .header__row--top {
-  background-color: rgba(255, 255, 255, 0.88) !important;
+  box-shadow: 0 2px 12px rgba(35, 55, 44, 0.08) !important;
 }
