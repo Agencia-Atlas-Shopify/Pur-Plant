@@ -174,15 +174,15 @@
         "logo_mobile_width": 90,
         "show_announcement": true,
         "announcement_text": "ENVÍO GRATIS PEDIDOS +49€ — ENVÍO GRATIS PEDIDOS +49€ — ENVÍO GRATIS PEDIDOS +49€ —",
-        "announcement_bg_color": "#23372c",
-        "announcement_text_color": "#daffd3",
+        "announcement_bg_color": "#DAFFD3",
+        "announcement_text_color": "#23372C",
         "menu": "main-menu",
         "secondary_menu": "",
         "sticky_header": true,
-        "transparent_header": false,
-        "transparent_text_color": "#23372c",
-        "transparent_bg_hover": "#daffd3",
-        "transparent_text_hover": "#23372c"
+        "transparent_header": true,
+        "transparent_text_color": "#DAFFD3",
+        "transparent_bg_hover": "#23372C",
+        "transparent_text_hover": "#DAFFD3"
       }
     }
   },

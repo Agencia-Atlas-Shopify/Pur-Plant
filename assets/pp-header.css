@@ -9,8 +9,8 @@
   --pp-header-padding-block: 1rem;
   --pp-header-logo-width: 130px;
   --pp-header-logo-mobile-width: 90px;
-  --pp-header-bg: 232 245 227;
-  --pp-header-text: 35 55 44;
+  --pp-header-bg: 35 55 44;
+  --pp-header-text: 218 255 211;
   --pp-header-border: 35 55 44;
   --pp-header-transparent-text: 35 55 44;
   /* Floating header style */
@@ -310,20 +310,20 @@ body.pp-transparent-header-needs-offset.template-product main.content-for-layout
   text-decoration: none;
   color: inherit;
   font-family: 'Inter', var(--font-body--family), sans-serif;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 500;
   text-transform: none;
   letter-spacing: 0.02em;
   padding-block: 0.5rem;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.2s ease, opacity 0.2s ease;
+  transition: opacity 0.2s ease;
   cursor: pointer;
   background: none;
   border: none;
 }
 
 .pp-header__desktop-link:hover {
-  border-bottom-color: currentColor;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 /* Highlighted menu items */
@@ -625,7 +625,7 @@ body.pp-transparent-header-needs-offset.template-product main.content-for-layout
   text-decoration: none;
   color: inherit;
   font-family: 'Inter', var(--font-body--family), sans-serif;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 500;
   text-transform: none;
   letter-spacing: 0.02em;
