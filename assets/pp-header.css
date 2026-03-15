@@ -100,19 +100,24 @@ body.pp-transparent-header-needs-offset.template-product main.content-for-layout
   padding-top: 0;
 }
 
-/* Header Base — Pur Plant green, rounded bottom only */
+/* Header Base — no background here, applied to inner only */
 .pp-header {
   position: relative;
   z-index: 100;
   width: 100%;
-  background-color: rgb(var(--pp-header-bg));
+  background-color: transparent;
   color: rgb(var(--pp-header-text));
-  transition: background-color 0.3s ease-in-out, color 0.2s ease, box-shadow 0.3s ease-in-out;
-  /* Floating header — rounded bottom corners only, no top gap */
+  transition: color 0.2s ease;
   border-radius: 0 0 var(--pp-header-border-radius, 16px) var(--pp-header-border-radius, 16px);
   max-width: var(--pp-header-max-width, calc(100% - 60px));
   margin-inline: auto;
   margin-top: 0;
+  overflow: hidden;
+}
+
+/* Inner nav bar gets the green background */
+.pp-header__inner {
+  background-color: rgb(var(--pp-header-bg));
 }
 
 .pp-header--sticky {
@@ -309,16 +314,17 @@ body.pp-transparent-header-needs-offset.template-product main.content-for-layout
   gap: 0.25rem;
   text-decoration: none;
   color: inherit;
-  font-size: var(--text-base, 0.6875rem);
-  text-transform: uppercase;
-  letter-spacing: var(--heading-letter-spacing, 0);
+  font-family: 'Inter', var(--font-body--family), sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0.02em;
   padding-block: 0.5rem;
   border-bottom: 1px solid transparent;
   transition: border-color 0.2s ease, opacity 0.2s ease;
   cursor: pointer;
   background: none;
   border: none;
-  font-family: inherit;
 }
 
 .pp-header__desktop-link:hover {
@@ -623,9 +629,11 @@ body.pp-transparent-header-needs-offset.template-product main.content-for-layout
   gap: 6px;
   text-decoration: none;
   color: inherit;
-  font-size: var(--text-base, 0.6875rem);
-  text-transform: uppercase;
-  letter-spacing: var(--heading-letter-spacing, 0);
+  font-family: 'Inter', var(--font-body--family), sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0.02em;
   transition: opacity 0.2s ease;
 }
 
