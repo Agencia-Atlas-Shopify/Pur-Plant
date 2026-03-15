@@ -36,7 +36,7 @@
    position: absolute takes the header out of flow entirely,
    so the hero/slider starts at the top of the page and
    passes underneath the header. No gap, no air on the sides. */
-body.template-index #header-group {
+body.pp-home #header-group {
   position: absolute;
   top: 0;
   left: 0;
@@ -45,32 +45,32 @@ body.template-index #header-group {
 }
 
 /* Make header background transparent on home */
-body.template-index .header-section #header-component {
+body.pp-home .header-section #header-component {
   background-color: transparent !important;
 }
 
-body.template-index .header-section #header-component > .section-background {
+body.pp-home .header-section #header-component > .section-background {
   display: none;
 }
 
 /* Also make announcement bar transparent on home */
-body.template-index #header-group .shopify-section:has(.announcement-bar) .section-background {
+body.pp-home #header-group .shopify-section:has(.announcement-bar) .section-background {
   display: none;
 }
 
-body.template-index #header-group .announcement-bar {
+body.pp-home #header-group .announcement-bar {
   background-color: transparent;
 }
 
 /* When scrolled/sticky: restore solid background with frosted glass */
-body.template-index #header-component[sticky='always'][data-sticky-state='active'] {
+body.pp-home #header-component[sticky='always'][data-sticky-state='active'] {
   background-color: rgba(255, 255, 255, 0.85) !important;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-body.template-index #header-component[sticky='always'][data-sticky-state='active'] > .section-background {
+body.pp-home #header-component[sticky='always'][data-sticky-state='active'] > .section-background {
   display: block;
   opacity: 0.85;
 }
