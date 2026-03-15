@@ -169,20 +169,20 @@
         "mobile_promo_2"
       ],
       "settings": {
-        "logo": "shopify://shop_images/logo_pur_plant_negativo.png",
-        "logo_width": 130,
+        "logo": "shopify://shop_images/logo_pur_plant_positivo.png",
+        "logo_width": 90,
         "logo_mobile_width": 90,
         "show_announcement": true,
         "announcement_text": "ENVÍO GRATIS PEDIDOS +49€ — ENVÍO GRATIS PEDIDOS +49€ — ENVÍO GRATIS PEDIDOS +49€ —",
-        "announcement_bg_color": "#DAFFD3",
-        "announcement_text_color": "#23372C",
+        "announcement_bg_color": "#daffd3",
+        "announcement_text_color": "#23372c",
         "menu": "main-menu",
         "secondary_menu": "",
         "sticky_header": true,
         "transparent_header": true,
-        "transparent_text_color": "#DAFFD3",
-        "transparent_bg_hover": "#23372C",
-        "transparent_text_hover": "#DAFFD3"
+        "transparent_text_color": "#daffd3",
+        "transparent_bg_hover": "#23372c",
+        "transparent_text_hover": "#daffd3"
       }
     }
   },
