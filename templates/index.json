@@ -79,7 +79,7 @@
       ],
       "name": "PP Hero Slider",
       "settings": {
-        "enable_transparent_header": true,
+        "enable_transparent_header": false,
         "full_height_mobile": false,
         "height_mobile": 500,
         "full_height_desktop": false,
