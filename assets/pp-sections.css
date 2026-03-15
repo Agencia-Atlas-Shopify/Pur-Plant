@@ -161,11 +161,45 @@
 
 /* ── Brand Banner ── */
 
+.pp-brand-wrap {
+  --pp-brand-bg: #23372C;
+  --pp-brand-text: #DAFFD3;
+  --pp-brand-overflow: 48px;
+  position: relative;
+  padding-block: var(--pp-brand-overflow);
+}
+
+.pp-brand__bg-strip {
+  position: absolute;
+  top: var(--pp-brand-overflow);
+  bottom: var(--pp-brand-overflow);
+  left: 0;
+  right: 0;
+  background-color: var(--pp-brand-bg);
+}
+
 .pp-brand__inner {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
   gap: 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-inline: 40px;
+}
+
+.pp-brand__inner--reverse {
+  direction: rtl;
+}
+
+.pp-brand__inner--reverse > * {
+  direction: ltr;
+}
+
+.pp-brand__text {
+  padding-block: 40px;
 }
 
 .pp-brand__copy {
@@ -173,23 +207,24 @@
   font-weight: 700;
   line-height: 1.3;
   text-transform: uppercase;
-  color: var(--color-foreground-heading);
-  margin-block-end: 12px;
-  letter-spacing: 0.02em;
+  color: var(--pp-brand-text);
+  margin: 0 0 12px;
+  letter-spacing: 0.12em;
 }
 
 .pp-brand__sub {
   font-size: 15px;
   line-height: 1.6;
-  color: var(--color-foreground);
-  margin-block-end: 28px;
+  color: var(--pp-brand-text);
+  margin: 0 0 28px;
+  opacity: 0.85;
 }
 
 .pp-brand__cta {
   display: inline-block;
   font-size: 13px;
   font-weight: 500;
-  color: var(--color-foreground-heading);
+  color: var(--pp-brand-text);
   text-decoration: underline;
   text-underline-offset: 4px;
   letter-spacing: 0.04em;
@@ -200,16 +235,18 @@
   opacity: 0.8;
 }
 
-.pp-brand__image {
+.pp-brand__media {
   border-radius: 10px;
   overflow: hidden;
   aspect-ratio: 4 / 5;
 }
 
-.pp-brand__img {
+.pp-brand__img,
+.pp-brand__video {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 .pp-brand__placeholder {
@@ -218,12 +255,26 @@
 }
 
 @media screen and (max-width: 749px) {
+  .pp-brand-wrap {
+    --pp-brand-overflow: 24px;
+  }
+
   .pp-brand__inner {
     grid-template-columns: 1fr;
-    gap: 32px;
+    gap: 24px;
+    padding-inline: 20px;
+  }
+
+  .pp-brand__inner--reverse {
+    direction: ltr;
   }
 
   .pp-brand__copy {
     font-size: 22px;
+    letter-spacing: 0.08em;
+  }
+
+  .pp-brand__text {
+    padding-block: 20px;
   }
 }

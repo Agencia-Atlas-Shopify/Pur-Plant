@@ -1,0 +1,647 @@
+{%- comment -%}
+  PP Featured Grid - Product grid with intercalated custom blocks (banners, videos, CTAs)
+  For use on homepage, landing pages, or any template.
+  Select a collection + add custom banner blocks at specific grid positions.
+{%- endcomment -%}
+
+{{ 'pp-collection.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign products_per_row_mobile = section.settings.products_per_row_mobile
+  assign products_per_row_tablet = section.settings.products_per_row_tablet
+  assign products_per_row_desktop = section.settings.products_per_row_desktop
+  assign max_products = section.settings.max_products
+-%}
+
+{%- style -%}
+  #PP-FeaturedGrid-{{ section.id }} {
+    --pp-items-per-row: {{ products_per_row_mobile }};
+    --pp-collection-gap: {{ section.settings.gap_mobile }}px;
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  @media screen and (min-width: 700px) {
+    #PP-FeaturedGrid-{{ section.id }} {
+      --pp-items-per-row: {{ products_per_row_tablet }};
+      --pp-collection-gap: {{ section.settings.gap_tablet }}px;
+    }
+  }
+
+  @media screen and (min-width: 1000px) {
+    #PP-FeaturedGrid-{{ section.id }} {
+      --pp-items-per-row: {{ products_per_row_desktop }};
+      --pp-collection-gap: {{ section.settings.gap_desktop }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div id="PP-FeaturedGrid-{{ section.id }}" class="pp-collection">
+  <div class="pp-collection__container">
+
+    {%- if section.settings.title != blank -%}
+      <div class="pp-collection__header">
+        <div class="pp-featured-grid__title-row">
+          <h2 class="pp-collection__title">{{ section.settings.title }}</h2>
+          {%- if section.settings.view_all_link != blank -%}
+            <a href="{{ section.settings.view_all_link }}" class="pp-featured-grid__view-all">
+              {{ section.settings.view_all_text | default: 'Ver todo' }}
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    <div class="pp-collection__grid">
+      {%- if section.settings.collection != blank -%}
+        {%- assign product_index = 0 -%}
+
+        {%- for product in section.settings.collection.products limit: max_products -%}
+          {%- assign product_index = forloop.index -%}
+
+          {%- comment -%} Check if any block should be inserted before this product {%- endcomment -%}
+          {%- for block in section.blocks -%}
+            {%- if block.settings.position == product_index -%}
+              {%- liquid
+                assign block_width_mobile = block.settings.width_mobile
+                assign block_width_tablet = block.settings.width_tablet
+                assign block_width_desktop = block.settings.width_desktop
+                assign block_height = block.settings.height
+              -%}
+
+              <div
+                class="pp-collection__banner pp-collection__banner--{{ block_height }}"
+                style="
+                  --banner-cols-mobile: {{ block_width_mobile }};
+                  --banner-cols-tablet: {{ block_width_tablet }};
+                  --banner-cols-desktop: {{ block_width_desktop }};
+                "
+                {{ block.shopify_attributes }}
+              >
+                <div class="pp-collection__banner-inner">
+                  {%- if block.type == 'video_block' and block.settings.video_url != blank -%}
+                    <video
+                      class="pp-collection__banner-video"
+                      autoplay muted loop playsinline
+                      {% if block.settings.image != blank %}
+                        poster="{{ block.settings.image | image_url: width: 1200 }}"
+                      {% endif %}
+                    >
+                      <source src="{{ block.settings.video_url }}" type="video/mp4">
+                    </video>
+                  {%- elsif block.settings.image != blank -%}
+                    <img
+                      src="{{ block.settings.image | image_url: width: 1600 }}"
+                      srcset="{{ block.settings.image | image_url: width: 600 }} 600w, {{ block.settings.image | image_url: width: 900 }} 900w, {{ block.settings.image | image_url: width: 1200 }} 1200w, {{ block.settings.image | image_url: width: 1600 }} 1600w"
+                      alt="{{ block.settings.image.alt | escape }}"
+                      class="pp-collection__banner-image"
+                      loading="lazy"
+                    >
+                  {%- else -%}
+                    {{ 'lifestyle-1' | placeholder_svg_tag: 'pp-collection__banner-placeholder' }}
+                  {%- endif -%}
+
+                  {%- if block.settings.title != blank or block.settings.subtitle != blank or block.settings.button_text != blank -%}
+                    <div
+                      class="pp-collection__banner-content pp-collection__banner-content--{{ block.settings.content_position }}"
+                      style="color: {{ block.settings.text_color }};"
+                    >
+                      {%- if block.settings.title != blank -%}
+                        <h3 class="pp-collection__banner-title">{{ block.settings.title }}</h3>
+                      {%- endif -%}
+                      {%- if block.settings.subtitle != blank -%}
+                        <p class="pp-collection__banner-subtitle">{{ block.settings.subtitle }}</p>
+                      {%- endif -%}
+                      {%- if block.settings.button_text != blank -%}
+                        <a href="{{ block.settings.button_link | default: '#' }}" class="pp-collection__banner-button">
+                          {{ block.settings.button_text }}
+                        </a>
+                      {%- endif -%}
+                    </div>
+                  {%- endif -%}
+
+                  {%- if block.settings.overlay_opacity > 0 -%}
+                    <div class="pp-collection__banner-overlay" style="background: {{ block.settings.overlay_color }}; opacity: {{ block.settings.overlay_opacity | divided_by: 100.0 }};"></div>
+                  {%- endif -%}
+
+                  {%- if block.settings.link != blank and block.settings.button_text == blank -%}
+                    <a href="{{ block.settings.link }}" class="pp-collection__banner-link" aria-label="{{ block.settings.title | default: 'Banner link' }}"></a>
+                  {%- endif -%}
+                </div>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- comment -%} Render product card {%- endcomment -%}
+          <div class="pp-collection__item">
+            {%- render 'pp-product-card-standalone',
+              product: product,
+              image_ratio: section.settings.image_ratio
+            -%}
+          </div>
+        {%- endfor -%}
+
+        {%- comment -%} Blocks after last product {%- endcomment -%}
+        {%- assign after_last = section.settings.collection.products.size | plus: 1 -%}
+        {%- for block in section.blocks -%}
+          {%- if block.settings.position >= after_last -%}
+            <div
+              class="pp-collection__banner pp-collection__banner--{{ block.settings.height }}"
+              style="
+                --banner-cols-mobile: {{ block.settings.width_mobile }};
+                --banner-cols-tablet: {{ block.settings.width_tablet }};
+                --banner-cols-desktop: {{ block.settings.width_desktop }};
+              "
+              {{ block.shopify_attributes }}
+            >
+              <div class="pp-collection__banner-inner">
+                {%- if block.type == 'video_block' and block.settings.video_url != blank -%}
+                  <video class="pp-collection__banner-video" autoplay muted loop playsinline>
+                    <source src="{{ block.settings.video_url }}" type="video/mp4">
+                  </video>
+                {%- elsif block.settings.image != blank -%}
+                  <img
+                    src="{{ block.settings.image | image_url: width: 1600 }}"
+                    alt="{{ block.settings.image.alt | escape }}"
+                    class="pp-collection__banner-image"
+                    loading="lazy"
+                  >
+                {%- endif -%}
+
+                {%- if block.settings.title != blank or block.settings.button_text != blank -%}
+                  <div
+                    class="pp-collection__banner-content pp-collection__banner-content--{{ block.settings.content_position }}"
+                    style="color: {{ block.settings.text_color }};"
+                  >
+                    {%- if block.settings.title != blank -%}
+                      <h3 class="pp-collection__banner-title">{{ block.settings.title }}</h3>
+                    {%- endif -%}
+                    {%- if block.settings.subtitle != blank -%}
+                      <p class="pp-collection__banner-subtitle">{{ block.settings.subtitle }}</p>
+                    {%- endif -%}
+                    {%- if block.settings.button_text != blank -%}
+                      <a href="{{ block.settings.button_link | default: '#' }}" class="pp-collection__banner-button">
+                        {{ block.settings.button_text }}
+                      </a>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+
+                {%- if block.settings.link != blank and block.settings.button_text == blank -%}
+                  <a href="{{ block.settings.link }}" class="pp-collection__banner-link" aria-label="{{ block.settings.title | default: 'Banner' }}"></a>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+
+      {%- else -%}
+        {%- for i in (1..max_products) -%}
+          <div class="pp-collection__item">
+            {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{%- style -%}
+  .pp-featured-grid__title-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-start;
+    gap: 16px;
+    margin-block-end: 24px;
+  }
+
+  .pp-featured-grid__view-all {
+    font-size: 12px;
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+
+  .pp-featured-grid__view-all:hover {
+    opacity: 1;
+  }
+
+  .pp-collection__banner-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+{%- endstyle -%}
+
+{% schema %}
+{
+  "name": "PP Featured Grid",
+  "tag": "section",
+  "class": "pp-featured-grid-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "MUST"
+    },
+    {
+      "type": "text",
+      "id": "view_all_text",
+      "label": "View all text",
+      "default": "Ver todo"
+    },
+    {
+      "type": "url",
+      "id": "view_all_link",
+      "label": "View all link"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "max_products",
+      "min": 4,
+      "max": 48,
+      "step": 4,
+      "default": 12,
+      "label": "Max products"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image ratio",
+      "options": [
+        { "value": "portrait", "label": "Portrait (3:4)" },
+        { "value": "square", "label": "Square (1:1)" },
+        { "value": "landscape", "label": "Landscape (4:3)" },
+        { "value": "adapt", "label": "Adapt" }
+      ],
+      "default": "portrait"
+    },
+    {
+      "type": "header",
+      "content": "Products per row"
+    },
+    {
+      "type": "range",
+      "id": "products_per_row_mobile",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 2,
+      "label": "Mobile"
+    },
+    {
+      "type": "range",
+      "id": "products_per_row_tablet",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3,
+      "label": "Tablet"
+    },
+    {
+      "type": "range",
+      "id": "products_per_row_desktop",
+      "min": 3,
+      "max": 6,
+      "step": 1,
+      "default": 4,
+      "label": "Desktop"
+    },
+    {
+      "type": "header",
+      "content": "Gap"
+    },
+    {
+      "type": "range",
+      "id": "gap_mobile",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "default": 10,
+      "unit": "px",
+      "label": "Mobile"
+    },
+    {
+      "type": "range",
+      "id": "gap_tablet",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "default": 16,
+      "unit": "px",
+      "label": "Tablet"
+    },
+    {
+      "type": "range",
+      "id": "gap_desktop",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "default": 20,
+      "unit": "px",
+      "label": "Desktop"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 40,
+      "unit": "px",
+      "label": "Padding top"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 40,
+      "unit": "px",
+      "label": "Padding bottom"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "banner",
+      "name": "Image Banner",
+      "settings": [
+        {
+          "type": "number",
+          "id": "position",
+          "label": "Insert before product #",
+          "default": 3
+        },
+        {
+          "type": "header",
+          "content": "Size"
+        },
+        {
+          "type": "range",
+          "id": "width_mobile",
+          "min": 1, "max": 3, "step": 1, "default": 2,
+          "label": "Width mobile (columns)"
+        },
+        {
+          "type": "range",
+          "id": "width_tablet",
+          "min": 1, "max": 4, "step": 1, "default": 2,
+          "label": "Width tablet (columns)"
+        },
+        {
+          "type": "range",
+          "id": "width_desktop",
+          "min": 1, "max": 6, "step": 1, "default": 2,
+          "label": "Width desktop (columns)"
+        },
+        {
+          "type": "select",
+          "id": "height",
+          "label": "Height",
+          "options": [
+            { "value": "auto", "label": "Auto" },
+            { "value": "square", "label": "Square (1:1)" },
+            { "value": "portrait", "label": "Portrait (3:4)" },
+            { "value": "landscape", "label": "Landscape (4:3)" },
+            { "value": "wide", "label": "Wide (16:9)" }
+          ],
+          "default": "portrait"
+        },
+        {
+          "type": "header",
+          "content": "Media"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button text"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Banner link (whole banner clickable)"
+        },
+        {
+          "type": "select",
+          "id": "content_position",
+          "label": "Content position",
+          "options": [
+            { "value": "top-left", "label": "Top left" },
+            { "value": "top-center", "label": "Top center" },
+            { "value": "center", "label": "Center" },
+            { "value": "bottom-left", "label": "Bottom left" },
+            { "value": "bottom-center", "label": "Bottom center" },
+            { "value": "bottom-right", "label": "Bottom right" }
+          ],
+          "default": "bottom-left"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "overlay_color",
+          "label": "Overlay color",
+          "default": "#000000"
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "min": 0, "max": 100, "step": 5, "default": 0,
+          "unit": "%",
+          "label": "Overlay opacity"
+        }
+      ]
+    },
+    {
+      "type": "video_block",
+      "name": "Video Banner",
+      "settings": [
+        {
+          "type": "number",
+          "id": "position",
+          "label": "Insert before product #",
+          "default": 5
+        },
+        {
+          "type": "header",
+          "content": "Size"
+        },
+        {
+          "type": "range",
+          "id": "width_mobile",
+          "min": 1, "max": 3, "step": 1, "default": 2,
+          "label": "Width mobile (columns)"
+        },
+        {
+          "type": "range",
+          "id": "width_tablet",
+          "min": 1, "max": 4, "step": 1, "default": 2,
+          "label": "Width tablet (columns)"
+        },
+        {
+          "type": "range",
+          "id": "width_desktop",
+          "min": 1, "max": 6, "step": 1, "default": 2,
+          "label": "Width desktop (columns)"
+        },
+        {
+          "type": "select",
+          "id": "height",
+          "label": "Height",
+          "options": [
+            { "value": "auto", "label": "Auto" },
+            { "value": "square", "label": "Square (1:1)" },
+            { "value": "portrait", "label": "Portrait (3:4)" },
+            { "value": "landscape", "label": "Landscape (4:3)" },
+            { "value": "wide", "label": "Wide (16:9)" }
+          ],
+          "default": "portrait"
+        },
+        {
+          "type": "header",
+          "content": "Media"
+        },
+        {
+          "type": "url",
+          "id": "video_url",
+          "label": "Video URL (MP4)"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Poster image (fallback)"
+        },
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button text"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Banner link (whole banner clickable)"
+        },
+        {
+          "type": "select",
+          "id": "content_position",
+          "label": "Content position",
+          "options": [
+            { "value": "top-left", "label": "Top left" },
+            { "value": "top-center", "label": "Top center" },
+            { "value": "center", "label": "Center" },
+            { "value": "bottom-left", "label": "Bottom left" },
+            { "value": "bottom-center", "label": "Bottom center" },
+            { "value": "bottom-right", "label": "Bottom right" }
+          ],
+          "default": "bottom-left"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "overlay_color",
+          "label": "Overlay color",
+          "default": "#000000"
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "min": 0, "max": 100, "step": 5, "default": 0,
+          "unit": "%",
+          "label": "Overlay opacity"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "PP Featured Grid",
+      "category": "Pur Plant",
+      "settings": {
+        "title": "MUST",
+        "view_all_text": "Ver todo",
+        "max_products": 12,
+        "products_per_row_desktop": 4
+      },
+      "blocks": [
+        {
+          "type": "banner",
+          "settings": {
+            "position": 3,
+            "width_desktop": 2,
+            "height": "portrait"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

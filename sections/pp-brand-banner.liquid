@@ -1,11 +1,15 @@
 {{ 'pp-sections.css' | asset_url | stylesheet_tag }}
 
-<div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <section
-  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style"
-  style="{% render 'spacing-style', settings: section.settings %}"
+  class="pp-brand-wrap"
+  style="
+    --pp-brand-bg: {{ section.settings.bg_color }};
+    --pp-brand-text: {{ section.settings.text_color }};
+    --pp-brand-overflow: {{ section.settings.image_overflow }}px;
+  "
 >
-  <div class="pp-brand__inner">
+  <div class="pp-brand__bg-strip"></div>
+  <div class="pp-brand__inner {% if section.settings.image_position == 'left' %}pp-brand__inner--reverse{% endif %}">
     <div class="pp-brand__text">
       {% if section.settings.heading != blank %}
         <p class="pp-brand__copy">{{ section.settings.heading }}</p>
@@ -22,8 +26,21 @@
       {% endif %}
     </div>
 
-    <div class="pp-brand__image">
-      {% if section.settings.image != blank %}
+    <div class="pp-brand__media">
+      {% if section.settings.video_url != blank %}
+        <video
+          class="pp-brand__video"
+          autoplay
+          muted
+          loop
+          playsinline
+          {% if section.settings.image != blank %}
+            poster="{{ section.settings.image | image_url: width: 900 }}"
+          {% endif %}
+        >
+          <source src="{{ section.settings.video_url }}" type="video/mp4">
+        </video>
+      {% elsif section.settings.image != blank %}
         {{
           section.settings.image
           | image_url: width: 900
@@ -71,9 +88,19 @@
       "label": "Button link"
     },
     {
+      "type": "header",
+      "content": "Media"
+    },
+    {
       "type": "image_picker",
       "id": "image",
       "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "video_url",
+      "label": "Video URL (MP4)",
+      "info": "Optional. Overrides image if set."
     },
     {
       "type": "select",
@@ -86,24 +113,31 @@
       "default": "right"
     },
     {
+      "type": "range",
+      "id": "image_overflow",
+      "label": "Image overflow (px)",
+      "info": "How much the image extends beyond the background strip",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
       "type": "header",
-      "content": "Section layout"
+      "content": "Colors"
     },
     {
-      "type": "select",
-      "id": "section_width",
-      "label": "Width",
-      "options": [
-        { "value": "page-width", "label": "Page" },
-        { "value": "full-width", "label": "Full" }
-      ],
-      "default": "page-width"
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#23372C"
     },
     {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "Color scheme",
-      "default": "pp-green-dark"
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#DAFFD3"
     },
     {
       "type": "header",
@@ -111,23 +145,23 @@
     },
     {
       "type": "range",
-      "id": "padding-block-start",
+      "id": "padding_top",
       "label": "Top",
       "min": 0,
       "max": 100,
-      "step": 1,
+      "step": 4,
       "unit": "px",
-      "default": 64
+      "default": 40
     },
     {
       "type": "range",
-      "id": "padding-block-end",
+      "id": "padding_bottom",
       "label": "Bottom",
       "min": 0,
       "max": 100,
-      "step": 1,
+      "step": 4,
       "unit": "px",
-      "default": 64
+      "default": 40
     }
   ],
   "presets": [
@@ -136,11 +170,11 @@
       "category": "Pur Plant",
       "settings": {
         "heading": "PUR PLANT ES LA MARCA QUE CREE EN EL PODER DE LAS PLANTAS",
-        "button_label": "Más sobre Nosotros",
+        "button_label": "Más sobre Nosotrxs",
         "image_position": "right",
-        "color_scheme": "pp-green-dark",
-        "padding-block-start": 64,
-        "padding-block-end": 64
+        "image_overflow": 48,
+        "bg_color": "#23372C",
+        "text_color": "#DAFFD3"
       }
     }
   ]
