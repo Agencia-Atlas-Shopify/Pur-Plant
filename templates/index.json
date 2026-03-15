@@ -216,39 +216,19 @@
             "overlay_color": "#000000",
             "overlay_opacity": 0
           }
-        },
-        "banner_AKgcgG": {
-          "type": "banner",
-          "settings": {
-            "position": 3,
-            "width_mobile": 2,
-            "width_tablet": 2,
-            "width_desktop": 2,
-            "height": "portrait",
-            "title": "",
-            "subtitle": "",
-            "button_text": "",
-            "button_link": "",
-            "link": "",
-            "content_position": "bottom-left",
-            "text_color": "#ffffff",
-            "overlay_color": "#000000",
-            "overlay_opacity": 0
-          }
         }
       },
       "block_order": [
-        "video_block_6VPFpT",
-        "banner_AKgcgG"
+        "video_block_6VPFpT"
       ],
       "name": "PP Featured Grid",
       "settings": {
-        "title": "MUST",
-        "view_all_text": "Ver todo",
+        "title": "",
+        "view_all_text": "",
         "view_all_link": "",
         "collection": "accesorios",
         "max_products": 16,
-        "image_ratio": "portrait",
+        "image_ratio": "portrait-tall",
         "products_per_row_mobile": 2,
         "products_per_row_tablet": 3,
         "products_per_row_desktop": 4,
