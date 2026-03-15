@@ -1,0 +1,279 @@
+{%- comment -%}
+  PP Marquee - Scrolling text marquee that sticks to bottom of viewport
+  Based on GNG.la marquee design
+{%- endcomment -%}
+
+{%- liquid
+  assign speed_raw = section.settings.speed | default: 10
+  assign speed = speed_raw | divided_by: 100.0
+  assign direction = section.settings.direction | default: 'left'
+  assign sticky_position = section.settings.sticky_position
+  assign bg_color = section.settings.bg_color
+  assign text_color = section.settings.text_color
+-%}
+
+<style>
+  /* Critical styles to prevent layout shift / vertical flash */
+  #pp-marquee-{{ section.id }} {
+    --pp-marquee-bg: {{ bg_color.red }} {{ bg_color.green }} {{ bg_color.blue }};
+    --pp-marquee-text: {{ text_color.red }} {{ text_color.green }} {{ text_color.blue }};
+    --pp-marquee-gap: {{ section.settings.gap }}px;
+    --pp-marquee-font-size: {{ section.settings.font_size_mobile }}px;
+    --pp-marquee-padding: {{ section.settings.padding_mobile }}px;
+    overflow: hidden;
+    background-color: rgb(var(--pp-marquee-bg));
+    color: rgb(var(--pp-marquee-text));
+  }
+
+  #pp-marquee-{{ section.id }} pp-marquee-text {
+    display: flex !important;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    overflow: hidden;
+    padding-block: var(--pp-marquee-padding);
+  }
+
+  #pp-marquee-{{ section.id }} .pp-marquee__item {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  #pp-marquee-{{ section.id }} .pp-marquee__text,
+  #pp-marquee-{{ section.id }} .pp-marquee__separator {
+    white-space: nowrap;
+    font-size: var(--pp-marquee-font-size);
+  }
+
+  @media screen and (min-width: 700px) {
+    #pp-marquee-{{ section.id }} {
+      --pp-marquee-font-size: {{ section.settings.font_size_desktop }}px;
+      --pp-marquee-padding: {{ section.settings.padding_desktop }}px;
+    }
+  }
+</style>
+
+<div
+  id="pp-marquee-{{ section.id }}"
+  class="pp-marquee{% if sticky_position == 'bottom_viewport' %} pp-marquee--sticky-bottom{% elsif sticky_position == 'bottom_page' %} pp-marquee--page-bottom{% endif %}"
+  data-section-id="{{ section.id }}"
+>
+  <pp-marquee-text speed="{{ speed }}" direction="{{ direction }}" class="pp-marquee__scroller">
+    {%- for i in (1..10) -%}
+      <div class="pp-marquee__item"{% if i > 1 %} aria-hidden="true"{% endif %}>
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'text' -%}
+              {%- if block.settings.url != blank -%}
+                <a href="{{ block.settings.url }}" class="pp-marquee__text pp-marquee__link heading" {{ block.shopify_attributes }}>
+                  {{ block.settings.text }}
+                </a>
+              {%- else -%}
+                <span class="pp-marquee__text heading" {{ block.shopify_attributes }}>
+                  {{ block.settings.text }}
+                </span>
+              {%- endif -%}
+            {%- when 'separator' -%}
+              <span class="pp-marquee__separator" {{ block.shopify_attributes }}>
+                {{ block.settings.separator | default: '•' }}
+              </span>
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+    {%- endfor -%}
+  </pp-marquee-text>
+</div>
+
+{% schema %}
+{
+  "name": "PP Marquee",
+  "class": "pp-marquee-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Animation"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "min": 1,
+      "max": 50,
+      "step": 1,
+      "default": 10,
+      "label": "Scroll speed"
+    },
+    {
+      "type": "select",
+      "id": "direction",
+      "label": "Scroll direction",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Position"
+    },
+    {
+      "type": "select",
+      "id": "sticky_position",
+      "label": "Sticky position",
+      "options": [
+        {
+          "value": "none",
+          "label": "None (normal flow)"
+        },
+        {
+          "value": "bottom_viewport",
+          "label": "Bottom of viewport (100vh)"
+        },
+        {
+          "value": "bottom_page",
+          "label": "Bottom of page"
+        }
+      ],
+      "default": "bottom_viewport",
+      "info": "Sticky to viewport will position at bottom of first screen"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "font_size_mobile",
+      "min": 8,
+      "max": 32,
+      "step": 1,
+      "default": 11,
+      "unit": "px",
+      "label": "Font size (mobile)"
+    },
+    {
+      "type": "range",
+      "id": "font_size_desktop",
+      "min": 10,
+      "max": 48,
+      "step": 1,
+      "default": 14,
+      "unit": "px",
+      "label": "Font size (desktop)"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "min": 8,
+      "max": 80,
+      "step": 4,
+      "default": 24,
+      "unit": "px",
+      "label": "Gap between items"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_mobile",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "default": 8,
+      "unit": "px",
+      "label": "Padding (mobile)"
+    },
+    {
+      "type": "range",
+      "id": "padding_desktop",
+      "min": 4,
+      "max": 32,
+      "step": 2,
+      "default": 12,
+      "unit": "px",
+      "label": "Padding (desktop)"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "NEW IN"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        }
+      ]
+    },
+    {
+      "type": "separator",
+      "name": "Separator",
+      "settings": [
+        {
+          "type": "text",
+          "id": "separator",
+          "label": "Separator character",
+          "default": "•"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "PP Marquee",
+      "blocks": [
+        {
+          "type": "text",
+          "settings": {
+            "text": "NEW IN"
+          }
+        },
+        {
+          "type": "separator"
+        },
+        {
+          "type": "text",
+          "settings": {
+            "text": "HOLIDAY SEASON DROP"
+          }
+        },
+        {
+          "type": "separator"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

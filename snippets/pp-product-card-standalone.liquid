@@ -1,0 +1,926 @@
+{%- comment -%}
+  RC Product Card Standalone
+  A self-contained product card that doesn't rely on theme blocks
+  Used in RC Collection section where theme blocks can't be used
+
+  @param {object} product - The product object
+  @param {string} image_ratio - Image aspect ratio: 'adapt', 'portrait', 'portrait-tall', 'square', 'landscape'
+{%- endcomment -%}
+
+{%- liquid
+  assign variant = product.selected_or_first_available_variant
+  assign featured_image = variant.featured_image | default: product.featured_image
+  assign second_image = product.images[1]
+  assign has_quick_add = false
+  if settings.quick_add and product.available
+    assign has_quick_add = true
+  endif
+
+  # Set aspect ratio based on parameter
+  assign ratio_class = 'pp-card__media--portrait'
+  case image_ratio
+    when 'adapt'
+      assign ratio_class = 'pp-card__media--adapt'
+    when 'portrait'
+      assign ratio_class = 'pp-card__media--portrait'
+    when 'portrait-tall'
+      assign ratio_class = 'pp-card__media--portrait-tall'
+    when 'square'
+      assign ratio_class = 'pp-card__media--square'
+    when 'landscape'
+      assign ratio_class = 'pp-card__media--landscape'
+  endcase
+-%}
+
+<product-card
+  class="product-card pp-product-card-standalone"
+  data-product-id="{{ product.id }}"
+>
+  <a
+    href="{{ variant.url }}"
+    class="product-card__link pp-card__link"
+    ref="productCardLink"
+  >
+    <span class="visually-hidden">{{ product.title }}</span>
+  </a>
+
+  <div class="pp-card__content">
+    {%- comment -%} Image Slider {%- endcomment -%}
+    <div class="pp-card__media {{ ratio_class }}" data-pp-card-slider>
+      {%- if featured_image != blank -%}
+        <div class="pp-card__slider-track" data-pp-slider-track>
+          {%- for image in product.images limit: 6 -%}
+            <div class="pp-card__slide{% if forloop.first %} is-active{% endif %}" data-slide-index="{{ forloop.index0 }}">
+              <img
+                src="{{ image | image_url: width: 600 }}"
+                srcset="{{ image | image_url: width: 300 }} 300w, {{ image | image_url: width: 450 }} 450w, {{ image | image_url: width: 600 }} 600w, {{ image | image_url: width: 800 }} 800w"
+                alt="{{ image.alt | default: product.title | escape }}"
+                class="pp-card__image"
+                loading="lazy"
+                width="{{ image.width }}"
+                height="{{ image.height }}"
+              >
+            </div>
+          {%- endfor -%}
+        </div>
+
+        {%- if product.images.size > 1 -%}
+          {%- comment -%} Navigation Arrows {%- endcomment -%}
+          <button type="button" class="pp-card__slider-nav pp-card__slider-nav--prev" data-pp-slider-prev aria-label="{{ 'general.previous' | t | default: 'Previous' }}">
+            <svg viewBox="0 0 20 35" fill="currentColor" width="10" height="16">
+              <path d="M0.748048 17.3633L19.1328 -6.01032e-08L19.8203 0.726562L2.20508 17.3633L19.8203 34L19.1328 34.7266L0.748048 17.3633Z"/>
+            </svg>
+          </button>
+          <button type="button" class="pp-card__slider-nav pp-card__slider-nav--next" data-pp-slider-next aria-label="{{ 'general.next' | t | default: 'Next' }}">
+            <svg viewBox="0 0 20 35" fill="currentColor" width="10" height="16">
+              <path d="M19.8203 17.3633L1.43555 34.7266L0.748047 34L18.3633 17.3633L0.748047 0.726562L1.43555 0L19.8203 17.3633Z"/>
+            </svg>
+          </button>
+        {%- endif -%}
+      {%- else -%}
+        <div class="pp-card__placeholder">
+          {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} Badges - RC Product Card Style {%- endcomment -%}
+      {%- assign has_badge = false -%}
+      {%- assign badge_text = '' -%}
+      {%- assign badge_class = '' -%}
+
+      {%- comment -%} Check for inventory badges {%- endcomment -%}
+      {%- if product.available == false -%}
+        {%- assign has_badge = true -%}
+        {%- assign badge_text = 'Sold Out' -%}
+        {%- assign badge_class = 'pp-badge--sold-out' -%}
+      {%- elsif product.variants.first.inventory_quantity <= 5 and product.variants.first.inventory_quantity > 0 -%}
+        {%- assign has_badge = true -%}
+        {%- assign badge_text = 'Last Units' -%}
+        {%- assign badge_class = 'pp-badge--last-units' -%}
+      {%- endif -%}
+
+      {%- comment -%} Check for sale badge {%- endcomment -%}
+      {%- if product.compare_at_price > product.price and has_badge == false -%}
+        {%- assign has_badge = true -%}
+        {%- assign badge_text = 'Sale' -%}
+        {%- assign badge_class = 'pp-badge--sale' -%}
+      {%- endif -%}
+
+      {%- comment -%} Check for custom badge via metafield {%- endcomment -%}
+      {%- if product.metafields.custom.badge and has_badge == false -%}
+        {%- assign has_badge = true -%}
+        {%- assign badge_text = product.metafields.custom.badge -%}
+        {%- assign badge_class = 'pp-badge--custom' -%}
+      {%- endif -%}
+
+      {%- if has_badge -%}
+        <div class="pp-badge-list">
+          <span class="pp-badge {{ badge_class }}">{{ badge_text | upcase }}</span>
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} Wishlist Button {%- endcomment -%}
+      {% render 'pp-wishlist', product: product, icon_only: true %}
+
+      {%- comment -%} Quick Add - Inline variant buttons {%- endcomment -%}
+      {%- if product.available -%}
+        <div class="pp-card__quick-add" data-pp-quick-add>
+          {%- if product.has_only_default_variant -%}
+            {%- comment -%} Single variant - direct add to cart {%- endcomment -%}
+            <button
+              type="button"
+              class="pp-card__quick-add-single"
+              data-variant-id="{{ product.first_available_variant.id }}"
+              data-pp-add-to-cart
+            >
+              {{ 'products.product.add_to_cart' | t | default: 'Add to cart' }}
+            </button>
+          {%- else -%}
+            {%- comment -%} Multiple variants - show size/option buttons {%- endcomment -%}
+            {%- assign size_option = nil -%}
+            {%- for option in product.options_with_values -%}
+              {%- assign option_name_downcase = option.name | downcase -%}
+              {%- if option_name_downcase == 'size' or option_name_downcase == 'talla' or option_name_downcase == 'taille' -%}
+                {%- assign size_option = option -%}
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+
+            {%- if size_option -%}
+              <div class="pp-card__quick-add-variants">
+                {%- for value in size_option.values -%}
+                  {%- assign variant_for_size = nil -%}
+                  {%- assign variant_available = false -%}
+                  {%- for variant in product.variants -%}
+                    {%- if variant.options contains value -%}
+                      {%- assign variant_for_size = variant -%}
+                      {%- if variant.available -%}
+                        {%- assign variant_available = true -%}
+                        {%- break -%}
+                      {%- endif -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+
+                  <button
+                    type="button"
+                    class="pp-card__variant-btn{% unless variant_available %} pp-card__variant-btn--unavailable{% endunless %}"
+                    data-variant-id="{{ variant_for_size.id }}"
+                    data-pp-add-to-cart
+                    {% unless variant_available %}disabled{% endunless %}
+                    title="{{ value }}{% unless variant_available %} - {{ 'products.product.sold_out' | t | default: 'Sold out' }}{% endunless %}"
+                  >
+                    {{ value }}
+                  </button>
+                {%- endfor -%}
+              </div>
+            {%- else -%}
+              {%- comment -%} No size option found, show first option {%- endcomment -%}
+              {%- assign first_option = product.options_with_values | first -%}
+              <div class="pp-card__quick-add-variants">
+                {%- for value in first_option.values -%}
+                  {%- assign variant_for_option = nil -%}
+                  {%- assign variant_available = false -%}
+                  {%- for variant in product.variants -%}
+                    {%- if variant.options contains value -%}
+                      {%- assign variant_for_option = variant -%}
+                      {%- if variant.available -%}
+                        {%- assign variant_available = true -%}
+                        {%- break -%}
+                      {%- endif -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+
+                  <button
+                    type="button"
+                    class="pp-card__variant-btn{% unless variant_available %} pp-card__variant-btn--unavailable{% endunless %}"
+                    data-variant-id="{{ variant_for_option.id }}"
+                    data-pp-add-to-cart
+                    {% unless variant_available %}disabled{% endunless %}
+                  >
+                    {{ value }}
+                  </button>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} Info {%- endcomment -%}
+    <div class="pp-card__info">
+      <h3 class="pp-card__title">
+        <a href="{{ variant.url }}">{{ product.title }}</a>
+      </h3>
+
+      <div class="pp-card__price">
+        {%- if variant.compare_at_price > variant.price -%}
+          <span class="pp-card__price-sale">{{ variant.price | money }}</span>
+          <s class="pp-card__price-compare">{{ variant.compare_at_price | money }}</s>
+        {%- else -%}
+          <span class="pp-card__price-regular">{{ variant.price | money }}</span>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Color Swatches - RC Product Card Style {%- endcomment -%}
+      {%- assign swatch_option = 'Color' -%}
+      {%- assign color_option = product.options_by_name[swatch_option] -%}
+      {%- if color_option == blank -%}
+        {%- assign swatch_option = 'Colour' -%}
+        {%- assign color_option = product.options_by_name[swatch_option] -%}
+      {%- endif -%}
+      {%- if color_option -%}
+        <fieldset class="pp-product-card__swatches">
+          <legend class="sr-only">{{ color_option.name }}</legend>
+          {%- for value in color_option.values -%}
+            {%- assign color_value = value | downcase | replace: ' ', '' -%}
+            {%- assign is_selected = false -%}
+            {%- if product.selected_or_first_available_variant.options contains value -%}
+              {%- assign is_selected = true -%}
+            {%- endif -%}
+            {%- assign is_white = false -%}
+            {%- if color_value == 'white' or color_value == 'blanco' or color_value == '#ffffff' or color_value == '#fff' -%}
+              {%- assign is_white = true -%}
+            {%- endif -%}
+
+            <a
+              href="{{ product.url }}?variant={{ product.variants[forloop.index0].id }}"
+              class="pp-color-swatch{% if is_selected %} is-selected{% endif %}{% if is_white %} is-white{% endif %}"
+              style="--swatch-background: linear-gradient(to right, {{ value }}, {{ value }})"
+              draggable="false"
+            >
+              <span class="sr-only">{{ value }}</span>
+            </a>
+          {%- endfor -%}
+        </fieldset>
+      {%- endif -%}
+    </div>
+  </div>
+</product-card>
+
+{% stylesheet %}
+  .pp-product-card-standalone {
+    position: relative;
+    display: block;
+    width: 100%;
+  }
+
+  .pp-card__link {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  .pp-card__content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .pp-card__media {
+    position: relative;
+    overflow: hidden;
+    background: rgb(245 245 245);
+  }
+
+  /* Aspect ratio variants */
+  .pp-card__media--adapt {
+    border-radius: 8px;
+    aspect-ratio: 3 / 4;
+  }
+
+  .pp-card__media--portrait {
+    aspect-ratio: 3 / 4;
+  }
+
+  .pp-card__media--portrait-tall {
+    aspect-ratio: 2 / 3;
+  }
+
+  .pp-card__media--square {
+    aspect-ratio: 1 / 1;
+  }
+
+  .pp-card__media--landscape {
+    aspect-ratio: 4 / 3;
+  }
+
+  .pp-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Image Slider - Horizontal scroll */
+  .pp-card__slider-track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    cursor: grab;
+  }
+
+  .pp-card__slider-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pp-card__slider-track.is-dragging {
+    cursor: grabbing;
+    scroll-snap-type: none;
+    user-select: none;
+  }
+
+  .pp-card__slider-track img {
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  .pp-card__slide {
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100%;
+    scroll-snap-align: start;
+  }
+
+  /* Slider Navigation Arrows - No background */
+  .pp-card__slider-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff00;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    opacity: 0;
+    color: rgb(var(--rc-product-text, 0 0 0));
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .pp-card__slider-nav svg {
+    width: 10px;
+    height: auto;
+  }
+
+  .pp-card__slider-nav--prev {
+    left: 6px;
+  }
+
+  .pp-card__slider-nav--next {
+    right: 6px;
+  }
+
+  .pp-card__slider-nav:hover {
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  .pp-product-card-standalone:hover .pp-card__slider-nav {
+    opacity: 1;
+  }
+
+  /* Hide arrows on touch devices - swipe/drag instead */
+  @media screen and (pointer: coarse) {
+    .pp-card__slider-nav {
+      display: none;
+    }
+  }
+
+  .pp-card__placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pp-card__placeholder svg {
+    width: 50%;
+    height: auto;
+    opacity: 0.3;
+  }
+
+  /* Badges - RC Product Card Style */
+  .pp-badge-list {
+    position: absolute;
+    z-index: 2;
+    inset-block-end: 0;
+    inset-inline-start: 0;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    padding-inline: var(--pp-badge-padding, 0);
+  }
+
+  .pp-badge {
+    display: inline-flex;
+    align-items: center;
+    width: max-content;
+    padding: 0.0625rem 0.3125rem;
+    font-family: var(--rc-heading-font-family, 'Inter', sans-serif);
+    font-weight: var(--rc-heading-font-weight, 400);
+    font-style: var(--rc-heading-font-style, normal);
+    font-size: 0.625rem;
+    letter-spacing: var(--rc-heading-letter-spacing, 0);
+    text-transform: uppercase;
+    background: rgb(var(--pp-badge-background, 0 0 0));
+    border: 0.5px solid rgb(var(--pp-badge-background, 0 0 0));
+    color: rgb(var(--pp-badge-text-color, 255 255 255));
+  }
+
+  .pp-badge--custom {
+    background: rgb(var(--pp-badge-background, 0 0 0));
+    border-color: rgb(var(--pp-badge-background, 0 0 0));
+    color: rgb(var(--pp-badge-text-color, 255 255 255));
+  }
+
+  .pp-badge--last-units {
+    background: rgb(var(--pp-badge-background, 0 0 0));
+    border-color: rgb(var(--pp-badge-background, 0 0 0));
+    color: rgb(var(--pp-badge-text-color, 255 255 255));
+  }
+
+  .pp-badge--sale {
+    background: rgb(var(--pp-badge-sale-background, 0 0 0));
+    border-color: rgb(var(--pp-badge-sale-background, 0 0 0));
+    color: rgb(var(--pp-badge-sale-text-color, 255 255 255));
+  }
+
+  .pp-badge--sold-out {
+    background: rgb(var(--pp-badge-soldout-background, 100 100 100));
+    border-color: rgb(var(--pp-badge-soldout-background, 100 100 100));
+    color: rgb(var(--pp-badge-soldout-text-color, 255 255 255));
+  }
+
+  .pp-card__quick-add {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    /* Apple Glass Effect - More transparent */
+    background: rgb(255 255 255 / 0.35);
+    backdrop-filter: blur(25px) saturate(200%);
+    -webkit-backdrop-filter: blur(25px) saturate(200%);
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .pp-product-card-standalone:hover .pp-card__quick-add {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media screen and (max-width: 749px) {
+    .pp-card__quick-add {
+      display: none;
+    }
+  }
+
+  .pp-card__quick-add-single {
+    display: block;
+    width: 100%;
+    padding: 0.625rem 1rem;
+    background: rgb(0 0 0);
+    color: rgb(255 255 255);
+    border: none;
+    font-size: var(--text-xs, 0.6875rem);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .pp-card__quick-add-single:hover {
+    background: rgb(40 40 40);
+  }
+
+  .pp-card__quick-add-variants {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 0.25rem;
+    width: 100%;
+  }
+
+  .pp-card__variant-btn {
+    min-width: 0;
+    flex: 1 1 0;
+    height: 32px;
+    padding: 0 0.25rem;
+    background: rgb(255 255 255 / 0.5);
+    border: 1px solid rgb(255 255 255 / 0.4);
+    border-radius: 6px;
+    font-size: var(--text-xs, 0.6875rem);
+    font-weight: 500;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .pp-card__variant-btn:hover:not(:disabled) {
+    background: rgb(0 0 0);
+    color: rgb(255 255 255);
+    border-color: rgb(0 0 0);
+    transform: scale(1.05);
+  }
+
+  .pp-card__variant-btn--unavailable {
+    opacity: 0.4;
+    cursor: not-allowed;
+    text-decoration: line-through;
+    background: rgb(200 200 200 / 0.5);
+  }
+
+  .pp-card__info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.25rem 0;
+  }
+
+  .pp-card__title {
+    margin: 0;
+    font-family: var(--font-body--family, inherit);
+    font-weight: var(--font-body--weight, 400);
+    font-size: var(--text-sm, 0.75rem);
+    line-height: 1.4;
+  }
+
+  .pp-card__title a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .pp-card__price {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: var(--text-sm, 0.75rem);
+  }
+
+  .pp-card__price-sale {
+    color: rgb(180 0 0);
+  }
+
+  .pp-card__price-compare {
+    opacity: 0.5;
+    text-decoration: line-through;
+  }
+
+  /* Color Swatches - RC Product Card Style */
+  .pp-product-card__swatches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .pp-product-card__swatches legend {
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .pp-color-swatch {
+    width: 12px;
+    height: 12px;
+    display: grid;
+    place-items: center;
+    position: relative;
+    background: var(--swatch-background) no-repeat center / cover;
+    border: 1px solid transparent;
+    border-radius: 0;
+    padding: 0;
+    text-decoration: none;
+    z-index: 2;
+    transition: border-color 0.2s ease;
+  }
+
+  .pp-color-swatch.is-selected {
+    border-color: rgb(0 0 0);
+  }
+
+  .pp-color-swatch.is-white:not(.is-selected) {
+    border-color: rgb(210 210 210);
+  }
+
+  .pp-color-swatch .sr-only {
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  /* Quick add loading state */
+  .pp-card__variant-btn.is-loading,
+  .pp-card__quick-add-single.is-loading {
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+  .pp-card__variant-btn.is-added,
+  .pp-card__quick-add-single.is-added {
+    background: rgb(0 128 0);
+    color: rgb(255 255 255);
+    border-color: rgb(0 128 0);
+  }
+{% endstylesheet %}
+
+<script>
+  (function() {
+    if (window.ppQuickAddInitialized) return;
+    window.ppQuickAddInitialized = true;
+
+    async function refreshCartDrawer() {
+      // Fetch the cart drawer section HTML using Shopify's section rendering API
+      try {
+        const response = await fetch('/?sections=cart-drawer,header');
+        if (!response.ok) return;
+
+        const sections = await response.json();
+
+        // Update cart drawer content
+        if (sections['cart-drawer']) {
+          const cartDrawer = document.querySelector('cart-drawer-component');
+          if (cartDrawer) {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = sections['cart-drawer'];
+            const newContent = tempDiv.querySelector('cart-drawer-component');
+            if (newContent) {
+              // Replace inner content but keep the dialog open state
+              const dialog = cartDrawer.querySelector('dialog');
+              const wasOpen = dialog && dialog.open;
+              cartDrawer.innerHTML = newContent.innerHTML;
+              if (wasOpen) {
+                const newDialog = cartDrawer.querySelector('dialog');
+                if (newDialog) newDialog.showModal();
+              }
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error refreshing cart drawer:', error);
+      }
+    }
+
+    async function addToCart(variantId, button) {
+      if (!variantId) return;
+
+      button.classList.add('is-loading');
+      const originalText = button.textContent;
+
+      try {
+        const response = await fetch('/cart/add.js', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id: variantId,
+            quantity: 1
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to add to cart');
+        }
+
+        const addedItem = await response.json();
+
+        // Success feedback
+        button.classList.remove('is-loading');
+        button.classList.add('is-added');
+        button.textContent = '✓';
+
+        // Fetch updated cart
+        const cartResponse = await fetch('/cart.js');
+        const cart = await cartResponse.json();
+
+        // Update cart count in header
+        const cartCountEls = document.querySelectorAll('[data-cart-count]');
+        cartCountEls.forEach(el => {
+          el.textContent = cart.item_count;
+        });
+
+        // Dispatch cart events for theme compatibility
+        document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart } }));
+        document.dispatchEvent(new CustomEvent('cart:add', { detail: { cart, items: [addedItem] } }));
+
+        // Refresh and open cart drawer
+        await refreshCartDrawer();
+
+        const cartDrawer = document.querySelector('cart-drawer-component');
+        if (cartDrawer) {
+          // Try using the component's open method first
+          if (typeof cartDrawer.open === 'function') {
+            cartDrawer.open();
+          } else if (typeof cartDrawer.showDialog === 'function') {
+            cartDrawer.showDialog();
+          } else {
+            // Fallback: manually show the dialog
+            const dialog = cartDrawer.querySelector('dialog');
+            if (dialog && !dialog.open) {
+              dialog.showModal();
+            }
+          }
+        }
+
+        // Reset button after delay
+        setTimeout(() => {
+          button.classList.remove('is-added');
+          button.textContent = originalText;
+        }, 1500);
+
+      } catch (error) {
+        console.error('Error adding to cart:', error);
+        button.classList.remove('is-loading');
+        button.textContent = originalText;
+      }
+    }
+
+    // Event delegation for add to cart buttons
+    document.addEventListener('click', (e) => {
+      const button = e.target.closest('[data-pp-add-to-cart]');
+      if (!button) return;
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      const variantId = button.dataset.variantId;
+      if (variantId && !button.disabled) {
+        addToCart(variantId, button);
+      }
+    });
+  })();
+
+  // Image Slider functionality - Scroll based
+  (function() {
+    if (window.ppCardSliderInitialized) return;
+    window.ppCardSliderInitialized = true;
+
+    function scrollToSlide(track, index, loop) {
+      const slides = track.querySelectorAll('.pp-card__slide');
+      const totalSlides = slides.length;
+
+      // Loop logic
+      if (loop) {
+        if (index < 0) index = totalSlides - 1;
+        if (index >= totalSlides) index = 0;
+      } else {
+        if (index < 0) index = 0;
+        if (index >= totalSlides) index = totalSlides - 1;
+      }
+
+      const slideWidth = track.offsetWidth;
+      track.scrollTo({
+        left: slideWidth * index,
+        behavior: 'smooth'
+      });
+    }
+
+    function getCurrentSlideIndex(track) {
+      const slideWidth = track.offsetWidth;
+      return Math.round(track.scrollLeft / slideWidth);
+    }
+
+    // Event delegation for slider navigation arrows
+    document.addEventListener('click', (e) => {
+      // Previous button
+      const prevBtn = e.target.closest('[data-pp-slider-prev]');
+      if (prevBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        const slider = prevBtn.closest('[data-pp-card-slider]');
+        const track = slider?.querySelector('[data-pp-slider-track]');
+        if (track) {
+          const current = getCurrentSlideIndex(track);
+          scrollToSlide(track, current - 1, true);
+        }
+        return;
+      }
+
+      // Next button
+      const nextBtn = e.target.closest('[data-pp-slider-next]');
+      if (nextBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        const slider = nextBtn.closest('[data-pp-card-slider]');
+        const track = slider?.querySelector('[data-pp-slider-track]');
+        if (track) {
+          const current = getCurrentSlideIndex(track);
+          scrollToSlide(track, current + 1, true);
+        }
+        return;
+      }
+    });
+
+    // Drag to scroll functionality for desktop
+    let isDragging = false;
+    let startX = 0;
+    let scrollLeft = 0;
+    let currentTrack = null;
+    let hasMoved = false;
+
+    document.addEventListener('mousedown', (e) => {
+      const track = e.target.closest('[data-pp-slider-track]');
+      if (!track) return;
+
+      // Ignore if clicking on navigation buttons
+      if (e.target.closest('[data-pp-slider-prev]') || e.target.closest('[data-pp-slider-next]')) return;
+
+      // Check if there's more than one slide
+      if (track.querySelectorAll('.pp-card__slide').length <= 1) return;
+
+      isDragging = true;
+      hasMoved = false;
+      currentTrack = track;
+      startX = e.clientX;
+      scrollLeft = track.scrollLeft;
+      track.classList.add('is-dragging');
+      e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!isDragging || !currentTrack) return;
+
+      e.preventDefault();
+      const x = e.clientX;
+      const walk = (startX - x) * 1.5;
+
+      if (Math.abs(walk) > 3) {
+        hasMoved = true;
+      }
+
+      currentTrack.scrollLeft = scrollLeft + walk;
+    });
+
+    document.addEventListener('mouseup', (e) => {
+      if (!isDragging) return;
+
+      if (currentTrack) {
+        currentTrack.classList.remove('is-dragging');
+
+        // Snap to nearest slide
+        if (hasMoved) {
+          const slideWidth = currentTrack.offsetWidth;
+          const targetIndex = Math.round(currentTrack.scrollLeft / slideWidth);
+          scrollToSlide(currentTrack, targetIndex, false);
+        }
+      }
+      isDragging = false;
+      currentTrack = null;
+      hasMoved = false;
+    });
+
+    document.addEventListener('mouseleave', (e) => {
+      if (!isDragging) return;
+
+      if (currentTrack) {
+        currentTrack.classList.remove('is-dragging');
+        // Snap to nearest slide on mouse leave too
+        if (hasMoved) {
+          const slideWidth = currentTrack.offsetWidth;
+          const targetIndex = Math.round(currentTrack.scrollLeft / slideWidth);
+          scrollToSlide(currentTrack, targetIndex, false);
+        }
+      }
+      isDragging = false;
+      currentTrack = null;
+      hasMoved = false;
+    });
+  })();
+</script>

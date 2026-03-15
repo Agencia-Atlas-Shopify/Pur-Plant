@@ -1,0 +1,121 @@
+/* ==========================================================================
+   RC Marquee - Scrolling text banner styles
+   ========================================================================== */
+
+/* CSS Variables */
+.pp-marquee {
+  --pp-marquee-bg: 0 0 0;
+  --pp-marquee-text: 255 255 255;
+  --pp-marquee-gap: 24px;
+  --pp-marquee-font-size: 11px;
+  --pp-marquee-padding: 8px;
+}
+
+/* Base Marquee */
+.pp-marquee {
+  position: relative;
+  width: 100%;
+  background-color: rgb(var(--pp-marquee-bg));
+  color: rgb(var(--pp-marquee-text));
+  overflow: hidden;
+  z-index: 50;
+}
+
+/* Sticky to bottom of viewport (100vh) */
+.pp-marquee--sticky-bottom {
+  position: sticky;
+  bottom: 0;
+  top: calc(100vh - var(--pp-marquee-height, 40px));
+  z-index: 100;
+}
+
+/* Keep marquee section in flow but position marquee at bottom of first viewport */
+.pp-marquee-section:has(.pp-marquee--sticky-bottom) {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+}
+
+.pp-marquee--sticky-bottom {
+  pointer-events: auto;
+}
+
+/* Alternative: fixed to bottom of page (always visible) */
+.pp-marquee--page-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+/* Scroller Container */
+.pp-marquee__scroller {
+  display: flex;
+  flex-wrap: nowrap;
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  -webkit-user-select: none;
+  user-select: none;
+  padding-block: var(--pp-marquee-padding);
+}
+
+pp-marquee-text {
+  display: flex;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* The inner scrolling track created by JS */
+pp-marquee-text::part(scroller) {
+  min-width: max-content;
+  display: inline-flex;
+  position: relative;
+}
+
+/* Marquee Item */
+.pp-marquee__item {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* Text Elements */
+.pp-marquee__text {
+  margin: 0;
+  font-family: var(--heading-font-family, Inter, sans-serif);
+  font-weight: var(--heading-font-weight, 400);
+  font-style: var(--heading-font-style, normal);
+  font-size: var(--pp-marquee-font-size);
+  letter-spacing: var(--heading-letter-spacing, 0);
+  text-transform: uppercase;
+  padding-inline: calc(var(--pp-marquee-gap) / 2);
+}
+
+/* Link styling */
+.pp-marquee__link {
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.2s ease;
+}
+
+.pp-marquee__link:hover {
+  opacity: 0.7;
+}
+
+/* Separator */
+.pp-marquee__separator {
+  font-size: var(--pp-marquee-font-size);
+  padding-inline: calc(var(--pp-marquee-gap) / 2);
+  opacity: 0.6;
+}
+
+/* Pause on hover */
+.pp-marquee:hover pp-marquee-text {
+  --marquee-paused: 1;
+}

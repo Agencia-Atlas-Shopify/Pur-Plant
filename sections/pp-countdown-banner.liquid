@@ -1,0 +1,503 @@
+{%- comment -%}
+  PP Countdown Banner
+  Features:
+  - Promotional banner with countdown timer
+  - RC design system styling (Inter font, minimal aesthetic)
+  - Customizable colors and content
+  - Auto-hide when countdown ends (optional)
+{%- endcomment -%}
+
+{{ 'aileron-font.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign end_date = section.settings.end_date
+  assign end_time = section.settings.end_time | default: '23:59'
+  assign datetime_string = end_date | append: 'T' | append: end_time | append: ':00'
+-%}
+
+{%- style -%}
+  #RC-CountdownBanner-{{ section.id }} {
+    --pp-countdown-bg: {{ section.settings.background_color.red }} {{ section.settings.background_color.green }} {{ section.settings.background_color.blue }};
+    --pp-countdown-text: {{ section.settings.text_color.red }} {{ section.settings.text_color.green }} {{ section.settings.text_color.blue }};
+    --pp-countdown-accent: {{ section.settings.accent_color.red }} {{ section.settings.accent_color.green }} {{ section.settings.accent_color.blue }};
+    --pp-countdown-btn-bg: {{ section.settings.button_background.red }} {{ section.settings.button_background.green }} {{ section.settings.button_background.blue }};
+    --pp-countdown-btn-text: {{ section.settings.button_text_color.red }} {{ section.settings.button_text_color.green }} {{ section.settings.button_text_color.blue }};
+    --pp-countdown-padding-mobile: {{ section.settings.padding_mobile }}px;
+    --pp-countdown-padding-desktop: {{ section.settings.padding_desktop }}px;
+  }
+{%- endstyle -%}
+
+<pp-countdown-banner
+  id="RC-CountdownBanner-{{ section.id }}"
+  class="pp-countdown-banner"
+  data-end-date="{{ datetime_string }}"
+  data-hide-on-end="{{ section.settings.hide_on_end }}"
+  {{ section.shopify_attributes }}
+>
+  <div class="pp-countdown-banner__container">
+    {%- if section.settings.subheading != blank -%}
+      <p class="pp-countdown-banner__subheading">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    {%- if section.settings.heading != blank -%}
+      <h2 class="pp-countdown-banner__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    <div class="pp-countdown-banner__timer" aria-live="polite" aria-label="{{ 'general.countdown_timer' | t | default: 'Countdown timer' }}">
+      <div class="pp-countdown-banner__unit">
+        <span class="pp-countdown-banner__number" data-days>00</span>
+        <span class="pp-countdown-banner__label">{{ section.settings.days_label | default: 'Days' }}</span>
+      </div>
+      <span class="pp-countdown-banner__separator">:</span>
+      <div class="pp-countdown-banner__unit">
+        <span class="pp-countdown-banner__number" data-hours>00</span>
+        <span class="pp-countdown-banner__label">{{ section.settings.hours_label | default: 'Hours' }}</span>
+      </div>
+      <span class="pp-countdown-banner__separator">:</span>
+      <div class="pp-countdown-banner__unit">
+        <span class="pp-countdown-banner__number" data-minutes>00</span>
+        <span class="pp-countdown-banner__label">{{ section.settings.minutes_label | default: 'Min' }}</span>
+      </div>
+      <span class="pp-countdown-banner__separator">:</span>
+      <div class="pp-countdown-banner__unit">
+        <span class="pp-countdown-banner__number" data-seconds>00</span>
+        <span class="pp-countdown-banner__label">{{ section.settings.seconds_label | default: 'Sec' }}</span>
+      </div>
+    </div>
+
+    {%- if section.settings.description != blank -%}
+      <p class="pp-countdown-banner__description">{{ section.settings.description }}</p>
+    {%- endif -%}
+
+    {%- if section.settings.button_text != blank -%}
+      <a
+        href="{{ section.settings.button_link | default: '#' }}"
+        class="pp-countdown-banner__button pp-countdown-banner__button--{{ section.settings.button_style }}"
+      >
+        {{ section.settings.button_text }}
+      </a>
+    {%- endif -%}
+  </div>
+
+  {%- if section.settings.show_progress_bar -%}
+    <div class="pp-countdown-banner__progress">
+      <div class="pp-countdown-banner__progress-bar" data-progress></div>
+    </div>
+  {%- endif -%}
+</pp-countdown-banner>
+
+<script>
+  if (!customElements.get('pp-countdown-banner')) {
+    class PPCountdownBanner extends HTMLElement {
+      constructor() {
+        super();
+        this.endDate = new Date(this.dataset.endDate);
+        this.hideOnEnd = this.dataset.hideOnEnd === 'true';
+        this.daysEl = this.querySelector('[data-days]');
+        this.hoursEl = this.querySelector('[data-hours]');
+        this.minutesEl = this.querySelector('[data-minutes]');
+        this.secondsEl = this.querySelector('[data-seconds]');
+        this.progressEl = this.querySelector('[data-progress]');
+        this.startDate = new Date();
+        this.totalDuration = this.endDate - this.startDate;
+      }
+
+      connectedCallback() {
+        this.updateCountdown();
+        this.interval = setInterval(() => this.updateCountdown(), 1000);
+      }
+
+      disconnectedCallback() {
+        if (this.interval) clearInterval(this.interval);
+      }
+
+      updateCountdown() {
+        const now = new Date();
+        const diff = this.endDate - now;
+
+        if (diff <= 0) {
+          this.handleCountdownEnd();
+          return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        if (this.daysEl) this.daysEl.textContent = String(days).padStart(2, '0');
+        if (this.hoursEl) this.hoursEl.textContent = String(hours).padStart(2, '0');
+        if (this.minutesEl) this.minutesEl.textContent = String(minutes).padStart(2, '0');
+        if (this.secondsEl) this.secondsEl.textContent = String(seconds).padStart(2, '0');
+
+        if (this.progressEl && this.totalDuration > 0) {
+          const elapsed = this.totalDuration - diff;
+          const progress = Math.min((elapsed / this.totalDuration) * 100, 100);
+          this.progressEl.style.width = `${progress}%`;
+        }
+      }
+
+      handleCountdownEnd() {
+        clearInterval(this.interval);
+        if (this.daysEl) this.daysEl.textContent = '00';
+        if (this.hoursEl) this.hoursEl.textContent = '00';
+        if (this.minutesEl) this.minutesEl.textContent = '00';
+        if (this.secondsEl) this.secondsEl.textContent = '00';
+        if (this.hideOnEnd) this.style.display = 'none';
+        this.dispatchEvent(new CustomEvent('countdown:end', { bubbles: true }));
+      }
+    }
+    customElements.define('pp-countdown-banner', PPCountdownBanner);
+  }
+</script>
+
+<style>
+  .pp-countdown-banner {
+    display: block;
+    background: rgb(var(--pp-countdown-bg, 0 0 0));
+    color: rgb(var(--pp-countdown-text, 255 255 255));
+    padding: var(--pp-countdown-padding-mobile, 2rem) 1rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    font-family: var(--rc-text-font-family, 'Inter', sans-serif);
+  }
+
+  @media screen and (min-width: 700px) {
+    .pp-countdown-banner {
+      padding: var(--pp-countdown-padding-desktop, 3rem) 2rem;
+    }
+  }
+
+  .pp-countdown-banner__container {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .pp-countdown-banner__subheading {
+    font-family: var(--rc-text-font-family, 'Inter', sans-serif);
+    font-size: var(--rc-text-sm, 0.75rem);
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin: 0;
+    opacity: 0.8;
+  }
+
+  .pp-countdown-banner__heading {
+    font-family: var(--rc-heading-font-family, 'Inter', sans-serif);
+    font-size: var(--rc-text-h2, clamp(1.25rem, 1.067rem + 0.78vw, 1.75rem));
+    font-weight: var(--rc-heading-font-weight, 400);
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .pp-countdown-banner__timer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    margin: 0.75rem 0;
+  }
+
+  @media screen and (min-width: 700px) {
+    .pp-countdown-banner__timer {
+      gap: 0.75rem;
+    }
+  }
+
+  .pp-countdown-banner__unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 3rem;
+  }
+
+  @media screen and (min-width: 700px) {
+    .pp-countdown-banner__unit {
+      min-width: 4.5rem;
+    }
+  }
+
+  .pp-countdown-banner__number {
+    font-family: var(--rc-heading-font-family, 'Inter', sans-serif);
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 400;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    color: rgb(var(--pp-countdown-accent, 255 255 255));
+  }
+
+  .pp-countdown-banner__label {
+    font-family: var(--rc-text-font-family, 'Inter', sans-serif);
+    font-size: var(--rc-text-base, 0.6875rem);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    opacity: 0.6;
+    margin-top: 0.25rem;
+  }
+
+  .pp-countdown-banner__separator {
+    font-size: 1.25rem;
+    font-weight: 400;
+    opacity: 0.4;
+    margin-bottom: 1rem;
+  }
+
+  @media screen and (min-width: 700px) {
+    .pp-countdown-banner__separator {
+      font-size: 1.5rem;
+    }
+  }
+
+  .pp-countdown-banner__description {
+    font-family: var(--rc-text-font-family, 'Inter', sans-serif);
+    font-size: var(--rc-text-base, 0.6875rem);
+    line-height: 1.65;
+    margin: 0;
+    opacity: 0.8;
+    max-width: 500px;
+  }
+
+  .pp-countdown-banner__button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem 1.75rem;
+    font-family: var(--rc-text-font-family, 'Inter', sans-serif);
+    font-size: var(--rc-text-sm, 0.75rem);
+    font-weight: 400;
+    line-height: 1.65;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 0;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .pp-countdown-banner__button--normal {
+    background: rgb(var(--pp-countdown-btn-bg, 255 255 255));
+    color: rgb(var(--pp-countdown-btn-text, 0 0 0));
+    border: 1px solid rgb(var(--pp-countdown-btn-bg, 255 255 255));
+  }
+
+  .pp-countdown-banner__button--normal:hover {
+    background: transparent;
+    color: rgb(var(--pp-countdown-btn-bg, 255 255 255));
+  }
+
+  .pp-countdown-banner__button--inverted {
+    background: transparent;
+    color: rgb(var(--pp-countdown-btn-bg, 255 255 255));
+    border: 1px solid rgb(var(--pp-countdown-btn-bg, 255 255 255));
+  }
+
+  .pp-countdown-banner__button--inverted:hover {
+    background: rgb(var(--pp-countdown-btn-bg, 255 255 255));
+    color: rgb(var(--pp-countdown-btn-text, 0 0 0));
+  }
+
+  .pp-countdown-banner__progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: rgb(255 255 255 / 0.15);
+  }
+
+  .pp-countdown-banner__progress-bar {
+    height: 100%;
+    background: rgb(var(--pp-countdown-accent, 255 255 255));
+    width: 0;
+    transition: width 1s linear;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "PP Countdown Banner",
+  "tag": "section",
+  "class": "pp-countdown-banner-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "LIMITED TIME"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "FLASH SALE ENDS IN"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "header",
+      "content": "Countdown"
+    },
+    {
+      "type": "text",
+      "id": "end_date",
+      "label": "End date",
+      "info": "Format: YYYY-MM-DD (e.g., 2025-12-31)",
+      "default": "2025-12-31"
+    },
+    {
+      "type": "text",
+      "id": "end_time",
+      "label": "End time",
+      "info": "Format: HH:MM (24h format)",
+      "default": "23:59"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_end",
+      "label": "Hide when countdown ends",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_progress_bar",
+      "label": "Show progress bar",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Labels"
+    },
+    {
+      "type": "text",
+      "id": "days_label",
+      "label": "Days label",
+      "default": "Days"
+    },
+    {
+      "type": "text",
+      "id": "hours_label",
+      "label": "Hours label",
+      "default": "Hours"
+    },
+    {
+      "type": "text",
+      "id": "minutes_label",
+      "label": "Minutes label",
+      "default": "Min"
+    },
+    {
+      "type": "text",
+      "id": "seconds_label",
+      "label": "Seconds label",
+      "default": "Sec"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "SHOP NOW"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button style",
+      "options": [
+        { "value": "normal", "label": "Normal (filled)" },
+        { "value": "inverted", "label": "Inverted (outline)" }
+      ],
+      "default": "normal"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color (numbers)",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Button background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_mobile",
+      "label": "Padding (mobile)",
+      "min": 16,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_desktop",
+      "label": "Padding (desktop)",
+      "min": 24,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    }
+  ],
+  "presets": [
+    {
+      "name": "PP Countdown Banner",
+      "settings": {
+        "subheading": "LIMITED TIME",
+        "heading": "FLASH SALE ENDS IN",
+        "button_text": "SHOP NOW"
+      }
+    }
+  ]
+}
+{% endschema %}

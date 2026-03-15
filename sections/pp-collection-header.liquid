@@ -1,0 +1,547 @@
+{%- comment -%}
+  PP Collection Header - EME Studios style collection header with title, filters, sort, and view options
+  Uses Shopify Search & Discovery filters dynamically
+{%- endcomment -%}
+
+{{ 'pp-collection-header.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign collection_title = collection.title | default: 'Collection'
+  assign sort_by = collection.sort_by | default: collection.default_sort_by
+-%}
+
+<pp-collection-header class="pp-collection-header" data-section-id="{{ section.id }}">
+  <h1 class="pp-collection-header__title">{{ collection_title }}</h1>
+
+  <div class="pp-collection-header__toolbar">
+    <div class="pp-collection-header__filters">
+      {%- comment -%} Filter Button - Opens filter panel {%- endcomment -%}
+      <button type="button" class="pp-collection-header__btn pp-collection-header__filter-btn" data-filter-toggle>
+        FILTRAR
+        {%- assign active_filters_count = 0 -%}
+        {%- for filter in collection.filters -%}
+          {%- assign active_filters_count = active_filters_count | plus: filter.active_values.size -%}
+        {%- endfor -%}
+        {%- if active_filters_count > 0 -%}
+          <span class="pp-collection-header__filter-count">{{ active_filters_count }}</span>
+        {%- endif -%}
+      </button>
+
+      {%- comment -%} Dynamic Filters from Search & Discovery - Only show list type filters {%- endcomment -%}
+      {%- for filter in collection.filters -%}
+        {%- if filter.type == 'list' and filter.values.size > 0 -%}
+          <div class="pp-collection-header__dropdown" data-filter-dropdown>
+            <button type="button" class="pp-collection-header__btn pp-collection-header__dropdown-btn" data-dropdown-toggle>
+              <span>{{ filter.label | upcase }}</span>
+              {%- if filter.active_values.size > 0 -%}
+                <span class="pp-collection-header__filter-badge">{{ filter.active_values.size }}</span>
+              {%- endif -%}
+              <svg xmlns="http://www.w3.org/2000/svg" width="8" height="6" viewBox="0 0 8 6" fill="none">
+                <path d="M0.94 0.726672L4 3.78001L7.06 0.726672L8 1.66667L4 5.66667L0 1.66667L0.94 0.726672Z" fill="currentColor" fill-opacity="0.5"/>
+              </svg>
+            </button>
+            <div class="pp-collection-header__dropdown-content" data-dropdown-content hidden>
+              <ul class="pp-collection-header__filter-list">
+                {%- for value in filter.values -%}
+                  {%- if value.count > 0 or value.active -%}
+                    <li>
+                      <a
+                        href="{{ value.url }}"
+                        class="pp-collection-header__filter-option{% if value.active %} is-active{% endif %}"
+                        {% if value.count == 0 and value.active == false %}aria-disabled="true"{% endif %}
+                      >
+                        <span class="pp-collection-header__filter-checkbox">
+                          {%- if value.active -%}
+                            <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                              <path d="M1 4L3.5 6.5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                          {%- endif -%}
+                        </span>
+                        <span>{{ value.label }}</span>
+                        <span class="pp-collection-header__filter-count">({{ value.count }})</span>
+                      </a>
+                    </li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ul>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    {%- comment -%} Sort Dropdown {%- endcomment -%}
+    <div class="pp-collection-header__sort" data-sort-dropdown>
+      <button type="button" class="pp-collection-header__btn pp-collection-header__sort-btn" data-sort-toggle>
+        <span>ORDENAR</span>
+      </button>
+      <div class="pp-collection-header__sort-options" data-sort-options hidden>
+        {%- for option in collection.sort_options -%}
+          <a
+            href="{{ collection.url }}?sort_by={{ option.value }}"
+            class="pp-collection-header__btn pp-collection-header__sort-option{% if option.value == sort_by %} is-active{% endif %}"
+            data-sort-value="{{ option.value }}"
+          >
+            {{ option.name | upcase }}
+          </a>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    {%- comment -%} View Options {%- endcomment -%}
+    <div class="pp-collection-header__view" data-view-options>
+      <span class="pp-collection-header__view-label">VISTA</span>
+
+      {%- comment -%} Mobile View Options (1, 2, 3 columns) {%- endcomment -%}
+      <div class="pp-collection-header__view-options pp-collection-header__view-options--mobile">
+        <button type="button" class="pp-collection-header__view-btn" data-view-columns="1" data-view-mobile="1">1</button>
+        <button type="button" class="pp-collection-header__view-btn" data-view-columns="2" data-view-mobile="2">2</button>
+        <button type="button" class="pp-collection-header__view-btn" data-view-columns="3" data-view-mobile="3">3</button>
+      </div>
+
+      {%- comment -%} Desktop View Options (2, 3, 4, 6 columns) {%- endcomment -%}
+      <div class="pp-collection-header__view-options pp-collection-header__view-options--desktop">
+        <button type="button" class="pp-collection-header__view-btn" data-view-columns="2" data-view-desktop="2">2</button>
+        <button type="button" class="pp-collection-header__view-btn" data-view-columns="3" data-view-desktop="3">3</button>
+        <button type="button" class="pp-collection-header__view-btn" data-view-columns="4" data-view-desktop="4">4</button>
+        <button type="button" class="pp-collection-header__view-btn" data-view-columns="6" data-view-desktop="6">6</button>
+      </div>
+    </div>
+
+    {%- comment -%} Layout Toggle (Grid/List) {%- endcomment -%}
+    <div class="pp-collection-header__layout" data-layout-toggle>
+      <div class="pp-collection-header__layout-options">
+        <button type="button" class="pp-collection-header__layout-btn is-active" data-layout="grid" aria-label="Grid view">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <rect x="2" y="2" width="7" height="7" fill="currentColor"/>
+            <rect x="11" y="2" width="7" height="7" fill="currentColor"/>
+            <rect x="2" y="11" width="7" height="7" fill="currentColor"/>
+            <rect x="11" y="11" width="7" height="7" fill="currentColor"/>
+          </svg>
+        </button>
+        <button type="button" class="pp-collection-header__layout-btn" data-layout="list" aria-label="List view">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <rect x="2" y="2" width="16" height="4" fill="currentColor"/>
+            <rect x="2" y="8" width="16" height="4" fill="currentColor"/>
+            <rect x="2" y="14" width="16" height="4" fill="currentColor"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} Filter Panel (Mobile) {%- endcomment -%}
+  <div class="pp-collection-header__filter-panel" data-filter-panel hidden>
+    <div class="pp-collection-header__filter-panel-header">
+      <span>FILTRAR</span>
+      <button type="button" class="pp-collection-header__filter-panel-close" data-filter-close>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M1 1L13 13M1 13L13 1"/>
+        </svg>
+      </button>
+    </div>
+    <div class="pp-collection-header__filter-panel-content">
+      {%- for filter in collection.filters -%}
+        {%- if filter.type == 'list' and filter.values.size > 0 -%}
+          <details class="pp-collection-header__filter-group" {% if filter.active_values.size > 0 %}open{% endif %}>
+            <summary class="pp-collection-header__filter-group-header">
+              <span>{{ filter.label }}</span>
+              {%- if filter.active_values.size > 0 -%}
+                <span class="pp-collection-header__filter-group-count">({{ filter.active_values.size }})</span>
+              {%- endif -%}
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M2 4l3 3 3-3"/>
+              </svg>
+            </summary>
+            <div class="pp-collection-header__filter-group-content">
+              <ul class="pp-collection-header__filter-list">
+                {%- for value in filter.values -%}
+                  {%- if value.count > 0 or value.active -%}
+                    <li>
+                      <a
+                        href="{{ value.url }}"
+                        class="pp-collection-header__filter-option{% if value.active %} is-active{% endif %}"
+                      >
+                        <span class="pp-collection-header__filter-checkbox">
+                          {%- if value.active -%}
+                            <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                              <path d="M1 4L3.5 6.5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                          {%- endif -%}
+                        </span>
+                        <span>{{ value.label }}</span>
+                        <span class="pp-collection-header__filter-count">({{ value.count }})</span>
+                      </a>
+                    </li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ul>
+            </div>
+          </details>
+        {%- elsif filter.type == 'price_range' -%}
+          <details class="pp-collection-header__filter-group">
+            <summary class="pp-collection-header__filter-group-header">
+              <span>{{ filter.label }}</span>
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M2 4l3 3 3-3"/>
+              </svg>
+            </summary>
+            <div class="pp-collection-header__filter-group-content">
+              <form class="pp-collection-header__price-form" data-price-form>
+                <div class="pp-collection-header__price-inputs">
+                  <div class="pp-collection-header__price-input">
+                    <span>{{ cart.currency.symbol }}</span>
+                    <input
+                      type="number"
+                      name="{{ filter.min_value.param_name }}"
+                      min="0"
+                      max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                      value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"
+                      placeholder="{{ filter.range_min | money_without_currency }}"
+                    >
+                  </div>
+                  <span>-</span>
+                  <div class="pp-collection-header__price-input">
+                    <span>{{ cart.currency.symbol }}</span>
+                    <input
+                      type="number"
+                      name="{{ filter.max_value.param_name }}"
+                      min="0"
+                      max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                      value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
+                      placeholder="{{ filter.range_max | money_without_currency }}"
+                    >
+                  </div>
+                </div>
+                <button type="submit" class="pp-collection-header__price-apply">Aplicar</button>
+              </form>
+            </div>
+          </details>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+    {%- if active_filters_count > 0 -%}
+      <div class="pp-collection-header__filter-panel-footer">
+        <a href="{{ collection.url }}" class="pp-collection-header__filter-clear">Limpiar todo</a>
+      </div>
+    {%- endif -%}
+  </div>
+  <div class="pp-collection-header__backdrop" data-backdrop hidden></div>
+</pp-collection-header>
+
+<script>
+  if (!customElements.get('pp-collection-header')) {
+    class RCCollectionHeader extends HTMLElement {
+      constructor() {
+        super();
+        this.STORAGE_KEY_DESKTOP = 'pp_grid_columns_desktop';
+        this.STORAGE_KEY_MOBILE = 'pp_grid_columns_mobile';
+        this.STORAGE_KEY_LAYOUT = 'pp_grid_layout';
+      }
+
+      connectedCallback() {
+        this.initFilterPanel();
+        this.initDropdowns();
+        this.initSortDropdown();
+        this.initViewOptions();
+        this.initLayoutToggle();
+        this.initPriceForms();
+      }
+
+      // Filter Panel (Mobile)
+      initFilterPanel() {
+        const filterToggle = this.querySelector('[data-filter-toggle]');
+        const filterPanel = this.querySelector('[data-filter-panel]');
+        const filterClose = this.querySelector('[data-filter-close]');
+        const backdrop = this.querySelector('[data-backdrop]');
+
+        if (!filterToggle || !filterPanel) return;
+
+        filterToggle.addEventListener('click', () => {
+          filterPanel.hidden = false;
+          backdrop.hidden = false;
+          document.body.style.overflow = 'hidden';
+          setTimeout(() => {
+            filterPanel.classList.add('is-open');
+            backdrop.classList.add('is-open');
+          }, 10);
+        });
+
+        const closePanel = () => {
+          filterPanel.classList.remove('is-open');
+          backdrop.classList.remove('is-open');
+          document.body.style.overflow = '';
+          setTimeout(() => {
+            filterPanel.hidden = true;
+            backdrop.hidden = true;
+          }, 300);
+        };
+
+        filterClose?.addEventListener('click', closePanel);
+        backdrop?.addEventListener('click', closePanel);
+      }
+
+      // Filter Dropdowns (Desktop)
+      initDropdowns() {
+        const dropdowns = this.querySelectorAll('[data-filter-dropdown]');
+
+        dropdowns.forEach(dropdown => {
+          const toggle = dropdown.querySelector('[data-dropdown-toggle]');
+          const content = dropdown.querySelector('[data-dropdown-content]');
+
+          if (!toggle || !content) return;
+
+          toggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = !content.hidden;
+
+            // Close all dropdowns first (including sort)
+            this.closeAllDropdowns();
+            this.closeSortDropdown();
+
+            if (!isOpen) {
+              content.hidden = false;
+              dropdown.classList.add('is-open');
+            }
+          });
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', (e) => {
+          if (!e.target.closest('[data-filter-dropdown]')) {
+            this.closeAllDropdowns();
+          }
+        });
+      }
+
+      closeAllDropdowns() {
+        const dropdowns = this.querySelectorAll('[data-filter-dropdown]');
+        dropdowns.forEach(dropdown => {
+          const content = dropdown.querySelector('[data-dropdown-content]');
+          if (content) {
+            content.hidden = true;
+            dropdown.classList.remove('is-open');
+          }
+        });
+      }
+
+      // Sort Dropdown
+      initSortDropdown() {
+        const sortDropdown = this.querySelector('[data-sort-dropdown]');
+        const sortToggle = this.querySelector('[data-sort-toggle]');
+        const sortOptions = this.querySelector('[data-sort-options]');
+
+        if (!sortToggle || !sortOptions) return;
+
+        sortToggle.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isOpen = !sortOptions.hidden;
+
+          // Close filter dropdowns first
+          this.closeAllDropdowns();
+
+          sortOptions.hidden = isOpen;
+          sortDropdown?.classList.toggle('is-open', !isOpen);
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!e.target.closest('[data-sort-dropdown]')) {
+            sortOptions.hidden = true;
+            sortDropdown?.classList.remove('is-open');
+          }
+        });
+      }
+
+      closeSortDropdown() {
+        const sortDropdown = this.querySelector('[data-sort-dropdown]');
+        const sortOptions = this.querySelector('[data-sort-options]');
+        if (sortOptions) {
+          sortOptions.hidden = true;
+          sortDropdown?.classList.remove('is-open');
+        }
+      }
+
+      // View Options (Grid columns)
+      initViewOptions() {
+        const viewContainer = this.querySelector('[data-view-options]');
+        if (!viewContainer) return;
+
+        const mobileButtons = viewContainer.querySelectorAll('[data-view-mobile]');
+        const desktopButtons = viewContainer.querySelectorAll('[data-view-desktop]');
+
+        // Get saved preferences
+        const savedDesktop = localStorage.getItem(this.STORAGE_KEY_DESKTOP) || '3';
+        const savedMobile = localStorage.getItem(this.STORAGE_KEY_MOBILE) || '2';
+
+        // Apply saved columns
+        this.applyGridColumns(savedDesktop, savedMobile);
+
+        // Set initial active states
+        mobileButtons.forEach(btn => {
+          if (btn.dataset.viewMobile === savedMobile) {
+            btn.classList.add('is-active');
+          }
+          btn.addEventListener('click', () => {
+            mobileButtons.forEach(b => b.classList.remove('is-active'));
+            btn.classList.add('is-active');
+            localStorage.setItem(this.STORAGE_KEY_MOBILE, btn.dataset.viewMobile);
+            this.applyGridColumns(
+              localStorage.getItem(this.STORAGE_KEY_DESKTOP) || '3',
+              btn.dataset.viewMobile
+            );
+          });
+        });
+
+        desktopButtons.forEach(btn => {
+          if (btn.dataset.viewDesktop === savedDesktop) {
+            btn.classList.add('is-active');
+          }
+          btn.addEventListener('click', () => {
+            desktopButtons.forEach(b => b.classList.remove('is-active'));
+            btn.classList.add('is-active');
+            localStorage.setItem(this.STORAGE_KEY_DESKTOP, btn.dataset.viewDesktop);
+            this.applyGridColumns(
+              btn.dataset.viewDesktop,
+              localStorage.getItem(this.STORAGE_KEY_MOBILE) || '2'
+            );
+          });
+        });
+      }
+
+      applyGridColumns(desktop, mobile) {
+        const grid = document.querySelector('.pp-collection__grid') ||
+                     document.querySelector('.product-grid') ||
+                     document.querySelector('[class*="collection"] ul[role="list"]');
+
+        if (!grid) return;
+
+        // Get default values from data attributes if not provided
+        const defaultDesktop = grid.dataset.defaultColsDesktop || '3';
+        const defaultMobile = grid.dataset.defaultColsMobile || '2';
+        const defaultTablet = grid.dataset.defaultColsTablet || '3';
+
+        const finalDesktop = desktop || defaultDesktop;
+        const finalMobile = mobile || defaultMobile;
+
+        grid.style.setProperty('--rc-cols-desktop', finalDesktop);
+        grid.style.setProperty('--rc-cols-mobile', finalMobile);
+
+        // Tablet is between mobile and desktop
+        const tablet = Math.max(2, Math.min(parseInt(finalDesktop) - 1, parseInt(finalMobile) + 1));
+        grid.style.setProperty('--rc-cols-tablet', tablet);
+      }
+
+      // Layout Toggle (Grid/List)
+      initLayoutToggle() {
+        const layoutButtons = this.querySelectorAll('[data-layout]');
+        if (!layoutButtons.length) return;
+
+        // Get saved layout preference
+        const savedLayout = localStorage.getItem(this.STORAGE_KEY_LAYOUT) || 'grid';
+
+        // Apply saved layout on load
+        this.applyLayout(savedLayout);
+
+        // Set initial active state on buttons
+        layoutButtons.forEach(btn => {
+          if (btn.dataset.layout === savedLayout) {
+            btn.classList.add('is-active');
+          } else {
+            btn.classList.remove('is-active');
+          }
+
+          btn.addEventListener('click', () => {
+            const layout = btn.dataset.layout;
+
+            // Update active state
+            layoutButtons.forEach(b => b.classList.remove('is-active'));
+            btn.classList.add('is-active');
+
+            // Save preference
+            localStorage.setItem(this.STORAGE_KEY_LAYOUT, layout);
+
+            // Apply layout
+            this.applyLayout(layout);
+          });
+        });
+      }
+
+      applyLayout(layout) {
+        const grid = document.querySelector('.pp-collection__grid') ||
+                     document.querySelector('.product-grid');
+
+        if (!grid) return;
+
+        grid.dataset.layout = layout;
+        grid.classList.toggle('pp-collection__grid--list', layout === 'list');
+        grid.classList.toggle('product-grid--list', layout === 'list');
+      }
+
+      // Price Range Forms
+      initPriceForms() {
+        const priceForms = this.querySelectorAll('[data-price-form]');
+
+        priceForms.forEach(form => {
+          form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const url = new URL(window.location.href);
+
+            formData.forEach((value, key) => {
+              if (value) {
+                url.searchParams.set(key, value);
+              } else {
+                url.searchParams.delete(key);
+              }
+            });
+
+            window.location.href = url.toString();
+          });
+        });
+      }
+    }
+
+    customElements.define('pp-collection-header', RCCollectionHeader);
+  }
+</script>
+
+{% schema %}
+{
+  "name": "PP Collection Header",
+  "class": "pp-collection-header-section",
+  "enabled_on": {
+    "templates": ["collection"]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_filter_button",
+      "label": "Show filter button",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sort",
+      "label": "Show sort options",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_options",
+      "label": "Show view options",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_layout_toggle",
+      "label": "Show layout toggle",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "PP Collection Header"
+    }
+  ]
+}
+{% endschema %}
