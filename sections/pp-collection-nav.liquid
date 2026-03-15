@@ -1,13 +1,11 @@
 {%- comment -%}
-  PP Collection Nav — "MUST" title + collection filter links
-  Left: customizable title (bold, large)
-  Right: "Ver todo" + collection links (pills/tabs)
+  PP Collection Nav — Title + collection links bar
 {%- endcomment -%}
 
 {%- style -%}
   .pp-collection-nav {
     padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
-    border-bottom: 1px solid #EEEEEE;
+    border-bottom: none;
   }
 
   .pp-collection-nav__inner {
@@ -16,10 +14,11 @@
     padding: 0 40px;
     display: flex;
     align-items: baseline;
-    gap: 28px;
+    gap: 32px;
     overflow-x: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    white-space: nowrap;
   }
 
   .pp-collection-nav__inner::-webkit-scrollbar {
@@ -28,76 +27,56 @@
 
   .pp-collection-nav__title {
     font-family: 'Inter', var(--font-body--family), sans-serif;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 700;
-    color: #23372C;
-    letter-spacing: 0.04em;
+    color: #1a1a1a;
     margin: 0;
     flex-shrink: 0;
-    white-space: nowrap;
   }
 
   .pp-collection-nav__view-all {
     font-family: 'Inter', var(--font-body--family), sans-serif;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 400;
-    color: #505030;
+    color: #1a1a1a;
     text-decoration: underline;
-    text-underline-offset: 2px;
+    text-underline-offset: 3px;
     flex-shrink: 0;
-    white-space: nowrap;
     transition: opacity 0.2s;
   }
 
   .pp-collection-nav__view-all:hover {
-    opacity: 0.7;
+    opacity: 0.6;
   }
 
   .pp-collection-nav__links {
     display: flex;
-    align-items: center;
-    gap: 6px;
-    flex-shrink: 0;
+    align-items: baseline;
+    gap: 32px;
   }
 
   .pp-collection-nav__link {
     font-family: 'Inter', var(--font-body--family), sans-serif;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 400;
-    color: #333333;
+    color: #666666;
     text-decoration: none;
-    padding: 6px 14px;
-    border-radius: 20px;
-    border: 1px solid transparent;
-    white-space: nowrap;
-    transition: all 0.2s;
+    flex-shrink: 0;
+    transition: color 0.2s;
   }
 
   .pp-collection-nav__link:hover {
-    border-color: #23372C;
-    color: #23372C;
-  }
-
-  .pp-collection-nav__link--active {
-    background-color: #23372C;
-    color: #DAFFD3;
-    border-color: #23372C;
-  }
-
-  .pp-collection-nav__link--active:hover {
-    background-color: #2E4D38;
-    border-color: #2E4D38;
-    color: #DAFFD3;
+    color: #1a1a1a;
   }
 
   @media screen and (max-width: 749px) {
     .pp-collection-nav__inner {
       padding: 0 20px;
-      gap: 16px;
+      gap: 24px;
     }
 
-    .pp-collection-nav__title {
-      font-size: 18px;
+    .pp-collection-nav__links {
+      gap: 24px;
     }
   }
 {%- endstyle -%}
@@ -118,7 +97,7 @@
       {% for block in section.blocks %}
         <a
           href="{{ block.settings.url | default: '#' }}"
-          class="pp-collection-nav__link{% if block.settings.active %} pp-collection-nav__link--active{% endif %}"
+          class="pp-collection-nav__link"
           {{ block.shopify_attributes }}
         >
           {{ block.settings.label }}
@@ -152,10 +131,6 @@
       "type": "url",
       "id": "view_all_url",
       "label": "View all link"
-    },
-    {
-      "type": "header",
-      "content": "Spacing"
     },
     {
       "type": "range",
@@ -193,12 +168,6 @@
           "type": "url",
           "id": "url",
           "label": "Link"
-        },
-        {
-          "type": "checkbox",
-          "id": "active",
-          "label": "Active (highlighted)",
-          "default": false
         }
       ]
     }
@@ -212,7 +181,7 @@
         "view_all_text": "Ver todo"
       },
       "blocks": [
-        { "type": "collection_link", "settings": { "label": "Interior", "active": true } },
+        { "type": "collection_link", "settings": { "label": "Interior" } },
         { "type": "collection_link", "settings": { "label": "Exterior" } },
         { "type": "collection_link", "settings": { "label": "Cuidados" } },
         { "type": "collection_link", "settings": { "label": "Macetas" } },
