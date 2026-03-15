@@ -193,6 +193,84 @@
         "padding-block-end": 24
       }
     },
+    "pp_collection_nav_zLxaVU": {
+      "type": "pp-collection-nav",
+      "blocks": {
+        "collection_link_eYRcmn": {
+          "type": "collection_link",
+          "settings": {
+            "label": "Interior",
+            "url": "",
+            "active": true
+          }
+        },
+        "collection_link_bAnjpr": {
+          "type": "collection_link",
+          "settings": {
+            "label": "Exterior",
+            "url": "",
+            "active": false
+          }
+        },
+        "collection_link_e9ckfw": {
+          "type": "collection_link",
+          "settings": {
+            "label": "Cuidados",
+            "url": "",
+            "active": false
+          }
+        },
+        "collection_link_L7Kfck": {
+          "type": "collection_link",
+          "settings": {
+            "label": "Macetas",
+            "url": "",
+            "active": false
+          }
+        },
+        "collection_link_LQeHRL": {
+          "type": "collection_link",
+          "settings": {
+            "label": "Accesorios",
+            "url": "",
+            "active": false
+          }
+        },
+        "collection_link_TpMRQX": {
+          "type": "collection_link",
+          "settings": {
+            "label": "Autorriegos",
+            "url": "",
+            "active": false
+          }
+        },
+        "collection_link_kewUcg": {
+          "type": "collection_link",
+          "settings": {
+            "label": "Abonos",
+            "url": "",
+            "active": false
+          }
+        }
+      },
+      "block_order": [
+        "collection_link_eYRcmn",
+        "collection_link_bAnjpr",
+        "collection_link_e9ckfw",
+        "collection_link_L7Kfck",
+        "collection_link_LQeHRL",
+        "collection_link_TpMRQX",
+        "collection_link_kewUcg"
+      ],
+      "name": "PP Collection Nav",
+      "settings": {
+        "title": "MUST",
+        "view_all_text": "Ver todo",
+        "view_all_url": "",
+        "padding_top": 24,
+        "padding_bottom": 16
+      }
+    },
     "pp_featured_grid_eWihzK": {
       "type": "pp-featured-grid",
       "blocks": {
@@ -350,6 +428,7 @@
   "order": [
     "pp_hero_slider_wX8GrT",
     "cat_nav_pp",
+    "pp_collection_nav_zLxaVU",
     "pp_featured_grid_eWihzK",
     "brand_banner_pp",
     "features_bar_pp",
