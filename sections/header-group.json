@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "type": "header",
   "name": "Header",
@@ -32,7 +23,6 @@
         "announcement_BxgCk9"
       ],
       "disabled": true,
-      "name": "t:names.announcement_bar",
       "settings": {
         "speed": 5,
         "section_width": "page-width",
@@ -117,99 +107,109 @@
         "collection_color_scheme": "default"
       }
     },
-    "pp_header_wFFTQA": {
+    "pp_header": {
       "type": "pp-header",
       "blocks": {
-        "menu_item_x6wK8x": {
+        "menu_plantas": {
           "type": "menu_item",
           "settings": {
-            "label": "NEW IN",
-            "url": "",
-            "superscript": "NUEVO",
-            "highlight": false,
-            "submenu": ""
-          }
-        },
-        "menu_item_P8JmEF": {
-          "type": "menu_item",
-          "settings": {
-            "label": "COLLECTIONS",
-            "url": "",
+            "label": "Plantas",
+            "url": "/collections/plantas",
             "superscript": "",
             "highlight": false,
             "submenu": ""
           }
         },
-        "menu_item_T7mhhk": {
+        "menu_cuidados": {
           "type": "menu_item",
           "settings": {
-            "label": "SHOP ALL",
-            "url": "",
+            "label": "Cuidados",
+            "url": "/collections/cuidados",
             "superscript": "",
             "highlight": false,
             "submenu": ""
           }
         },
-        "divider_RYnGpK": {
+        "menu_regalos": {
+          "type": "menu_item",
+          "settings": {
+            "label": "Regalos",
+            "url": "/collections/regalos",
+            "superscript": "",
+            "highlight": false,
+            "submenu": ""
+          }
+        },
+        "menu_ahora": {
+          "type": "menu_item",
+          "settings": {
+            "label": "Ahora",
+            "url": "/collections/ahora",
+            "superscript": "",
+            "highlight": false,
+            "submenu": ""
+          }
+        },
+        "divider_1": {
           "type": "divider",
           "settings": {}
         },
-        "menu_item_78qJxT": {
+        "menu_sobre": {
           "type": "menu_item",
           "settings": {
-            "label": "GIFT CARD",
-            "url": "",
+            "label": "Sobre Pur Plant",
+            "url": "/pages/sobre-nosotros",
             "superscript": "",
             "highlight": false,
             "submenu": ""
           }
         },
-        "mobile_promo_C84cae": {
+        "mobile_promo_1": {
           "type": "mobile_promo",
           "settings": {
-            "promo_title": "BEST SELLERS",
-            "promo_link": ""
+            "promo_title": "PLANTAS DE INTERIOR",
+            "promo_link": "/collections/plantas-de-interior"
           }
         },
-        "mobile_promo_BXL8CB": {
+        "mobile_promo_2": {
           "type": "mobile_promo",
           "settings": {
-            "promo_title": "ACCESSORIES",
-            "promo_link": ""
+            "promo_title": "CUIDADOS",
+            "promo_link": "/collections/cuidados"
           }
         }
       },
       "block_order": [
-        "menu_item_x6wK8x",
-        "menu_item_P8JmEF",
-        "menu_item_T7mhhk",
-        "divider_RYnGpK",
-        "menu_item_78qJxT",
-        "mobile_promo_C84cae",
-        "mobile_promo_BXL8CB"
+        "menu_plantas",
+        "menu_cuidados",
+        "menu_regalos",
+        "menu_ahora",
+        "divider_1",
+        "menu_sobre",
+        "mobile_promo_1",
+        "mobile_promo_2"
       ],
-      "name": "PP Header",
       "settings": {
         "logo": "shopify://shop_images/logo_pur_plant_negativo.png",
-        "logo_width": 120,
+        "logo_width": 130,
         "logo_mobile_width": 90,
-        "show_announcement": false,
-        "announcement_text": "FREE SHIPPING ON ORDERS OVER 100€ — FREE SHIPPING ON ORDERS OVER 100€ — FREE SHIPPING ON ORDERS OVER 100€ —",
-        "announcement_bg_color": "#f1ede7",
-        "announcement_text_color": "#000000",
+        "show_announcement": true,
+        "announcement_text": "ENVÍO GRATIS PEDIDOS +49€ — ENVÍO GRATIS PEDIDOS +49€ — ENVÍO GRATIS PEDIDOS +49€ —",
+        "announcement_bg_color": "#23372C",
+        "announcement_text_color": "#DAFFD3",
         "menu": "main-menu",
         "secondary_menu": "",
         "sticky_header": true,
-        "transparent_header": false,
-        "transparent_text_color": "#ffffff",
-        "transparent_bg_hover": "#ffffff",
-        "transparent_text_hover": "#000000"
+        "transparent_header": true,
+        "transparent_text_color": "#23372C",
+        "transparent_bg_hover": "#DAFFD3",
+        "transparent_text_hover": "#23372C"
       }
     }
   },
   "order": [
     "header_announcements_9jGBFp",
     "header_section",
-    "pp_header_wFFTQA"
+    "pp_header"
   ]
 }

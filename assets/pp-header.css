@@ -2,22 +2,22 @@
    PP Header - Main header styles
    ========================================================================== */
 
-/* CSS Variables */
+/* CSS Variables — Pur Plant green header */
 :root {
   --pp-header-height: 0px;
   --pp-header-is-visible: 1;
   --pp-header-padding-block: 1rem;
-  --pp-header-logo-width: 120px;
+  --pp-header-logo-width: 130px;
   --pp-header-logo-mobile-width: 90px;
-  --pp-header-bg: 255 255 255;
-  --pp-header-text: 0 0 0;
-  --pp-header-border: 217 217 217;
-  --pp-header-transparent-text: 255 255 255;
+  --pp-header-bg: 218 255 211;
+  --pp-header-text: 35 55 44;
+  --pp-header-border: 35 55 44;
+  --pp-header-transparent-text: 35 55 44;
   /* Floating header style */
-  --pp-header-border-radius: 5px;
-  --pp-header-max-width: 98%;
-  --pp-header-margin-top: 20px;
-  --pp-header-inner-padding: 5px 20px;
+  --pp-header-border-radius: 16px;
+  --pp-header-max-width: calc(100% - 60px);
+  --pp-header-margin-top: 0px;
+  --pp-header-inner-padding: 8px 24px;
 }
 
 @media screen and (min-width: 1000px) {
@@ -100,26 +100,24 @@ body.pp-transparent-header-needs-offset.template-product main.content-for-layout
   padding-top: 0;
 }
 
-/* Header Base — frosted glass, Apple-style border-radius */
+/* Header Base — Pur Plant green, rounded bottom only */
 .pp-header {
   position: relative;
   z-index: 100;
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background-color: rgb(var(--pp-header-bg));
   color: rgb(var(--pp-header-text));
   transition: background-color 0.3s ease-in-out, color 0.2s ease, box-shadow 0.3s ease-in-out;
-  /* Floating header — Apple-style squared corners */
-  border-radius: var(--pp-header-border-radius, 10px);
-  max-width: var(--pp-header-max-width, 98%);
+  /* Floating header — rounded bottom corners only, no top gap */
+  border-radius: 0 0 var(--pp-header-border-radius, 16px) var(--pp-header-border-radius, 16px);
+  max-width: var(--pp-header-max-width, calc(100% - 60px));
   margin-inline: auto;
-  margin-top: var(--pp-header-margin-top, 20px);
+  margin-top: 0;
 }
 
 .pp-header--sticky {
   position: fixed;
-  top: var(--pp-header-margin-top, 20px);
+  top: 0;
   left: 0;
   right: 0;
   z-index: 999;
@@ -132,9 +130,9 @@ body.pp-transparent-header-needs-offset.template-product main.content-for-layout
   top: 0;
   left: 0;
   right: 0;
-  background-color: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
+  background-color: rgb(var(--pp-header-bg) / 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   color: rgb(var(--pp-header-transparent-text));
 }
 
@@ -142,14 +140,14 @@ body.pp-transparent-header-needs-offset.template-product main.content-for-layout
   position: fixed;
 }
 
-/* When hovering, menu/search is open, OR scrolled - show frosted glass */
+/* When hovering, menu/search is open, OR scrolled - solid green */
 .pp-header--transparent:hover,
 .pp-header--transparent.pp-header--open,
 .pp-header--transparent.pp-header--scrolled {
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgb(var(--pp-header-bg));
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  color: rgb(var(--pp-header-hover-text, var(--pp-header-text)));
+  color: rgb(var(--pp-header-text));
 }
 
 /* Hero-triggered transparent header - always white text until scroll */
