@@ -9,10 +9,10 @@
  */
 {
   "sections": {
-    "rc_hero_slider_AxHwpm": {
-      "type": "rc-hero-slider",
+    "pp_hero_slider_wX8GrT": {
+      "type": "pp-hero-slider",
       "blocks": {
-        "slide_qYQWmy": {
+        "slide_6xTadD": {
           "type": "slide",
           "settings": {
             "subheading": "Tu espacio verde",
@@ -42,7 +42,7 @@
             "btn_text_color": ""
           }
         },
-        "slide_44PCU8": {
+        "slide_8GUw3t": {
           "type": "slide",
           "settings": {
             "subheading": "",
@@ -74,12 +74,12 @@
         }
       },
       "block_order": [
-        "slide_qYQWmy",
-        "slide_44PCU8"
+        "slide_6xTadD",
+        "slide_8GUw3t"
       ],
-      "name": "RC Hero Slider",
+      "name": "PP Hero Slider",
       "settings": {
-        "enable_transparent_header": false,
+        "enable_transparent_header": true,
         "full_height_mobile": false,
         "height_mobile": 500,
         "full_height_desktop": false,
@@ -487,7 +487,7 @@
     }
   },
   "order": [
-    "rc_hero_slider_AxHwpm",
+    "pp_hero_slider_wX8GrT",
     "cat_nav_pp",
     "products_must_pp",
     "brand_banner_pp",
