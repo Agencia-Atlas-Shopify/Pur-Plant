@@ -33,7 +33,7 @@
   overflow: hidden;
   height: 30px;
   border-radius: 0;
-  font-size: 13px;
+  font-size: 13pt;
   font-weight: 400;
   letter-spacing: 0.3px;
   text-transform: uppercase;
@@ -310,7 +310,7 @@ body.pp-transparent-header-needs-offset.template-product main.content-for-layout
   text-decoration: none;
   color: inherit;
   font-family: 'Inter', var(--font-body--family), sans-serif;
-  font-size: 13px;
+  font-size: 13pt;
   font-weight: 500;
   text-transform: none;
   letter-spacing: 0.02em;
@@ -411,7 +411,7 @@ body.pp-transparent-header-needs-offset.template-product main.content-for-layout
 /* Column title - EME Studios MegaMenu__Title style */
 .pp-header__megamenu-title {
   display: block;
-  font-size: 13px;
+  font-size: 13pt;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -437,7 +437,7 @@ body.pp-transparent-header-needs-offset.template-product main.content-for-layout
 
 .pp-header__megamenu-link {
   display: block;
-  font-size: 13px;
+  font-size: 13pt;
   text-transform: uppercase;
   letter-spacing: 0.02em;
   text-decoration: none;
@@ -515,7 +515,7 @@ body.pp-transparent-header-needs-offset.template-product main.content-for-layout
 .pp-header__megamenu-promo-title {
   display: block;
   margin-top: 10px;
-  font-size: 13px;
+  font-size: 13pt;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -625,7 +625,7 @@ body.pp-transparent-header-needs-offset.template-product main.content-for-layout
   text-decoration: none;
   color: inherit;
   font-family: 'Inter', var(--font-body--family), sans-serif;
-  font-size: 13px;
+  font-size: 13pt;
   font-weight: 500;
   text-transform: none;
   letter-spacing: 0.02em;
@@ -1174,7 +1174,7 @@ button.pp-header__nav-link,
   color: #000;
   padding: 10px 18px;
   text-decoration: none;
-  font-size: 13px;
+  font-size: 13pt;
   font-weight: 400;
   white-space: nowrap;
   transition: all 0.2s ease;
