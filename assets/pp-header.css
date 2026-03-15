@@ -1,0 +1,41 @@
+/* ═══════════════════════════════════════════
+   Pur Plant — Header custom styles
+   Rounded bottom corners, inset from edges
+   No gap at top, gap at left/right/bottom
+   ═══════════════════════════════════════════ */
+
+/* The header section wrapper — add side margins */
+.header-section {
+  margin-inline: 12px;
+}
+
+/* The header component gets rounded bottom corners */
+.header-section #header-component {
+  border-radius: 0 0 16px 16px;
+  overflow: hidden;
+}
+
+/* When sticky, maintain the rounded corners and side margins */
+#header-group:has(#header-component[sticky]) {
+  margin-inline: 12px;
+}
+
+.header-section:has(> #header-component[sticky='always']),
+.header-section:has(> #header-component[sticky='scroll-up'][data-sticky-state='active']) {
+  margin-inline: 0;
+}
+
+#header-component[sticky='always'],
+#header-component[sticky='scroll-up'][data-sticky-state='active'] {
+  left: 12px;
+  right: 12px;
+  width: calc(100% - 24px);
+  border-radius: 0 0 16px 16px;
+  overflow: hidden;
+}
+
+/* Announcement bar — flush width, no side margins */
+.header-section + .shopify-section,
+.shopify-section:has(.announcement-bar) {
+  margin-inline: 0;
+}
