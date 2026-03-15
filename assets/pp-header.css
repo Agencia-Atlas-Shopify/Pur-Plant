@@ -9,7 +9,7 @@
   --pp-header-padding-block: 1rem;
   --pp-header-logo-width: 130px;
   --pp-header-logo-mobile-width: 90px;
-  --pp-header-bg: 218 255 211;
+  --pp-header-bg: 232 245 227;
   --pp-header-text: 35 55 44;
   --pp-header-border: 35 55 44;
   --pp-header-transparent-text: 35 55 44;
@@ -17,7 +17,7 @@
   --pp-header-border-radius: 16px;
   --pp-header-max-width: calc(100% - 60px);
   --pp-header-margin-top: 0px;
-  --pp-header-inner-padding: 8px 24px;
+  --pp-header-inner-padding: 8px 30px;
 }
 
 @media screen and (min-width: 1000px) {
@@ -246,6 +246,7 @@ body.pp-transparent-header-needs-offset.template-product main.content-for-layout
   justify-self: start;
   display: flex;
   align-items: center;
+  gap: 24px;
 }
 
 .pp-header__menu-toggle {
