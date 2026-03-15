@@ -3,6 +3,9 @@
   Based on GNG.la header design
 {%- endcomment -%}
 
+{{ 'pp-header.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'pp-header.js' | asset_url }}" type="module" defer></script>
+
 {%- liquid
   assign logo_width = section.settings.logo_width
   assign logo_mobile_width = section.settings.logo_mobile_width
@@ -46,7 +49,7 @@
     {%- endif -%}
     <div class="pp-header__inner">
       {%- comment -%} Primary Nav - Mobile: Menu Button / Desktop: Horizontal Menu {%- endcomment -%}
-      <nav class="pp-header__primary-nav" aria-label="{{ 'sections.rc_header.accessibility.primary_navigation' | t }}">
+      <nav class="pp-header__primary-nav" aria-label="{{ 'sections.pp_header.accessibility.primary_navigation' | t }}">
         {%- comment -%} Mobile Menu Toggle — hamburger icon (EME Studios style) {%- endcomment -%}
         <button
           type="button"
@@ -319,27 +322,27 @@
       </h1>
 
       {%- comment -%} Secondary Nav — Icons for wishlist & cart, text labels on desktop {%- endcomment -%}
-      <nav class="pp-header__secondary-nav" aria-label="{{ 'sections.rc_header.accessibility.secondary_navigation' | t }}">
+      <nav class="pp-header__secondary-nav" aria-label="{{ 'sections.pp_header.accessibility.secondary_navigation' | t }}">
         <ul class="pp-header__secondary-nav-list">
           {%- comment -%} Search Link (desktop only) {%- endcomment -%}
           <li class="pp-header__nav-item pp-header__search-link">
             <a href="{{ routes.search_url }}" class="pp-header__nav-link" aria-controls="pp-header-search">
-              <span class="sr-only">{{ 'sections.rc_header.search' | t }}</span>
-              <span class="pp-header__nav-label" aria-hidden="true">{{ 'sections.rc_header.search' | t }}</span>
+              <span class="sr-only">{{ 'sections.pp_header.search' | t }}</span>
+              <span class="pp-header__nav-label" aria-hidden="true">{{ 'sections.pp_header.search' | t }}</span>
             </a>
           </li>
 
           {%- comment -%} Wishlist — icon on mobile, label on desktop {%- endcomment -%}
           <li class="pp-header__nav-item pp-header__wishlist-link">
             <a href="/pages/wishlist" class="pp-header__nav-link" data-wishlist-link>
-              <span class="sr-only">{{ 'sections.rc_header.wishlist' | t | default: 'Wishlist' }}</span>
+              <span class="sr-only">{{ 'sections.pp_header.wishlist' | t | default: 'Wishlist' }}</span>
               {%- comment -%} Bookmark icon (EME Studios style) {%- endcomment -%}
               <span class="pp-header__nav-icon" aria-hidden="true">
                 <svg width="16" height="16" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M10.625 2C10.625 1.65482 10.3452 1.375 10 1.375H2C1.65482 1.375 1.375 1.65482 1.375 2V12.3369L6 9.5625L10.625 12.3369V2ZM11.375 13.6621L6 10.4365L0.625 13.6621V2C0.625 1.24061 1.24061 0.625 2 0.625H10C10.7594 0.625 11.375 1.24061 11.375 2V13.6621Z" fill="currentColor"/>
                 </svg>
               </span>
-              <span class="pp-header__nav-label" aria-hidden="true">{{ 'sections.rc_header.wishlist' | t | default: 'WISHLIST' }}</span>
+              <span class="pp-header__nav-label" aria-hidden="true">{{ 'sections.pp_header.wishlist' | t | default: 'WISHLIST' }}</span>
               <span class="pp-header__wishlist-bracket" data-wishlist-bracket>[<span class="pp-header__wishlist-count" data-wishlist-count></span>]</span>
             </a>
           </li>
@@ -348,8 +351,8 @@
           {%- if shop.customer_accounts_enabled -%}
             <li class="pp-header__nav-item pp-header__account-link">
               <a href="{{ routes.account_url }}" class="pp-header__nav-link">
-                <span class="sr-only">{{ 'sections.rc_header.account' | t }}</span>
-                <span class="pp-header__nav-label" aria-hidden="true">{{ 'sections.rc_header.account' | t }}</span>
+                <span class="sr-only">{{ 'sections.pp_header.account' | t }}</span>
+                <span class="pp-header__nav-label" aria-hidden="true">{{ 'sections.pp_header.account' | t }}</span>
               </a>
             </li>
           {%- endif -%}
@@ -362,7 +365,7 @@
                 class="pp-header__nav-link pp-header__cart-btn"
                 data-cart-drawer-trigger
               >
-                <span class="sr-only">{{ 'sections.rc_header.cart' | t }}</span>
+                <span class="sr-only">{{ 'sections.pp_header.cart' | t }}</span>
                 {%- comment -%} Bag icon (EME Studios style) {%- endcomment -%}
                 <span class="pp-header__nav-icon" aria-hidden="true">
                   <svg width="16" height="16" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -370,19 +373,19 @@
                   </svg>
                 </span>
                 <span class="pp-header__cart-label">
-                  {{ 'sections.rc_header.cart' | t }} [<span class="pp-header__cart-count" data-cart-count>{{ cart.item_count }}</span>]
+                  {{ 'sections.pp_header.cart' | t }} [<span class="pp-header__cart-count" data-cart-count>{{ cart.item_count }}</span>]
                 </span>
               </button>
             {%- else -%}
               <a href="{{ routes.cart_url }}" class="pp-header__nav-link">
-                <span class="sr-only">{{ 'sections.rc_header.cart' | t }}</span>
+                <span class="sr-only">{{ 'sections.pp_header.cart' | t }}</span>
                 <span class="pp-header__nav-icon" aria-hidden="true">
                   <svg width="16" height="16" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M8.74254 3.05169C8.68329 2.48758 8.42888 1.96638 8.02889 1.58784C7.6289 1.2093 7.11094 1 6.57412 1C6.0373 1 5.51933 1.2093 5.11934 1.58784C4.71935 1.96638 4.46543 2.48758 4.40618 3.05169M8.74254 3.05169H4.40618M8.74254 3.05169H10.4456H11.516C11.8654 3.05169 12.1487 3.33501 12.1487 3.68445C12.1487 6.16212 12.1487 8.59406 12.1487 11.1315C12.1487 11.4809 11.8654 11.7643 11.516 11.7643H1.63271C1.28327 11.7643 1 11.481 1 11.1316C1 8.65952 1 6.16676 1 3.6844C1 3.33496 1.28327 3.05169 1.63271 3.05169H4.40618" stroke="currentColor" stroke-width="0.664233"/>
                   </svg>
                 </span>
                 <span class="pp-header__cart-label">
-                  {{ 'sections.rc_header.cart' | t }} [<span class="pp-header__cart-count" data-cart-count>{{ cart.item_count }}</span>]
+                  {{ 'sections.pp_header.cart' | t }} [<span class="pp-header__cart-count" data-cart-count>{{ cart.item_count }}</span>]
                 </span>
               </a>
             {%- endif -%}
@@ -400,14 +403,14 @@
               type="search"
               name="q"
               class="pp-header-search__input"
-              placeholder="{{ 'sections.rc_header.search_placeholder' | t }}"
-              aria-label="{{ 'sections.rc_header.search' | t }}"
+              placeholder="{{ 'sections.pp_header.search_placeholder' | t }}"
+              aria-label="{{ 'sections.pp_header.search' | t }}"
               autocomplete="off"
               spellcheck="false"
             >
             <input type="hidden" name="type" value="product">
             <button type="button" class="pp-header-search__close">
-              <span>{{ 'sections.rc_header.close' | t }}</span>
+              <span>{{ 'sections.pp_header.close' | t }}</span>
             </button>
           </div>
         </form>
@@ -428,7 +431,7 @@
   <div class="pp-mobile-menu__panel">
     {%- comment -%} Header: Close Button (Scuffers-style: X + "Close") {%- endcomment -%}
     <div class="pp-mobile-menu__header">
-      <button type="button" class="pp-mobile-menu__close" data-mobile-menu-close aria-label="{{ 'sections.rc_header.close' | t }}">
+      <button type="button" class="pp-mobile-menu__close" data-mobile-menu-close aria-label="{{ 'sections.pp_header.close' | t }}">
         <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
           <path d="M1.04259 18.5781L0 17.5355L8.24647 9.28906L0 1.04259L1.04259 0L9.28906 8.24647L17.5355 0L18.5781 1.04259L10.3317 9.28906L18.5781 17.5355L17.5355 18.5781L9.28906 10.3317L1.04259 18.5781Z" fill="currentColor"/>
         </svg>
@@ -529,9 +532,9 @@
         {%- if shop.customer_accounts_enabled -%}
           <a href="{{ routes.account_url }}" class="pp-mobile-menu__account-link">
             {%- if customer -%}
-              {{ 'sections.rc_header.account' | t }}
+              {{ 'sections.pp_header.account' | t }}
             {%- else -%}
-              {{ 'sections.rc_header.login' | t }}
+              {{ 'sections.pp_header.login' | t }}
             {%- endif -%}
           </a>
         {%- endif -%}

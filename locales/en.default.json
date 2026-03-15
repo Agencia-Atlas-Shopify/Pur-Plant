@@ -364,5 +364,20 @@
     "previous": "Previous",
     "next": "Next",
     "go_to_slide": "Go to slide {{ index }}"
+  },
+  "sections": {
+    "pp_header": {
+      "search": "Buscar",
+      "search_placeholder": "Buscar productos...",
+      "wishlist": "Wishlist",
+      "account": "Cuenta",
+      "login": "Iniciar sesión",
+      "cart": "Carrito",
+      "close": "Cerrar",
+      "accessibility": {
+        "primary_navigation": "Navegación principal",
+        "secondary_navigation": "Navegación secundaria"
+      }
+    }
   }
 }
