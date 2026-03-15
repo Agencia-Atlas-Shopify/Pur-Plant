@@ -1,7 +1,7 @@
 /* ═══════════════════════════════════════════
    Pur Plant — Header custom styles
    Rounded bottom corners, 30px side inset
-   Floats over hero on homepage (no visible gap)
+   Floats over hero on homepage (position: absolute)
    ═══════════════════════════════════════════ */
 
 :root {
@@ -9,12 +9,13 @@
   --pp-header-radius: 16px;
 }
 
-/* ── Header section: inset with rounded bottom corners ── */
-.header-section {
-  position: relative;
-  z-index: 100;
+@media screen and (max-width: 749px) {
+  :root {
+    --pp-header-margin: 16px;
+  }
 }
 
+/* ── Header section: inset with rounded bottom corners ── */
 .header-section #header-component {
   border-radius: 0 0 var(--pp-header-radius) var(--pp-header-radius);
   overflow: hidden;
@@ -31,16 +32,19 @@
   overflow: hidden;
 }
 
-/* ── Homepage: header floats over the hero ──
-   The header-group pulls up into the hero via negative margin-bottom
-   so the hero fills behind the header gaps on the sides. */
+/* ── Homepage: header floats OVER the first section ──
+   position: absolute takes the header out of flow entirely,
+   so the hero/slider starts at the top of the page and
+   passes underneath the header. No gap, no air on the sides. */
 body.template-index #header-group {
-  position: relative;
-  z-index: 100;
-  margin-bottom: calc(-1 * var(--header-group-height, 120px));
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
 }
 
-/* Make the header background transparent on home so hero shows through */
+/* Make header background transparent on home */
 body.template-index .header-section #header-component {
   background-color: transparent !important;
 }
@@ -49,29 +53,24 @@ body.template-index .header-section #header-component > .section-background {
   display: none;
 }
 
-/* When scrolled/sticky, restore a solid background */
+/* Also make announcement bar transparent on home */
+body.template-index #header-group .shopify-section:has(.announcement-bar) .section-background {
+  display: none;
+}
+
+body.template-index #header-group .announcement-bar {
+  background-color: transparent;
+}
+
+/* When scrolled/sticky: restore solid background with frosted glass */
 body.template-index #header-component[sticky='always'][data-sticky-state='active'] {
-  background-color: var(--color-background) !important;
+  background-color: rgba(255, 255, 255, 0.85) !important;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 body.template-index #header-component[sticky='always'][data-sticky-state='active'] > .section-background {
   display: block;
-}
-
-/* Also make announcement bar transparent on home so hero shows through */
-body.template-index .shopify-section:has(.announcement-bar) {
-  background: transparent;
-}
-
-body.template-index .shopify-section:has(.announcement-bar) .section-background {
-  display: none;
-}
-
-/* ── Mobile adjustments ── */
-@media screen and (max-width: 749px) {
-  :root {
-    --pp-header-margin: 16px;
-  }
+  opacity: 0.85;
 }
