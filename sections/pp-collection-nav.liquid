@@ -1,0 +1,226 @@
+{%- comment -%}
+  PP Collection Nav — "MUST" title + collection filter links
+  Left: customizable title (bold, large)
+  Right: "Ver todo" + collection links (pills/tabs)
+{%- endcomment -%}
+
+{%- style -%}
+  .pp-collection-nav {
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+    border-bottom: 1px solid #EEEEEE;
+  }
+
+  .pp-collection-nav__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    align-items: baseline;
+    gap: 28px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .pp-collection-nav__inner::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pp-collection-nav__title {
+    font-family: 'Inter', var(--font-body--family), sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #23372C;
+    letter-spacing: 0.04em;
+    margin: 0;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .pp-collection-nav__view-all {
+    font-family: 'Inter', var(--font-body--family), sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: #505030;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    flex-shrink: 0;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+  }
+
+  .pp-collection-nav__view-all:hover {
+    opacity: 0.7;
+  }
+
+  .pp-collection-nav__links {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .pp-collection-nav__link {
+    font-family: 'Inter', var(--font-body--family), sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: #333333;
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+
+  .pp-collection-nav__link:hover {
+    border-color: #23372C;
+    color: #23372C;
+  }
+
+  .pp-collection-nav__link--active {
+    background-color: #23372C;
+    color: #DAFFD3;
+    border-color: #23372C;
+  }
+
+  .pp-collection-nav__link--active:hover {
+    background-color: #2E4D38;
+    border-color: #2E4D38;
+    color: #DAFFD3;
+  }
+
+  @media screen and (max-width: 749px) {
+    .pp-collection-nav__inner {
+      padding: 0 20px;
+      gap: 16px;
+    }
+
+    .pp-collection-nav__title {
+      font-size: 18px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="pp-collection-nav">
+  <div class="pp-collection-nav__inner">
+    {% if section.settings.title != blank %}
+      <h2 class="pp-collection-nav__title">{{ section.settings.title }}</h2>
+    {% endif %}
+
+    {% if section.settings.view_all_url != blank %}
+      <a href="{{ section.settings.view_all_url }}" class="pp-collection-nav__view-all">
+        {{ section.settings.view_all_text | default: 'Ver todo' }}
+      </a>
+    {% endif %}
+
+    <nav class="pp-collection-nav__links">
+      {% for block in section.blocks %}
+        <a
+          href="{{ block.settings.url | default: '#' }}"
+          class="pp-collection-nav__link{% if block.settings.active %} pp-collection-nav__link--active{% endif %}"
+          {{ block.shopify_attributes }}
+        >
+          {{ block.settings.label }}
+        </a>
+      {% endfor %}
+    </nav>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "PP Collection Nav",
+  "class": "pp-collection-nav-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "MUST"
+    },
+    {
+      "type": "text",
+      "id": "view_all_text",
+      "label": "View all text",
+      "default": "Ver todo"
+    },
+    {
+      "type": "url",
+      "id": "view_all_url",
+      "label": "View all link"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection_link",
+      "name": "Collection link",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Interior"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "active",
+          "label": "Active (highlighted)",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "PP Collection Nav",
+      "category": "Pur Plant",
+      "settings": {
+        "title": "MUST",
+        "view_all_text": "Ver todo"
+      },
+      "blocks": [
+        { "type": "collection_link", "settings": { "label": "Interior", "active": true } },
+        { "type": "collection_link", "settings": { "label": "Exterior" } },
+        { "type": "collection_link", "settings": { "label": "Cuidados" } },
+        { "type": "collection_link", "settings": { "label": "Macetas" } },
+        { "type": "collection_link", "settings": { "label": "Accesorios" } },
+        { "type": "collection_link", "settings": { "label": "Autorriegos" } },
+        { "type": "collection_link", "settings": { "label": "Abonos" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
