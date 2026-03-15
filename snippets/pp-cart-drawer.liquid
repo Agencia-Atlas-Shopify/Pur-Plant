@@ -1,0 +1,353 @@
+{%- comment -%}
+  RC Cart Drawer - GNG-style cart drawer
+  Features:
+  - Free shipping progress bar with animated logo (per-currency threshold)
+  - Line items with color swatches and quantity controls
+  - Complementary products via Search & Discovery
+{%- endcomment -%}
+
+{%- liquid
+  # Get currency-specific free shipping threshold
+  assign current_currency = cart.currency.iso_code | upcase
+  assign free_shipping_threshold = settings.rc_free_shipping_threshold_default | default: 50
+
+  case current_currency
+    when 'EUR'
+      assign free_shipping_threshold = settings.rc_free_shipping_threshold_eur | default: 50
+    when 'USD'
+      assign free_shipping_threshold = settings.rc_free_shipping_threshold_usd | default: 50
+    when 'GBP'
+      assign free_shipping_threshold = settings.rc_free_shipping_threshold_gbp | default: 45
+  endcase
+
+  # Convert to cents for comparison with cart.total_price
+  assign free_shipping_threshold_cents = free_shipping_threshold | times: 100
+-%}
+
+{{ 'pp-cart-drawer.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'cart-drawer.js' | asset_url }}" type="module" fetchpriority="low"></script>
+
+<cart-drawer-component
+  class="pp-cart-drawer"
+  {% if settings.auto_open_cart_drawer %}auto-open{% endif %}
+>
+  <dialog
+    ref="dialog"
+    class="pp-cart-drawer__dialog"
+    aria-labelledby="pp-cart-drawer-heading"
+    scroll-lock
+  >
+    <div class="pp-cart-drawer__inner">
+      {%- comment -%} Header {%- endcomment -%}
+      <div class="pp-cart-drawer__header">
+        <h2 class="pp-cart-drawer__title" id="pp-cart-drawer-heading">
+          {{ 'content.cart_title' | t | upcase }} [{{ cart.item_count }}]
+        </h2>
+        <button
+          ref="closeButton"
+          on:click="cart-drawer-component/close"
+          class="pp-cart-drawer__close"
+          aria-label="{{ 'actions.close_dialog' | t }}"
+        >
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M1 1L13 13M1 13L13 1" stroke="currentColor" stroke-width="1"/>
+          </svg>
+        </button>
+      </div>
+
+      {%- comment -%} Free Shipping Bar {%- endcomment -%}
+      {%- if settings.rc_free_shipping_bar_enabled -%}
+        <div class="pp-cart-drawer__shipping-bar">
+          {% render 'rc-free-shipping-bar', threshold: free_shipping_threshold_cents %}
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} Cart Items {%- endcomment -%}
+      <div class="pp-cart-drawer__content">
+        <cart-items-component
+          class="pp-cart-drawer__items"
+          data-section-id="{{ section.id }}"
+        >
+          {%- if cart.empty? -%}
+            <div class="pp-cart-drawer__empty">
+              <p>{{ 'content.your_cart_is_empty' | t }}</p>
+              <a href="{{ routes.collections_url }}" class="pp-cart-drawer__continue-btn">
+                {{ 'actions.continue_shopping' | t | upcase }}
+              </a>
+            </div>
+          {%- else -%}
+            {%- for item in cart.items -%}
+              {% render 'rc-cart-line-item', item: item %}
+            {%- endfor -%}
+          {%- endif -%}
+        </cart-items-component>
+      </div>
+
+      {%- unless cart.empty? -%}
+        {%- comment -%} Complementary Products via Search & Discovery {%- endcomment -%}
+        {%- if settings.rc_cart_complementary_enabled -%}
+          {%- assign complementary_title = settings.rc_cart_complementary_title | default: 'COMPLETE THE LOOK' -%}
+          {%- assign complementary_limit = settings.rc_cart_complementary_limit | default: 3 -%}
+          {%- assign first_cart_product = cart.items.first.product -%}
+          <div
+            class="pp-cart-drawer__complementary"
+            id="rc-cart-complementary"
+            data-product-id="{{ first_cart_product.id }}"
+            data-limit="{{ complementary_limit }}"
+            data-title="{{ complementary_title }}"
+          >
+            {%- comment -%} Will be populated via JavaScript using Product Recommendations API {%- endcomment -%}
+            <p class="pp-cart-drawer__complementary-title">{{ complementary_title }}</p>
+            <div class="pp-cart-drawer__complementary-list" data-complementary-products>
+              {%- comment -%} Loading placeholder {%- endcomment -%}
+              <div class="pp-cart-drawer__complementary-loading">
+                <span class="visually-hidden">{{ 'accessibility.loading_product_recommendations' | t }}</span>
+              </div>
+            </div>
+          </div>
+
+          <script>
+            (function() {
+              const container = document.getElementById('rc-cart-complementary');
+              if (!container) return;
+
+              const productId = container.dataset.productId;
+              const limit = parseInt(container.dataset.limit, 10) || 3;
+              const title = container.dataset.title;
+              const listEl = container.querySelector('[data-complementary-products]');
+
+              if (!productId || !listEl) return;
+
+              // Fetch complementary products from Shopify Product Recommendations API
+              const url = `/recommendations/products.json?product_id=${productId}&limit=${limit}&intent=complementary`;
+
+              fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                  if (data.products && data.products.length > 0) {
+                    listEl.innerHTML = data.products.map(product => {
+                      const variant = product.variants[0];
+                      const price = Shopify.formatMoney(variant.price);
+                      const comparePrice = variant.compare_at_price ? Shopify.formatMoney(variant.compare_at_price) : null;
+                      const imageUrl = product.featured_image ? product.featured_image.replace(/(\.[^.]+)$/, '_200x$1') : '';
+
+                      return `
+                        <div class="rc-horizontal-card">
+                          <a href="${product.url}" class="rc-horizontal-card__figure">
+                            ${imageUrl ? `<img src="${imageUrl}" alt="${product.title}" loading="lazy">` : ''}
+                          </a>
+                          <div class="rc-horizontal-card__info">
+                            <div class="rc-horizontal-card__details">
+                              <a href="${product.url}" class="rc-horizontal-card__title">${product.title}</a>
+                              <div class="rc-horizontal-card__price">
+                                ${comparePrice ? `<span class="rc-horizontal-card__price--sale">${price}</span><span class="rc-horizontal-card__price--compare">${comparePrice}</span>` : `<span>${price}</span>`}
+                              </div>
+                            </div>
+                            ${product.variants.length === 1 && variant.available ?
+                              `<form action="/cart/add" method="post" class="rc-horizontal-card__form">
+                                <input type="hidden" name="id" value="${variant.id}">
+                                <input type="hidden" name="quantity" value="1">
+                                <button type="submit" class="rc-horizontal-card__add-btn">{{ 'cart.add_to_cart' | t | default: 'Add' }}</button>
+                              </form>` :
+                              `<a href="${product.url}" class="rc-horizontal-card__add-btn">{{ 'products.product.choose_options' | t | default: 'View' }}</a>`
+                            }
+                          </div>
+                        </div>
+                      `;
+                    }).join('');
+                  } else {
+                    // Hide section if no recommendations
+                    container.style.display = 'none';
+                  }
+                })
+                .catch(() => {
+                  container.style.display = 'none';
+                });
+            })();
+          </script>
+        {%- endif -%}
+
+        {%- comment -%} Footer / Summary {%- endcomment -%}
+        <div class="pp-cart-drawer__footer">
+          <div class="pp-cart-drawer__totals">
+            <span class="pp-cart-drawer__subtotal-label">{{ 'content.cart_subtotal' | t | upcase }}</span>
+            <span class="pp-cart-drawer__subtotal-value">{{ cart.total_price | money }}</span>
+          </div>
+          <p class="pp-cart-drawer__shipping-note">{{ 'content.shipping_policy' | t }}</p>
+          <a href="{{ routes.checkout_url }}" class="pp-cart-drawer__checkout-btn">
+            {{ 'content.checkout' | t | upcase }}
+          </a>
+        </div>
+      {%- endunless -%}
+    </div>
+  </dialog>
+</cart-drawer-component>
+
+{% stylesheet %}
+  .pp-cart-drawer__dialog {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(420px, 95vw);
+    height: 100%;
+    max-height: 100vh;
+    margin: 0 0 0 auto;
+    padding: 0;
+    border: none;
+    background: rgb(255 255 255);
+    color: rgb(0 0 0);
+    z-index: 1000;
+    overflow: hidden;
+    box-shadow: -4px 0 20px rgb(0 0 0 / 0.1);
+  }
+
+  .pp-cart-drawer__dialog::backdrop {
+    background: rgb(0 0 0 / 0.4);
+  }
+
+  .pp-cart-drawer__dialog[open] {
+    display: block;
+  }
+
+  .pp-cart-drawer__inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  /* Header */
+  .pp-cart-drawer__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid rgb(217 217 217);
+    flex-shrink: 0;
+  }
+
+  .pp-cart-drawer__title {
+    font-size: var(--text-xs, 0.6875rem);
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    margin: 0;
+  }
+
+  .pp-cart-drawer__close {
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    margin: -0.5rem;
+    cursor: pointer;
+    color: inherit;
+  }
+
+  /* Free Shipping Bar Wrapper */
+  .pp-cart-drawer__shipping-bar {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgb(217 217 217);
+    flex-shrink: 0;
+  }
+
+  .pp-cart-drawer__shipping-bar .rc-free-shipping-bar {
+    padding: 0;
+  }
+
+  .pp-cart-drawer__shipping-bar .rc-free-shipping-bar__message {
+    text-transform: uppercase;
+    font-size: var(--text-xs, 0.6875rem);
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Content / Items */
+  .pp-cart-drawer__content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem 1.5rem;
+  }
+
+  .pp-cart-drawer__items {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .pp-cart-drawer__empty {
+    text-align: center;
+    padding: 3rem 1rem;
+  }
+
+  .pp-cart-drawer__continue-btn {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.75rem 2rem;
+    background: rgb(0 0 0);
+    color: rgb(255 255 255);
+    text-decoration: none;
+    font-size: var(--text-xs, 0.6875rem);
+    letter-spacing: 0.05em;
+  }
+
+  /* Complementary Products */
+  .pp-cart-drawer__complementary {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid rgb(217 217 217);
+    flex-shrink: 0;
+  }
+
+  .pp-cart-drawer__complementary-title {
+    font-size: var(--text-xs, 0.6875rem);
+    letter-spacing: 0.05em;
+    margin: 0 0 1rem;
+  }
+
+  .pp-cart-drawer__complementary-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  /* Footer */
+  .pp-cart-drawer__footer {
+    padding: 1.5rem;
+    border-top: 1px solid rgb(217 217 217);
+    background: rgb(255 255 255);
+    flex-shrink: 0;
+  }
+
+  .pp-cart-drawer__totals {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    font-size: var(--text-xs, 0.6875rem);
+    letter-spacing: 0.05em;
+  }
+
+  .pp-cart-drawer__shipping-note {
+    font-size: var(--text-xs, 0.6875rem);
+    color: rgb(0 0 0 / 0.6);
+    margin: 0 0 1rem;
+  }
+
+  .pp-cart-drawer__checkout-btn {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    background: rgb(0 0 0);
+    color: rgb(255 255 255);
+    text-align: center;
+    text-decoration: none;
+    font-size: var(--text-xs, 0.6875rem);
+    letter-spacing: 0.05em;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .pp-cart-drawer__checkout-btn:hover {
+    background: rgb(30 30 30);
+  }
+{% endstylesheet %}
