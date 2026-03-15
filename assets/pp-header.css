@@ -1,41 +1,72 @@
 /* ═══════════════════════════════════════════
    Pur Plant — Header custom styles
    Rounded bottom corners, inset from edges
-   No gap at top, gap at left/right/bottom
+   Transparent over hero on homepage
    ═══════════════════════════════════════════ */
 
-/* The header section wrapper — add side margins */
+:root {
+  --pp-header-margin: 24px;
+  --pp-header-radius: 16px;
+}
+
+@media screen and (min-width: 750px) {
+  :root {
+    --pp-header-margin: 32px;
+  }
+}
+
+/* The header section wrapper — centered with side margins */
 .header-section {
-  margin-inline: 12px;
+  margin-inline: var(--pp-header-margin);
+  max-width: calc(100% - var(--pp-header-margin) * 2);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* The header component gets rounded bottom corners */
 .header-section #header-component {
-  border-radius: 0 0 16px 16px;
+  border-radius: 0 0 var(--pp-header-radius) var(--pp-header-radius);
   overflow: hidden;
 }
 
 /* When sticky, maintain the rounded corners and side margins */
-#header-group:has(#header-component[sticky]) {
-  margin-inline: 12px;
-}
-
-.header-section:has(> #header-component[sticky='always']),
-.header-section:has(> #header-component[sticky='scroll-up'][data-sticky-state='active']) {
-  margin-inline: 0;
-}
-
 #header-component[sticky='always'],
 #header-component[sticky='scroll-up'][data-sticky-state='active'] {
-  left: 12px;
-  right: 12px;
-  width: calc(100% - 24px);
-  border-radius: 0 0 16px 16px;
+  left: var(--pp-header-margin);
+  right: var(--pp-header-margin);
+  width: calc(100% - var(--pp-header-margin) * 2);
+  border-radius: 0 0 var(--pp-header-radius) var(--pp-header-radius);
   overflow: hidden;
 }
 
+/* ── Transparent header on homepage ──
+   Header overlaps the hero, hero content passes underneath */
+body.template-index .header-section {
+  position: relative;
+  z-index: 100;
+  margin-bottom: calc(-1 * var(--header-group-height, 80px));
+}
+
+body.template-index #header-component {
+  background-color: transparent !important;
+}
+
+body.template-index #header-component .section-background {
+  display: none;
+}
+
+/* When sticky and scrolled, restore the background */
+body.template-index #header-component[sticky='always'][data-sticky-state='active'] {
+  background-color: var(--color-background) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+body.template-index #header-component[sticky='always'][data-sticky-state='active'] .section-background {
+  display: block;
+}
+
 /* Announcement bar — flush width, no side margins */
-.header-section + .shopify-section,
 .shopify-section:has(.announcement-bar) {
   margin-inline: 0;
 }

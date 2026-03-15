@@ -2,7 +2,7 @@
  * RC Hero Slider - Carousel with autoplay, video support, and touch/swipe
  */
 
-class RCHeroSlider extends HTMLElement {
+class PPHeroSlider extends HTMLElement {
   constructor() {
     super();
     this.slides = [];
@@ -151,7 +151,7 @@ class RCHeroSlider extends HTMLElement {
   setupAutoplay() {
     if (this.autoplayDuration <= 0) return;
 
-    this.classList.add('rc-hero-slider--autoplay');
+    this.classList.add('pp-hero-slider--autoplay');
     this.style.setProperty('--rc-autoplay-duration', `${this.autoplayDuration / 1000}s`);
 
     this.startAutoplay();
@@ -176,7 +176,7 @@ class RCHeroSlider extends HTMLElement {
     if (this.autoplayDuration <= 0) return;
     this.stopAutoplay();
     this.isPlaying = true;
-    this.classList.remove('rc-hero-slider--paused');
+    this.classList.remove('pp-hero-slider--paused');
     this.autoplayInterval = setInterval(() => this.next(), this.autoplayDuration);
   }
 
@@ -189,7 +189,7 @@ class RCHeroSlider extends HTMLElement {
 
   pauseAutoplay() {
     this.isPlaying = false;
-    this.classList.add('rc-hero-slider--paused');
+    this.classList.add('pp-hero-slider--paused');
     this.stopAutoplay();
   }
 
@@ -240,6 +240,6 @@ class RCHeroSlider extends HTMLElement {
   }
 }
 
-if (!customElements.get('rc-hero-slider')) {
-  customElements.define('rc-hero-slider', RCHeroSlider);
+if (!customElements.get('pp-hero-slider')) {
+  customElements.define('pp-hero-slider', PPHeroSlider);
 }
