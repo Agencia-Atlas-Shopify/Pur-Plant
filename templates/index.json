@@ -1,19 +1,10 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */{
+{
   "sections": {
     "hero_pp": {
       "type": "hero",
       "blocks": {
         "hero_label": {
           "type": "text",
-          "name": "t:names.heading",
           "settings": {
             "text": "<p>PRIMAVERA</p>",
             "width": "fit-content",
@@ -34,12 +25,10 @@
             "padding-block-end": 0,
             "padding-inline-start": 0,
             "padding-inline-end": 0
-          },
-          "blocks": {}
+          }
         },
         "hero_title": {
           "type": "text",
-          "name": "t:names.heading",
           "settings": {
             "text": "<h1>FIESTA DE LA NATURALEZA QUE BROTA</h1>",
             "width": "fit-content",
@@ -60,12 +49,10 @@
             "padding-block-end": 0,
             "padding-inline-start": 0,
             "padding-inline-end": 0
-          },
-          "blocks": {}
+          }
         },
         "hero_cta": {
           "type": "button",
-          "name": "t:names.button",
           "settings": {
             "label": "Descubrir",
             "link": "shopify://collections/all",
@@ -75,8 +62,7 @@
             "custom_width": 100,
             "width_mobile": "fit-content",
             "custom_width_mobile": 100
-          },
-          "blocks": {}
+          }
         }
       },
       "block_order": [
@@ -84,7 +70,6 @@
         "hero_title",
         "hero_cta"
       ],
-      "name": "Hero",
       "settings": {
         "media_type_1": "image",
         "media_type_2": "image",
@@ -104,7 +89,7 @@
         "section_width": "full-width",
         "section_height": "large",
         "section_height_custom": 70,
-        "color_scheme": "pp-green-light",
+        "color_scheme": "scheme-6",
         "toggle_overlay": false,
         "overlay_color": "#12121266",
         "overlay_style": "solid",
@@ -118,39 +103,6 @@
     "cat_nav_pp": {
       "type": "collection-list",
       "blocks": {
-        "group_header": {
-          "type": "group",
-          "name": "t:names.header",
-          "settings": {
-            "content_direction": "column",
-            "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 12,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "background_media": "none",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
         "static-collection-card": {
           "type": "_collection-card",
           "name": "t:names.collection_card",
@@ -199,8 +151,7 @@
           "block_order": ["collection-title"]
         }
       },
-      "block_order": ["group_header"],
-      "name": "Categorías",
+      "block_order": [],
       "settings": {
         "collection_list": [],
         "layout_type": "carousel",
@@ -214,7 +165,7 @@
         "icons_shape": "none",
         "section_width": "page-width",
         "gap": 0,
-        "color_scheme": "pp-white",
+        "color_scheme": "scheme-1",
         "padding-block-start": 32,
         "padding-block-end": 24
       }
@@ -279,8 +230,7 @@
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
-              },
-              "blocks": {}
+              }
             },
             "must_viewall": {
               "type": "_product-list-button",
@@ -293,8 +243,7 @@
                 "custom_width": 100,
                 "width_mobile": "fit-content",
                 "custom_width_mobile": 100
-              },
-              "blocks": {}
+              }
             }
           },
           "block_order": [
@@ -333,8 +282,7 @@
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
-              },
-              "blocks": {}
+              }
             },
             "product_title": {
               "type": "product-title",
@@ -358,8 +306,7 @@
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
-              },
-              "blocks": {}
+              }
             },
             "product_price": {
               "type": "price",
@@ -381,8 +328,7 @@
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
-              },
-              "blocks": {}
+              }
             }
           },
           "block_order": [
@@ -392,7 +338,6 @@
           ]
         }
       },
-      "name": "MUST Products",
       "settings": {
         "collection": "all",
         "layout_type": "grid",
@@ -408,7 +353,7 @@
         "section_width": "page-width",
         "horizontal_alignment": "flex-start",
         "gap": 28,
-        "color_scheme": "pp-white",
+        "color_scheme": "scheme-1",
         "padding-block-start": 24,
         "padding-block-end": 48
       }
@@ -417,10 +362,10 @@
       "type": "pp-brand-banner",
       "settings": {
         "heading": "PUR PLANT ES LA MARCA QUE CREE EN EL PODER DE LAS PLANTAS",
-        "button_label": "Más sobre Nosotros",
+        "button_label": "Más sobre Nosotrxs",
         "image_position": "right",
         "section_width": "page-width",
-        "color_scheme": "pp-green-dark",
+        "color_scheme": "scheme-5",
         "padding-block-start": 64,
         "padding-block-end": 64
       }
@@ -437,7 +382,7 @@
       "block_order": ["feat_1", "feat_2", "feat_3", "feat_4", "feat_5"],
       "settings": {
         "section_width": "page-width",
-        "color_scheme": "pp-beige-warm",
+        "color_scheme": "scheme-2",
         "padding-block-start": 40,
         "padding-block-end": 40
       }
@@ -453,7 +398,7 @@
       "settings": {
         "button_label": "Opiniones",
         "section_width": "page-width",
-        "color_scheme": "pp-white",
+        "color_scheme": "scheme-1",
         "padding-block-start": 48,
         "padding-block-end": 48
       }
