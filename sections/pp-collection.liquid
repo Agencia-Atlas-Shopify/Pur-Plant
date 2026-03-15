@@ -136,7 +136,7 @@
           <div class="pp-collection__item">
             {%- render 'pp-product-card-standalone',
               product: product,
-              image_ratio: 'portrait'
+              image_ratio: section.settings.image_ratio
             -%}
           </div>
         {%- endfor -%}
@@ -336,6 +336,19 @@
     {
       "type": "header",
       "content": "Product card"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image ratio",
+      "options": [
+        { "value": "portrait", "label": "Portrait (3:4)" },
+        { "value": "portrait-tall", "label": "Portrait Tall (4:5)" },
+        { "value": "square", "label": "Square (1:1)" },
+        { "value": "landscape", "label": "Landscape (4:3)" },
+        { "value": "adapt", "label": "Adapt" }
+      ],
+      "default": "portrait"
     },
     {
       "type": "checkbox",
