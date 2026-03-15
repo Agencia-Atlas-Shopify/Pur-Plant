@@ -40,13 +40,17 @@
   white-space: nowrap;
 }
 
-/* When announcement is present, remove top border-radius from inner */
+/* When announcement is present, no border-radius on announcement, only bottom on inner */
 .pp-header:has(.pp-header__announcement) {
-  border-radius: var(--pp-header-border-radius, 10px);
+  border-radius: 0 0 var(--pp-header-border-radius, 16px) var(--pp-header-border-radius, 16px);
+}
+
+.pp-header:has(.pp-header__announcement) .pp-header__announcement {
+  border-radius: 0;
 }
 
 .pp-header:has(.pp-header__announcement) .pp-header__inner {
-  border-radius: 0 0 var(--pp-header-border-radius, 10px) var(--pp-header-border-radius, 10px);
+  border-radius: 0 0 var(--pp-header-border-radius, 16px) var(--pp-header-border-radius, 16px);
 }
 
 .pp-header__announcement-marquee {
