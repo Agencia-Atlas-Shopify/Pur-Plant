@@ -168,7 +168,6 @@
       "settings": {
         "collection_list": [
           "accesorios",
-          "liquidos",
           "adenium",
           "alocasias",
           "aloe-vera",
@@ -200,56 +199,49 @@
           "type": "collection_link",
           "settings": {
             "label": "Interior",
-            "url": "",
-            "active": true
+            "url": ""
           }
         },
         "collection_link_bAnjpr": {
           "type": "collection_link",
           "settings": {
             "label": "Exterior",
-            "url": "",
-            "active": false
+            "url": ""
           }
         },
         "collection_link_e9ckfw": {
           "type": "collection_link",
           "settings": {
             "label": "Cuidados",
-            "url": "",
-            "active": false
+            "url": ""
           }
         },
         "collection_link_L7Kfck": {
           "type": "collection_link",
           "settings": {
             "label": "Macetas",
-            "url": "",
-            "active": false
+            "url": ""
           }
         },
         "collection_link_LQeHRL": {
           "type": "collection_link",
           "settings": {
             "label": "Accesorios",
-            "url": "",
-            "active": false
+            "url": ""
           }
         },
         "collection_link_TpMRQX": {
           "type": "collection_link",
           "settings": {
             "label": "Autorriegos",
-            "url": "",
-            "active": false
+            "url": ""
           }
         },
         "collection_link_kewUcg": {
           "type": "collection_link",
           "settings": {
             "label": "Abonos",
-            "url": "",
-            "active": false
+            "url": ""
           }
         }
       },
