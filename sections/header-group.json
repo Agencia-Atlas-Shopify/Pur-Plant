@@ -190,6 +190,7 @@
       ],
       "name": "PP Header",
       "settings": {
+        "logo": "shopify://shop_images/logo_pur_plant_negativo.png",
         "logo_width": 120,
         "logo_mobile_width": 90,
         "show_announcement": false,
