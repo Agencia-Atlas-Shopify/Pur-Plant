@@ -1,0 +1,229 @@
+/* ═══════════════════════════════════════════
+   Pur Plant — Custom sections CSS
+   ═══════════════════════════════════════════ */
+
+/* ── Features Bar ── */
+
+.pp-features-bar__heading {
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-foreground-heading);
+  margin-block-end: 24px;
+  text-align: center;
+}
+
+.pp-features-bar__scroll {
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.pp-features-bar__scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.pp-features-bar__grid {
+  display: flex;
+  gap: 24px;
+  min-width: max-content;
+  justify-content: center;
+}
+
+.pp-feature-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  flex-shrink: 0;
+  width: 130px;
+}
+
+.pp-feature-item__img-wrap {
+  width: 130px;
+  height: 130px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--color-background);
+}
+
+.pp-feature-item__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.pp-feature-item:hover .pp-feature-item__img {
+  transform: scale(1.04);
+}
+
+.pp-feature-item__placeholder {
+  width: 100%;
+  height: 100%;
+}
+
+.pp-feature-item__label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-foreground);
+  text-align: center;
+  line-height: 1.3;
+}
+
+@media screen and (max-width: 749px) {
+  .pp-features-bar__grid {
+    justify-content: flex-start;
+    padding-inline: var(--page-margin);
+  }
+}
+
+
+/* ── UGC Gallery ── */
+
+.pp-ugc__heading {
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-foreground-heading);
+  margin-block-end: 24px;
+  text-align: center;
+}
+
+.pp-ugc__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-block-end: 32px;
+}
+
+.pp-ugc__item {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.pp-ugc__link {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.pp-ugc__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.pp-ugc__item:hover .pp-ugc__img {
+  transform: scale(1.03);
+}
+
+.pp-ugc__placeholder {
+  width: 100%;
+  height: 100%;
+}
+
+.pp-ugc__actions {
+  display: flex;
+  justify-content: center;
+}
+
+.pp-ugc__btn {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-foreground-heading);
+  border: 1.5px solid var(--color-foreground-heading);
+  padding: 10px 28px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.pp-ugc__btn:hover {
+  background: var(--color-foreground-heading);
+  color: var(--color-background);
+}
+
+@media screen and (max-width: 749px) {
+  .pp-ugc__grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
+
+/* ── Brand Banner ── */
+
+.pp-brand__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 48px;
+}
+
+.pp-brand__copy {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.3;
+  text-transform: uppercase;
+  color: var(--color-foreground-heading);
+  margin-block-end: 12px;
+  letter-spacing: 0.02em;
+}
+
+.pp-brand__sub {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--color-foreground);
+  margin-block-end: 28px;
+}
+
+.pp-brand__cta {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-foreground-heading);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  letter-spacing: 0.04em;
+  transition: opacity 0.2s;
+}
+
+.pp-brand__cta:hover {
+  opacity: 0.8;
+}
+
+.pp-brand__image {
+  border-radius: 10px;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+}
+
+.pp-brand__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pp-brand__placeholder {
+  width: 100%;
+  height: 100%;
+}
+
+@media screen and (max-width: 749px) {
+  .pp-brand__inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .pp-brand__copy {
+    font-size: 22px;
+  }
+}

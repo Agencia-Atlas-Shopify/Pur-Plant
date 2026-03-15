@@ -357,5 +357,12 @@
       "default_title": "Default Title",
       "sticky_add_to_cart": "Quick add to cart bar"
     }
+  },
+  "general": {
+    "unmute_video": "Unmute video",
+    "mute_video": "Mute video",
+    "previous": "Previous",
+    "next": "Next",
+    "go_to_slide": "Go to slide {{ index }}"
   }
 }

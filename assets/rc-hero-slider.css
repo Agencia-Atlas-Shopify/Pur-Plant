@@ -1,0 +1,513 @@
+/* RC Hero Slider - Typography Variables (standalone, no external font files needed) */
+:root {
+  --rc-heading-font-family: inherit;
+  --rc-heading-font-weight: 400;
+  --rc-heading-font-style: normal;
+  --rc-heading-text-transform: normal;
+  --rc-heading-letter-spacing: 0.0em;
+
+  --rc-text-font-family: inherit;
+  --rc-text-font-weight: 400;
+  --rc-text-font-style: normal;
+  --rc-text-letter-spacing: 0.0em;
+
+  --rc-text-heading-size-factor: 1;
+  --rc-text-h1: max(0.6875rem, clamp(1.375rem, 1.146341463414634rem + 0.975609756097561vw, 2rem) * var(--rc-text-heading-size-factor));
+  --rc-text-h2: max(0.6875rem, clamp(1.25rem, 1.0670731707317074rem + 0.7804878048780488vw, 1.75rem) * var(--rc-text-heading-size-factor));
+  --rc-text-h3: max(0.6875rem, clamp(1.125rem, 1.0335365853658536rem + 0.3902439024390244vw, 1.375rem) * var(--rc-text-heading-size-factor));
+  --rc-text-h4: max(0.6875rem, clamp(1rem, 0.9542682926829268rem + 0.1951219512195122vw, 1.125rem) * var(--rc-text-heading-size-factor));
+  --rc-text-h5: max(0.5625rem, clamp(0.75rem, 0.72rem + 0.12vw, 0.875rem) * var(--rc-text-heading-size-factor));
+  --rc-text-h6: calc(0.75rem * var(--rc-text-heading-size-factor));
+  --rc-text-sm: 0.75rem;
+  --rc-text-base: 0.6875rem;
+}
+
+/* RC Hero Slider Styles */
+
+.rc-hero-slider {
+  --rc-slider-bg: 0 0 0;
+  --rc-slider-text-color: 255 255 255;
+  --rc-dot-size: 0.375rem;
+  --rc-controls-spacing: 20px;
+  position: relative;
+  display: block;
+  background: rgb(var(--rc-slider-bg));
+  color: rgb(var(--rc-slider-text-color));
+  cursor: grab;
+}
+
+.rc-hero-slider:active {
+  cursor: grabbing;
+}
+
+@media screen and (min-width: 1000px) {
+  .rc-hero-slider {
+    --rc-controls-spacing: 30px;
+  }
+}
+
+/* Slides Container */
+.rc-hero-slider__slides {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Individual Slide */
+.rc-hero-slider__slide {
+  position: relative;
+  display: grid;
+  grid-template: 1fr / 1fr;
+  place-items: center;
+  min-height: var(--rc-slide-height-mobile, 100vh);
+  overflow: hidden;
+}
+
+@media screen and (min-width: 700px) {
+  .rc-hero-slider__slide {
+    min-height: var(--rc-slide-height-desktop, 100vh);
+  }
+}
+
+.rc-hero-slider__slide:not(.is-active) {
+  position: absolute;
+  inset: 0;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.rc-hero-slider__slide.is-active {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Slide Media (Image/Video) */
+.rc-hero-slider__media {
+  grid-area: 1 / 1 / -1 / -1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.rc-hero-slider__media--desktop {
+  display: none;
+}
+
+.rc-hero-slider__media--mobile {
+  display: block;
+}
+
+@media screen and (min-width: 700px) {
+  .rc-hero-slider__media--desktop {
+    display: block;
+  }
+
+  .rc-hero-slider__media--mobile {
+    display: none;
+  }
+}
+
+/* Video specific */
+.rc-hero-slider__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.rc-hero-slider__video-wrapper {
+  grid-area: 1 / 1 / -1 / -1;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.rc-hero-slider__video-wrapper--desktop {
+  display: none;
+}
+
+.rc-hero-slider__video-wrapper--mobile {
+  display: block;
+}
+
+@media screen and (min-width: 700px) {
+  .rc-hero-slider__video-wrapper--desktop {
+    display: block;
+  }
+
+  .rc-hero-slider__video-wrapper--mobile {
+    display: none;
+  }
+}
+
+/* Overlay */
+.rc-hero-slider__overlay {
+  grid-area: 1 / 1 / -1 / -1;
+  width: 100%;
+  height: 100%;
+  background: var(--rc-overlay-gradient, transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Content */
+.rc-hero-slider__content {
+  grid-area: 1 / 1 / -1 / -1;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  width: 100%;
+  height: 100%;
+  padding: var(--rc-controls-spacing);
+  padding-bottom: calc(var(--rc-controls-spacing) + 3rem);
+  text-align: center;
+  text-shadow: 0 1px rgb(0 0 0 / 50%);
+}
+
+.rc-hero-slider__content-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: inherit;
+  gap: inherit;
+  max-width: var(--rc-content-max-width, 48rem);
+}
+
+@media screen and (min-width: 700px) {
+  .rc-hero-slider__content {
+    gap: 2rem;
+  }
+}
+
+/* Content positioning */
+.rc-hero-slider__content--top-left {
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.rc-hero-slider__content--top-center {
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.rc-hero-slider__content--top-right {
+  justify-content: flex-start;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.rc-hero-slider__content--center-left {
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.rc-hero-slider__content--center-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.rc-hero-slider__content--center-right {
+  justify-content: center;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.rc-hero-slider__content--bottom-left {
+  justify-content: flex-end;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.rc-hero-slider__content--bottom-center {
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.rc-hero-slider__content--bottom-right {
+  justify-content: flex-end;
+  align-items: flex-end;
+  text-align: right;
+}
+
+/* Heading */
+.rc-hero-slider__heading {
+  font-family: var(--rc-slide-heading-font, var(--rc-heading-font-family, inherit));
+  font-size: var(--rc-slide-heading-size-mobile, var(--rc-text-h1));
+  font-weight: var(--rc-slide-heading-weight, var(--rc-heading-font-weight, 400));
+  line-height: 1.2;
+  margin: 0;
+}
+
+@media screen and (min-width: 700px) {
+  .rc-hero-slider__heading {
+    font-size: var(--rc-slide-heading-size, var(--rc-text-h1));
+  }
+}
+
+.rc-hero-slider__slide[style*="--rc-slide-heading-color"] .rc-hero-slider__heading {
+  color: rgb(var(--rc-slide-heading-color));
+}
+
+/* Subheading */
+.rc-hero-slider__subheading {
+  font-family: var(--rc-slide-subheading-font, var(--rc-text-font-family, inherit));
+  font-size: var(--rc-slide-subheading-size-mobile, var(--rc-text-h5));
+  font-weight: var(--rc-slide-subheading-weight, 400);
+  line-height: 1.7;
+  margin: 0;
+}
+
+@media screen and (min-width: 700px) {
+  .rc-hero-slider__subheading {
+    font-size: var(--rc-slide-subheading-size, var(--rc-text-h5));
+  }
+}
+
+.rc-hero-slider__slide[style*="--rc-slide-subheading-color"] .rc-hero-slider__subheading {
+  color: rgb(var(--rc-slide-subheading-color));
+}
+
+/* Buttons */
+.rc-hero-slider__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: inherit;
+}
+
+.rc-hero-slider__button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem 1.75rem;
+  font-family: var(--rc-slide-btn-font, var(--rc-text-font-family, inherit));
+  font-size: var(--rc-slide-btn-size, var(--rc-text-sm));
+  font-weight: var(--rc-slide-btn-weight, 400);
+  line-height: 1.65;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-decoration: none;
+  text-shadow: none;
+  border-radius: 0;
+  cursor: pointer;
+  transition: background-size 0.45s cubic-bezier(0.785, 0.135, 0.15, 0.86), color 0.45s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+}
+
+/* Normal button style (white bg, black text) */
+.rc-hero-slider__button--normal {
+  background: rgb(var(--rc-btn-bg, 255 255 255));
+  color: rgb(var(--rc-btn-text, 0 0 0));
+  border: 1px solid rgb(var(--rc-btn-bg, 255 255 255));
+}
+
+.rc-hero-slider__button--normal:hover {
+  background: transparent;
+  color: rgb(var(--rc-btn-bg, 255 255 255));
+}
+
+/* Inverted button style (transparent, white border) */
+.rc-hero-slider__button--inverted {
+  background: transparent;
+  color: rgb(var(--rc-btn-bg, 255 255 255));
+  border: 1px solid rgb(var(--rc-btn-bg, 255 255 255));
+}
+
+.rc-hero-slider__button--inverted:hover {
+  background: rgb(var(--rc-btn-bg, 255 255 255));
+  color: rgb(var(--rc-btn-text, 0 0 0));
+}
+
+/* Per-slide button color overrides */
+.rc-hero-slider__slide[style*="--rc-slide-btn-bg"] .rc-hero-slider__button--normal {
+  background: rgb(var(--rc-slide-btn-bg));
+  border-color: rgb(var(--rc-slide-btn-bg));
+}
+
+.rc-hero-slider__slide[style*="--rc-slide-btn-text"] .rc-hero-slider__button--normal {
+  color: rgb(var(--rc-slide-btn-text));
+}
+
+.rc-hero-slider__slide[style*="--rc-slide-btn-bg"] .rc-hero-slider__button--normal:hover {
+  background: transparent;
+  color: rgb(var(--rc-slide-btn-bg));
+}
+
+.rc-hero-slider__slide[style*="--rc-slide-btn-bg"] .rc-hero-slider__button--inverted {
+  color: rgb(var(--rc-slide-btn-bg));
+  border-color: rgb(var(--rc-slide-btn-bg));
+}
+
+.rc-hero-slider__slide[style*="--rc-slide-btn-bg"] .rc-hero-slider__button--inverted:hover {
+  background: rgb(var(--rc-slide-btn-bg));
+}
+
+.rc-hero-slider__slide[style*="--rc-slide-btn-text"] .rc-hero-slider__button--inverted:hover {
+  color: rgb(var(--rc-slide-btn-text));
+}
+
+/* Navigation Arrows */
+.rc-hero-slider__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  display: none;
+}
+
+@media screen and (pointer: fine) {
+  .rc-hero-slider__nav {
+    display: grid;
+  }
+}
+
+.rc-hero-slider__nav--prev {
+  left: var(--rc-controls-spacing);
+}
+
+.rc-hero-slider__nav--next {
+  right: var(--rc-controls-spacing);
+}
+
+.rc-hero-slider__nav-btn {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: grid;
+  place-items: center;
+  background: rgb(255 255 255 / 0.9);
+  color: rgb(0 0 0);
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.rc-hero-slider__nav-btn:hover {
+  background: rgb(255 255 255);
+}
+
+.rc-hero-slider__nav-btn svg {
+  width: 0.875rem;
+  height: auto;
+}
+
+/* Dots / Page Indicators */
+.rc-hero-slider__dots {
+  position: absolute;
+  bottom: var(--rc-controls-spacing);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 1rem;
+}
+
+.rc-hero-slider__dot {
+  width: var(--rc-dot-size);
+  height: var(--rc-dot-size);
+  border-radius: 9999px;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  position: relative;
+  cursor: pointer;
+  display: grid;
+  place-content: center;
+}
+
+.rc-hero-slider__dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: currentColor;
+  opacity: 0.4;
+  transition: opacity 0.25s;
+}
+
+.rc-hero-slider__dot.is-active::after {
+  opacity: 1;
+}
+
+/* Autoplay dots with circular progress */
+.rc-hero-slider--autoplay .rc-hero-slider__dot.is-active::after {
+  opacity: 0;
+}
+
+.rc-hero-slider__dot .rc-circular-progress {
+  opacity: 0;
+  transition: opacity 0.25s;
+  transform: rotate(-90deg);
+}
+
+.rc-hero-slider--autoplay .rc-hero-slider__dot.is-active .rc-circular-progress {
+  opacity: 1;
+  transition-delay: 0.15s;
+}
+
+.rc-hero-slider--autoplay .rc-hero-slider__dot:not(.is-active)::after {
+  transition-delay: 0.15s;
+}
+
+/* Circular progress animation */
+.rc-circular-progress circle:last-child {
+  stroke-dasharray: var(--rc-stroke-dasharray, 20.42);
+  stroke-dashoffset: var(--rc-stroke-dasharray, 20.42);
+  animation: rc-progress var(--rc-autoplay-duration, 5s) linear forwards;
+  animation-play-state: var(--rc-progress-play-state, running);
+}
+
+@keyframes rc-progress {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Paused state */
+.rc-hero-slider--paused .rc-circular-progress circle:last-child {
+  animation-play-state: paused;
+}
+
+/* Volume Control */
+.rc-hero-slider__volume {
+  position: absolute;
+  bottom: var(--rc-controls-spacing);
+  left: var(--rc-controls-spacing);
+  z-index: 3;
+  display: grid;
+}
+
+.rc-hero-slider__volume-btn {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  color: inherit;
+}
+
+.rc-hero-slider__volume-btn svg {
+  width: 1.5rem;
+  height: auto;
+}
+
+.rc-hero-slider__volume-btn[hidden] {
+  display: none;
+}
+
+/* Link wrapper */
+.rc-hero-slider__link {
+  display: contents;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Tap area for touch */
+.rc-hero-slider__dot::before {
+  content: "";
+  position: absolute;
+  inset: -0.5rem;
+}

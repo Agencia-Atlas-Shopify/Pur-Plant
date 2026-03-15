@@ -1,0 +1,747 @@
+{{ 'aileron-font.css' | asset_url | stylesheet_tag }}
+{{ 'rc-hero-slider.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'rc-hero-slider.js' | asset_url }}" defer="defer"></script>
+
+{%- style -%}
+  #RC-HeroSlider-{{ section.id }} {
+    --rc-slider-bg: {{ section.settings.background_color }};
+    --rc-slider-text-color: {{ section.settings.text_color }};
+    {%- if section.settings.full_height_mobile -%}
+      --rc-slide-height-mobile: 100vh;
+    {%- else -%}
+      --rc-slide-height-mobile: {{ section.settings.height_mobile }}px;
+    {%- endif -%}
+    {%- if section.settings.full_height_desktop -%}
+      --rc-slide-height-desktop: 100vh;
+    {%- else -%}
+      --rc-slide-height-desktop: {{ section.settings.height_desktop }}px;
+    {%- endif -%}
+    --rc-content-max-width: {{ section.settings.content_max_width }}px;
+    --rc-btn-bg: {{ section.settings.button_background }};
+    --rc-btn-text: {{ section.settings.button_text_color }};
+    {%- if section.settings.overlay_opacity > 0 -%}
+      --rc-overlay-gradient: linear-gradient(
+        {{ section.settings.overlay_direction }},
+        rgb(0 0 0 / {{ section.settings.overlay_opacity | divided_by: 100.0 }}),
+        transparent
+      );
+    {%- endif -%}
+  }
+{%- endstyle -%}
+
+<rc-hero-slider
+  id="RC-HeroSlider-{{ section.id }}"
+  class="rc-hero-slider{% if section.settings.enable_transparent_header %} rc-no-header-offset{% endif %}"
+  {% if section.settings.autoplay and section.settings.autoplay_speed > 0 %}
+    data-autoplay="{{ section.settings.autoplay_speed | times: 1000 }}"
+  {% endif %}
+  {% if section.settings.enable_transparent_header %}
+    data-transparent-header="true"
+  {% endif %}
+>
+  <div class="rc-hero-slider__slides">
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'slide' -%}
+          {%- liquid
+            assign has_video_desktop = false
+            assign has_video_mobile = false
+            if block.settings.video_desktop != blank
+              assign has_video_desktop = true
+            endif
+            if block.settings.video_mobile != blank
+              assign has_video_mobile = true
+            endif
+          -%}
+
+          <div
+            class="rc-hero-slider__slide{% if forloop.first %} is-active{% endif %}"
+            data-slide="{{ forloop.index0 }}"
+            {{ block.shopify_attributes }}
+            style="
+              {%- if block.settings.heading_font != 'default' -%}--rc-slide-heading-font: {{ block.settings.heading_font }};{%- endif -%}
+              {%- if block.settings.heading_size > 0 -%}--rc-slide-heading-size: {{ block.settings.heading_size }}px;{%- endif -%}
+              {%- if block.settings.heading_size_mobile > 0 -%}--rc-slide-heading-size-mobile: {{ block.settings.heading_size_mobile }}px;{%- endif -%}
+              {%- if block.settings.heading_weight != 'default' -%}--rc-slide-heading-weight: {{ block.settings.heading_weight }};{%- endif -%}
+              {%- if block.settings.heading_color != blank -%}--rc-slide-heading-color: {{ block.settings.heading_color.red }} {{ block.settings.heading_color.green }} {{ block.settings.heading_color.blue }};{%- endif -%}
+              {%- if block.settings.subheading_font != 'default' -%}--rc-slide-subheading-font: {{ block.settings.subheading_font }};{%- endif -%}
+              {%- if block.settings.subheading_size > 0 -%}--rc-slide-subheading-size: {{ block.settings.subheading_size }}px;{%- endif -%}
+              {%- if block.settings.subheading_size_mobile > 0 -%}--rc-slide-subheading-size-mobile: {{ block.settings.subheading_size_mobile }}px;{%- endif -%}
+              {%- if block.settings.subheading_weight != 'default' -%}--rc-slide-subheading-weight: {{ block.settings.subheading_weight }};{%- endif -%}
+              {%- if block.settings.subheading_color != blank -%}--rc-slide-subheading-color: {{ block.settings.subheading_color.red }} {{ block.settings.subheading_color.green }} {{ block.settings.subheading_color.blue }};{%- endif -%}
+              {%- if block.settings.btn_font != 'default' -%}--rc-slide-btn-font: {{ block.settings.btn_font }};{%- endif -%}
+              {%- if block.settings.btn_size > 0 -%}--rc-slide-btn-size: {{ block.settings.btn_size }}px;{%- endif -%}
+              {%- if block.settings.btn_weight != 'default' -%}--rc-slide-btn-weight: {{ block.settings.btn_weight }};{%- endif -%}
+              {%- if block.settings.btn_bg_color != blank -%}--rc-slide-btn-bg: {{ block.settings.btn_bg_color.red }} {{ block.settings.btn_bg_color.green }} {{ block.settings.btn_bg_color.blue }};{%- endif -%}
+              {%- if block.settings.btn_text_color != blank -%}--rc-slide-btn-text: {{ block.settings.btn_text_color.red }} {{ block.settings.btn_text_color.green }} {{ block.settings.btn_text_color.blue }};{%- endif -%}
+            "
+          >
+            {%- if block.settings.link != blank -%}
+              <a href="{{ block.settings.link }}" class="rc-hero-slider__link">
+            {%- endif -%}
+
+            {%- comment -%} Desktop Media {%- endcomment -%}
+            {%- if has_video_desktop -%}
+              <div class="rc-hero-slider__video-wrapper rc-hero-slider__video-wrapper--desktop">
+                {{
+                  block.settings.video_desktop
+                  | video_tag:
+                    autoplay: true,
+                    loop: true,
+                    muted: true,
+                    playsinline: true,
+                    class: 'rc-hero-slider__video',
+                    preload: 'metadata'
+                }}
+              </div>
+            {%- elsif block.settings.image_desktop != blank -%}
+              <img
+                src="{{ block.settings.image_desktop | image_url: width: 2200 }}"
+                srcset="{{ block.settings.image_desktop | image_url: width: 800 }} 800w, {{ block.settings.image_desktop | image_url: width: 1200 }} 1200w, {{ block.settings.image_desktop | image_url: width: 1600 }} 1600w, {{ block.settings.image_desktop | image_url: width: 2000 }} 2000w, {{ block.settings.image_desktop | image_url: width: 2200 }} 2200w"
+                sizes="100vw"
+                alt="{{ block.settings.image_desktop.alt | escape | default: block.settings.heading }}"
+                width="{{ block.settings.image_desktop.width }}"
+                height="{{ block.settings.image_desktop.height }}"
+                class="rc-hero-slider__media rc-hero-slider__media--desktop"
+                {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}
+              >
+            {%- endif -%}
+
+            {%- comment -%} Mobile Media {%- endcomment -%}
+            {%- if has_video_mobile -%}
+              <div class="rc-hero-slider__video-wrapper rc-hero-slider__video-wrapper--mobile">
+                {{
+                  block.settings.video_mobile
+                  | video_tag:
+                    autoplay: true,
+                    loop: true,
+                    muted: true,
+                    playsinline: true,
+                    class: 'rc-hero-slider__video',
+                    preload: 'metadata'
+                }}
+              </div>
+            {%- elsif block.settings.image_mobile != blank -%}
+              <img
+                src="{{ block.settings.image_mobile | image_url: width: 800 }}"
+                srcset="{{ block.settings.image_mobile | image_url: width: 400 }} 400w, {{ block.settings.image_mobile | image_url: width: 600 }} 600w, {{ block.settings.image_mobile | image_url: width: 800 }} 800w, {{ block.settings.image_mobile | image_url: width: 1000 }} 1000w"
+                sizes="100vw"
+                alt="{{ block.settings.image_mobile.alt | escape | default: block.settings.heading }}"
+                width="{{ block.settings.image_mobile.width }}"
+                height="{{ block.settings.image_mobile.height }}"
+                class="rc-hero-slider__media rc-hero-slider__media--mobile"
+                {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}
+              >
+            {%- elsif block.settings.image_desktop != blank -%}
+              {%- comment -%} Fallback to desktop image if no mobile image {%- endcomment -%}
+              <img
+                src="{{ block.settings.image_desktop | image_url: width: 800 }}"
+                srcset="{{ block.settings.image_desktop | image_url: width: 400 }} 400w, {{ block.settings.image_desktop | image_url: width: 600 }} 600w, {{ block.settings.image_desktop | image_url: width: 800 }} 800w, {{ block.settings.image_desktop | image_url: width: 1000 }} 1000w"
+                sizes="100vw"
+                alt="{{ block.settings.image_desktop.alt | escape | default: block.settings.heading }}"
+                width="{{ block.settings.image_desktop.width }}"
+                height="{{ block.settings.image_desktop.height }}"
+                class="rc-hero-slider__media rc-hero-slider__media--mobile"
+                {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}
+              >
+            {%- endif -%}
+
+            {%- comment -%} Overlay {%- endcomment -%}
+            {%- if section.settings.overlay_opacity > 0 -%}
+              <div class="rc-hero-slider__overlay"></div>
+            {%- endif -%}
+
+            {%- comment -%} Content {%- endcomment -%}
+            {%- if block.settings.heading != blank or block.settings.subheading != blank or block.settings.button_text != blank or block.settings.button_text_2 != blank -%}
+              <div class="rc-hero-slider__content rc-hero-slider__content--{{ block.settings.content_position }}">
+                <div class="rc-hero-slider__content-inner">
+                  {%- if block.settings.subheading != blank -%}
+                    <p class="rc-hero-slider__subheading">{{ block.settings.subheading }}</p>
+                  {%- endif -%}
+
+                  {%- if block.settings.heading != blank -%}
+                    <h2 class="rc-hero-slider__heading">{{ block.settings.heading }}</h2>
+                  {%- endif -%}
+
+                  {%- if block.settings.button_text != blank or block.settings.button_text_2 != blank -%}
+                    <div class="rc-hero-slider__buttons">
+                      {%- if block.settings.button_text != blank -%}
+                        <a
+                          href="{{ block.settings.button_link | default: '#' }}"
+                          class="rc-hero-slider__button rc-hero-slider__button--{{ block.settings.button_style }}"
+                        >
+                          {{ block.settings.button_text }}
+                        </a>
+                      {%- endif -%}
+
+                      {%- if block.settings.button_text_2 != blank -%}
+                        <a
+                          href="{{ block.settings.button_link_2 | default: '#' }}"
+                          class="rc-hero-slider__button rc-hero-slider__button--{{ block.settings.button_style_2 }}"
+                        >
+                          {{ block.settings.button_text_2 }}
+                        </a>
+                      {%- endif -%}
+                    </div>
+                  {%- endif -%}
+                </div>
+              </div>
+            {%- endif -%}
+
+            {%- if block.settings.link != blank -%}
+              </a>
+            {%- endif -%}
+
+            {%- comment -%} Volume control for videos {%- endcomment -%}
+            {%- if has_video_desktop or has_video_mobile -%}
+              <div class="rc-hero-slider__volume">
+                <button type="button" class="rc-hero-slider__volume-btn" data-unmute aria-label="{{ 'general.unmute_video' | t | default: 'Unmute video' }}">
+                  <svg aria-hidden="true" focusable="false" fill="none" width="25" viewBox="0 0 25 24">
+                    <path d="M5.335 16.366H1V8.42h4.335m0 7.947V8.42m0 7.947 1.204.86M5.335 8.42 12.922 3v8M9 18.984l3.921 2.801V15.5" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M20.287 21.083A11.98 11.98 0 0 0 24 12.393c0-3.422-1.425-6.493-3.713-8.69m-3.582 3.582a6.947 6.947 0 0 1 0 10.215" stroke="currentColor" stroke-width="1"/>
+                    <path d="m22.5 1.5-21 21" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <button type="button" class="rc-hero-slider__volume-btn" data-mute hidden aria-label="{{ 'general.mute_video' | t | default: 'Mute video' }}">
+                  <svg aria-hidden="true" focusable="false" fill="none" width="25" viewBox="0 0 25 24">
+                    <path d="M5.335 16.366H1V8.42h4.335m0 7.947V8.42m0 7.947 7.587 5.42V3L5.335 8.419" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M20.287 21.083A11.98 11.98 0 0 0 24 12.393c0-3.422-1.425-6.493-3.713-8.69m-3.582 3.582a6.947 6.947 0 0 1 0 10.215" stroke="currentColor" stroke-width="1"/>
+                  </svg>
+                </button>
+              </div>
+            {%- endif -%}
+          </div>
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+
+  {%- if section.blocks.size > 1 -%}
+    {%- comment -%} Navigation Arrows {%- endcomment -%}
+    {%- if section.settings.show_arrows -%}
+      <button type="button" class="rc-hero-slider__nav rc-hero-slider__nav--prev" data-prev aria-label="{{ 'general.previous' | t | default: 'Previous' }}">
+        <span class="rc-hero-slider__nav-btn">
+          <svg aria-hidden="true" focusable="false" fill="none" width="20" viewBox="0 0 20 35">
+            <path d="M0.748048 17.3633L19.1328 -6.01032e-08L19.8203 0.726562L2.20508 17.3633L19.8203 34L19.1328 34.7266L0.748048 17.3633Z" fill="currentColor"/>
+          </svg>
+        </span>
+      </button>
+      <button type="button" class="rc-hero-slider__nav rc-hero-slider__nav--next" data-next aria-label="{{ 'general.next' | t | default: 'Next' }}">
+        <span class="rc-hero-slider__nav-btn">
+          <svg aria-hidden="true" focusable="false" fill="none" width="20" viewBox="0 0 20 35">
+            <path d="M19.8203 17.3633L1.43555 34.7266L0.748047 34L18.3633 17.3633L0.748047 0.726562L1.43555 0L19.8203 17.3633Z" fill="currentColor"/>
+          </svg>
+        </span>
+      </button>
+    {%- endif -%}
+
+    {%- comment -%} Dots {%- endcomment -%}
+    {%- if section.settings.show_dots -%}
+      <div class="rc-hero-slider__dots">
+        {%- for block in section.blocks -%}
+          <button
+            type="button"
+            class="rc-hero-slider__dot{% if forloop.first %} is-active{% endif %}"
+            data-dot="{{ forloop.index0 }}"
+            aria-label="{{ 'general.go_to_slide' | t: index: forloop.index | default: 'Go to slide' | append: ' ' | append: forloop.index }}"
+          >
+            <svg class="rc-circular-progress" height="8" width="8" viewBox="0 0 8 8" style="--rc-stroke-dasharray: 20.42">
+              <circle cx="50%" cy="50%" fill="none" stroke-width="1.5" r="3.25" stroke="currentColor" stroke-opacity="0.2"/>
+              <circle cx="50%" cy="50%" fill="none" stroke-width="1.5" r="3.25" stroke="currentColor" stroke-linecap="round"/>
+            </svg>
+          </button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+</rc-hero-slider>
+
+{% schema %}
+{
+  "name": "RC Hero Slider",
+  "tag": "section",
+  "class": "rc-section rc-section--hero-slider",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_transparent_header",
+      "label": "Enable transparent header overlay",
+      "default": false,
+      "info": "When enabled, the header will appear transparent with white text over this hero section. The header returns to normal when scrolling."
+    },
+    {
+      "type": "header",
+      "content": "Height"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_height_mobile",
+      "label": "Full height on mobile (100vh)",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "height_mobile",
+      "min": 200,
+      "max": 1000,
+      "step": 10,
+      "unit": "px",
+      "label": "Height (mobile)",
+      "default": 500,
+      "info": "Only applies when 'Full height on mobile' is disabled"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_height_desktop",
+      "label": "Full height on desktop (100vh)",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "height_desktop",
+      "min": 300,
+      "max": 1200,
+      "step": 10,
+      "unit": "px",
+      "label": "Height (desktop)",
+      "default": 700,
+      "info": "Only applies when 'Full height on desktop' is disabled"
+    },
+    {
+      "type": "header",
+      "content": "Autoplay"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Enable autoplay",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "min": 3,
+      "max": 20,
+      "step": 1,
+      "unit": "s",
+      "label": "Autoplay speed",
+      "default": 5
+    },
+    {
+      "type": "header",
+      "content": "Controls"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dots",
+      "label": "Show dots",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Show arrows",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "min": 300,
+      "max": 1200,
+      "step": 10,
+      "unit": "px",
+      "label": "Content max width",
+      "default": 600
+    },
+    {
+      "type": "header",
+      "content": "Overlay"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay opacity",
+      "default": 0,
+      "info": "Adds a gradient overlay for better text readability"
+    },
+    {
+      "type": "select",
+      "id": "overlay_direction",
+      "label": "Overlay direction",
+      "options": [
+        { "value": "to top", "label": "Bottom to top" },
+        { "value": "to bottom", "label": "Top to bottom" },
+        { "value": "to right", "label": "Left to right" },
+        { "value": "to left", "label": "Right to left" }
+      ],
+      "default": "to top"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "text",
+      "id": "background_color",
+      "label": "Background color (RGB)",
+      "default": "0 0 0"
+    },
+    {
+      "type": "text",
+      "id": "text_color",
+      "label": "Text color (RGB)",
+      "default": "255 255 255"
+    },
+    {
+      "type": "text",
+      "id": "button_background",
+      "label": "Button background (RGB)",
+      "default": "255 255 255"
+    },
+    {
+      "type": "text",
+      "id": "button_text_color",
+      "label": "Button text color (RGB)",
+      "default": "0 0 0"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Desktop media"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_desktop",
+          "label": "Image (desktop)"
+        },
+        {
+          "type": "video",
+          "id": "video_desktop",
+          "label": "Video (desktop)",
+          "info": "Video takes priority over image"
+        },
+        {
+          "type": "header",
+          "content": "Mobile media"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Image (mobile)",
+          "info": "Leave empty to use desktop image"
+        },
+        {
+          "type": "video",
+          "id": "video_mobile",
+          "label": "Video (mobile)",
+          "info": "Video takes priority over image"
+        },
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "Subheading"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading"
+        },
+        {
+          "type": "select",
+          "id": "content_position",
+          "label": "Content position",
+          "options": [
+            { "value": "top-left", "label": "Top left" },
+            { "value": "top-center", "label": "Top center" },
+            { "value": "top-right", "label": "Top right" },
+            { "value": "center-left", "label": "Center left" },
+            { "value": "center-center", "label": "Center" },
+            { "value": "center-right", "label": "Center right" },
+            { "value": "bottom-left", "label": "Bottom left" },
+            { "value": "bottom-center", "label": "Bottom center" },
+            { "value": "bottom-right", "label": "Bottom right" }
+          ],
+          "default": "bottom-center"
+        },
+        {
+          "type": "header",
+          "content": "Button 1"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button text",
+          "default": "DISCOVER"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Button style",
+          "options": [
+            { "value": "normal", "label": "Normal (filled)" },
+            { "value": "inverted", "label": "Inverted (outline)" }
+          ],
+          "default": "normal"
+        },
+        {
+          "type": "header",
+          "content": "Button 2"
+        },
+        {
+          "type": "text",
+          "id": "button_text_2",
+          "label": "Button text"
+        },
+        {
+          "type": "url",
+          "id": "button_link_2",
+          "label": "Button link"
+        },
+        {
+          "type": "select",
+          "id": "button_style_2",
+          "label": "Button style",
+          "options": [
+            { "value": "normal", "label": "Normal (filled)" },
+            { "value": "inverted", "label": "Inverted (outline)" }
+          ],
+          "default": "inverted"
+        },
+        {
+          "type": "header",
+          "content": "Link"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Slide link",
+          "info": "Makes the entire slide clickable"
+        },
+        {
+          "type": "header",
+          "content": "Heading Typography"
+        },
+        {
+          "type": "select",
+          "id": "heading_font",
+          "label": "Heading font",
+          "options": [
+            { "value": "default", "label": "Default (inherit)" },
+            { "value": "'Aileron', sans-serif", "label": "Aileron" },
+            { "value": "'Inter', sans-serif", "label": "Inter" },
+            { "value": "'Times New Roman', serif", "label": "Times New Roman" },
+            { "value": "'Georgia', serif", "label": "Georgia" },
+            { "value": "'Arial', sans-serif", "label": "Arial" },
+            { "value": "'Helvetica', sans-serif", "label": "Helvetica" }
+          ],
+          "default": "default"
+        },
+        {
+          "type": "range",
+          "id": "heading_size",
+          "min": 0,
+          "max": 120,
+          "step": 2,
+          "unit": "px",
+          "label": "Heading font size (desktop)",
+          "default": 0,
+          "info": "0 = use default size"
+        },
+        {
+          "type": "range",
+          "id": "heading_size_mobile",
+          "min": 0,
+          "max": 80,
+          "step": 1,
+          "unit": "px",
+          "label": "Heading font size (mobile)",
+          "default": 0,
+          "info": "0 = use default size"
+        },
+        {
+          "type": "select",
+          "id": "heading_weight",
+          "label": "Heading font weight",
+          "options": [
+            { "value": "default", "label": "Default (inherit)" },
+            { "value": "300", "label": "Light (300)" },
+            { "value": "400", "label": "Regular (400)" },
+            { "value": "500", "label": "Medium (500)" },
+            { "value": "600", "label": "Semi Bold (600)" },
+            { "value": "700", "label": "Bold (700)" },
+            { "value": "800", "label": "Extra Bold (800)" }
+          ],
+          "default": "default"
+        },
+        {
+          "type": "color",
+          "id": "heading_color",
+          "label": "Heading color"
+        },
+        {
+          "type": "header",
+          "content": "Subheading Typography"
+        },
+        {
+          "type": "select",
+          "id": "subheading_font",
+          "label": "Subheading font",
+          "options": [
+            { "value": "default", "label": "Default (inherit)" },
+            { "value": "'Aileron', sans-serif", "label": "Aileron" },
+            { "value": "'Inter', sans-serif", "label": "Inter" },
+            { "value": "'Times New Roman', serif", "label": "Times New Roman" },
+            { "value": "'Georgia', serif", "label": "Georgia" },
+            { "value": "'Arial', sans-serif", "label": "Arial" },
+            { "value": "'Helvetica', sans-serif", "label": "Helvetica" }
+          ],
+          "default": "default"
+        },
+        {
+          "type": "range",
+          "id": "subheading_size",
+          "min": 0,
+          "max": 60,
+          "step": 1,
+          "unit": "px",
+          "label": "Subheading font size (desktop)",
+          "default": 0,
+          "info": "0 = use default size"
+        },
+        {
+          "type": "range",
+          "id": "subheading_size_mobile",
+          "min": 0,
+          "max": 40,
+          "step": 1,
+          "unit": "px",
+          "label": "Subheading font size (mobile)",
+          "default": 0,
+          "info": "0 = use default size"
+        },
+        {
+          "type": "select",
+          "id": "subheading_weight",
+          "label": "Subheading font weight",
+          "options": [
+            { "value": "default", "label": "Default (inherit)" },
+            { "value": "300", "label": "Light (300)" },
+            { "value": "400", "label": "Regular (400)" },
+            { "value": "500", "label": "Medium (500)" },
+            { "value": "600", "label": "Semi Bold (600)" },
+            { "value": "700", "label": "Bold (700)" },
+            { "value": "800", "label": "Extra Bold (800)" }
+          ],
+          "default": "default"
+        },
+        {
+          "type": "color",
+          "id": "subheading_color",
+          "label": "Subheading color"
+        },
+        {
+          "type": "header",
+          "content": "Button Typography"
+        },
+        {
+          "type": "select",
+          "id": "btn_font",
+          "label": "Button font",
+          "options": [
+            { "value": "default", "label": "Default (inherit)" },
+            { "value": "'Aileron', sans-serif", "label": "Aileron" },
+            { "value": "'Inter', sans-serif", "label": "Inter" },
+            { "value": "'Times New Roman', serif", "label": "Times New Roman" },
+            { "value": "'Georgia', serif", "label": "Georgia" },
+            { "value": "'Arial', sans-serif", "label": "Arial" },
+            { "value": "'Helvetica', sans-serif", "label": "Helvetica" }
+          ],
+          "default": "default"
+        },
+        {
+          "type": "range",
+          "id": "btn_size",
+          "min": 0,
+          "max": 32,
+          "step": 1,
+          "unit": "px",
+          "label": "Button font size",
+          "default": 0,
+          "info": "0 = use default size"
+        },
+        {
+          "type": "select",
+          "id": "btn_weight",
+          "label": "Button font weight",
+          "options": [
+            { "value": "default", "label": "Default (inherit)" },
+            { "value": "300", "label": "Light (300)" },
+            { "value": "400", "label": "Regular (400)" },
+            { "value": "500", "label": "Medium (500)" },
+            { "value": "600", "label": "Semi Bold (600)" },
+            { "value": "700", "label": "Bold (700)" }
+          ],
+          "default": "default"
+        },
+        {
+          "type": "color",
+          "id": "btn_bg_color",
+          "label": "Button background color"
+        },
+        {
+          "type": "color",
+          "id": "btn_text_color",
+          "label": "Button text color"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "RC Hero Slider",
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "heading": "PUR PLANT",
+            "subheading": "Tu espacio verde",
+            "button_text": "DESCUBRIR"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "heading": "NUEVA COLECCION",
+            "button_text": "VER MAS"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

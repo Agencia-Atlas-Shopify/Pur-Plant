@@ -1,0 +1,144 @@
+{{ 'pp-sections.css' | asset_url | stylesheet_tag }}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style"
+  style="{% render 'spacing-style', settings: section.settings %}"
+>
+  {% if section.settings.heading != blank %}
+    <h2 class="pp-features-bar__heading">{{ section.settings.heading }}</h2>
+  {% endif %}
+
+  <div class="pp-features-bar__scroll">
+    <div class="pp-features-bar__grid">
+      {% for block in section.blocks %}
+        <a
+          href="{{ block.settings.link | default: '#' }}"
+          class="pp-feature-item"
+          {{ block.shopify_attributes }}
+        >
+          <div class="pp-feature-item__img-wrap">
+            {% if block.settings.image != blank %}
+              {{
+                block.settings.image
+                | image_url: width: 300
+                | image_tag:
+                  loading: 'lazy',
+                  widths: '130, 200, 260, 300',
+                  sizes: '130px',
+                  class: 'pp-feature-item__img'
+              }}
+            {% else %}
+              {{ 'collection-1' | placeholder_svg_tag: 'pp-feature-item__placeholder' }}
+            {% endif %}
+          </div>
+          <span class="pp-feature-item__label">{{ block.settings.label }}</span>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Features bar",
+  "class": "pp-features-bar-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": ""
+    },
+    {
+      "type": "header",
+      "content": "Section layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Width",
+      "options": [
+        { "value": "page-width", "label": "Page" },
+        { "value": "full-width", "label": "Full" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "pp-beige-warm"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Feature"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Features bar",
+      "category": "Pur Plant",
+      "settings": {
+        "color_scheme": "pp-beige-warm",
+        "padding-block-start": 40,
+        "padding-block-end": 40
+      },
+      "blocks": [
+        { "type": "feature", "settings": { "label": "Pet Friendly" } },
+        { "type": "feature", "settings": { "label": "Autorriegos" } },
+        { "type": "feature", "settings": { "label": "Poca Luz" } },
+        { "type": "feature", "settings": { "label": "Fáciles de cuidar" } },
+        { "type": "feature", "settings": { "label": "Terrarios" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
