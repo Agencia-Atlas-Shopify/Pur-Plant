@@ -176,7 +176,7 @@
         ],
         "layout_type": "carousel",
         "carousel_on_mobile": false,
-        "columns": 5,
+        "columns": 4,
         "mobile_columns": "2",
         "mobile_card_size": "44cqw",
         "columns_gap": 16,
@@ -323,8 +323,8 @@
         "video_max_width": 400,
         "bg_color": "#23372c",
         "text_color": "#daffd3",
-        "padding_top": 0,
-        "padding_bottom": 0
+        "padding_top": 60,
+        "padding_bottom": 52
       }
     },
     "collection_list_PHzjPC": {
