@@ -68,6 +68,45 @@
         text-decoration: line-through !important;
       }
     </style>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var titles = document.querySelectorAll('.pp-card__title, h3.pp-card__title');
+        var prices = document.querySelectorAll('.pp-card__price-regular, .pp-card__price-sale, .pp-card__price-compare');
+        console.log('[PP DEBUG] Found ' + titles.length + ' card titles, ' + prices.length + ' prices');
+        if (titles.length > 0) {
+          var t = titles[0];
+          var cs = getComputedStyle(t);
+          console.log('[PP DEBUG] h3.pp-card__title computed:', {
+            fontFamily: cs.fontFamily,
+            fontSize: cs.fontSize,
+            fontWeight: cs.fontWeight,
+            lineHeight: cs.lineHeight,
+            color: cs.color
+          });
+          var a = t.querySelector('a');
+          if (a) {
+            var acs = getComputedStyle(a);
+            console.log('[PP DEBUG] h3.pp-card__title a computed:', {
+              fontFamily: acs.fontFamily,
+              fontSize: acs.fontSize,
+              fontWeight: acs.fontWeight,
+              color: acs.color
+            });
+          }
+        }
+        if (prices.length > 0) {
+          var p = prices[0];
+          var pcs = getComputedStyle(p);
+          console.log('[PP DEBUG] price computed:', {
+            class: p.className,
+            fontFamily: pcs.fontFamily,
+            fontSize: pcs.fontSize,
+            fontWeight: pcs.fontWeight,
+            color: pcs.color
+          });
+        }
+      });
+    </script>
     {% if request.design_mode %}
       {%- render 'theme-editor' -%}
     {% endif %}
