@@ -77,6 +77,21 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
+    // Set green strip height to match text block
+    document.querySelectorAll('.pp-brand-wrap').forEach(function(wrap) {
+      var text = wrap.querySelector('.pp-brand__text');
+      var strip = wrap.querySelector('.pp-brand__bg-strip');
+      if (text && strip) {
+        function updateStripHeight() {
+          strip.style.height = text.offsetHeight + 'px';
+        }
+        updateStripHeight();
+        window.addEventListener('resize', updateStripHeight);
+        new ResizeObserver(updateStripHeight).observe(text);
+      }
+    });
+
+    // Sound toggle
     document.querySelectorAll('[data-pp-sound-toggle]').forEach(function(btn) {
       btn.addEventListener('click', function(e) {
         e.preventDefault();

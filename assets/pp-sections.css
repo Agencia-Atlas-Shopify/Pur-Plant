@@ -225,8 +225,17 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
   padding-inline: var(--page-margin, 40px);
 }
 
+/* Green strip: full width, height matches the text block */
 .pp-brand__bg-strip {
-  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: var(--pp-brand-strip-h, 100%);
+  background-color: var(--pp-brand-bg);
+  border-radius: var(--pp-brand-radius);
+  z-index: 0;
 }
 
 .pp-brand__inner {
@@ -236,20 +245,11 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
   grid-template-columns: 50% 50%;
   align-items: center;
   gap: 0;
-  background-color: transparent;
   overflow: visible;
 }
 
 .pp-brand__inner--reverse {
   grid-template-columns: 50% 50%;
-}
-
-.pp-brand__text {
-  border-radius: var(--pp-brand-radius) 0 0 var(--pp-brand-radius);
-}
-
-.pp-brand__inner--reverse .pp-brand__text {
-  border-radius: 0 var(--pp-brand-radius) var(--pp-brand-radius) 0;
 }
 
 .pp-brand__inner--reverse .pp-brand__text {
@@ -261,7 +261,6 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
 }
 
 .pp-brand__text {
-  background-color: var(--pp-brand-bg);
   padding: var(--pp-brand-pad-top, 48px) 40px var(--pp-brand-pad-bottom, 48px);
   display: flex;
   flex-direction: column;
