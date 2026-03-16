@@ -56,6 +56,57 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
   line-height: 0.8 !important;
 }
 
+/* ── PP Hero Slider Typography ── */
+
+/* Subheading: "FIESTA DE LA" — Aileron 41.5px (31.1pt) */
+.pp-hero-slider__subheading {
+  font-family: 'Aileron', sans-serif !important;
+  font-size: 41.5px !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.121em !important;
+  line-height: 0.8 !important;
+  text-transform: uppercase !important;
+  margin: 0 0 4px !important;
+}
+
+/* Heading: "PRIMAVERA" — Aileron 51.9px (38.9pt) */
+.pp-hero-slider__heading {
+  font-family: 'Aileron', sans-serif !important;
+  font-size: 51.9px !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.121em !important;
+  line-height: 0.8 !important;
+  text-transform: uppercase !important;
+  margin: 0 0 12px !important;
+}
+
+/* Subtitle: "NATURALEZA QUE BROTA" — Tenor Sans 8.7px (6.5pt) */
+.pp-hero-slider__subtitle {
+  font-family: 'Tenor Sans', Georgia, serif !important;
+  font-size: 8.7px !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.8em !important;
+  line-height: 1.4 !important;
+  text-transform: uppercase !important;
+  margin: 0 0 16px !important;
+}
+
+/* CTA button: "Descubrir" */
+.pp-hero-slider__button {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  background-color: #DAFFD3 !important;
+  color: #23372C !important;
+  border: none !important;
+  border-radius: 6px !important;
+  padding: 10px 24px !important;
+  text-decoration: none !important;
+  text-transform: none !important;
+  letter-spacing: 0.02em !important;
+  display: inline-block !important;
+}
+
 /* ── Features Bar ── */
 
 .pp-features-bar__heading {
