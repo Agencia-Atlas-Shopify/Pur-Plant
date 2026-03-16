@@ -18,7 +18,7 @@
             "image_desktop": "shopify://shop_images/width_1536.webp",
             "subheading": "Tu espacio verde",
             "heading": "PUR PLANT",
-            "content_position": "bottom-center",
+            "content_position": "bottom-left",
             "button_text": "DESCUBRIR",
             "button_link": "",
             "button_style": "normal",
@@ -42,41 +42,10 @@
             "btn_bg_color": "",
             "btn_text_color": ""
           }
-        },
-        "slide_8GUw3t": {
-          "type": "slide",
-          "settings": {
-            "subheading": "",
-            "heading": "NUEVA COLECCION",
-            "content_position": "bottom-center",
-            "button_text": "VER MAS",
-            "button_link": "",
-            "button_style": "normal",
-            "button_text_2": "",
-            "button_link_2": "",
-            "button_style_2": "inverted",
-            "link": "",
-            "heading_font": "default",
-            "heading_size": 0,
-            "heading_size_mobile": 0,
-            "heading_weight": "default",
-            "heading_color": "",
-            "subheading_font": "default",
-            "subheading_size": 0,
-            "subheading_size_mobile": 0,
-            "subheading_weight": "default",
-            "subheading_color": "",
-            "btn_font": "default",
-            "btn_size": 0,
-            "btn_weight": "default",
-            "btn_bg_color": "",
-            "btn_text_color": ""
-          }
         }
       },
       "block_order": [
-        "slide_6xTadD",
-        "slide_8GUw3t"
+        "slide_6xTadD"
       ],
       "name": "PP Hero Slider",
       "settings": {
