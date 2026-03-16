@@ -234,15 +234,22 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
   z-index: 1;
   display: grid;
   grid-template-columns: 50% 50%;
-  align-items: stretch;
+  align-items: center;
   gap: 0;
-  background-color: var(--pp-brand-bg);
-  border-radius: var(--pp-brand-radius);
+  background-color: transparent;
   overflow: visible;
 }
 
 .pp-brand__inner--reverse {
   grid-template-columns: 50% 50%;
+}
+
+.pp-brand__text {
+  border-radius: var(--pp-brand-radius) 0 0 var(--pp-brand-radius);
+}
+
+.pp-brand__inner--reverse .pp-brand__text {
+  border-radius: 0 var(--pp-brand-radius) var(--pp-brand-radius) 0;
 }
 
 .pp-brand__inner--reverse .pp-brand__text {
