@@ -2,6 +2,41 @@
    Pur Plant — Custom sections CSS
    ═══════════════════════════════════════════ */
 
+/* ── PP Product Card overrides (must be in global CSS to beat theme) ── */
+product-card.pp-product-card-standalone h3.pp-card__title,
+product-card.pp-product-card-standalone h3.pp-card__title a {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 13.1px !important;
+  font-weight: 400 !important;
+  line-height: 1.4 !important;
+  color: #1a1a1a !important;
+  text-decoration: none !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+product-card.pp-product-card-standalone .pp-card__price-regular {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 12.8px !important;
+  font-weight: 300 !important;
+  color: #1a1a1a !important;
+}
+
+product-card.pp-product-card-standalone .pp-card__price-sale {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 13.9px !important;
+  font-weight: 900 !important;
+  color: #000000 !important;
+}
+
+product-card.pp-product-card-standalone .pp-card__price-compare {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 12.8px !important;
+  font-weight: 300 !important;
+  color: #999999 !important;
+  text-decoration: line-through !important;
+}
+
 /* ── Collection List alignment ── */
 .section-resource-list__content {
   padding-inline: var(--page-margin, 40px);
