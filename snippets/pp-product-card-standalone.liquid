@@ -409,57 +409,41 @@
     opacity: 0.3;
   }
 
-  /* Badges - RC Product Card Style */
+  /* Badges — Pur Plant style */
   .pp-badge-list {
     position: absolute;
     z-index: 2;
-    inset-block-end: 0;
-    inset-inline-start: 0;
+    inset-block-start: 8px;
+    inset-inline-start: 8px;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    gap: 0.25rem;
-    padding-inline: var(--pp-badge-padding, 0);
+    gap: 4px;
   }
 
   .pp-badge {
     display: inline-flex;
     align-items: center;
     width: max-content;
-    padding: 0.0625rem 0.3125rem;
-    font-family: var(--pp-heading-font-family, 'Inter', sans-serif);
-    font-weight: var(--pp-heading-font-weight, 400);
-    font-style: var(--pp-heading-font-style, normal);
-    font-size: 0.625rem;
-    letter-spacing: var(--pp-heading-letter-spacing, 0);
+    padding: 3px 8px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.02em;
     text-transform: uppercase;
-    background: rgb(var(--pp-badge-background, 0 0 0));
-    border: 0.5px solid rgb(var(--pp-badge-background, 0 0 0));
-    color: rgb(var(--pp-badge-text-color, 255 255 255));
+    background: #DAFFD3;
+    border: 1px solid #37433F;
+    border-radius: 4px;
+    color: #37433F;
   }
 
-  .pp-badge--custom {
-    background: rgb(var(--pp-badge-background, 0 0 0));
-    border-color: rgb(var(--pp-badge-background, 0 0 0));
-    color: rgb(var(--pp-badge-text-color, 255 255 255));
-  }
-
-  .pp-badge--last-units {
-    background: rgb(var(--pp-badge-background, 0 0 0));
-    border-color: rgb(var(--pp-badge-background, 0 0 0));
-    color: rgb(var(--pp-badge-text-color, 255 255 255));
-  }
-
-  .pp-badge--sale {
-    background: rgb(var(--pp-badge-sale-background, 0 0 0));
-    border-color: rgb(var(--pp-badge-sale-background, 0 0 0));
-    color: rgb(var(--pp-badge-sale-text-color, 255 255 255));
-  }
-
+  .pp-badge--custom,
+  .pp-badge--last-units,
+  .pp-badge--sale,
   .pp-badge--sold-out {
-    background: rgb(var(--pp-badge-soldout-background, 100 100 100));
-    border-color: rgb(var(--pp-badge-soldout-background, 100 100 100));
-    color: rgb(var(--pp-badge-soldout-text-color, 255 255 255));
+    background: #DAFFD3;
+    border-color: #37433F;
+    color: #37433F;
   }
 
   .pp-card__quick-add {
@@ -561,10 +545,11 @@
 
   .pp-card__title {
     margin: 0;
-    font-family: var(--font-body--family, inherit);
-    font-weight: var(--font-body--weight, 400);
-    font-size: var(--text-sm, 0.75rem);
+    font-family: 'Inter', var(--font-body--family), sans-serif;
+    font-weight: 400;
+    font-size: 13.1px;
     line-height: 1.4;
+    color: #1a1a1a;
   }
 
   .pp-card__title a {
@@ -576,15 +561,30 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: var(--text-sm, 0.75rem);
   }
 
+  /* Precio normal (sin oferta) */
+  .pp-card__price-regular {
+    font-family: 'Inter', var(--font-body--family), sans-serif;
+    font-size: 12.8px;
+    font-weight: 300;
+    color: #1a1a1a;
+  }
+
+  /* Precio con oferta (negro bold) */
   .pp-card__price-sale {
-    color: rgb(180 0 0);
+    font-family: 'Inter', var(--font-body--family), sans-serif;
+    font-size: 13.9px;
+    font-weight: 900;
+    color: #000000;
   }
 
+  /* Precio tachado */
   .pp-card__price-compare {
-    opacity: 0.5;
+    font-family: 'Inter', var(--font-body--family), sans-serif;
+    font-size: 12.8px;
+    font-weight: 300;
+    color: #999999;
     text-decoration: line-through;
   }
 
