@@ -222,17 +222,16 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
   --pp-brand-radius: 25px;
   --pp-brand-video-max-w: 400px;
   position: relative;
-  padding-inline: var(--page-margin, 40px);
 }
 
-/* Green strip: full width, height matches the text block */
+/* Green strip: full width, height set by JS (fallback 400px) */
 .pp-brand__bg-strip {
   position: absolute;
   left: 0;
   right: 0;
   top: 50%;
   transform: translateY(-50%);
-  height: var(--pp-brand-strip-h, 100%);
+  height: 400px;
   background-color: var(--pp-brand-bg);
   border-radius: var(--pp-brand-radius);
   z-index: 0;
