@@ -7,6 +7,12 @@
   padding-inline: var(--page-margin, 40px);
 }
 
+/* Reduce carousel gutter padding to match page margin */
+.resource-list__carousel slideshow-slides[gutters] {
+  --gutter-slide-width: 0px !important;
+  padding-inline-start: var(--page-margin, 40px) !important;
+}
+
 /* ── Collection List card titles ── */
 .collection-card__content .text-block p {
   font-family: 'Aileron', var(--font-body--family), sans-serif !important;
