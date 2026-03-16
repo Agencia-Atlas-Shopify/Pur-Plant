@@ -32,6 +32,42 @@
     {%- render 'color-schemes' -%}
     {{ 'pp-sections.css' | asset_url | stylesheet_tag }}
     {{ 'aileron-font.css' | asset_url | stylesheet_tag }}
+    <style>
+      product-card.pp-product-card-standalone h3.pp-card__title,
+      product-card.pp-product-card-standalone h3.pp-card__title a,
+      .pp-product-card-standalone h3.pp-card__title,
+      .pp-product-card-standalone h3.pp-card__title a,
+      h3.pp-card__title,
+      h3.pp-card__title a {
+        font-family: 'Inter', sans-serif !important;
+        font-size: 13.1px !important;
+        font-weight: 400 !important;
+        line-height: 1.4 !important;
+        color: #1a1a1a !important;
+        text-decoration: none !important;
+        letter-spacing: 0 !important;
+        text-transform: none !important;
+      }
+      .pp-card__price-regular {
+        font-family: 'Inter', sans-serif !important;
+        font-size: 12.8px !important;
+        font-weight: 300 !important;
+        color: #1a1a1a !important;
+      }
+      .pp-card__price-sale {
+        font-family: 'Inter', sans-serif !important;
+        font-size: 13.9px !important;
+        font-weight: 900 !important;
+        color: #000000 !important;
+      }
+      .pp-card__price-compare {
+        font-family: 'Inter', sans-serif !important;
+        font-size: 12.8px !important;
+        font-weight: 300 !important;
+        color: #999999 !important;
+        text-decoration: line-through !important;
+      }
+    </style>
     {% if request.design_mode %}
       {%- render 'theme-editor' -%}
     {% endif %}
