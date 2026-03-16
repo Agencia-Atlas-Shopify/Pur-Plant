@@ -11,9 +11,7 @@
 
 /* Container */
 .pp-collection__container {
-  --distance-to-bleed: max(var(--container-gutter, 20px), 50% - var(--container-max-width, 100rem) / 2);
-  margin-inline-start: max(var(--container-gutter, 20px), 50% - var(--container-max-width, 100rem) / 2);
-  margin-inline-end: max(var(--container-gutter, 20px), 50% - var(--container-max-width, 100rem) / 2);
+  padding-inline: var(--page-margin, 40px);
 }
 
 /* Header */
