@@ -220,7 +220,7 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
   --pp-brand-text: #DAFFD3;
   --pp-brand-overflow: 48px;
   --pp-brand-radius: 25px;
-  --pp-brand-video-max-h: 500px;
+  --pp-brand-video-max-w: 400px;
   position: relative;
   padding-inline: var(--page-margin, 40px);
 }
@@ -304,23 +304,21 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
   border-radius: var(--pp-brand-radius);
   overflow: hidden;
   margin-block: calc(-1 * var(--pp-brand-overflow));
-  margin-inline-end: -1px;
   align-self: center;
-  max-height: var(--pp-brand-video-max-h);
-  min-width: 300px;
+  justify-self: center;
+  max-width: var(--pp-brand-video-max-w, 400px);
+  width: 100%;
   position: relative;
 }
 
 .pp-brand__inner--reverse .pp-brand__media {
-  margin-inline-end: 0;
-  margin-inline-start: -1px;
+  justify-self: center;
 }
 
 .pp-brand__img,
 .pp-brand__video {
   width: 100%;
-  height: 100%;
-  max-height: var(--pp-brand-video-max-h);
+  height: auto;
   object-fit: cover;
   display: block;
 }
@@ -385,6 +383,7 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
     margin-block: 0;
     margin-inline: 0;
     border-radius: 0 0 var(--pp-brand-radius) var(--pp-brand-radius);
-    max-height: 350px;
+    max-width: 100%;
+    justify-self: center;
   }
 }
