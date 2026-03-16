@@ -233,7 +233,7 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 50% 50%;
   align-items: stretch;
   gap: 0;
   background-color: var(--pp-brand-bg);
@@ -242,7 +242,7 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
 }
 
 .pp-brand__inner--reverse {
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 50% 50%;
 }
 
 .pp-brand__inner--reverse .pp-brand__text {
@@ -286,7 +286,7 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
 .pp-brand__cta {
   display: block;
   font-family: 'Inter', sans-serif;
-  font-size: 14px;
+  font-size: 22.1px;
   font-weight: 400;
   color: var(--pp-brand-text);
   text-decoration: underline;
