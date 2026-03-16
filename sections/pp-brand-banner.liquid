@@ -27,13 +27,16 @@
     </div>
 
     <div class="pp-brand__media">
-      {% if section.settings.video_url != blank %}
+      {% if section.settings.video != blank %}
+        {{ section.settings.video | video_tag: autoplay: true, muted: true, loop: true, playsinline: true, loading: 'lazy', class: 'pp-brand__video' }}
+      {% elsif section.settings.video_url != blank %}
         <video
           class="pp-brand__video"
           autoplay
           muted
           loop
           playsinline
+          loading="lazy"
           {% if section.settings.image != blank %}
             poster="{{ section.settings.image | image_url: width: 900 }}"
           {% endif %}
@@ -92,15 +95,22 @@
       "content": "Media"
     },
     {
-      "type": "image_picker",
-      "id": "image",
-      "label": "Image"
+      "type": "video",
+      "id": "video",
+      "label": "Video (upload/drag)",
+      "info": "Upload a video directly. Takes priority over URL and image."
     },
     {
       "type": "url",
       "id": "video_url",
       "label": "Video URL (MP4)",
-      "info": "Optional. Overrides image if set."
+      "info": "Alternative: paste an external MP4 URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image (fallback)",
+      "info": "Used if no video is set"
     },
     {
       "type": "select",
