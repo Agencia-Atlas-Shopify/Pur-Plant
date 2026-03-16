@@ -2,6 +2,11 @@
    Pur Plant — Custom sections CSS
    ═══════════════════════════════════════════ */
 
+/* ── Collection List alignment ── */
+.section-resource-list__content {
+  padding-inline: var(--page-margin, 40px);
+}
+
 /* ── Collection List card titles ── */
 .collection-card__content .text-block p {
   font-family: 'Aileron', var(--font-body--family), sans-serif !important;
