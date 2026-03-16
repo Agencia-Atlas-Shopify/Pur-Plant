@@ -220,16 +220,10 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
   --pp-brand-text: #DAFFD3;
   --pp-brand-overflow: 48px;
   position: relative;
-  padding-block: var(--pp-brand-overflow);
 }
 
 .pp-brand__bg-strip {
-  position: absolute;
-  top: var(--pp-brand-overflow);
-  bottom: var(--pp-brand-overflow);
-  left: 0;
-  right: 0;
-  background-color: var(--pp-brand-bg);
+  display: none;
 }
 
 .pp-brand__inner {
@@ -238,10 +232,10 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
-  gap: 48px;
+  gap: 0;
   max-width: 1200px;
   margin: 0 auto;
-  padding-inline: 40px;
+  padding-inline: var(--page-margin, 40px);
 }
 
 .pp-brand__inner--reverse {
@@ -253,7 +247,12 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
 }
 
 .pp-brand__text {
-  padding-block: 40px;
+  background-color: var(--pp-brand-bg);
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .pp-brand__copy {
@@ -298,7 +297,8 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
 .pp-brand__media {
   border-radius: 10px;
   overflow: hidden;
-  aspect-ratio: 4 / 5;
+  margin-block: calc(-1 * var(--pp-brand-overflow));
+  align-self: center;
 }
 
 .pp-brand__img,
@@ -316,13 +316,13 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
 
 @media screen and (max-width: 749px) {
   .pp-brand-wrap {
-    --pp-brand-overflow: 24px;
+    --pp-brand-overflow: 20px;
   }
 
   .pp-brand__inner {
     grid-template-columns: 1fr;
-    gap: 24px;
-    padding-inline: 20px;
+    gap: 0;
+    padding-inline: var(--page-margin, 16px);
   }
 
   .pp-brand__inner--reverse {
@@ -330,11 +330,16 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
   }
 
   .pp-brand__copy {
-    font-size: 22px;
-    letter-spacing: 0.08em;
+    font-size: 20px;
+    letter-spacing: 0.15em;
   }
 
   .pp-brand__text {
-    padding-block: 20px;
+    padding: 32px 24px;
+  }
+
+  .pp-brand__media {
+    margin-block: 0;
+    border-radius: 10px 10px 0 0;
   }
 }
