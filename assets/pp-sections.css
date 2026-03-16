@@ -18,7 +18,7 @@ product-card.pp-product-card-standalone h3.pp-card__title a {
 product-card.pp-product-card-standalone .pp-card__price-regular {
   font-family: 'Inter', sans-serif !important;
   font-size: 14.7px !important;
-  font-weight: 300 !important;
+  font-weight: 700 !important;
   color: #1a1a1a !important;
 }
 
