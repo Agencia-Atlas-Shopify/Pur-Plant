@@ -72,39 +72,65 @@
       document.addEventListener('DOMContentLoaded', function() {
         var titles = document.querySelectorAll('.pp-card__title, h3.pp-card__title');
         var prices = document.querySelectorAll('.pp-card__price-regular, .pp-card__price-sale, .pp-card__price-compare');
-        console.log('[PP DEBUG] Found ' + titles.length + ' card titles, ' + prices.length + ' prices');
+        console.log('[PP DEBUG] Found ' + titles.length + ' titles, ' + prices.length + ' prices');
         if (titles.length > 0) {
           var t = titles[0];
           var cs = getComputedStyle(t);
-          console.log('[PP DEBUG] h3.pp-card__title computed:', {
-            fontFamily: cs.fontFamily,
-            fontSize: cs.fontSize,
-            fontWeight: cs.fontWeight,
-            lineHeight: cs.lineHeight,
-            color: cs.color
-          });
+          console.log('[PP DEBUG] TITLE h3: font-size=' + cs.fontSize + ' font-family=' + cs.fontFamily + ' font-weight=' + cs.fontWeight);
           var a = t.querySelector('a');
           if (a) {
             var acs = getComputedStyle(a);
-            console.log('[PP DEBUG] h3.pp-card__title a computed:', {
-              fontFamily: acs.fontFamily,
-              fontSize: acs.fontSize,
-              fontWeight: acs.fontWeight,
-              color: acs.color
-            });
+            console.log('[PP DEBUG] TITLE a: font-size=' + acs.fontSize + ' font-family=' + acs.fontFamily + ' font-weight=' + acs.fontWeight);
+            // FORCE override via JS as test
+            a.style.setProperty('font-size', '13.1px', 'important');
+            a.style.setProperty('font-family', 'Inter, sans-serif', 'important');
+            a.style.setProperty('font-weight', '400', 'important');
+            a.style.setProperty('letter-spacing', '0', 'important');
+            a.style.setProperty('text-transform', 'none', 'important');
+            console.log('[PP DEBUG] TITLE a AFTER JS FORCE: font-size=' + getComputedStyle(a).fontSize);
           }
+          // Also force h3 itself
+          t.style.setProperty('font-size', '13.1px', 'important');
+          t.style.setProperty('font-family', 'Inter, sans-serif', 'important');
+          t.style.setProperty('font-weight', '400', 'important');
+          t.style.setProperty('letter-spacing', '0', 'important');
+          t.style.setProperty('text-transform', 'none', 'important');
         }
-        if (prices.length > 0) {
-          var p = prices[0];
-          var pcs = getComputedStyle(p);
-          console.log('[PP DEBUG] price computed:', {
-            class: p.className,
-            fontFamily: pcs.fontFamily,
-            fontSize: pcs.fontSize,
-            fontWeight: pcs.fontWeight,
-            color: pcs.color
-          });
-        }
+        // Force ALL titles and links
+        document.querySelectorAll('.pp-card__title').forEach(function(el) {
+          el.style.setProperty('font-size', '13.1px', 'important');
+          el.style.setProperty('font-family', 'Inter, sans-serif', 'important');
+          el.style.setProperty('font-weight', '400', 'important');
+          el.style.setProperty('letter-spacing', '0', 'important');
+          el.style.setProperty('line-height', '1.4', 'important');
+          el.style.setProperty('text-transform', 'none', 'important');
+          var link = el.querySelector('a');
+          if (link) {
+            link.style.setProperty('font-size', '13.1px', 'important');
+            link.style.setProperty('font-family', 'Inter, sans-serif', 'important');
+            link.style.setProperty('font-weight', '400', 'important');
+            link.style.setProperty('letter-spacing', '0', 'important');
+            link.style.setProperty('text-transform', 'none', 'important');
+          }
+        });
+        document.querySelectorAll('.pp-card__price-regular').forEach(function(el) {
+          el.style.setProperty('font-size', '12.8px', 'important');
+          el.style.setProperty('font-weight', '300', 'important');
+          el.style.setProperty('font-family', 'Inter, sans-serif', 'important');
+        });
+        document.querySelectorAll('.pp-card__price-sale').forEach(function(el) {
+          el.style.setProperty('font-size', '13.9px', 'important');
+          el.style.setProperty('font-weight', '900', 'important');
+          el.style.setProperty('font-family', 'Inter, sans-serif', 'important');
+          el.style.setProperty('color', '#000000', 'important');
+        });
+        document.querySelectorAll('.pp-card__price-compare').forEach(function(el) {
+          el.style.setProperty('font-size', '12.8px', 'important');
+          el.style.setProperty('font-weight', '300', 'important');
+          el.style.setProperty('font-family', 'Inter, sans-serif', 'important');
+          el.style.setProperty('color', '#999999', 'important');
+        });
+        console.log('[PP DEBUG] JS force applied to all cards');
       });
     </script>
     {% if request.design_mode %}
