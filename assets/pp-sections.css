@@ -61,6 +61,7 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
 /* Content block: centered text within positioned area */
 .pp-hero-slider__content-inner {
   text-align: center !important;
+  align-items: center !important;
 }
 
 /* Subheading: "FIESTA DE LA" — Aileron 41.5px (31.1pt) */
