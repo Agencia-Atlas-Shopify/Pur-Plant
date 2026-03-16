@@ -224,11 +224,11 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
   position: relative;
 }
 
-/* Green strip: full width, height set by JS (fallback 400px) */
+/* Green strip: container width with page-margin padding */
 .pp-brand__bg-strip {
   position: absolute;
-  left: 0;
-  right: 0;
+  left: var(--page-margin, 40px);
+  right: var(--page-margin, 40px);
   top: 50%;
   transform: translateY(-50%);
   height: 400px;
