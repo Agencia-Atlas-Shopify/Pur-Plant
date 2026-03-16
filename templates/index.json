@@ -15,6 +15,7 @@
         "slide_6xTadD": {
           "type": "slide",
           "settings": {
+            "image_desktop": "shopify://shop_images/width_1536.webp",
             "subheading": "Tu espacio verde",
             "heading": "PUR PLANT",
             "content_position": "bottom-center",
