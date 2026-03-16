@@ -320,11 +320,11 @@
         "video_url": "",
         "image_position": "right",
         "image_overflow": 48,
-        "video_max_height": 380,
+        "video_max_width": 400,
         "bg_color": "#23372c",
         "text_color": "#daffd3",
-        "padding_top": 40,
-        "padding_bottom": 40
+        "padding_top": 0,
+        "padding_bottom": 0
       }
     },
     "features_bar_pp": {
