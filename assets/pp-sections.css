@@ -327,11 +327,12 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
 }
 
 .pp-brand__text {
-  padding: var(--pp-brand-pad-top, 48px) 24px var(--pp-brand-pad-bottom, 48px) 100px;
+  padding: var(--pp-brand-pad-top, 48px) 40px var(--pp-brand-pad-bottom, 48px) 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
 }
 
 .pp-brand__copy {
