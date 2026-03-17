@@ -229,7 +229,7 @@
       "settings": {
         "title": "MUST",
         "view_all_text": "Ver todo",
-        "view_all_url": "",
+        "view_all_url": "shopify://collections",
         "padding_top": 24,
         "padding_bottom": 16
       }
