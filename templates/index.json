@@ -15,9 +15,10 @@
         "slide_6xTadD": {
           "type": "slide",
           "settings": {
-            "image_desktop": "shopify://shop_images/width_1536.webp",
+            "video_desktop": "shopify://files/videos/pur (1).mp4",
             "subheading": "Tu espacio verde",
             "heading": "PUR PLANT",
+            "subtitle": "",
             "content_position": "bottom-left",
             "button_text": "DESCUBRIR",
             "button_link": "",
