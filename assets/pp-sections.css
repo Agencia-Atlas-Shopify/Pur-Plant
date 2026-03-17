@@ -327,7 +327,7 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
 }
 
 .pp-brand__text {
-  padding: var(--pp-brand-pad-top, 48px) 40px var(--pp-brand-pad-bottom, 48px) 40px;
+  padding: var(--pp-brand-pad-top, 48px) 8% var(--pp-brand-pad-bottom, 48px) 8%;
   display: flex;
   flex-direction: column;
   justify-content: center;
