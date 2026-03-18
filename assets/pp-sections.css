@@ -18,41 +18,38 @@
 
 .pp-card__wishlist-btn {
   flex-shrink: 0 !important;
-  background: transparent !important;
-  border: 1.5px solid rgba(0, 0, 0, 0.2) !important;
-  border-radius: 50% !important;
-  width: 28px !important;
-  height: 28px !important;
+  background: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  width: auto !important;
+  height: auto !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   cursor: pointer !important;
   padding: 0 !important;
-  margin-top: 1px !important;
-  color: rgba(0, 0, 0, 0.3) !important;
-  transition: all 0.2s ease !important;
+  margin-top: 2px !important;
+  color: rgba(0, 0, 0, 0.25) !important;
+  transition: color 0.2s ease !important;
   z-index: 2 !important;
   position: relative !important;
 }
 
 .pp-card__wishlist-btn:hover {
-  border-color: rgba(0, 0, 0, 0.5) !important;
   color: rgba(0, 0, 0, 0.5) !important;
 }
 
 .pp-card__wishlist-btn.is-wishlisted {
-  background: #d2c7b7 !important;
-  border-color: #d2c7b7 !important;
-  color: #fff !important;
+  color: #d2c7b7 !important;
 }
 
 .pp-card__wishlist-btn.is-wishlisted svg {
-  fill: #fff !important;
+  fill: #d2c7b7 !important;
 }
 
 .pp-card__wishlist-btn svg {
-  width: 14px !important;
-  height: 14px !important;
+  width: 18px !important;
+  height: 18px !important;
 }
 product-card.pp-product-card-standalone h3.pp-card__title,
 product-card.pp-product-card-standalone h3.pp-card__title a {
@@ -122,10 +119,10 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
   gap: 0px !important;
 }
 
-/* Subheading: "FIESTA DE LA" — Aileron 50px */
+/* Subheading: "FIESTA DE LA" — Aileron 58px */
 .pp-hero-slider__subheading {
   font-family: 'Aileron', sans-serif !important;
-  font-size: 50px !important;
+  font-size: 58px !important;
   font-weight: 900 !important;
   letter-spacing: -0.06em !important;
   line-height: 0.8 !important;
@@ -134,10 +131,10 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
   margin: 0 0 4px !important;
 }
 
-/* Heading: "PRIMAVERA" — Aileron 62px */
+/* Heading: "PRIMAVERA" — Aileron 72px */
 .pp-hero-slider__heading {
   font-family: 'Aileron', sans-serif !important;
-  font-size: 62px !important;
+  font-size: 72px !important;
   font-weight: 900 !important;
   letter-spacing: -0.07em !important;
   line-height: 0.8 !important;
@@ -146,10 +143,10 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
   margin: 0 0 12px !important;
 }
 
-/* Subtitle: "NATURALEZA QUE BROTA" — Tenor Sans 10.5px */
+/* Subtitle: "NATURALEZA QUE BROTA" — Tenor Sans 12px */
 .pp-hero-slider__subtitle {
   font-family: 'Tenor Sans', Georgia, serif !important;
-  font-size: 10.5px !important;
+  font-size: 12px !important;
   font-weight: 400 !important;
   letter-spacing: 0.8em !important;
   line-height: 1.4 !important;
