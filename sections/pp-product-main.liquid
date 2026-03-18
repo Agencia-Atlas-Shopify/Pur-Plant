@@ -12,7 +12,7 @@
   assign featured_image = current_variant.featured_image | default: product.featured_image
 -%}
 
-{{ product | structured_data }}
+<script type="application/ld+json">{{ product | structured_data }}</script>
 
 <section
   id="pp-pdp-{{ section.id }}"
@@ -21,7 +21,78 @@
   data-product-id="{{ product.id }}"
 >
   <div class="pp-pdp__grid">
-    {%- comment -%} ═══ LEFT: Image Gallery ═══ {%- endcomment -%}
+    {%- comment -%} ═══ LEFT: Product Info (top part) ═══ {%- endcomment -%}
+    <div class="pp-pdp__info-left" data-pp-info-left>
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'breadcrumb' -%}
+            <nav class="pp-pdp__breadcrumb" {{ block.shopify_attributes }}>
+              <a href="/">Home</a>
+              <span>/</span>
+              {%- if product.collections.size > 0 -%}
+                <a href="{{ product.collections.first.url }}">{{ product.collections.first.title }}</a>
+                <span>/</span>
+              {%- endif -%}
+              <span>{{ product.title }}</span>
+            </nav>
+          {%- when 'title' -%}
+            <div class="pp-pdp__title-row" {{ block.shopify_attributes }}>
+              <h1 class="pp-pdp__title">{{ product.title }}</h1>
+              {%- if block.settings.show_wishlist -%}
+                <button type="button" class="pp-pdp__wishlist-btn" data-wishlist-add data-product-id="{{ product.id }}" data-product-handle="{{ product.handle }}" aria-label="{{ 'products.product.add_wishlist' | t | default: 'Add to wishlist' }}">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="22" height="22"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                </button>
+              {%- endif -%}
+            </div>
+          {%- when 'price' -%}
+            <div class="pp-pdp__price" data-pp-price {{ block.shopify_attributes }}>
+              {%- if current_variant.compare_at_price > current_variant.price -%}
+                <s class="pp-pdp__price-compare" data-pp-compare-price>{{ current_variant.compare_at_price | money }}</s>
+              {%- endif -%}
+              <span class="pp-pdp__price-current" data-pp-current-price>{{ current_variant.price | money }}</span>
+              {%- if current_variant.compare_at_price > current_variant.price and block.settings.show_save_badge -%}
+                {%- assign save_pct = current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price -%}
+                <span class="pp-pdp__save-badge" data-pp-save-badge>-{{ save_pct }}%</span>
+              {%- endif -%}
+            </div>
+          {%- when 'care_icons' -%}
+            <div class="pp-pdp__care-icons" {{ block.shopify_attributes }}>
+              {%- for i in (1..6) -%}
+                {%- assign icon_key = 'icon_' | append: i -%}
+                {%- assign label_key = 'label_' | append: i -%}
+                {%- assign icon = block.settings[icon_key] -%}
+                {%- assign label = block.settings[label_key] -%}
+                {%- if icon != blank or label != blank -%}
+                  <div class="pp-pdp__care-icon">
+                    {%- if icon != blank -%}
+                      <img src="{{ icon | image_url: width: 80 }}" alt="{{ label }}" width="40" height="40" loading="lazy">
+                    {%- endif -%}
+                    {%- if label != blank -%}
+                      <span>{{ label }}</span>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          {%- when 'accordion' -%}
+            <details class="pp-pdp__accordion"{% if block.settings.open_by_default %} open{% endif %} {{ block.shopify_attributes }}>
+              <summary class="pp-pdp__accordion-header">
+                <span>{{ block.settings.heading }}</span>
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4.5L6 8.5L10 4.5"/></svg>
+              </summary>
+              <div class="pp-pdp__accordion-content">
+                {%- case block.settings.content_source -%}
+                  {%- when 'description' -%}{{ product.description }}
+                  {%- when 'metafield' -%}{%- assign mf_key = block.settings.metafield_key -%}{{ product.metafields.custom[mf_key] | metafield_tag }}
+                  {%- when 'custom' -%}{{ block.settings.custom_content }}
+                {%- endcase -%}
+              </div>
+            </details>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+
+    {%- comment -%} ═══ CENTER: Image Gallery ═══ {%- endcomment -%}
     <div class="pp-pdp__gallery">
       {%- if product.media.size > 1 -%}
         <div class="pp-pdp__thumbnails" data-pp-thumbs>
@@ -81,55 +152,18 @@
       </div>
     </div>
 
-    {%- comment -%} ═══ RIGHT: Product Info (sticky) ═══ {%- endcomment -%}
-    <div class="pp-pdp__info" data-pp-info>
+    {%- comment -%} ═══ RIGHT: Purchase info (sticky) ═══ {%- endcomment -%}
+    <div class="pp-pdp__info-right" data-pp-info>
+      {%- comment -%} Right column price (synced with left) {%- endcomment -%}
+      <div class="pp-pdp__price pp-pdp__price--right" data-pp-price>
+        {%- if current_variant.compare_at_price > current_variant.price -%}
+          <s class="pp-pdp__price-compare" data-pp-compare-price>{{ current_variant.compare_at_price | money }}</s>
+        {%- endif -%}
+        <span class="pp-pdp__price-current" data-pp-current-price>{{ current_variant.price | money }}</span>
+      </div>
+
       {%- for block in section.blocks -%}
         {%- case block.type -%}
-
-          {%- comment -%} ── Breadcrumb ── {%- endcomment -%}
-          {%- when 'breadcrumb' -%}
-            <nav class="pp-pdp__breadcrumb" {{ block.shopify_attributes }}>
-              <a href="/">Home</a>
-              <span>/</span>
-              {%- if product.collections.size > 0 -%}
-                <a href="{{ product.collections.first.url }}">{{ product.collections.first.title }}</a>
-                <span>/</span>
-              {%- endif -%}
-              <span>{{ product.title }}</span>
-            </nav>
-
-          {%- comment -%} ── Title + Wishlist ── {%- endcomment -%}
-          {%- when 'title' -%}
-            <div class="pp-pdp__title-row" {{ block.shopify_attributes }}>
-              <h1 class="pp-pdp__title">{{ product.title }}</h1>
-              {%- if block.settings.show_wishlist -%}
-                <button
-                  type="button"
-                  class="pp-pdp__wishlist-btn"
-                  data-wishlist-add
-                  data-product-id="{{ product.id }}"
-                  data-product-handle="{{ product.handle }}"
-                  aria-label="{{ 'products.product.add_wishlist' | t | default: 'Add to wishlist' }}"
-                >
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="22" height="22">
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                  </svg>
-                </button>
-              {%- endif -%}
-            </div>
-
-          {%- comment -%} ── Price ── {%- endcomment -%}
-          {%- when 'price' -%}
-            <div class="pp-pdp__price" data-pp-price {{ block.shopify_attributes }}>
-              {%- if current_variant.compare_at_price > current_variant.price -%}
-                <s class="pp-pdp__price-compare" data-pp-compare-price>{{ current_variant.compare_at_price | money }}</s>
-              {%- endif -%}
-              <span class="pp-pdp__price-current" data-pp-current-price>{{ current_variant.price | money }}</span>
-              {%- if current_variant.compare_at_price > current_variant.price and block.settings.show_save_badge -%}
-                {%- assign save_pct = current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price -%}
-                <span class="pp-pdp__save-badge" data-pp-save-badge>-{{ save_pct }}%</span>
-              {%- endif -%}
-            </div>
 
           {%- comment -%} ── Variant Picker ── {%- endcomment -%}
           {%- when 'variant_picker' -%}
@@ -160,49 +194,6 @@
                 {%- endfor -%}
               </div>
             {%- endunless -%}
-
-          {%- comment -%} ── Care Icons ── {%- endcomment -%}
-          {%- when 'care_icons' -%}
-            <div class="pp-pdp__care-icons" {{ block.shopify_attributes }}>
-              {%- for i in (1..6) -%}
-                {%- assign icon_key = 'icon_' | append: i -%}
-                {%- assign label_key = 'label_' | append: i -%}
-                {%- assign icon = block.settings[icon_key] -%}
-                {%- assign label = block.settings[label_key] -%}
-                {%- if icon != blank or label != blank -%}
-                  <div class="pp-pdp__care-icon">
-                    {%- if icon != blank -%}
-                      <img src="{{ icon | image_url: width: 80 }}" alt="{{ label }}" width="40" height="40" loading="lazy">
-                    {%- endif -%}
-                    {%- if label != blank -%}
-                      <span>{{ label }}</span>
-                    {%- endif -%}
-                  </div>
-                {%- endif -%}
-              {%- endfor -%}
-            </div>
-
-          {%- comment -%} ── Accordion ── {%- endcomment -%}
-          {%- when 'accordion' -%}
-            <details class="pp-pdp__accordion"{% if block.settings.open_by_default %} open{% endif %} {{ block.shopify_attributes }}>
-              <summary class="pp-pdp__accordion-header">
-                <span>{{ block.settings.heading }}</span>
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <path d="M2 4.5L6 8.5L10 4.5"/>
-                </svg>
-              </summary>
-              <div class="pp-pdp__accordion-content">
-                {%- case block.settings.content_source -%}
-                  {%- when 'description' -%}
-                    {{ product.description }}
-                  {%- when 'metafield' -%}
-                    {%- assign mf_key = block.settings.metafield_key -%}
-                    {{ product.metafields.custom[mf_key] | metafield_tag }}
-                  {%- when 'custom' -%}
-                    {{ block.settings.custom_content }}
-                {%- endcase -%}
-              </div>
-            </details>
 
           {%- comment -%} ── Shipping Info ── {%- endcomment -%}
           {%- when 'shipping_info' -%}

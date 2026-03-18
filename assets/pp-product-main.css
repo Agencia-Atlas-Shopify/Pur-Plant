@@ -57,12 +57,34 @@
   color: var(--pp-dark-green);
 }
 
-/* ---------- 2-Column Grid ---------- */
+/* ---------- 3-Column Grid: info-left | gallery | info-right ---------- */
 .pp-pdp__grid {
   display: grid;
-  grid-template-columns: 60% 40%;
-  gap: 0;
+  grid-template-columns: 22% 1fr 22%;
+  gap: 24px;
   align-items: start;
+}
+
+/* Left info column */
+.pp-pdp__info-left {
+  position: sticky;
+  top: calc(var(--pp-header-height, 80px) + 20px);
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px 0;
+}
+
+/* Right purchase column */
+.pp-pdp__info-right {
+  position: sticky;
+  top: calc(var(--pp-header-height, 80px) + 20px);
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px 0;
 }
 
 /* ==========================================================================
@@ -144,22 +166,8 @@
 }
 
 /* ==========================================================================
-   PRODUCT INFO (Sticky Right Column)
+   PRODUCT INFO — Left and Right columns are defined in grid section above
    ========================================================================== */
-
-.pp-pdp__info {
-  position: sticky;
-  top: calc(var(--pp-header-height, 80px) + 20px);
-  padding: var(--pp-info-padding);
-  max-height: calc(100vh - var(--pp-header-height, 80px) - 40px);
-  overflow-y: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.pp-pdp__info::-webkit-scrollbar {
-  display: none;
-}
 
 /* ---------- Badges ---------- */
 .pp-pdp__badges {
@@ -563,15 +571,12 @@
 
 @media screen and (max-width: 999px) {
   .pp-pdp__grid {
-    grid-template-columns: 55% 45%;
+    grid-template-columns: 20% 1fr 20%;
+    gap: 16px;
   }
 
   .pp-pdp__gallery {
     --pp-gallery-thumb-width: 56px;
-  }
-
-  .pp-pdp__info {
-    --pp-info-padding: 0 0 0 20px;
   }
 }
 
@@ -590,11 +595,15 @@
     font-size: 11px;
   }
 
-  /* Single column layout */
+  /* Single column layout — order: gallery, left-info, right-info */
   .pp-pdp__grid {
     grid-template-columns: 1fr;
     gap: 24px;
   }
+
+  .pp-pdp__gallery { order: 1; }
+  .pp-pdp__info-left { order: 2; position: static; }
+  .pp-pdp__info-right { order: 3; position: static; }
 
   /* Gallery: horizontal swipe, no thumbnails */
   .pp-pdp__gallery {
@@ -626,14 +635,7 @@
     border-radius: var(--pp-radius-sm);
   }
 
-  /* Product info: no longer sticky */
-  .pp-pdp__info {
-    position: relative;
-    top: auto;
-    padding: 0;
-    max-height: none;
-    overflow-y: visible;
-  }
+  /* Product info columns: no longer sticky on mobile */
 
   /* Title */
   .pp-pdp__title {
