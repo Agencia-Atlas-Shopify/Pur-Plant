@@ -427,9 +427,8 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
   overflow: hidden;
   margin-block: calc(-1 * var(--pp-brand-overflow, 48px));
   align-self: center;
-  justify-self: end;
+  justify-self: center;
   max-width: var(--pp-brand-video-max-w, 400px);
-  margin-right: var(--page-margin, 40px);
   width: 100%;
   position: relative;
 }
