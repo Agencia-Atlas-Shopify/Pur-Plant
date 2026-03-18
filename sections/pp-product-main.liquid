@@ -30,8 +30,36 @@
               <a href="/">Home</a>
               <span>/</span>
               {%- if product.collections.size > 0 -%}
-                <a href="{{ product.collections.first.url }}">{{ product.collections.first.title }}</a>
-                <span>/</span>
+                {%- comment -%} Walk up the parent chain via custom.coleccion_padre {%- endcomment -%}
+                {%- assign current_coll = product.collections.first -%}
+                {%- assign breadcrumb_chain = '' -%}
+                {%- assign breadcrumb_urls = '' -%}
+                {%- assign depth = 0 -%}
+
+                {%- comment -%} Build chain: walk up parents (max 5 levels) {%- endcomment -%}
+                {%- assign walk_coll = current_coll -%}
+                {%- for i in (1..5) -%}
+                  {%- if breadcrumb_chain == '' -%}
+                    {%- assign breadcrumb_chain = walk_coll.title -%}
+                    {%- assign breadcrumb_urls = walk_coll.url -%}
+                  {%- else -%}
+                    {%- assign breadcrumb_chain = walk_coll.title | append: '|||' | append: breadcrumb_chain -%}
+                    {%- assign breadcrumb_urls = walk_coll.url | append: '|||' | append: breadcrumb_urls -%}
+                  {%- endif -%}
+                  {%- assign parent_ref = walk_coll.metafields.custom.coleccion_padre -%}
+                  {%- if parent_ref != blank and parent_ref.title != blank -%}
+                    {%- assign walk_coll = parent_ref -%}
+                  {%- else -%}
+                    {%- break -%}
+                  {%- endif -%}
+                {%- endfor -%}
+
+                {%- assign crumb_titles = breadcrumb_chain | split: '|||' -%}
+                {%- assign crumb_urls = breadcrumb_urls | split: '|||' -%}
+                {%- for crumb_title in crumb_titles -%}
+                  <a href="{{ crumb_urls[forloop.index0] }}">{{ crumb_title }}</a>
+                  <span>/</span>
+                {%- endfor -%}
               {%- endif -%}
               <span>{{ product.title }}</span>
             </nav>
