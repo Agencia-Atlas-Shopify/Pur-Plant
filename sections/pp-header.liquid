@@ -165,17 +165,16 @@
         </div>
       </div>
     </pp-header-search>
-  </header>
-</pp-header-height-observer>
 
-{%- if section.settings.show_announcement and section.settings.announcement_text != blank -%}
-  <div class="pp-header__announcement-bar" style="background-color: {{ section.settings.announcement_bg_color }}; color: {{ section.settings.announcement_text_color }};">
-    <div class="pp-header__announcement-marquee" data-announcement-marquee>
-      <span class="pp-header__announcement-text">{{ section.settings.announcement_text }}</span>
-      <span class="pp-header__announcement-text" aria-hidden="true">{{ section.settings.announcement_text }}</span>
-    </div>
-  </div>
-{%- endif -%}
+    {%- if section.settings.show_announcement and section.settings.announcement_text != blank -%}
+      <div class="pp-header__announcement-bar" style="background-color: {{ section.settings.announcement_bg_color }}; color: {{ section.settings.announcement_text_color }};">
+        <div class="pp-header__announcement-marquee" data-announcement-marquee>
+          <span class="pp-header__announcement-text">{{ section.settings.announcement_text }}</span>
+          <span class="pp-header__announcement-text" aria-hidden="true">{{ section.settings.announcement_text }}</span>
+        </div>
+      </div>
+    {%- endif -%}
+  </header>
 
 {%- comment -%} Load wishlist JS globally so counter works on every page {%- endcomment -%}
 <div style="display:none;" aria-hidden="true">{% render 'pp-wishlist', type: 'icon' %}</div>

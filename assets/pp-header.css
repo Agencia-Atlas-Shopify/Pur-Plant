@@ -26,7 +26,7 @@
   }
 }
 
-/* ---------- Announcement Bar (below header, NOT sticky) ---------- */
+/* ---------- Announcement Bar (inside header, below nav, hides on scroll) ---------- */
 .pp-header__announcement-bar {
   display: flex;
   align-items: center;
@@ -38,10 +38,16 @@
   letter-spacing: 0.3px;
   text-transform: uppercase;
   white-space: nowrap;
-  padding-top: 10px;
-  position: relative;
-  z-index: 1;
-  /* NOT sticky — stays in place when scrolling */
+  margin-top: 10px;
+  transition: height 0.3s ease, margin-top 0.3s ease, opacity 0.3s ease;
+}
+
+/* Hide announcement on scroll */
+.pp-header--scrolled .pp-header__announcement-bar {
+  height: 0;
+  margin-top: 0;
+  opacity: 0;
+  overflow: hidden;
 }
 
 .pp-header__announcement-marquee {
