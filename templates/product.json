@@ -61,8 +61,7 @@
           "type": "accordion",
           "settings": {
             "heading": "MEDIDAS",
-            "content_source": "metafield",
-            "metafield_key": "medidas"
+            "content_source": "medidas"
           }
         },
         "accordion_about": {
