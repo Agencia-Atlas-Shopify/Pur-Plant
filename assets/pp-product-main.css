@@ -75,23 +75,27 @@
   }
 }
 
-/* Left info column — sticky, vertically centered, below header */
+/* Left info column — sticky, vertically centered, below header+announcement */
 .pp-pdp__info-left {
   position: sticky;
-  top: var(--pp-header-height, 80px);
-  height: calc(100vh - var(--pp-header-height, 80px));
+  top: calc(var(--pp-header-height, 80px) + 20px);
+  max-height: calc(100vh - var(--pp-header-height, 80px) - 40px);
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 12px;
   padding: 0 15px;
+  overflow-y: auto;
+  scrollbar-width: none;
 }
 
-/* Right purchase column — sticky, vertically centered, below header */
+/* Right purchase column — sticky, vertically centered, below header+announcement */
 .pp-pdp__info-right {
   position: sticky;
-  top: var(--pp-header-height, 80px);
-  height: calc(100vh - var(--pp-header-height, 80px));
+  top: calc(var(--pp-header-height, 80px) + 20px);
+  max-height: calc(100vh - var(--pp-header-height, 80px) - 40px);
+  overflow-y: auto;
+  scrollbar-width: none;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -110,8 +114,8 @@
   display: flex;
   flex-direction: column;
   position: sticky;
-  top: var(--pp-header-height, 80px);
-  height: calc(100vh - var(--pp-header-height, 80px));
+  top: calc(var(--pp-header-height, 80px) + 20px);
+  height: calc(100vh - var(--pp-header-height, 80px) - 40px);
   overflow-y: scroll;
   scroll-behavior: smooth;
   scrollbar-width: none;
@@ -494,7 +498,8 @@
 }
 
 /* ---------- Add to Cart Button ---------- */
-.pp-pdp__add-to-cart {
+.pp-pdp__add-to-cart,
+.pp-pdp__add-to-cart-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -584,6 +589,23 @@
   -webkit-appearance: none;
   margin: 0;
 }
+
+/* ==========================================================================
+   SEO TEXT (below product grid)
+   ========================================================================== */
+
+.pp-pdp__seo-text {
+  position: relative;
+  z-index: 2;
+  padding: 40px 47px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #666;
+  max-width: 900px;
+}
+
+.pp-pdp__seo-text p { margin: 0 0 12px; }
+.pp-pdp__seo-title { font-weight: 600; color: #333; margin-bottom: 8px; }
 
 /* ==========================================================================
    SECTION HEADINGS (below-fold: "Explora la coleccion", "Te enamoraras")
