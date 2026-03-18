@@ -52,7 +52,7 @@
 
 /* ---------- Main Wrapper ---------- */
 .pp-pdp {
-  padding: 0 var(--page-margin, 40px);
+  padding: var(--pp-header-height, 120px) var(--page-margin, 40px) 0;
   font-family: var(--pp-font-body);
   color: var(--pp-dark-green);
 }
