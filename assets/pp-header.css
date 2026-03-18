@@ -119,7 +119,7 @@ body.pp-transparent-header-needs-offset.template-product main.content-for-layout
 /* Inner nav bar gets the green background + border-radius */
 .pp-header__inner {
   background-color: rgb(var(--pp-header-bg));
-  border-radius: var(--pp-header-border-radius, 16px);
+  border-radius: 0 0 var(--pp-header-border-radius, 16px) var(--pp-header-border-radius, 16px);
   overflow: hidden;
 }
 
