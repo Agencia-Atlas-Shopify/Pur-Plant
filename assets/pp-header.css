@@ -26,31 +26,22 @@
   }
 }
 
-/* ---------- Announcement Bar ---------- */
-.pp-header__announcement {
+/* ---------- Announcement Bar (below header, NOT sticky) ---------- */
+.pp-header__announcement-bar {
   display: flex;
   align-items: center;
   overflow: hidden;
-  height: 30px;
+  height: 24px;
   border-radius: 0;
-  font-size: 13px;
+  font-size: 10px;
   font-weight: 400;
   letter-spacing: 0.3px;
   text-transform: uppercase;
   white-space: nowrap;
-}
-
-/* When announcement is present, no border-radius on announcement, only bottom on inner */
-.pp-header:has(.pp-header__announcement) {
-  border-radius: 0 0 var(--pp-header-border-radius, 16px) var(--pp-header-border-radius, 16px);
-}
-
-.pp-header:has(.pp-header__announcement) .pp-header__announcement {
-  border-radius: 0;
-}
-
-.pp-header:has(.pp-header__announcement) .pp-header__inner {
-  border-radius: 0 0 var(--pp-header-border-radius, 16px) var(--pp-header-border-radius, 16px);
+  padding-top: 10px;
+  position: relative;
+  z-index: 1;
+  /* NOT sticky — stays in place when scrolling */
 }
 
 .pp-header__announcement-marquee {

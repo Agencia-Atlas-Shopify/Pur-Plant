@@ -39,14 +39,6 @@
     class="pp-header{% if sticky_header %} pp-header--sticky{% endif %}{% if transparent_header %} pp-header--transparent{% endif %}"
     data-section-id="{{ section.id }}"
   >
-    {%- if section.settings.show_announcement and section.settings.announcement_text != blank -%}
-      <div class="pp-header__announcement" style="background-color: {{ section.settings.announcement_bg_color }}; color: {{ section.settings.announcement_text_color }};">
-        <div class="pp-header__announcement-marquee" data-announcement-marquee>
-          <span class="pp-header__announcement-text">{{ section.settings.announcement_text }}</span>
-          <span class="pp-header__announcement-text" aria-hidden="true">{{ section.settings.announcement_text }}</span>
-        </div>
-      </div>
-    {%- endif -%}
     <div class="pp-header__inner">
       {%- comment -%} LEFT: Hamburger + Nav links {%- endcomment -%}
       <nav class="pp-header__primary-nav" aria-label="Navegación principal">
@@ -175,6 +167,15 @@
     </pp-header-search>
   </header>
 </pp-header-height-observer>
+
+{%- if section.settings.show_announcement and section.settings.announcement_text != blank -%}
+  <div class="pp-header__announcement-bar" style="background-color: {{ section.settings.announcement_bg_color }}; color: {{ section.settings.announcement_text_color }};">
+    <div class="pp-header__announcement-marquee" data-announcement-marquee>
+      <span class="pp-header__announcement-text">{{ section.settings.announcement_text }}</span>
+      <span class="pp-header__announcement-text" aria-hidden="true">{{ section.settings.announcement_text }}</span>
+    </div>
+  </div>
+{%- endif -%}
 
 {%- comment -%} Load wishlist JS globally so counter works on every page {%- endcomment -%}
 <div style="display:none;" aria-hidden="true">{% render 'pp-wishlist', type: 'icon' %}</div>
