@@ -75,11 +75,11 @@
   }
 }
 
-/* Left info column — sticky, full viewport height, vertically centered */
+/* Left info column — sticky, vertically centered, below header */
 .pp-pdp__info-left {
   position: sticky;
-  top: 0;
-  height: 100vh;
+  top: var(--pp-header-height, 80px);
+  height: calc(100vh - var(--pp-header-height, 80px));
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -87,11 +87,11 @@
   padding: 0 15px;
 }
 
-/* Right purchase column — sticky, full viewport height, vertically centered */
+/* Right purchase column — sticky, vertically centered, below header */
 .pp-pdp__info-right {
   position: sticky;
-  top: 0;
-  height: 100vh;
+  top: var(--pp-header-height, 80px);
+  height: calc(100vh - var(--pp-header-height, 80px));
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -110,9 +110,8 @@
   display: flex;
   flex-direction: column;
   position: sticky;
-  top: 0;
-  height: 103vh;
-  margin-top: -4%;
+  top: var(--pp-header-height, 80px);
+  height: calc(100vh - var(--pp-header-height, 80px));
   overflow-y: scroll;
   scroll-behavior: smooth;
   scrollbar-width: none;
@@ -145,11 +144,6 @@
 
 .pp-pdp__thumbnails::-webkit-scrollbar {
   display: none;
-}
-
-/* Gallery needs relative for absolute thumbnails */
-.pp-pdp__gallery {
-  position: sticky; /* keep sticky */
 }
 
 /* Thumbnail buttons (inside .pp-pdp__thumbnails) */
