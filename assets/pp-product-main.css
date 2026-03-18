@@ -75,21 +75,25 @@
   }
 }
 
-/* Left info column — sticky, vertically centered, below header+announcement */
+/* Left info column — sticky, starts from top, scrollable */
 .pp-pdp__info-left {
   position: sticky;
   top: calc(var(--pp-header-height, 80px) + 20px);
   max-height: calc(100vh - var(--pp-header-height, 80px) - 40px);
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 12px;
-  padding: 0 15px;
+  padding: 20px 15px;
   overflow-y: auto;
   scrollbar-width: none;
 }
 
-/* Right purchase column — sticky, vertically centered, below header+announcement */
+.pp-pdp__info-left::-webkit-scrollbar {
+  display: none;
+}
+
+/* Right purchase column — sticky, starts from top, scrollable */
 .pp-pdp__info-right {
   position: sticky;
   top: calc(var(--pp-header-height, 80px) + 20px);
@@ -98,9 +102,9 @@
   scrollbar-width: none;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 16px;
-  padding: 0 15px;
+  padding: 20px 15px;
   max-width: 439px;
   margin-left: auto;
   margin-right: auto;
