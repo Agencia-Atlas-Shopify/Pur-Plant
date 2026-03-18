@@ -27,14 +27,13 @@
         {%- case block.type -%}
           {%- when 'breadcrumb' -%}
             <nav class="pp-pdp__breadcrumb" {{ block.shopify_attributes }}>
-              <a href="/">Home</a>
+              <a href="{{ routes.root_url }}">Pur Plant</a>
               <span>/</span>
               {%- if product.collections.size > 0 -%}
                 {%- comment -%} Walk up the parent chain via custom.coleccion_padre {%- endcomment -%}
                 {%- assign current_coll = product.collections.first -%}
                 {%- assign breadcrumb_chain = '' -%}
                 {%- assign breadcrumb_urls = '' -%}
-                {%- assign depth = 0 -%}
 
                 {%- comment -%} Build chain: walk up parents (max 5 levels) {%- endcomment -%}
                 {%- assign walk_coll = current_coll -%}
