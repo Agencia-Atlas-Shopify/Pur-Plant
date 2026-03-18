@@ -26,7 +26,7 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 6px;
-  padding: 12px var(--page-margin, 40px) 0;
+  padding: 0;
   margin-bottom: 16px;
   font-family: var(--pp-font-body);
   font-size: 12px;
@@ -665,7 +665,7 @@
   }
 
   .pp-pdp__breadcrumb {
-    padding: 10px var(--page-margin, 20px) 0;
+    padding: 0;
     margin-bottom: 12px;
     font-size: 11px;
   }
