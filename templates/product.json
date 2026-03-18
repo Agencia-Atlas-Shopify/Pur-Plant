@@ -38,7 +38,7 @@
           "settings": {
             "heading": "DETALLES",
             "content_source": "description",
-            "open_by_default": true
+            "open_by_default": false
           }
         },
         "accordion_descripcion": {
