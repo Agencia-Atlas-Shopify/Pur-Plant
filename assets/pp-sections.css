@@ -430,6 +430,7 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
   align-self: center;
   justify-self: center;
   max-width: var(--pp-brand-video-max-w, 400px);
+  margin-left: -20%;
   width: 100%;
   position: relative;
 }
