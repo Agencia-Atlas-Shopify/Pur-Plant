@@ -38,21 +38,26 @@
 
                 {%- comment -%} Build chain: walk up parents (max 5 levels) {%- endcomment -%}
                 {%- assign walk_coll = current_coll -%}
-                {%- for i in (1..5) -%}
-                  {%- if breadcrumb_chain == '' -%}
-                    {%- assign breadcrumb_chain = walk_coll.title -%}
-                    {%- assign breadcrumb_urls = walk_coll.url -%}
-                  {%- else -%}
-                    {%- assign breadcrumb_chain = walk_coll.title | append: '|||' | append: breadcrumb_chain -%}
-                    {%- assign breadcrumb_urls = walk_coll.url | append: '|||' | append: breadcrumb_urls -%}
+                {%- assign breadcrumb_chain = walk_coll.title -%}
+                {%- assign breadcrumb_urls = walk_coll.url -%}
+
+                {%- assign parent_1 = walk_coll.metafields.custom.coleccion_padre.value -%}
+                {%- if parent_1 != blank and parent_1.title != blank -%}
+                  {%- assign breadcrumb_chain = parent_1.title | append: '|||' | append: breadcrumb_chain -%}
+                  {%- assign breadcrumb_urls = parent_1.url | append: '|||' | append: breadcrumb_urls -%}
+
+                  {%- assign parent_2 = parent_1.metafields.custom.coleccion_padre.value -%}
+                  {%- if parent_2 != blank and parent_2.title != blank -%}
+                    {%- assign breadcrumb_chain = parent_2.title | append: '|||' | append: breadcrumb_chain -%}
+                    {%- assign breadcrumb_urls = parent_2.url | append: '|||' | append: breadcrumb_urls -%}
+
+                    {%- assign parent_3 = parent_2.metafields.custom.coleccion_padre.value -%}
+                    {%- if parent_3 != blank and parent_3.title != blank -%}
+                      {%- assign breadcrumb_chain = parent_3.title | append: '|||' | append: breadcrumb_chain -%}
+                      {%- assign breadcrumb_urls = parent_3.url | append: '|||' | append: breadcrumb_urls -%}
+                    {%- endif -%}
                   {%- endif -%}
-                  {%- assign parent_ref = walk_coll.metafields.custom.coleccion_padre -%}
-                  {%- if parent_ref != blank and parent_ref.title != blank -%}
-                    {%- assign walk_coll = parent_ref -%}
-                  {%- else -%}
-                    {%- break -%}
-                  {%- endif -%}
-                {%- endfor -%}
+                {%- endif -%}
 
                 {%- assign crumb_titles = breadcrumb_chain | split: '|||' -%}
                 {%- assign crumb_urls = breadcrumb_urls | split: '|||' -%}
