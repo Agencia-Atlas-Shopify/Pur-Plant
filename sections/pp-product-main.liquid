@@ -1,0 +1,572 @@
+{%- comment -%}
+  PP Product Main — Custom 2-column PDP section
+  Left: Image gallery with vertical thumbnails
+  Right: Sticky product info with editable blocks
+{%- endcomment -%}
+
+{{ 'pp-product-main.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign product = product
+  assign current_variant = product.selected_or_first_available_variant
+  assign featured_image = current_variant.featured_image | default: product.featured_image
+-%}
+
+{{ product | structured_data }}
+
+<section
+  id="pp-pdp-{{ section.id }}"
+  class="pp-pdp"
+  data-section-id="{{ section.id }}"
+  data-product-id="{{ product.id }}"
+>
+  <div class="pp-pdp__grid">
+    {%- comment -%} ═══ LEFT: Image Gallery ═══ {%- endcomment -%}
+    <div class="pp-pdp__gallery">
+      {%- if product.media.size > 1 -%}
+        <div class="pp-pdp__thumbnails" data-pp-thumbs>
+          {%- for media in product.media -%}
+            <button
+              type="button"
+              class="pp-pdp__thumb{% if media.id == featured_image.id %} is-active{% endif %}"
+              data-pp-thumb
+              data-media-id="{{ media.id }}"
+              data-index="{{ forloop.index0 }}"
+              aria-label="{{ 'general.go_to_slide' | t: index: forloop.index | default: 'Go to image' }}"
+            >
+              <img
+                src="{{ media | image_url: width: 100 }}"
+                alt="{{ media.alt | escape }}"
+                width="60"
+                height="75"
+                loading="lazy"
+              >
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      <div class="pp-pdp__main-images" data-pp-main-images>
+        {%- for media in product.media -%}
+          <div
+            class="pp-pdp__main-image"
+            data-pp-image
+            data-media-id="{{ media.id }}"
+            data-index="{{ forloop.index0 }}"
+          >
+            {%- if media.media_type == 'image' -%}
+              <img
+                src="{{ media | image_url: width: 1200 }}"
+                srcset="{{ media | image_url: width: 600 }} 600w, {{ media | image_url: width: 900 }} 900w, {{ media | image_url: width: 1200 }} 1200w"
+                alt="{{ media.alt | escape }}"
+                width="{{ media.width }}"
+                height="{{ media.height }}"
+                loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                sizes="(min-width: 750px) 60vw, 100vw"
+              >
+            {%- elsif media.media_type == 'video' or media.media_type == 'external_video' -%}
+              {{ media | media_tag: autoplay: true, loop: true, muted: true, controls: true }}
+            {%- elsif media.media_type == 'model' -%}
+              {{ media | media_tag }}
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+
+      {%- comment -%} Mobile dots {%- endcomment -%}
+      <div class="pp-pdp__dots mobile-only" data-pp-dots>
+        {%- for media in product.media -%}
+          <span class="pp-pdp__dot{% if forloop.first %} is-active{% endif %}" data-index="{{ forloop.index0 }}"></span>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    {%- comment -%} ═══ RIGHT: Product Info (sticky) ═══ {%- endcomment -%}
+    <div class="pp-pdp__info" data-pp-info>
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+
+          {%- comment -%} ── Breadcrumb ── {%- endcomment -%}
+          {%- when 'breadcrumb' -%}
+            <nav class="pp-pdp__breadcrumb" {{ block.shopify_attributes }}>
+              <a href="/">Home</a>
+              <span>/</span>
+              {%- if product.collections.size > 0 -%}
+                <a href="{{ product.collections.first.url }}">{{ product.collections.first.title }}</a>
+                <span>/</span>
+              {%- endif -%}
+              <span>{{ product.title }}</span>
+            </nav>
+
+          {%- comment -%} ── Title + Wishlist ── {%- endcomment -%}
+          {%- when 'title' -%}
+            <div class="pp-pdp__title-row" {{ block.shopify_attributes }}>
+              <h1 class="pp-pdp__title">{{ product.title }}</h1>
+              {%- if block.settings.show_wishlist -%}
+                <button
+                  type="button"
+                  class="pp-pdp__wishlist-btn"
+                  data-wishlist-add
+                  data-product-id="{{ product.id }}"
+                  data-product-handle="{{ product.handle }}"
+                  aria-label="{{ 'products.product.add_wishlist' | t | default: 'Add to wishlist' }}"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="22" height="22">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                  </svg>
+                </button>
+              {%- endif -%}
+            </div>
+
+          {%- comment -%} ── Price ── {%- endcomment -%}
+          {%- when 'price' -%}
+            <div class="pp-pdp__price" data-pp-price {{ block.shopify_attributes }}>
+              {%- if current_variant.compare_at_price > current_variant.price -%}
+                <s class="pp-pdp__price-compare" data-pp-compare-price>{{ current_variant.compare_at_price | money }}</s>
+              {%- endif -%}
+              <span class="pp-pdp__price-current" data-pp-current-price>{{ current_variant.price | money }}</span>
+              {%- if current_variant.compare_at_price > current_variant.price and block.settings.show_save_badge -%}
+                {%- assign save_pct = current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price -%}
+                <span class="pp-pdp__save-badge" data-pp-save-badge>-{{ save_pct }}%</span>
+              {%- endif -%}
+            </div>
+
+          {%- comment -%} ── Variant Picker ── {%- endcomment -%}
+          {%- when 'variant_picker' -%}
+            {%- unless product.has_only_default_variant -%}
+              <div class="pp-pdp__variants-wrap" {{ block.shopify_attributes }}>
+                {%- for option in product.options_with_values -%}
+                  <div class="pp-pdp__variant-group" data-option-index="{{ forloop.index0 }}">
+                    <label class="pp-pdp__variant-label">{{ option.name }}</label>
+                    <div class="pp-pdp__variant-pills">
+                      {%- for value in option.values -%}
+                        {%- liquid
+                          assign selected = false
+                          if current_variant.options contains value
+                            assign selected = true
+                          endif
+                        -%}
+                        <button
+                          type="button"
+                          class="pp-pdp__variant-btn{% if selected %} is-active{% endif %}"
+                          data-option-index="{{ forloop.parentloop.index0 }}"
+                          data-value="{{ value | escape }}"
+                        >
+                          {{ value }}
+                        </button>
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                {%- endfor -%}
+              </div>
+            {%- endunless -%}
+
+          {%- comment -%} ── Care Icons ── {%- endcomment -%}
+          {%- when 'care_icons' -%}
+            <div class="pp-pdp__care-icons" {{ block.shopify_attributes }}>
+              {%- for i in (1..6) -%}
+                {%- assign icon_key = 'icon_' | append: i -%}
+                {%- assign label_key = 'label_' | append: i -%}
+                {%- assign icon = block.settings[icon_key] -%}
+                {%- assign label = block.settings[label_key] -%}
+                {%- if icon != blank or label != blank -%}
+                  <div class="pp-pdp__care-icon">
+                    {%- if icon != blank -%}
+                      <img src="{{ icon | image_url: width: 80 }}" alt="{{ label }}" width="40" height="40" loading="lazy">
+                    {%- endif -%}
+                    {%- if label != blank -%}
+                      <span>{{ label }}</span>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+
+          {%- comment -%} ── Accordion ── {%- endcomment -%}
+          {%- when 'accordion' -%}
+            <details class="pp-pdp__accordion"{% if block.settings.open_by_default %} open{% endif %} {{ block.shopify_attributes }}>
+              <summary class="pp-pdp__accordion-header">
+                <span>{{ block.settings.heading }}</span>
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M2 4.5L6 8.5L10 4.5"/>
+                </svg>
+              </summary>
+              <div class="pp-pdp__accordion-content">
+                {%- case block.settings.content_source -%}
+                  {%- when 'description' -%}
+                    {{ product.description }}
+                  {%- when 'metafield' -%}
+                    {%- assign mf_key = block.settings.metafield_key -%}
+                    {{ product.metafields.custom[mf_key] | metafield_tag }}
+                  {%- when 'custom' -%}
+                    {{ block.settings.custom_content }}
+                {%- endcase -%}
+              </div>
+            </details>
+
+          {%- comment -%} ── Shipping Info ── {%- endcomment -%}
+          {%- when 'shipping_info' -%}
+            <div class="pp-pdp__shipping-info" {{ block.shopify_attributes }}>
+              {%- if block.settings.icon != blank -%}
+                <img src="{{ block.settings.icon | image_url: width: 40 }}" width="20" height="20" alt="">
+              {%- endif -%}
+              <span>{{ block.settings.text }}</span>
+            </div>
+
+          {%- comment -%} ── Total Price ── {%- endcomment -%}
+          {%- when 'total_price' -%}
+            <div class="pp-pdp__total" data-pp-total {{ block.shopify_attributes }}>
+              <span class="pp-pdp__total-label">TOTAL</span>
+              <span class="pp-pdp__total-value" data-pp-total-price>{{ current_variant.price | money }}</span>
+            </div>
+
+          {%- comment -%} ── Buy Button ── {%- endcomment -%}
+          {%- when 'buy_button' -%}
+            <div class="pp-pdp__buy-wrap" {{ block.shopify_attributes }}>
+              {%- if block.settings.show_quantity -%}
+                <div class="pp-pdp__qty">
+                  <button type="button" class="pp-pdp__qty-minus" data-pp-qty-minus aria-label="Decrease quantity">−</button>
+                  <input type="number" class="pp-pdp__qty-input" data-pp-qty-input value="1" min="1" max="99" aria-label="Quantity">
+                  <button type="button" class="pp-pdp__qty-plus" data-pp-qty-plus aria-label="Increase quantity">+</button>
+                </div>
+              {%- endif -%}
+
+              <button
+                type="button"
+                class="pp-pdp__add-to-cart-btn"
+                data-pp-add-to-cart
+                data-variant-id="{{ current_variant.id }}"
+                {% unless current_variant.available %}disabled{% endunless %}
+              >
+                {%- if current_variant.available -%}
+                  {{ block.settings.button_text | default: 'Añadir' }}
+                {%- else -%}
+                  {{ 'products.product.sold_out' | t | default: 'Agotado' }}
+                {%- endif -%}
+              </button>
+
+              {%- if block.settings.show_dynamic_checkout -%}
+                {%- form 'product', product, id: 'pp-product-form' -%}
+                  <input type="hidden" name="id" value="{{ current_variant.id }}" data-pp-form-variant-id>
+                  {{ form | payment_button }}
+                {%- endform -%}
+              {%- endif -%}
+            </div>
+
+          {%- comment -%} ── Custom HTML / Richtext ── {%- endcomment -%}
+          {%- when 'custom_html' -%}
+            <div class="pp-pdp__custom-html" {{ block.shopify_attributes }}>
+              {{ block.settings.content }}
+            </div>
+
+          {%- comment -%} ── Separator ── {%- endcomment -%}
+          {%- when 'separator' -%}
+            <hr class="pp-pdp__separator" {{ block.shopify_attributes }}>
+
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+
+  {%- comment -%} SEO product description below the fold {%- endcomment -%}
+  {%- if section.settings.show_seo_text and product.description != blank -%}
+    <div class="pp-pdp__seo-text">
+      <p class="pp-pdp__seo-title">{{ product.title }} | {{ product.type }} | {{ product.vendor }}</p>
+      {{ product.description }}
+    </div>
+  {%- endif -%}
+</section>
+
+<script>
+  window.ppProductVariants = {{ product.variants | json }};
+  window.ppProductOptions = {{ product.options_with_values | json }};
+  window.ppCurrentVariantId = {{ current_variant.id }};
+</script>
+<script src="{{ 'pp-product-main.js' | asset_url }}" type="module" defer></script>
+
+{% schema %}
+{
+  "name": "PP Product Main",
+  "tag": "section",
+  "class": "pp-product-main-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_seo_text",
+      "label": "Show SEO description below",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "breadcrumb",
+      "name": "Breadcrumb",
+      "limit": 1,
+      "settings": []
+    },
+    {
+      "type": "title",
+      "name": "Title",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_wishlist",
+          "label": "Show wishlist button",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "price",
+      "name": "Price",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_save_badge",
+          "label": "Show save percentage badge",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "variant_picker",
+      "name": "Variant picker",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "style",
+          "label": "Style",
+          "options": [
+            { "value": "pills", "label": "Pills" },
+            { "value": "dropdown", "label": "Dropdown" }
+          ],
+          "default": "pills"
+        }
+      ]
+    },
+    {
+      "type": "care_icons",
+      "name": "Care Icons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon_1",
+          "label": "Icon 1"
+        },
+        {
+          "type": "text",
+          "id": "label_1",
+          "label": "Label 1",
+          "default": "Pet Friendly"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_2",
+          "label": "Icon 2"
+        },
+        {
+          "type": "text",
+          "id": "label_2",
+          "label": "Label 2",
+          "default": "Poca Luz"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_3",
+          "label": "Icon 3"
+        },
+        {
+          "type": "text",
+          "id": "label_3",
+          "label": "Label 3",
+          "default": "Riego bajo"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_4",
+          "label": "Icon 4"
+        },
+        {
+          "type": "text",
+          "id": "label_4",
+          "label": "Label 4"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_5",
+          "label": "Icon 5"
+        },
+        {
+          "type": "text",
+          "id": "label_5",
+          "label": "Label 5"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_6",
+          "label": "Icon 6"
+        },
+        {
+          "type": "text",
+          "id": "label_6",
+          "label": "Label 6"
+        }
+      ]
+    },
+    {
+      "type": "accordion",
+      "name": "Accordion",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Details"
+        },
+        {
+          "type": "select",
+          "id": "content_source",
+          "label": "Content source",
+          "options": [
+            { "value": "custom", "label": "Custom text" },
+            { "value": "description", "label": "Product description" },
+            { "value": "metafield", "label": "Metafield" }
+          ],
+          "default": "custom"
+        },
+        {
+          "type": "richtext",
+          "id": "custom_content",
+          "label": "Custom content"
+        },
+        {
+          "type": "text",
+          "id": "metafield_key",
+          "label": "Metafield key (namespace: custom)",
+          "info": "Key of the product metafield under custom namespace"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_by_default",
+          "label": "Open by default",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "shipping_info",
+      "name": "Shipping info",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Compra ahora y recíbelo en 24-48h"
+        }
+      ]
+    },
+    {
+      "type": "total_price",
+      "name": "Total price",
+      "limit": 1,
+      "settings": []
+    },
+    {
+      "type": "buy_button",
+      "name": "Buy button",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button text",
+          "default": "Añadir"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_quantity",
+          "label": "Show quantity selector",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "show_dynamic_checkout",
+          "label": "Show dynamic checkout",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "custom_html",
+      "name": "Custom HTML",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content"
+        }
+      ]
+    },
+    {
+      "type": "separator",
+      "name": "Separator",
+      "settings": []
+    },
+    {
+      "type": "@app"
+    }
+  ],
+  "presets": [
+    {
+      "name": "PP Product Main",
+      "category": "Pur Plant",
+      "blocks": [
+        { "type": "breadcrumb" },
+        { "type": "title" },
+        { "type": "price" },
+        { "type": "variant_picker" },
+        { "type": "care_icons" },
+        { "type": "accordion", "settings": { "heading": "DETALLES", "content_source": "description", "open_by_default": true } },
+        { "type": "accordion", "settings": { "heading": "DESCRIPCIÓN", "content_source": "custom" } },
+        { "type": "accordion", "settings": { "heading": "CUIDADOS", "content_source": "metafield", "metafield_key": "cuidados" } },
+        { "type": "accordion", "settings": { "heading": "MEDIDAS", "content_source": "metafield", "metafield_key": "medidas" } },
+        { "type": "accordion", "settings": { "heading": "ACERCA DE", "content_source": "custom" } },
+        { "type": "accordion", "settings": { "heading": "ENVÍOS", "content_source": "custom" } },
+        { "type": "shipping_info" },
+        { "type": "total_price" },
+        { "type": "buy_button" }
+      ]
+    }
+  ]
+}
+{% endschema %}

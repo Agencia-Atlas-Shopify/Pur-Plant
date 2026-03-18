@@ -1,0 +1,89 @@
+{{ 'pp-sections.css' | asset_url | stylesheet_tag }}
+
+<section class="pp-faq">
+  {%- if section.settings.heading != blank -%}
+    <h2 class="pp-faq__heading">{{ section.settings.heading }}</h2>
+  {%- endif -%}
+
+  <div class="pp-faq__list">
+    {%- for block in section.blocks -%}
+      <details class="pp-faq__item" {{ block.shopify_attributes }}>
+        <summary class="pp-faq__question">
+          <span>{{ block.settings.question }}</span>
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M2 4.5L6 8.5L10 4.5"/>
+          </svg>
+        </summary>
+        <div class="pp-faq__answer">
+          {{ block.settings.answer }}
+        </div>
+      </details>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "PP FAQ",
+  "tag": "section",
+  "class": "pp-faq-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "LO QUE SUELEN PREGUNTARNOS"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "¿Cuándo recibiré mi pedido?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Los envíos se realizan en 24-48 horas laborables.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "PP FAQ",
+      "category": "Pur Plant",
+      "blocks": [
+        { "type": "faq_item", "settings": { "question": "¿CUÁNDO RECIBIRÉ MI PEDIDO?" } },
+        { "type": "faq_item", "settings": { "question": "¿QUÉ OCURRE SI LLEGA MAL?" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
