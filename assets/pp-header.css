@@ -109,16 +109,18 @@ body.pp-transparent-header-needs-offset.template-product main.content-for-layout
   background-color: transparent;
   color: rgb(var(--pp-header-text));
   transition: color 0.2s ease;
-  border-radius: 0 0 var(--pp-header-border-radius, 16px) var(--pp-header-border-radius, 16px);
+  border-radius: 0;
   max-width: var(--pp-header-max-width, calc(100% - 60px));
   margin-inline: auto;
   margin-top: 0;
-  overflow: hidden;
+  overflow: visible;
 }
 
-/* Inner nav bar gets the green background */
+/* Inner nav bar gets the green background + border-radius */
 .pp-header__inner {
   background-color: rgb(var(--pp-header-bg));
+  border-radius: var(--pp-header-border-radius, 16px);
+  overflow: hidden;
 }
 
 .pp-header--sticky {
