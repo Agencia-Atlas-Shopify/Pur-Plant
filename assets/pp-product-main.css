@@ -388,7 +388,7 @@
 
 .pp-pdp__care-label {
   font-family: 'Tenor Sans', Georgia, serif;
-  font-size: 10.4px;
+  font-size: 14px;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.255em;
@@ -400,7 +400,7 @@
 
 .pp-pdp__care-value {
   font-family: 'Inter', sans-serif;
-  font-size: 10.4px;
+  font-size: 14px;
   font-weight: 400;
   color: var(--pp-dark-green);
   text-align: center;
