@@ -12,12 +12,6 @@
     "main": {
       "type": "pp-product-main",
       "blocks": {
-        "variants": {
-          "type": "variant_picker",
-          "settings": {
-            "style": "pills"
-          }
-        },
         "care_pet": {
           "type": "care_icon",
           "settings": {
@@ -51,6 +45,7 @@
           "settings": {
             "heading": "DETALLES",
             "content_source": "metafield",
+            "custom_content": "",
             "metafield_key": "descripcion_corta",
             "open_by_default": true
           }
@@ -59,8 +54,10 @@
           "type": "accordion",
           "settings": {
             "heading": "DESCRIPCIÓN",
-            "content_source": "custom",
-            "custom_content": ""
+            "content_source": "description",
+            "custom_content": "",
+            "metafield_key": "",
+            "open_by_default": false
           }
         },
         "accordion_cuidados": {
@@ -68,14 +65,19 @@
           "settings": {
             "heading": "CUIDADOS",
             "content_source": "metafield",
-            "metafield_key": "cuidados"
+            "custom_content": "",
+            "metafield_key": "cuidados",
+            "open_by_default": false
           }
         },
         "accordion_medidas": {
           "type": "accordion",
           "settings": {
             "heading": "MEDIDAS",
-            "content_source": "medidas"
+            "content_source": "medidas",
+            "custom_content": "",
+            "metafield_key": "",
+            "open_by_default": false
           }
         },
         "accordion_about": {
@@ -83,7 +85,9 @@
           "settings": {
             "heading": "ACERCA DE",
             "content_source": "custom",
-            "custom_content": ""
+            "custom_content": "",
+            "metafield_key": "",
+            "open_by_default": false
           }
         },
         "accordion_envios": {
@@ -91,13 +95,21 @@
           "settings": {
             "heading": "ENVÍOS",
             "content_source": "custom",
-            "custom_content": ""
+            "custom_content": "",
+            "metafield_key": "",
+            "open_by_default": false
+          }
+        },
+        "variants": {
+          "type": "variant_picker",
+          "settings": {
+            "style": "pills"
           }
         },
         "shipping": {
           "type": "shipping_info",
           "settings": {
-            "text": "Compra ahora y recíbelo en 24-48h"
+            "shipping_days": 2
           }
         },
         "total": {
@@ -277,7 +289,20 @@
     },
     "brand_banner": {
       "type": "pp-brand-banner",
-      "settings": {}
+      "settings": {
+        "heading": "PUR PLANT ES LA MARCA QUE CREE EN EL PODER DE LAS PLANTAS",
+        "subheading": "",
+        "button_label": "Más sobre Nosotrxs",
+        "button_link": "",
+        "video_url": "",
+        "image_position": "right",
+        "image_overflow": 48,
+        "video_max_width": 400,
+        "bg_color": "#23372c",
+        "text_color": "#daffd3",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
     },
     "trust_badges": {
       "type": "pp-trust-badges",
@@ -285,25 +310,34 @@
         "badge_1": {
           "type": "badge",
           "settings": {
-            "title": "ENVÍOS RÁPIDOS Y SEGUROS"
+            "title": "ENVÍOS RÁPIDOS Y SEGUROS",
+            "description": ""
           }
         },
         "badge_2": {
           "type": "badge",
           "settings": {
-            "title": "SIEMPRE CONTIGO"
+            "title": "SIEMPRE CONTIGO",
+            "description": ""
           }
         },
         "badge_3": {
           "type": "badge",
           "settings": {
-            "title": "CALIDAD PREMIUM"
+            "title": "CALIDAD PREMIUM",
+            "description": ""
           }
         }
       },
-      "block_order": ["badge_1", "badge_2", "badge_3"],
+      "block_order": [
+        "badge_1",
+        "badge_2",
+        "badge_3"
+      ],
       "settings": {
-        "heading": "POR QUÉ COMPRAR EN PUR PLANT"
+        "heading": "POR QUÉ COMPRAR EN PUR PLANT",
+        "padding_top": 40,
+        "padding_bottom": 40
       }
     },
     "faq": {
@@ -312,19 +346,26 @@
         "faq_1": {
           "type": "faq_item",
           "settings": {
-            "question": "¿CUÁNDO RECIBIRÉ MI PEDIDO?"
+            "question": "¿CUÁNDO RECIBIRÉ MI PEDIDO?",
+            "answer": "<p>Los envíos se realizan en 24-48 horas laborables.</p>"
           }
         },
         "faq_2": {
           "type": "faq_item",
           "settings": {
-            "question": "¿QUÉ OCURRE SI LLEGA MAL?"
+            "question": "¿QUÉ OCURRE SI LLEGA MAL?",
+            "answer": "<p>Los envíos se realizan en 24-48 horas laborables.</p>"
           }
         }
       },
-      "block_order": ["faq_1", "faq_2"],
+      "block_order": [
+        "faq_1",
+        "faq_2"
+      ],
       "settings": {
-        "heading": "LO QUE SUELEN PREGUNTARNOS"
+        "heading": "LO QUE SUELEN PREGUNTARNOS",
+        "padding_top": 40,
+        "padding_bottom": 40
       }
     },
     "reviews": {
@@ -340,7 +381,9 @@
           }
         }
       },
-      "block_order": ["judge_me_widget"],
+      "block_order": [
+        "judge_me_widget"
+      ],
       "settings": {
         "content_direction": "column",
         "vertical_on_mobile": true,
