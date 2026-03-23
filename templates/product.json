@@ -148,6 +148,8 @@
       ],
       "settings": {
         "show_seo_text": true,
+        "recommended_source": "metafield",
+        "recommended_title": "INICIA TU RUTINA",
         "padding_top": 20,
         "padding_bottom": 40
       }
