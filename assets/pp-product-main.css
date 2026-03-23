@@ -284,15 +284,15 @@
 }
 
 .pp-pdp__price-current {
-  font-size: 18px;
+  font-size: 26.3px;
   font-weight: 700;
-  color: #000;
+  color: #3a3838;
 }
 
 .pp-pdp__price-compare {
-  font-size: 16px;
-  font-weight: 300;
-  color: #999;
+  font-size: 20.7px;
+  font-weight: 400;
+  color: #3a3838;
   text-decoration: line-through;
 }
 
@@ -646,20 +646,20 @@
 
 .pp-pdp__title--right {
   font-family: var(--pp-font-body);
-  font-size: 20px;
-  font-weight: 400;
-  color: var(--pp-dark-green);
+  font-size: 25.2px;
+  font-weight: 700;
+  color: #3a3838;
   margin: 0 0 4px;
   line-height: 1.2;
 }
 
 .pp-pdp__scientific-name {
-  font-family: var(--pp-font-body);
-  font-size: 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14.5px;
   font-weight: 400;
   font-style: italic;
-  color: var(--pp-dark-green);
-  opacity: 0.5;
+  color: #3a3838;
+  opacity: 0.6;
   margin: 0 0 12px;
 }
 
