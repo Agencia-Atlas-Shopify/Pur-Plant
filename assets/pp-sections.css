@@ -594,3 +594,102 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
     gap: 20px;
   }
 }
+
+/* ═══════════════════════════════════════════
+   PP Product Recommendations
+   ═══════════════════════════════════════════ */
+.pp-recommendations__inner {
+  max-width: var(--page-content-width, 120rem);
+  margin: 0 auto;
+  padding: 0 var(--page-margin, 40px);
+}
+
+.pp-recommendations__heading {
+  font-family: 'Aileron', sans-serif;
+  font-size: 31.6px;
+  font-weight: 700;
+  color: #23372c;
+  letter-spacing: -0.05em;
+  line-height: 0.8;
+  margin: 0 0 24px;
+}
+
+.pp-recommendations__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+@media screen and (max-width: 749px) {
+  .pp-recommendations__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ═══════════════════════════════════════════
+   PP FAQ
+   ═══════════════════════════════════════════ */
+.pp-faq {
+  max-width: var(--page-content-width, 120rem);
+  margin: 0 auto;
+  padding: 40px var(--page-margin, 40px);
+}
+
+.pp-faq__heading {
+  font-family: 'Aileron', sans-serif;
+  font-size: 31.6px;
+  font-weight: 700;
+  color: #23372c;
+  letter-spacing: -0.05em;
+  line-height: 0.8;
+  margin: 0 0 24px;
+}
+
+.pp-faq__item {
+  border-top: 1px solid #000;
+}
+
+.pp-faq__item:first-child {
+  border-top: none;
+}
+
+.pp-faq__question {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 0;
+  cursor: pointer;
+  list-style: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #23372c;
+  user-select: none;
+}
+
+.pp-faq__question::-webkit-details-marker { display: none; }
+.pp-faq__question::marker { display: none; content: ''; }
+
+.pp-faq__icon {
+  flex-shrink: 0;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+  color: #d9ffac;
+  transition: transform 0.3s ease;
+}
+
+.pp-faq__item[open] .pp-faq__icon {
+  transform: rotate(45deg);
+}
+
+.pp-faq__answer {
+  padding-bottom: 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #23372c;
+  line-height: 1.5;
+  opacity: 0.7;
+}
