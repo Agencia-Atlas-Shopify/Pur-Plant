@@ -332,6 +332,8 @@
       {%- comment -%} Nombre científico {%- endcomment -%}
       {%- if product.metafields.custom.nombre_cientifico != blank -%}
         <p class="pp-pdp__scientific-name">{{ product.metafields.custom.nombre_cientifico }}</p>
+      {%- else -%}
+        <p class="pp-pdp__scientific-name">Nombre científico</p>
       {%- endif -%}
 
       {%- comment -%} Price {%- endcomment -%}
@@ -346,7 +348,62 @@
         {%- endif -%}
       </div>
 
-      {%- comment -%} Variant picker {%- endcomment -%}
+      {%- comment -%} Size pills from tamano metafield + tamanos_relacionados {%- endcomment -%}
+      {%- if product.metafields.custom.tamano != blank or product.metafields.custom.tamanos_relacionados != blank -%}
+        <div class="pp-pdp__variants-wrap">
+          <div class="pp-pdp__variant-group">
+            <div class="pp-pdp__variant-pills">
+              {%- assign sizes = 'XS,S,M,L,XL,XXL' | split: ',' -%}
+              {%- assign current_size = product.metafields.custom.tamano -%}
+              {%- assign related = product.metafields.custom.tamanos_relacionados.value -%}
+              {%- for size in sizes -%}
+                {%- liquid
+                  assign is_current = false
+                  assign related_url = ''
+                  assign is_available = false
+                  if current_size == size
+                    assign is_current = true
+                    assign is_available = true
+                  endif
+                  if related != blank
+                    for rel in related
+                      if rel.metafields.custom.tamano == size
+                        assign related_url = rel.url
+                        assign is_available = true
+                      endif
+                    endfor
+                  endif
+                -%}
+                {%- if is_available -%}
+                  {%- if is_current -%}
+                    <span class="pp-pdp__variant-pill is-active">{{ size }}</span>
+                  {%- else -%}
+                    <a href="{{ related_url }}" class="pp-pdp__variant-pill">{{ size }}</a>
+                  {%- endif -%}
+                {%- else -%}
+                  <span class="pp-pdp__variant-pill is-unavailable" disabled>{{ size }}</span>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          </div>
+        </div>
+      {%- else -%}
+        {%- comment -%} Demo fallback: show all sizes {%- endcomment -%}
+        <div class="pp-pdp__variants-wrap">
+          <div class="pp-pdp__variant-group">
+            <div class="pp-pdp__variant-pills">
+              <span class="pp-pdp__variant-pill">XS</span>
+              <span class="pp-pdp__variant-pill">S</span>
+              <span class="pp-pdp__variant-pill is-active">M</span>
+              <span class="pp-pdp__variant-pill">L</span>
+              <span class="pp-pdp__variant-pill">XL</span>
+              <span class="pp-pdp__variant-pill">XXL</span>
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} Variant picker (native Shopify variants) {%- endcomment -%}
       {%- for block in section.blocks -%}
         {%- if block.type == 'variant_picker' -%}
           {%- unless product.has_only_default_variant -%}
