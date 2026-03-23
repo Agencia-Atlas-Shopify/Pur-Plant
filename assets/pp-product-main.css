@@ -326,10 +326,19 @@
   gap: 8px;
 }
 
+.pp-pdp__variant-pills {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
 .pp-pdp__variant-pill {
   appearance: none;
   background: transparent;
   border: 1px solid #23372c;
+  text-decoration: none;
   border-radius: 50%;
   width: 48px;
   height: 48px;
@@ -338,7 +347,7 @@
   justify-content: center;
   padding: 0;
   font-family: var(--pp-font-body);
-  font-size: 20.4px;
+  font-size: 16px;
   font-weight: 700;
   color: #23372c;
   cursor: pointer;
@@ -356,6 +365,10 @@
   background-color: #e4ffd3;
   color: #23372c;
   border-color: #23372c;
+}
+
+.pp-pdp__variant-pill[disabled] {
+  cursor: default;
 }
 
 .pp-pdp__variant-pill:disabled,
@@ -664,8 +677,8 @@
   font-weight: 400;
   font-style: italic;
   color: #3a3838;
-  opacity: 0.6;
-  margin: 0 0 12px;
+  opacity: 1;
+  margin: 0;
 }
 
 .pp-pdp__recommended {
