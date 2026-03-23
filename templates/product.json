@@ -34,12 +34,32 @@
             "style": "pills"
           }
         },
-        "care_icons": {
-          "type": "care_icons",
+        "care_pet": {
+          "type": "care_icon",
           "settings": {
-            "label_1": "Pet Friendly",
-            "label_2": "Poca Luz",
-            "label_3": "Riego bajo"
+            "metafield_source": "pet_friendly",
+            "label": "Pet Friendly"
+          }
+        },
+        "care_luz": {
+          "type": "care_icon",
+          "settings": {
+            "metafield_source": "luz",
+            "label": "Luz"
+          }
+        },
+        "care_riego": {
+          "type": "care_icon",
+          "settings": {
+            "metafield_source": "riego",
+            "label": "Riego"
+          }
+        },
+        "care_nivel": {
+          "type": "care_icon",
+          "settings": {
+            "metafield_source": "dificultad",
+            "label": "Nivel"
           }
         },
         "accordion_detalles": {
@@ -47,7 +67,7 @@
           "settings": {
             "heading": "DETALLES",
             "content_source": "description",
-            "open_by_default": false
+            "open_by_default": true
           }
         },
         "accordion_descripcion": {
@@ -113,7 +133,10 @@
         "title",
         "price",
         "variants",
-        "care_icons",
+        "care_pet",
+        "care_luz",
+        "care_riego",
+        "care_nivel",
         "accordion_detalles",
         "accordion_descripcion",
         "accordion_cuidados",
