@@ -118,12 +118,11 @@
   position: relative;
 }
 
-/* -- Thumbnails (fixed to viewport, vertically centered on gallery) -- */
+/* -- Thumbnails (sticky inside gallery) -- */
 .pp-pdp__thumbnails {
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
-  left: var(--pp-thumbs-left, 60px);
+  position: sticky;
+  top: calc(var(--pp-header-height, 80px) + 50vh - 200px);
+  float: left;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -135,6 +134,8 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
   scroll-behavior: smooth;
+  margin-left: 20px;
+  margin-right: -85px;
 }
 
 .pp-pdp__thumbnails::-webkit-scrollbar {

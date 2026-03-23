@@ -709,32 +709,7 @@
     // Set initial active thumb
     if (thumbs.length) setActiveThumb(0);
 
-    // Position fixed thumbnails relative to gallery
-    var thumbsContainer = qs('[data-pp-thumbs]', pdp);
-    var gallery = qs('.pp-pdp__gallery', pdp);
-    if (thumbsContainer && gallery) {
-      function positionThumbs() {
-        var rect = gallery.getBoundingClientRect();
-        var left = rect.left + 20;
-        thumbsContainer.style.left = left + 'px';
-
-        // Center vertically on the visible portion of the gallery
-        var visibleTop = Math.max(rect.top, 0);
-        var visibleBottom = Math.min(rect.bottom, window.innerHeight);
-        var visibleCenter = (visibleTop + visibleBottom) / 2;
-        thumbsContainer.style.top = visibleCenter + 'px';
-
-        // Hide if gallery is out of viewport (check gallery images container, not just wrapper)
-        var lastImg = gallery.querySelector('.pp-pdp__main-image:last-child');
-        var lastImgRect = lastImg ? lastImg.getBoundingClientRect() : rect;
-        var inView = lastImgRect.bottom > 100 && rect.top < window.innerHeight - 100;
-        thumbsContainer.style.opacity = inView ? '1' : '0';
-        thumbsContainer.style.pointerEvents = inView ? 'all' : 'none';
-      }
-      positionThumbs();
-      window.addEventListener('scroll', positionThumbs, { passive: true });
-      window.addEventListener('resize', positionThumbs, { passive: true });
-    }
+    // Thumbnails are now CSS sticky — no JS positioning needed
   }
 
     // Image zoom lightbox
