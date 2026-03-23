@@ -317,6 +317,12 @@
     var images = qsa('.pp-pdp__main-image', mainImages);
     if (!images.length) return;
 
+    // Desktop: use viewport as root (page scroll reveals images)
+    // Mobile: use mainImages as root (horizontal swipe)
+    var isMobile = window.innerWidth < 750;
+    var observerRoot = isMobile ? mainImages : null;
+    var observerThreshold = isMobile ? 0.5 : 0.3;
+
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
@@ -327,8 +333,9 @@
         }
       });
     }, {
-      root: mainImages,
-      threshold: 0.5
+      root: observerRoot,
+      threshold: observerThreshold,
+      rootMargin: isMobile ? '0px' : '-20% 0px -20% 0px'
     });
 
     images.forEach(function (img) { observer.observe(img); });
