@@ -139,11 +139,11 @@
       "settings": {
         "collection_list": [
           "accesorios",
-          "adenium",
+          "plantas-adenium",
           "alocasias",
-          "aloe-vera",
+          "plantas-aloe-vera",
           "anturio",
-          "arce"
+          "plantas-arce"
         ],
         "layout_type": "carousel",
         "carousel_on_mobile": false,
@@ -369,11 +369,11 @@
       "settings": {
         "collection_list": [
           "accesorios",
-          "adenium",
+          "plantas-adenium",
           "alocasias",
-          "aloe-vera",
+          "plantas-aloe-vera",
           "anturio",
-          "arce"
+          "plantas-arce"
         ],
         "layout_type": "carousel",
         "carousel_on_mobile": false,
