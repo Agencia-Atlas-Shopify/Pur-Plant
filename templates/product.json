@@ -148,10 +148,10 @@
       ],
       "settings": {
         "show_seo_text": true,
-        "recommended_source": "metafield",
-        "recommended_title": "INICIA TU RUTINA",
         "padding_top": 20,
-        "padding_bottom": 40
+        "padding_bottom": 40,
+        "recommended_source": "metafield",
+        "recommended_title": "INICIA TU RUTINA"
       }
     },
     "related_products": {
@@ -308,8 +308,8 @@
         "video_max_width": 300,
         "bg_color": "#23372c",
         "text_color": "#daffd3",
-        "padding_top": 96,
-        "padding_bottom": 96
+        "padding_top": 72,
+        "padding_bottom": 72
       }
     },
     "trust_badges": {
@@ -382,7 +382,7 @@
         "judge_me_widget": {
           "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
           "settings": {
-            "review_data": "sample_data",
+            "review_data": "real_data",
             "max_width": 1200,
             "show_shop_reviews": false,
             "empty_state": "empty_widget"
