@@ -130,11 +130,12 @@
   width: 0;
 }
 
-/* -- Thumbnails (absolute bottom-left, vertical strip inside gallery) -- */
+/* -- Thumbnails (absolute center-left, vertical strip inside gallery) -- */
 .pp-pdp__thumbnails {
   position: absolute;
-  bottom: 20px;
+  top: 50%;
   left: 20px;
+  transform: translateY(-50%);
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -616,7 +617,111 @@
 }
 
 .pp-pdp__seo-text p { margin: 0 0 12px; }
-.pp-pdp__seo-title { font-weight: 600; color: #333; margin-bottom: 8px; }
+
+/* ---------- Amazon Title (below grid) ---------- */
+.pp-pdp__amazon-title {
+  position: relative;
+  z-index: 2;
+  font-family: 'Aileron', sans-serif;
+  font-size: 18.5px; /* 13.9pt */
+  font-weight: 900;
+  color: var(--pp-dark-green);
+  padding: 32px 47px 0;
+  margin: 0 0 8px;
+  line-height: 1.3;
+}
+
+/* ---------- Right column extras ---------- */
+.pp-pdp__breadcrumb--right {
+  font-size: 9.9px; /* 7.4pt */
+}
+
+.pp-pdp__stars {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-bottom: 8px;
+}
+
+.pp-pdp__review-count {
+  font-family: var(--pp-font-body);
+  font-size: 11px;
+  color: var(--pp-dark-green);
+  opacity: 0.6;
+  margin-left: 4px;
+}
+
+.pp-pdp__title--right {
+  font-family: var(--pp-font-body);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--pp-dark-green);
+  margin: 0 0 4px;
+  line-height: 1.2;
+}
+
+.pp-pdp__scientific-name {
+  font-family: var(--pp-font-body);
+  font-size: 12px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--pp-dark-green);
+  opacity: 0.5;
+  margin: 0 0 12px;
+}
+
+.pp-pdp__recommended {
+  margin: 16px 0;
+}
+
+.pp-pdp__recommended-label {
+  font-family: var(--pp-font-body);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--pp-dark-green);
+  margin: 0 0 8px;
+}
+
+.pp-pdp__recommended-items {
+  display: flex;
+  gap: 8px;
+}
+
+.pp-pdp__recommended-item {
+  width: 50px;
+  height: 50px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(55, 67, 63, 0.15);
+  transition: border-color 0.2s;
+}
+
+.pp-pdp__recommended-item:hover {
+  border-color: var(--pp-dark-green);
+}
+
+.pp-pdp__recommended-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pp-pdp__shipping-bottom {
+  margin-top: 16px;
+  text-align: center;
+}
+
+.pp-pdp__shipping-bottom p {
+  font-family: var(--pp-font-body);
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--pp-dark-green);
+  opacity: 0.5;
+  margin: 0 0 2px;
+  line-height: 1.4;
+}
 
 /* ==========================================================================
    SECTION HEADINGS (below-fold: "Explora la coleccion", "Te enamoraras")

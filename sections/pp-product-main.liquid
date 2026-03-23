@@ -291,115 +291,195 @@
 
     {%- comment -%} ═══ RIGHT: Purchase info (sticky) ═══ {%- endcomment -%}
     <div class="pp-pdp__info-right" data-pp-info>
-      {%- comment -%} Right column price (synced with left) {%- endcomment -%}
+
+      {%- comment -%} Breadcrumb (right) {%- endcomment -%}
+      <nav class="pp-pdp__breadcrumb pp-pdp__breadcrumb--right">
+        <a href="{{ routes.root_url }}">Pur Plant</a>
+        <span>/</span>
+        {%- if product.collections.size > 0 -%}
+          {%- assign best_coll = product.collections.first -%}
+          {%- assign walk_coll = best_coll -%}
+          {%- assign breadcrumb_chain = '' -%}
+          {%- assign breadcrumb_urls = '' -%}
+          {%- for i in (1..5) -%}
+            {%- assign parent_ref = walk_coll.metafields.custom.coleccion_padre.value -%}
+            {%- if parent_ref != blank -%}
+              {%- if breadcrumb_chain == '' -%}
+                {%- assign breadcrumb_chain = parent_ref.title -%}
+                {%- assign breadcrumb_urls = parent_ref.url -%}
+              {%- else -%}
+                {%- assign breadcrumb_chain = parent_ref.title | append: '|||' | append: breadcrumb_chain -%}
+                {%- assign breadcrumb_urls = parent_ref.url | append: '|||' | append: breadcrumb_urls -%}
+              {%- endif -%}
+              {%- assign walk_coll = parent_ref -%}
+            {%- else -%}
+              {%- break -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if breadcrumb_chain != '' -%}
+            {%- assign crumb_titles = breadcrumb_chain | split: '|||' -%}
+            {%- assign crumb_urls = breadcrumb_urls | split: '|||' -%}
+            {%- for crumb_title in crumb_titles -%}
+              <a href="{{ crumb_urls[forloop.index0] }}">{{ crumb_title }}</a>
+              <span>/</span>
+            {%- endfor -%}
+          {%- endif -%}
+          <a href="{{ best_coll.url }}">{{ best_coll.title }}</a>
+          <span>/</span>
+        {%- endif -%}
+        <span>{{ product.title }}</span>
+      </nav>
+
+      {%- comment -%} Stars (reviews) {%- endcomment -%}
+      {%- if product.metafields.reviews.rating != blank -%}
+        <div class="pp-pdp__stars">
+          {%- assign rating_val = product.metafields.reviews.rating.value.rating | round: 1 -%}
+          {%- for i in (1..5) -%}
+            {%- if i <= rating_val -%}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#23372C" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            {%- else -%}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#23372C" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if product.metafields.reviews.rating_count != blank -%}
+            <span class="pp-pdp__review-count">({{ product.metafields.reviews.rating_count }})</span>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} Title {%- endcomment -%}
+      <h1 class="pp-pdp__title pp-pdp__title--right">{{ product.title }}</h1>
+
+      {%- comment -%} Nombre científico {%- endcomment -%}
+      {%- if product.metafields.custom.nombre_cientifico != blank -%}
+        <p class="pp-pdp__scientific-name">{{ product.metafields.custom.nombre_cientifico }}</p>
+      {%- endif -%}
+
+      {%- comment -%} Price {%- endcomment -%}
       <div class="pp-pdp__price pp-pdp__price--right" data-pp-price>
         {%- if current_variant.compare_at_price > current_variant.price -%}
+          <span class="pp-pdp__price-current pp-pdp__price-current--sale" data-pp-current-price>{{ current_variant.price | money }}</span>
           <s class="pp-pdp__price-compare" data-pp-compare-price>{{ current_variant.compare_at_price | money }}</s>
+          {%- assign save_pct = current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price -%}
+          <span class="pp-pdp__save-badge" data-pp-save-badge>-{{ save_pct }}%</span>
+        {%- else -%}
+          <span class="pp-pdp__price-current" data-pp-current-price>{{ current_variant.price | money }}</span>
         {%- endif -%}
-        <span class="pp-pdp__price-current" data-pp-current-price>{{ current_variant.price | money }}</span>
       </div>
 
+      {%- comment -%} Variant picker {%- endcomment -%}
       {%- for block in section.blocks -%}
-        {%- case block.type -%}
-
-          {%- comment -%} ── Variant Picker ── {%- endcomment -%}
-          {%- when 'variant_picker' -%}
-            {%- unless product.has_only_default_variant -%}
-              <div class="pp-pdp__variants-wrap" {{ block.shopify_attributes }}>
-                {%- for option in product.options_with_values -%}
-                  <div class="pp-pdp__variant-group" data-option-index="{{ forloop.index0 }}">
-                    <label class="pp-pdp__variant-label">{{ option.name }}</label>
-                    <div class="pp-pdp__variant-pills">
-                      {%- for value in option.values -%}
-                        {%- liquid
-                          assign selected = false
-                          if current_variant.options contains value
-                            assign selected = true
-                          endif
-                        -%}
-                        <button
-                          type="button"
-                          class="pp-pdp__variant-btn{% if selected %} is-active{% endif %}"
-                          data-option-index="{{ forloop.parentloop.index0 }}"
-                          data-value="{{ value | escape }}"
-                        >
-                          {{ value }}
-                        </button>
-                      {%- endfor -%}
-                    </div>
+        {%- if block.type == 'variant_picker' -%}
+          {%- unless product.has_only_default_variant -%}
+            <div class="pp-pdp__variants-wrap" {{ block.shopify_attributes }}>
+              {%- for option in product.options_with_values -%}
+                <div class="pp-pdp__variant-group" data-option-index="{{ forloop.index0 }}">
+                  <label class="pp-pdp__variant-label">{{ option.name }}</label>
+                  <div class="pp-pdp__variant-pills">
+                    {%- for value in option.values -%}
+                      {%- liquid
+                        assign selected = false
+                        if current_variant.options contains value
+                          assign selected = true
+                        endif
+                      -%}
+                      <button
+                        type="button"
+                        class="pp-pdp__variant-btn{% if selected %} is-active{% endif %}"
+                        data-option-index="{{ forloop.parentloop.index0 }}"
+                        data-value="{{ value | escape }}"
+                      >
+                        {{ value }}
+                      </button>
+                    {%- endfor -%}
                   </div>
-                {%- endfor -%}
-              </div>
-            {%- endunless -%}
-
-          {%- comment -%} ── Shipping Info ── {%- endcomment -%}
-          {%- when 'shipping_info' -%}
-            <div class="pp-pdp__shipping-info" {{ block.shopify_attributes }}>
-              {%- if block.settings.icon != blank -%}
-                <img src="{{ block.settings.icon | image_url: width: 40 }}" width="20" height="20" alt="">
-              {%- endif -%}
-              <span>{{ block.settings.text }}</span>
-            </div>
-
-          {%- comment -%} ── Total Price ── {%- endcomment -%}
-          {%- when 'total_price' -%}
-            <div class="pp-pdp__total" data-pp-total {{ block.shopify_attributes }}>
-              <span class="pp-pdp__total-label">TOTAL</span>
-              <span class="pp-pdp__total-value" data-pp-total-price>{{ current_variant.price | money }}</span>
-            </div>
-
-          {%- comment -%} ── Buy Button ── {%- endcomment -%}
-          {%- when 'buy_button' -%}
-            <div class="pp-pdp__buy-wrap" {{ block.shopify_attributes }}>
-              {%- if block.settings.show_quantity -%}
-                <div class="pp-pdp__qty">
-                  <button type="button" class="pp-pdp__qty-minus" data-pp-qty-minus aria-label="Decrease quantity">−</button>
-                  <input type="number" class="pp-pdp__qty-input" data-pp-qty-input value="1" min="1" max="99" aria-label="Quantity">
-                  <button type="button" class="pp-pdp__qty-plus" data-pp-qty-plus aria-label="Increase quantity">+</button>
                 </div>
-              {%- endif -%}
-
-              <button
-                type="button"
-                class="pp-pdp__add-to-cart-btn"
-                data-pp-add-to-cart
-                data-variant-id="{{ current_variant.id }}"
-                {% unless current_variant.available %}disabled{% endunless %}
-              >
-                {%- if current_variant.available -%}
-                  {{ block.settings.button_text | default: 'Añadir' }}
-                {%- else -%}
-                  {{ 'products.product.sold_out' | t | default: 'Agotado' }}
-                {%- endif -%}
-              </button>
-
-              {%- if block.settings.show_dynamic_checkout -%}
-                {%- form 'product', product, id: 'pp-product-form' -%}
-                  <input type="hidden" name="id" value="{{ current_variant.id }}" data-pp-form-variant-id>
-                  {{ form | payment_button }}
-                {%- endform -%}
-              {%- endif -%}
+              {%- endfor -%}
             </div>
-
-          {%- comment -%} ── Custom HTML / Richtext ── {%- endcomment -%}
-          {%- when 'custom_html' -%}
-            <div class="pp-pdp__custom-html" {{ block.shopify_attributes }}>
-              {{ block.settings.content }}
-            </div>
-
-          {%- comment -%} ── Separator ── {%- endcomment -%}
-          {%- when 'separator' -%}
-            <hr class="pp-pdp__separator" {{ block.shopify_attributes }}>
-
-        {%- endcase -%}
+          {%- endunless -%}
+        {%- endif -%}
       {%- endfor -%}
+
+      {%- comment -%} Recommended products (macetas que combinan) {%- endcomment -%}
+      {%- if product.metafields.custom.encuentra_una_maceta_que_combine != blank -%}
+        <div class="pp-pdp__recommended">
+          <p class="pp-pdp__recommended-label">Incluir maceta</p>
+          <div class="pp-pdp__recommended-items">
+            {%- for rec_product in product.metafields.custom.encuentra_una_maceta_que_combine.value -%}
+              <a href="{{ rec_product.url }}" class="pp-pdp__recommended-item" title="{{ rec_product.title }}">
+                <img src="{{ rec_product.featured_image | image_url: width: 120 }}" alt="{{ rec_product.title }}" width="50" height="50" loading="lazy">
+              </a>
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} Shipping date (skip weekends) {%- endcomment -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'shipping_info' -%}
+          <div class="pp-pdp__shipping-info" {{ block.shopify_attributes }}>
+            {%- if block.settings.icon != blank -%}
+              <img src="{{ block.settings.icon | image_url: width: 40 }}" width="20" height="20" alt="">
+            {%- endif -%}
+            <span>Compra ahora y recíbelo el <strong data-pp-shipping-date data-days="{{ block.settings.shipping_days | default: 2 }}"></strong></span>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- comment -%} Total {%- endcomment -%}
+      <div class="pp-pdp__total" data-pp-total>
+        <span class="pp-pdp__total-label">TOTAL</span>
+        <span class="pp-pdp__total-value" data-pp-total-price>{{ current_variant.price | money }}</span>
+      </div>
+
+      {%- comment -%} Quantity + Add to cart {%- endcomment -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'buy_button' -%}
+          <div class="pp-pdp__buy-wrap" {{ block.shopify_attributes }}>
+            <div class="pp-pdp__qty">
+              <button type="button" class="pp-pdp__qty-minus" data-pp-qty-minus aria-label="Decrease quantity">−</button>
+              <input type="number" class="pp-pdp__qty-input" data-pp-qty-input value="1" min="1" max="99" aria-label="Quantity">
+              <button type="button" class="pp-pdp__qty-plus" data-pp-qty-plus aria-label="Increase quantity">+</button>
+            </div>
+
+            <button
+              type="button"
+              class="pp-pdp__add-to-cart-btn"
+              data-pp-add-to-cart
+              data-variant-id="{{ current_variant.id }}"
+              {% unless current_variant.available %}disabled{% endunless %}
+            >
+              {%- if current_variant.available -%}
+                {{ block.settings.button_text | default: 'Añadir' }}
+              {%- else -%}
+                {{ 'products.product.sold_out' | t | default: 'Agotado' }}
+              {%- endif -%}
+            </button>
+
+            {%- if block.settings.show_dynamic_checkout -%}
+              {%- form 'product', product, id: 'pp-product-form' -%}
+                <input type="hidden" name="id" value="{{ current_variant.id }}" data-pp-form-variant-id>
+                {{ form | payment_button }}
+              {%- endform -%}
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- comment -%} Bottom shipping text {%- endcomment -%}
+      <div class="pp-pdp__shipping-bottom">
+        <p>Recibe tu pedido en 24/48h</p>
+        <p>Envío gratis pedidos +49€ (Península y Baleares)</p>
+      </div>
     </div>
   </div>
 
-  {%- comment -%} SEO product description below the fold {%- endcomment -%}
+  {%- comment -%} Amazon title + SEO description below the fold {%- endcomment -%}
+  {%- if product.metafields.custom.titulo_amazon != blank -%}
+    <h2 class="pp-pdp__amazon-title">{{ product.metafields.custom.titulo_amazon }}</h2>
+  {%- endif -%}
   {%- if section.settings.show_seo_text and product.description != blank -%}
     <div class="pp-pdp__seo-text">
-      <p class="pp-pdp__seo-title">{{ product.title }} | {{ product.type }} | {{ product.vendor }}</p>
       {{ product.description }}
     </div>
   {%- endif -%}
@@ -587,10 +667,14 @@
           "label": "Icon"
         },
         {
-          "type": "text",
-          "id": "text",
-          "label": "Text",
-          "default": "Compra ahora y recíbelo en 24-48h"
+          "type": "range",
+          "id": "shipping_days",
+          "min": 1,
+          "max": 10,
+          "step": 1,
+          "label": "Días de envío (laborables)",
+          "default": 2,
+          "info": "No cuenta fines de semana"
         }
       ]
     },
