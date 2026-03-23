@@ -61,7 +61,7 @@
 /* Scuffers-style: 1fr 2fr 1fr, sticky side columns centered vertically */
 .pp-pdp__grid {
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-columns: 1.2fr 1.6fr 1.2fr;
   gap: 47px;
   width: 100%;
   padding: 0 47px;
