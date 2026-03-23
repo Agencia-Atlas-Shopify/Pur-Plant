@@ -504,30 +504,22 @@
 
       {%- comment -%} INICIA TU RUTINA — Recommended products {%- endcomment -%}
       {%- liquid
-        assign rec_source = section.settings.recommended_source | default: 'metafield'
         assign has_recs = false
         assign rec_products = null
 
-        case rec_source
-          when 'metafield'
-            if product.metafields.custom.productos_recomendados != blank
-              assign rec_products = product.metafields.custom.productos_recomendados.value
-              assign has_recs = true
-            endif
-          when 'collection'
-            if product.metafields.custom.explora_la_coleccion != blank
-              assign rec_collection = product.metafields.custom.explora_la_coleccion.value
-              if rec_collection.products.size > 0
-                assign rec_products = rec_collection.products
-                assign has_recs = true
-              endif
-            endif
-          when 'auto'
-            if recommendations.products.size > 0
-              assign rec_products = recommendations.products
-              assign has_recs = true
-            endif
-        endcase
+        if product.metafields.custom.productos_recomendados != blank
+          assign rec_products = product.metafields.custom.productos_recomendados.value
+          assign has_recs = true
+        elsif product.metafields.custom.explora_la_coleccion != blank
+          assign rec_collection = product.metafields.custom.explora_la_coleccion.value
+          if rec_collection.products.size > 0
+            assign rec_products = rec_collection.products
+            assign has_recs = true
+          endif
+        elsif recommendations.products.size > 0
+          assign rec_products = recommendations.products
+          assign has_recs = true
+        endif
       -%}
       {%- if has_recs and rec_products != blank -%}
         <div class="pp-pdp__routine">
