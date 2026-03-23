@@ -376,6 +376,7 @@
   gap: 4px;
   text-decoration: none;
   color: var(--pp-dark-green);
+  flex: 1 1 0;
   min-width: 0;
 }
 
