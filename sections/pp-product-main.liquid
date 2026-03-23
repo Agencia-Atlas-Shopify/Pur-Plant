@@ -148,22 +148,8 @@
             {%- endif -%}
           {%- when 'accordion' -%}
             {%- liquid
-              assign accordion_content = ''
-              case block.settings.content_source
-                when 'description'
-                  assign accordion_content = product.description
-                when 'metafield'
-                  assign mf_key = block.settings.metafield_key
-                  assign accordion_content = product.metafields.custom[mf_key]
-                when 'custom'
-                  assign accordion_content = block.settings.custom_content
-                when 'medidas'
-                  if product.metafields.custom.altura_cm != blank or product.metafields.custom.diametro_maceta_cm != blank
-                    assign accordion_content = 'has_medidas'
-                  endif
-              endcase
+              assign mf_key = block.settings.metafield_key
             -%}
-            {%- if accordion_content != blank -%}
               <details class="pp-pdp__accordion"{% if block.settings.open_by_default %} open{% endif %} {{ block.shopify_attributes }}>
                 <summary class="pp-pdp__accordion-header">
                   <span>{{ block.settings.heading }}</span>
@@ -172,11 +158,23 @@
                 <div class="pp-pdp__accordion-content">
                   {%- case block.settings.content_source -%}
                     {%- when 'description' -%}
-                      {{ product.description }}
+                      {%- if product.description != blank -%}
+                        {{ product.description }}
+                      {%- else -%}
+                        <p>Descripción del producto pendiente de rellenar.</p>
+                      {%- endif -%}
                     {%- when 'metafield' -%}
-                      {{ product.metafields.custom[mf_key] | metafield_tag }}
+                      {%- if product.metafields.custom[mf_key] != blank -%}
+                        {{ product.metafields.custom[mf_key] | metafield_tag }}
+                      {%- else -%}
+                        <p>Información pendiente de rellenar.</p>
+                      {%- endif -%}
                     {%- when 'custom' -%}
-                      {{ block.settings.custom_content }}
+                      {%- if block.settings.custom_content != blank -%}
+                        {{ block.settings.custom_content }}
+                      {%- else -%}
+                        <p>Contenido personalizable desde el editor del tema.</p>
+                      {%- endif -%}
                     {%- when 'medidas' -%}
                       <ul class="pp-pdp__medidas-list">
                         {%- if product.metafields.custom.altura_cm != blank -%}
@@ -185,11 +183,14 @@
                         {%- if product.metafields.custom.diametro_maceta_cm != blank -%}
                           <li>Diámetro maceta: {{ product.metafields.custom.diametro_maceta_cm }}cm</li>
                         {%- endif -%}
+                        {%- if product.metafields.custom.altura_cm == blank and product.metafields.custom.diametro_maceta_cm == blank -%}
+                          <li>Altura aproximada: 35cm</li>
+                          <li>Diámetro maceta: 12cm</li>
+                        {%- endif -%}
                       </ul>
                   {%- endcase -%}
                 </div>
               </details>
-            {%- endif -%}
         {%- endcase -%}
       {%- endfor -%}
       {%- if care_icons_open -%}
