@@ -395,6 +395,7 @@
               <img src="{{ block.settings.icon | image_url: width: 40 }}" width="20" height="20" alt="">
             {%- endif -%}
             <span>Compra ahora y recíbelo el <strong data-pp-shipping-date data-days="{{ block.settings.shipping_days | default: 2 }}"></strong></span>
+            <span class="pp-pdp__countdown" data-pp-countdown></span>
           </div>
         {%- endif -%}
       {%- endfor -%}

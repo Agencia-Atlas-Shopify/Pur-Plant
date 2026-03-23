@@ -109,6 +109,47 @@
     }
   })();
 
+  /**
+   * Countdown to 18:00 Spanish time.
+   * Only shows on Mon-Thu before 18:00.
+   * Format: "Compra antes de HH:MM:SS y recíbelo antes"
+   */
+  (function initCountdown() {
+    var el = qs('[data-pp-countdown]');
+    if (!el) return;
+
+    function update() {
+      var now = new Date();
+      var spanish = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Madrid' }));
+      var dow = spanish.getDay();
+      var hour = spanish.getHours();
+
+      // Only show Mon-Thu before 18:00
+      if (dow >= 1 && dow <= 4 && hour < 18) {
+        var target = new Date(spanish);
+        target.setHours(18, 0, 0, 0);
+        var diff = target - spanish;
+
+        if (diff > 0) {
+          var h = Math.floor(diff / 3600000);
+          var m = Math.floor((diff % 3600000) / 60000);
+          var s = Math.floor((diff % 60000) / 1000);
+          var pad = function(n) { return n < 10 ? '0' + n : '' + n; };
+
+          el.textContent = 'Compra antes de ' + pad(h) + ':' + pad(m) + ':' + pad(s) + ' y recíbelo antes';
+          el.style.display = '';
+          return;
+        }
+      }
+
+      // Hide countdown on weekends, Fridays, and after 18:00
+      el.style.display = 'none';
+    }
+
+    update();
+    setInterval(update, 1000);
+  })();
+
   /* ----------------------------------------------------------
      References (resolved once DOM is ready)
   ---------------------------------------------------------- */
