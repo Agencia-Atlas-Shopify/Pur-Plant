@@ -38,6 +38,33 @@
     };
   }
 
+  /**
+   * Calculate shipping date skipping weekends.
+   * @param {number} businessDays - number of working days to add
+   * @returns {string} formatted date like "Miércoles 19 Mar"
+   */
+  function getShippingDate(businessDays) {
+    var date = new Date();
+    var added = 0;
+    while (added < businessDays) {
+      date.setDate(date.getDate() + 1);
+      var dow = date.getDay();
+      if (dow !== 0 && dow !== 6) added++;
+    }
+    var days = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+    var months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+    return days[date.getDay()] + ' ' + date.getDate() + ' ' + months[date.getMonth()];
+  }
+
+  // Set shipping date on load
+  (function initShippingDate() {
+    var el = qs('[data-pp-shipping-date]');
+    if (el) {
+      var days = parseInt(el.dataset.days || '2', 10);
+      el.textContent = getShippingDate(days);
+    }
+  })();
+
   /* ----------------------------------------------------------
      References (resolved once DOM is ready)
   ---------------------------------------------------------- */
