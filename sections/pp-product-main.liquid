@@ -165,7 +165,7 @@
                       {%- endif -%}
                     {%- when 'metafield' -%}
                       {%- if product.metafields.custom[mf_key] != blank -%}
-                        {{ product.metafields.custom[mf_key].value }}
+                        {{ product.metafields.custom[mf_key] | metafield_tag }}
                       {%- else -%}
                         <p>Información pendiente de rellenar.</p>
                       {%- endif -%}
@@ -185,11 +185,11 @@
                         {%- if product.metafields.custom.diametro_maceta_cm != blank -%}
                           {%- assign diam_val = product.metafields.custom.diametro_maceta_cm | plus: 0 -%}
                           {%- assign diam_int = diam_val | floor -%}
-                          <li>Diámetro maceta: {% if diam_val == diam_int %}{{ diam_int }}{% else %}{{ diam_val }}{% endif %} cm</li>
+                          <li>Diámetro: {% if diam_val == diam_int %}{{ diam_int }}{% else %}{{ diam_val }}{% endif %} cm</li>
                         {%- endif -%}
                         {%- if product.metafields.custom.altura_cm == blank and product.metafields.custom.diametro_maceta_cm == blank -%}
                           <li>Altura aproximada: 35cm</li>
-                          <li>Diámetro maceta: 12cm</li>
+                          <li>Diámetro: 12cm</li>
                         {%- endif -%}
                       </ul>
                   {%- endcase -%}
