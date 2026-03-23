@@ -526,8 +526,8 @@
             assign rec_products = rec_collection.products
             assign has_recs = true
           endif
-        elsif recommendations.products.size > 0
-          assign rec_products = recommendations.products
+        elsif product.collections.size > 0
+          assign rec_products = product.collections.first.products
           assign has_recs = true
         endif
       -%}
@@ -536,6 +536,7 @@
           <p class="pp-pdp__routine-title">{{ section.settings.recommended_title | default: 'INICIA TU RUTINA' }}</p>
           <div class="pp-pdp__routine-slider" data-pp-routine-slider>
             {%- for rec in rec_products limit: 8 -%}
+              {%- if rec.id == product.id -%}{%- continue -%}{%- endif -%}
               <a href="{{ rec.url }}" class="pp-pdp__routine-item">
                 <div class="pp-pdp__routine-img">
                   {%- if rec.featured_image != blank -%}
