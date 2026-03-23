@@ -39,29 +39,75 @@
   }
 
   /**
-   * Calculate shipping date skipping weekends.
-   * @param {number} businessDays - number of working days to add
-   * @returns {string} formatted date like "Miércoles 19 Mar"
+   * Calculate shipping delivery date range.
+   * Rules:
+   * - Before 18:00 Spanish time: ships today (24-48h delivery = 1-2 business days)
+   * - After 18:00: ships next business day
+   * - Friday after 18:00 or weekend: ships Monday (arrives Lunes-Martes)
+   * - Friday before 18:00: ships Friday (arrives Lunes-Martes)
+   * Weekends (Sat/Sun) are never delivery days.
    */
-  function getShippingDate(businessDays) {
-    var date = new Date();
-    var added = 0;
-    while (added < businessDays) {
-      date.setDate(date.getDate() + 1);
-      var dow = date.getDay();
-      if (dow !== 0 && dow !== 6) added++;
+  function getShippingDate() {
+    var now = new Date();
+    // Convert to Spanish time (CET/CEST)
+    var spanish = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Madrid' }));
+    var hour = spanish.getHours();
+    var dow = spanish.getDay(); // 0=Sun, 1=Mon...5=Fri, 6=Sat
+
+    var shipDate = new Date(spanish);
+
+    // Determine ship date (when the order leaves warehouse)
+    if (dow === 0) {
+      // Sunday → ships Monday
+      shipDate.setDate(shipDate.getDate() + 1);
+    } else if (dow === 6) {
+      // Saturday → ships Monday
+      shipDate.setDate(shipDate.getDate() + 2);
+    } else if (hour >= 18) {
+      // After 18:00 weekday → ships next business day
+      if (dow === 5) {
+        // Friday after 18 → ships Monday
+        shipDate.setDate(shipDate.getDate() + 3);
+      } else {
+        shipDate.setDate(shipDate.getDate() + 1);
+      }
     }
+    // else: before 18:00 weekday → ships today
+
+    // Delivery = 1-2 business days after ship date
+    // Calculate min (1 biz day) and max (2 biz days)
+    function addBusinessDays(from, n) {
+      var d = new Date(from);
+      var added = 0;
+      while (added < n) {
+        d.setDate(d.getDate() + 1);
+        if (d.getDay() !== 0 && d.getDay() !== 6) added++;
+      }
+      return d;
+    }
+
+    var minDate = addBusinessDays(shipDate, 1);
+    var maxDate = addBusinessDays(shipDate, 2);
+
     var days = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
     var months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-    return days[date.getDay()] + ' ' + date.getDate() + ' ' + months[date.getMonth()];
+
+    function fmt(d) {
+      return days[d.getDay()] + ' ' + d.getDate() + ' ' + months[d.getMonth()];
+    }
+
+    // If same day, show just one date; if different, show range
+    if (minDate.getDate() === maxDate.getDate()) {
+      return fmt(minDate);
+    }
+    return fmt(minDate) + ' - ' + fmt(maxDate);
   }
 
   // Set shipping date on load
   (function initShippingDate() {
     var el = qs('[data-pp-shipping-date]');
     if (el) {
-      var days = parseInt(el.dataset.days || '2', 10);
-      el.textContent = getShippingDate(days);
+      el.textContent = getShippingDate();
     }
   })();
 
