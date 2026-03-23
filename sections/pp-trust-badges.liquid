@@ -1,6 +1,9 @@
 {{ 'pp-sections.css' | asset_url | stylesheet_tag }}
 
-<section class="pp-trust-badges">
+<section class="pp-trust-badges" style="
+    --pp-trust-pad-top: {{ section.settings.padding_top }}px;
+    --pp-trust-pad-bottom: {{ section.settings.padding_bottom }}px;
+  ">
   {%- if section.settings.heading != blank -%}
     <h2 class="pp-trust-badges__heading">{{ section.settings.heading }}</h2>
   {%- endif -%}

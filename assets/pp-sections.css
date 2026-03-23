@@ -522,3 +522,69 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
   letter-spacing: -0.05em !important;
   line-height: 0.8 !important;
 }
+
+/* ═══════════════════════════════════════════
+   PP Trust Badges
+   ═══════════════════════════════════════════ */
+.pp-trust-badges {
+  max-width: var(--page-content-width, 120rem);
+  margin: 0 auto;
+  padding: var(--pp-trust-pad-top, 40px) var(--page-margin, 40px) var(--pp-trust-pad-bottom, 40px);
+}
+
+.pp-trust-badges__heading {
+  font-family: 'Aileron', sans-serif;
+  font-size: 31.6px;
+  font-weight: 700;
+  color: #23372c;
+  letter-spacing: -0.05em;
+  line-height: 0.8;
+  margin: 0 0 32px;
+}
+
+.pp-trust-badges__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.pp-trust-badges__item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.pp-trust-badges__icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.pp-trust-badges__title {
+  font-family: 'Tenor Sans', Georgia, serif;
+  font-size: 22.7px;
+  font-weight: 400;
+  letter-spacing: 0.037em;
+  line-height: 1.2;
+  color: #23372c;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.pp-trust-badges__desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #23372c;
+  opacity: 0.6;
+  margin: 0;
+  line-height: 1.4;
+}
+
+@media screen and (max-width: 749px) {
+  .pp-trust-badges__grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
