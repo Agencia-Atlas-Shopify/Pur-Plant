@@ -12,22 +12,6 @@
     "main": {
       "type": "pp-product-main",
       "blocks": {
-        "breadcrumb": {
-          "type": "breadcrumb",
-          "settings": {}
-        },
-        "title": {
-          "type": "title",
-          "settings": {
-            "show_wishlist": true
-          }
-        },
-        "price": {
-          "type": "price",
-          "settings": {
-            "show_save_badge": true
-          }
-        },
         "variants": {
           "type": "variant_picker",
           "settings": {
@@ -129,10 +113,6 @@
         }
       },
       "block_order": [
-        "breadcrumb",
-        "title",
-        "price",
-        "variants",
         "care_pet",
         "care_luz",
         "care_riego",
@@ -143,6 +123,7 @@
         "accordion_medidas",
         "accordion_about",
         "accordion_envios",
+        "variants",
         "shipping",
         "total",
         "buy"

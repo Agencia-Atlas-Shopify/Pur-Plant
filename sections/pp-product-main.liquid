@@ -21,11 +21,11 @@
   data-product-id="{{ product.id }}"
 >
   <div class="pp-pdp__grid">
-    {%- comment -%} ═══ LEFT: Product Info (top part) ═══ {%- endcomment -%}
+    {%- comment -%} ═══ LEFT: Care icons + Accordions only ═══ {%- endcomment -%}
     <div class="pp-pdp__info-left" data-pp-info-left>
+      {%- comment -%} Care icons from metafields (with demo fallback) {%- endcomment -%}
       {%- assign care_icons_open = false -%}
       {%- for block in section.blocks -%}
-        {%- comment -%} Open/close care icons row wrapper {%- endcomment -%}
         {%- if block.type == 'care_icon' and care_icons_open == false -%}
           {%- assign care_icons_open = true -%}
           <div class="pp-pdp__care-icons">
@@ -35,73 +35,12 @@
           </div>
         {%- endif -%}
         {%- case block.type -%}
-          {%- when 'breadcrumb' -%}
-            <nav class="pp-pdp__breadcrumb" {{ block.shopify_attributes }}>
-              <a href="{{ routes.root_url }}">Pur Plant</a>
-              <span>/</span>
-              {%- if product.collections.size > 0 -%}
-                {%- comment -%} Walk up the parent chain via custom.coleccion_padre {%- endcomment -%}
-                {%- assign current_coll = product.collections.first -%}
-                {%- assign breadcrumb_chain = '' -%}
-                {%- assign breadcrumb_urls = '' -%}
-
-                {%- comment -%} Build chain: walk up parents (max 5 levels) {%- endcomment -%}
-                {%- assign walk_coll = current_coll -%}
-                {%- assign breadcrumb_chain = walk_coll.title -%}
-                {%- assign breadcrumb_urls = walk_coll.url -%}
-
-                {%- assign parent_1 = walk_coll.metafields.custom.coleccion_padre.value -%}
-                {%- if parent_1 != blank and parent_1.title != blank -%}
-                  {%- assign breadcrumb_chain = parent_1.title | append: '|||' | append: breadcrumb_chain -%}
-                  {%- assign breadcrumb_urls = parent_1.url | append: '|||' | append: breadcrumb_urls -%}
-
-                  {%- assign parent_2 = parent_1.metafields.custom.coleccion_padre.value -%}
-                  {%- if parent_2 != blank and parent_2.title != blank -%}
-                    {%- assign breadcrumb_chain = parent_2.title | append: '|||' | append: breadcrumb_chain -%}
-                    {%- assign breadcrumb_urls = parent_2.url | append: '|||' | append: breadcrumb_urls -%}
-
-                    {%- assign parent_3 = parent_2.metafields.custom.coleccion_padre.value -%}
-                    {%- if parent_3 != blank and parent_3.title != blank -%}
-                      {%- assign breadcrumb_chain = parent_3.title | append: '|||' | append: breadcrumb_chain -%}
-                      {%- assign breadcrumb_urls = parent_3.url | append: '|||' | append: breadcrumb_urls -%}
-                    {%- endif -%}
-                  {%- endif -%}
-                {%- endif -%}
-
-                {%- assign crumb_titles = breadcrumb_chain | split: '|||' -%}
-                {%- assign crumb_urls = breadcrumb_urls | split: '|||' -%}
-                {%- for crumb_title in crumb_titles -%}
-                  <a href="{{ crumb_urls[forloop.index0] }}">{{ crumb_title }}</a>
-                  <span>/</span>
-                {%- endfor -%}
-              {%- endif -%}
-              <span>{{ product.title }}</span>
-            </nav>
-          {%- when 'title' -%}
-            <div class="pp-pdp__title-row" {{ block.shopify_attributes }}>
-              <h1 class="pp-pdp__title">{{ product.title }}</h1>
-              {%- if block.settings.show_wishlist -%}
-                <button type="button" class="pp-pdp__wishlist-btn" data-wishlist-add data-product-id="{{ product.id }}" data-product-handle="{{ product.handle }}" aria-label="{{ 'products.product.add_wishlist' | t | default: 'Add to wishlist' }}">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="22" height="22"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                </button>
-              {%- endif -%}
-            </div>
-          {%- when 'price' -%}
-            <div class="pp-pdp__price" data-pp-price {{ block.shopify_attributes }}>
-              {%- if current_variant.compare_at_price > current_variant.price -%}
-                <s class="pp-pdp__price-compare" data-pp-compare-price>{{ current_variant.compare_at_price | money }}</s>
-              {%- endif -%}
-              <span class="pp-pdp__price-current" data-pp-current-price>{{ current_variant.price | money }}</span>
-              {%- if current_variant.compare_at_price > current_variant.price and block.settings.show_save_badge -%}
-                {%- assign save_pct = current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price -%}
-                <span class="pp-pdp__save-badge" data-pp-save-badge>-{{ save_pct }}%</span>
-              {%- endif -%}
-            </div>
           {%- when 'care_icon' -%}
             {%- liquid
               assign mf_source = block.settings.metafield_source
               assign mf_value = blank
               assign should_show = false
+              assign is_pet_true = false
 
               case mf_source
                 when 'pet_friendly'
@@ -109,9 +48,14 @@
                     assign should_show = true
                     if product.metafields.custom.pet_friendly == true
                       assign mf_value = 'Sí'
+                      assign is_pet_true = true
                     else
                       assign mf_value = 'No'
                     endif
+                  else
+                    assign should_show = true
+                    assign mf_value = 'Sí'
+                    assign is_pet_true = true
                   endif
                 when 'purificadora'
                   if product.metafields.custom.purificadora != blank
@@ -121,50 +65,74 @@
                     else
                       assign mf_value = 'No'
                     endif
+                  else
+                    assign should_show = true
+                    assign mf_value = 'Sí'
                   endif
                 when 'luz'
                   if product.metafields.custom.luz != blank
                     assign should_show = true
                     assign mf_value = product.metafields.custom.luz | join: ', '
+                  else
+                    assign should_show = true
+                    assign mf_value = 'Luz indirecta'
                   endif
                 when 'riego'
                   if product.metafields.custom.riego != blank
                     assign should_show = true
                     assign mf_value = product.metafields.custom.riego | join: ', '
+                  else
+                    assign should_show = true
+                    assign mf_value = 'Moderado'
                   endif
                 when 'dificultad'
                   if product.metafields.custom.dificultad != blank
                     assign should_show = true
                     assign mf_value = product.metafields.custom.dificultad
+                  else
+                    assign should_show = true
+                    assign mf_value = 'Fácil'
                   endif
                 when 'ubicacion'
                   if product.metafields.custom.ubicacion != blank
                     assign should_show = true
                     assign mf_value = product.metafields.custom.ubicacion
+                  else
+                    assign should_show = true
+                    assign mf_value = 'Interior'
                   endif
                 when 'temperatura'
                   if product.metafields.custom.temperatura != blank
                     assign should_show = true
                     assign mf_value = product.metafields.custom.temperatura
+                  else
+                    assign should_show = true
+                    assign mf_value = '15-25°C'
                   endif
                 when 'humedad'
                   if product.metafields.custom.humedad != blank
                     assign should_show = true
                     assign mf_value = product.metafields.custom.humedad
+                  else
+                    assign should_show = true
+                    assign mf_value = 'Media'
                   endif
                 when 'crecimiento'
                   if product.metafields.custom.crecimiento != blank
                     assign should_show = true
                     assign mf_value = product.metafields.custom.crecimiento
+                  else
+                    assign should_show = true
+                    assign mf_value = 'Medio'
                   endif
               endcase
             -%}
             {%- if should_show -%}
               <div class="pp-pdp__care-icon" {{ block.shopify_attributes }}>
                 {%- if mf_source == 'pet_friendly' -%}
-                  {%- if product.metafields.custom.pet_friendly == true and block.settings.icon != blank -%}
+                  {%- if is_pet_true and block.settings.icon != blank -%}
                     <img src="{{ block.settings.icon | image_url: width: 80 }}" alt="{{ block.settings.label }}" width="32" height="32" loading="lazy">
-                  {%- elsif product.metafields.custom.pet_friendly == false and block.settings.icon_false != blank -%}
+                  {%- elsif is_pet_true == false and block.settings.icon_false != blank -%}
                     <img src="{{ block.settings.icon_false | image_url: width: 80 }}" alt="{{ block.settings.label }}" width="32" height="32" loading="lazy">
                   {%- elsif block.settings.icon != blank -%}
                     <img src="{{ block.settings.icon | image_url: width: 80 }}" alt="{{ block.settings.label }}" width="32" height="32" loading="lazy">
