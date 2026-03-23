@@ -393,6 +393,9 @@
   text-transform: uppercase;
   letter-spacing: 0.255em;
   color: var(--pp-dark-green);
+  text-align: center;
+  display: block;
+  width: 100%;
 }
 
 .pp-pdp__care-value {
