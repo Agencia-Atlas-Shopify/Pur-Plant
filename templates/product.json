@@ -50,7 +50,8 @@
           "type": "accordion",
           "settings": {
             "heading": "DETALLES",
-            "content_source": "description",
+            "content_source": "metafield",
+            "metafield_key": "descripcion_corta",
             "open_by_default": true
           }
         },
