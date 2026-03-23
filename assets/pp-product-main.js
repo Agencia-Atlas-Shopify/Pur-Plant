@@ -718,6 +718,12 @@
         var left = rect.left + 20;
         thumbsContainer.style.left = left + 'px';
 
+        // Center vertically on the visible portion of the gallery
+        var visibleTop = Math.max(rect.top, 0);
+        var visibleBottom = Math.min(rect.bottom, window.innerHeight);
+        var visibleCenter = (visibleTop + visibleBottom) / 2;
+        thumbsContainer.style.top = visibleCenter + 'px';
+
         // Hide if gallery is out of viewport
         var inView = rect.bottom > 100 && rect.top < window.innerHeight - 100;
         thumbsContainer.style.opacity = inView ? '1' : '0';
