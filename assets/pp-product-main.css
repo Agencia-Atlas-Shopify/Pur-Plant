@@ -780,7 +780,7 @@
 
 .pp-pdp__routine-slider {
   display: flex;
-  gap: 6px;
+  gap: 0;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
@@ -811,6 +811,10 @@
   gap: 4px;
   text-decoration: none;
   color: var(--pp-dark-green);
+}
+
+.pp-pdp__routine-item:first-child {
+  padding-left: 10px;
 }
 
 .pp-pdp__routine-img {
