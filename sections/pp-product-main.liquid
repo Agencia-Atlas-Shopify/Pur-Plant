@@ -562,11 +562,7 @@
   {%- if product.metafields.custom.titulo_amazon != blank -%}
     <h2 class="pp-pdp__amazon-title">{{ product.metafields.custom.titulo_amazon }}</h2>
   {%- endif -%}
-  {%- if section.settings.show_seo_text and product.description != blank -%}
-    <div class="pp-pdp__seo-text">
-      {{ product.description }}
-    </div>
-  {%- endif -%}
+  {%- comment -%} SEO text removed — description shown in accordion {%- endcomment -%}
 </section>
 
 <script>

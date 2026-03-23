@@ -511,3 +511,14 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
     justify-self: center;
   }
 }
+
+/* Recommended products heading override */
+.pp-product-main-section + .shopify-section .section-resource-list .text-block h3,
+.pp-product-main-section ~ .shopify-section[id*="related"] .text-block h3 {
+  font-family: "Aileron", sans-serif !important;
+  font-size: 31.6px !important;
+  font-weight: 700 !important;
+  color: #23372c !important;
+  letter-spacing: -0.05em !important;
+  line-height: 0.8 !important;
+}
