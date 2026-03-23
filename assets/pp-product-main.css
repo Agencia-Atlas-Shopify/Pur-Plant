@@ -83,7 +83,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: 12px;
+  gap: 0;
   padding: 10px 15px;
   overflow-y: auto;
   scrollbar-width: none;
@@ -405,11 +405,15 @@
 
 /* ---------- Accordion ---------- */
 .pp-pdp__accordion {
-  border-top: 1px solid rgba(55, 67, 63, 0.12);
+  border-top: 1px solid #000;
+}
+
+.pp-pdp__accordion:first-of-type {
+  border-top: none;
 }
 
 .pp-pdp__accordion-item {
-  border-bottom: 1px solid rgba(55, 67, 63, 0.12);
+  border-bottom: 1px solid #000;
 }
 
 .pp-pdp__accordion summary {
