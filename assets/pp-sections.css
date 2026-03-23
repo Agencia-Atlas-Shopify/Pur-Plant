@@ -551,8 +551,14 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
 .pp-trust-badges__item {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: 10px;
+  text-align: center;
+}
+
+/* Remove inline padding from recommended products section */
+.pp-product-main-section ~ .shopify-section .section-resource-list__content {
+  padding-inline: 0;
 }
 
 .pp-trust-badges__icon {
