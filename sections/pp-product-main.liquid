@@ -542,6 +542,23 @@
                   {%- if rec.featured_image != blank -%}
                     <img src="{{ rec.featured_image | image_url: width: 200 }}" alt="{{ rec.title }}" width="80" height="100" loading="lazy">
                   {%- endif -%}
+                  {%- liquid
+                    assign has_badge = false
+                    assign badge_text = ''
+                    if rec.compare_at_price > rec.price
+                      assign has_badge = true
+                      assign badge_text = 'Oferta'
+                    elsif rec.tags contains 'New In' or rec.tags contains 'new in' or rec.tags contains 'Novedades'
+                      assign has_badge = true
+                      assign badge_text = 'New In'
+                    elsif rec.tags contains 'Best Sellers' or rec.tags contains 'Top Ventas'
+                      assign has_badge = true
+                      assign badge_text = 'Top'
+                    endif
+                  -%}
+                  {%- if has_badge -%}
+                    <span class="pp-pdp__routine-badge">{{ badge_text }}</span>
+                  {%- endif -%}
                 </div>
                 <span class="pp-pdp__routine-price">{{ rec.price | money }}</span>
               </a>

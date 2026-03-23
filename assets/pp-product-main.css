@@ -786,7 +786,7 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
   border: 1px solid black;
-  padding: 10px 5px 8px 15px;
+  padding: 10px 12px 8px 15px;
   border-radius: 30px;
 }
 
@@ -818,6 +818,7 @@
 }
 
 .pp-pdp__routine-img {
+  position: relative;
   width: 80px;
   height: 100px;
   overflow: hidden;
@@ -829,6 +830,23 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.pp-pdp__routine-badge {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  font-family: 'Inter', sans-serif;
+  font-size: 8px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  background: #DAFFD3;
+  border: 1px solid #37433F;
+  border-radius: 20px;
+  color: #37433F;
+  padding: 2px 6px;
+  line-height: 1.2;
 }
 
 .pp-pdp__routine-price {
