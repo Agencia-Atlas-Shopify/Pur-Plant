@@ -178,10 +178,14 @@
                     {%- when 'medidas' -%}
                       <ul class="pp-pdp__medidas-list">
                         {%- if product.metafields.custom.altura_cm != blank -%}
-                          <li>Altura aproximada: {{ product.metafields.custom.altura_cm }}cm</li>
+                          {%- assign altura_val = product.metafields.custom.altura_cm | plus: 0 -%}
+                          {%- assign altura_int = altura_val | floor -%}
+                          <li>Altura aproximada: {% if altura_val == altura_int %}{{ altura_int }}{% else %}{{ altura_val }}{% endif %} cm</li>
                         {%- endif -%}
                         {%- if product.metafields.custom.diametro_maceta_cm != blank -%}
-                          <li>Diámetro maceta: {{ product.metafields.custom.diametro_maceta_cm }}cm</li>
+                          {%- assign diam_val = product.metafields.custom.diametro_maceta_cm | plus: 0 -%}
+                          {%- assign diam_int = diam_val | floor -%}
+                          <li>Diámetro maceta: {% if diam_val == diam_int %}{{ diam_int }}{% else %}{{ diam_val }}{% endif %} cm</li>
                         {%- endif -%}
                         {%- if product.metafields.custom.altura_cm == blank and product.metafields.custom.diametro_maceta_cm == blank -%}
                           <li>Altura aproximada: 35cm</li>
