@@ -543,7 +543,7 @@
   background-color: #e4ffd3;
   color: #23372c;
   border: 1px solid #23372c;
-  border-radius: 0;
+  border-radius: 100px;
   font-family: 'Inter', sans-serif;
   font-size: 19.1px;
   font-weight: 400;
@@ -578,8 +578,12 @@
 .pp-pdp__buy-wrap {
   display: flex;
   align-items: stretch;
-  gap: 0;
+  gap: 8px;
   width: 100%;
+}
+
+.pp-pdp__buy-wrap .shopify-payment-button {
+  display: none !important;
 }
 
 .pp-pdp__qty {
@@ -587,7 +591,7 @@
   align-items: center;
   gap: 0;
   border: 1px solid #000;
-  border-radius: 0;
+  border-radius: 100px;
   overflow: hidden;
   flex-shrink: 0;
 }
