@@ -308,8 +308,8 @@
         "video_max_width": 300,
         "bg_color": "#23372c",
         "text_color": "#daffd3",
-        "padding_top": 72,
-        "padding_bottom": 72
+        "padding_top": 96,
+        "padding_bottom": 96
       }
     },
     "trust_badges": {
