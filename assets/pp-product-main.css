@@ -848,15 +848,15 @@
 
 .pp-pdp__shipping-bottom {
   margin-top: 16px;
-  text-align: center;
+  text-align: left;
 }
 
 .pp-pdp__shipping-bottom p {
   font-family: 'Inter', sans-serif;
   font-size: 10.3px;
   font-weight: 400;
-  color: var(--pp-dark-green);
-  opacity: 0.5;
+  color: #000;
+  opacity: 1;
   margin: 0 0 2px;
   line-height: 1.4;
 }
