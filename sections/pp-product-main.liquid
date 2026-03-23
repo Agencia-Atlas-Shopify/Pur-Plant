@@ -206,6 +206,15 @@
       {%- if care_icons_open -%}
         </div>
       {%- endif -%}
+
+      {%- comment -%} Left column image (uploadable from customizer) {%- endcomment -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'left_image' and block.settings.image != blank -%}
+          <div class="pp-pdp__left-image" {{ block.shopify_attributes }}>
+            <img src="{{ block.settings.image | image_url: width: 400 }}" alt="" width="200" loading="lazy">
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
     </div>
 
     {%- comment -%} ═══ CENTER: Image Gallery ═══ {%- endcomment -%}
@@ -543,8 +552,8 @@
 
       {%- comment -%} Bottom shipping text {%- endcomment -%}
       <div class="pp-pdp__shipping-bottom">
-        <p>Recibe tu pedido en 24/48h</p>
-        <p>Envío gratis pedidos +49€ (Península y Baleares)</p>
+        <p>RECÍBE TU PEDIDO EN 24/48H</p>
+        <p>ENVÍO GRATIS PEDIDOS +49€ (Península y Baleares)</p>
       </div>
     </div>
   </div>
@@ -817,6 +826,18 @@
       "type": "separator",
       "name": "Separator",
       "settings": []
+    },
+    {
+      "type": "left_image",
+      "name": "Left column image",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
     },
     {
       "type": "@app"
