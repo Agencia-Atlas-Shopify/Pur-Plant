@@ -10,11 +10,10 @@
     {%- endif -%}
 
     <div class="pp-recommendations__grid">
-      {%- assign rec_products = recommendations.products -%}
-      {%- if rec_products.size > 0 -%}
-        {%- for product in rec_products limit: section.settings.max_products -%}
+      {%- if recommendations.products != blank and recommendations.products.size > 0 -%}
+        {%- for rec_product in recommendations.products limit: section.settings.max_products -%}
           <div class="pp-recommendations__item">
-            {%- render 'pp-product-card-standalone', product: product, image_ratio: section.settings.image_ratio -%}
+            {%- render 'pp-product-card-standalone', product: rec_product, image_ratio: section.settings.image_ratio -%}
           </div>
         {%- endfor -%}
       {%- endif -%}
