@@ -419,8 +419,9 @@
 
 .pp-pdp__accordion summary {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
+  gap: 8px;
   padding: 14px 0;
   cursor: pointer;
   list-style: none;
@@ -448,7 +449,7 @@
 .pp-pdp__accordion-icon {
   flex-shrink: 0;
   font-size: 18px;
-  font-weight: 300;
+  font-weight: 700;
   line-height: 1;
   color: #d9ffac;
   transition: transform 0.3s ease;
