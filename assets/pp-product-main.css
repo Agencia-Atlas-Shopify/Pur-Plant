@@ -115,34 +115,22 @@
    ========================================================================== */
 
 .pp-pdp__gallery {
-  display: flex;
-  flex-direction: column;
-  position: sticky;
-  top: var(--pp-header-height, 80px);
-  height: calc(100vh - var(--pp-header-height, 80px));
-  overflow-y: scroll;
-  scroll-behavior: smooth;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  position: relative;
 }
 
-.pp-pdp__gallery::-webkit-scrollbar {
-  width: 0;
-}
-
-/* -- Thumbnails (absolute center-left, vertical strip inside gallery) -- */
+/* -- Thumbnails (fixed to viewport, vertically centered on gallery) -- */
 .pp-pdp__thumbnails {
-  position: absolute;
+  position: fixed;
   top: 50%;
-  left: 20px;
   transform: translateY(-50%);
+  left: var(--pp-thumbs-left, 60px);
   display: flex;
   flex-direction: column;
   gap: 10px;
   width: 65px;
   z-index: 10;
   pointer-events: all;
-  max-height: calc(100% - 40px);
+  max-height: calc(100vh - 200px);
   overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;

@@ -708,6 +708,25 @@
 
     // Set initial active thumb
     if (thumbs.length) setActiveThumb(0);
+
+    // Position fixed thumbnails relative to gallery
+    var thumbsContainer = qs('[data-pp-thumbs]', pdp);
+    var gallery = qs('.pp-pdp__gallery', pdp);
+    if (thumbsContainer && gallery) {
+      function positionThumbs() {
+        var rect = gallery.getBoundingClientRect();
+        var left = rect.left + 20;
+        thumbsContainer.style.left = left + 'px';
+
+        // Hide if gallery is out of viewport
+        var inView = rect.bottom > 100 && rect.top < window.innerHeight - 100;
+        thumbsContainer.style.opacity = inView ? '1' : '0';
+        thumbsContainer.style.pointerEvents = inView ? 'all' : 'none';
+      }
+      positionThumbs();
+      window.addEventListener('scroll', positionThumbs, { passive: true });
+      window.addEventListener('resize', positionThumbs, { passive: true });
+    }
   }
 
   // Run when DOM is ready
