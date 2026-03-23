@@ -521,13 +521,13 @@
 }
 
 .pp-pdp__total-label {
-  font-size: 17.1px;
+  font-size: 22px;
   font-weight: 700;
   color: var(--pp-dark-green);
 }
 
 .pp-pdp__total-price {
-  font-size: 17.1px;
+  font-size: 22px;
   font-weight: 700;
   color: #000;
   text-align: right;
