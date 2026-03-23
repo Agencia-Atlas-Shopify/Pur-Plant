@@ -57,22 +57,20 @@
     var shipDate = new Date(spanish);
 
     // Determine ship date (when the order leaves warehouse)
-    if (dow === 0) {
+    if (dow === 5) {
+      // Friday (any time) → ships Friday, delivery Lunes-Martes
+      // shipDate stays as Friday
+    } else if (dow === 0) {
       // Sunday → ships Monday
       shipDate.setDate(shipDate.getDate() + 1);
     } else if (dow === 6) {
       // Saturday → ships Monday
       shipDate.setDate(shipDate.getDate() + 2);
     } else if (hour >= 18) {
-      // After 18:00 weekday → ships next business day
-      if (dow === 5) {
-        // Friday after 18 → ships Monday
-        shipDate.setDate(shipDate.getDate() + 3);
-      } else {
-        shipDate.setDate(shipDate.getDate() + 1);
-      }
+      // After 18:00 Mon-Thu → ships next business day
+      shipDate.setDate(shipDate.getDate() + 1);
     }
-    // else: before 18:00 weekday → ships today
+    // else: before 18:00 Mon-Thu → ships today
 
     // Delivery = 1-2 business days after ship date
     // Calculate min (1 biz day) and max (2 biz days)
