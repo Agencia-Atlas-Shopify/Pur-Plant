@@ -623,6 +623,9 @@
   border: none;
   border-left: 1px solid #000;
   border-right: 1px solid #000;
+  outline: none;
+  box-shadow: none;
+  border-radius: 0;
   width: 36px;
   text-align: center;
   font-family: 'Inter', sans-serif;
@@ -632,6 +635,8 @@
   padding: 0;
 }
 
+.pp-pdp__qty-input::-webkit-inner-spin-button,
+.pp-pdp__qty-input::-webkit-outer-spin-button,
 .pp-pdp__quantity-input::-webkit-inner-spin-button,
 .pp-pdp__quantity-input::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -855,8 +860,11 @@
   font-family: 'Inter', sans-serif;
   font-size: 10.3px;
   font-weight: 400;
-  color: #000;
+  color: var(--pp-dark-green);
   opacity: 1;
+  margin: 0 0 2px;
+  line-height: 1.4;
+  text-align: left;
   margin: 0 0 2px;
   line-height: 1.4;
 }
