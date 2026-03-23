@@ -44,9 +44,9 @@
           "type": "accordion",
           "settings": {
             "heading": "DETALLES",
-            "content_source": "metafield",
+            "content_source": "descripcion_corta",
             "custom_content": "",
-            "metafield_key": "descripcion_corta",
+            "metafield_key": "",
             "open_by_default": true
           }
         },

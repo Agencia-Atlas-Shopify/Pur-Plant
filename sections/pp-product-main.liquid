@@ -163,6 +163,12 @@
                       {%- else -%}
                         <p>Descripción del producto pendiente de rellenar.</p>
                       {%- endif -%}
+                    {%- when 'descripcion_corta' -%}
+                      {%- if product.metafields.custom.descripcion_corta != blank -%}
+                        {{ product.metafields.custom.descripcion_corta | strip_html }}
+                      {%- else -%}
+                        <p>Descripción corta pendiente de rellenar.</p>
+                      {%- endif -%}
                     {%- when 'metafield' -%}
                       {%- if product.metafields.custom[mf_key] != blank -%}
                         {{ product.metafields.custom[mf_key] | metafield_tag }}
@@ -605,6 +611,7 @@
           "options": [
             { "value": "custom", "label": "Custom text" },
             { "value": "description", "label": "Product description" },
+            { "value": "descripcion_corta", "label": "Descripción corta (sin HTML)" },
             { "value": "metafield", "label": "Metafield" },
             { "value": "medidas", "label": "Medidas (auto from metafields)" }
           ],
@@ -715,7 +722,7 @@
         { "type": "care_icon", "settings": { "metafield_source": "luz", "label": "Luz" } },
         { "type": "care_icon", "settings": { "metafield_source": "riego", "label": "Riego" } },
         { "type": "care_icon", "settings": { "metafield_source": "dificultad", "label": "Nivel" } },
-        { "type": "accordion", "settings": { "heading": "DETALLES", "content_source": "description", "open_by_default": true } },
+        { "type": "accordion", "settings": { "heading": "DETALLES", "content_source": "descripcion_corta", "open_by_default": true } },
         { "type": "accordion", "settings": { "heading": "DESCRIPCIÓN", "content_source": "custom" } },
         { "type": "accordion", "settings": { "heading": "CUIDADOS", "content_source": "metafield", "metafield_key": "cuidados" } },
         { "type": "accordion", "settings": { "heading": "MEDIDAS", "content_source": "medidas" } },
