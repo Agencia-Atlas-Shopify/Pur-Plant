@@ -502,6 +502,52 @@
         {%- endif -%}
       {%- endfor -%}
 
+      {%- comment -%} INICIA TU RUTINA — Recommended products {%- endcomment -%}
+      {%- liquid
+        assign rec_source = section.settings.recommended_source | default: 'metafield'
+        assign has_recs = false
+        assign rec_products = null
+
+        case rec_source
+          when 'metafield'
+            if product.metafields.custom.productos_recomendados != blank
+              assign rec_products = product.metafields.custom.productos_recomendados.value
+              assign has_recs = true
+            endif
+          when 'collection'
+            if product.metafields.custom.explora_la_coleccion != blank
+              assign rec_collection = product.metafields.custom.explora_la_coleccion.value
+              if rec_collection.products.size > 0
+                assign rec_products = rec_collection.products
+                assign has_recs = true
+              endif
+            endif
+          when 'auto'
+            if recommendations.products.size > 0
+              assign rec_products = recommendations.products
+              assign has_recs = true
+            endif
+        endcase
+      -%}
+      {%- if has_recs and rec_products != blank -%}
+        <div class="pp-pdp__routine">
+          <p class="pp-pdp__routine-title">{{ section.settings.recommended_title | default: 'INICIA TU RUTINA' }}</p>
+          <div class="pp-pdp__routine-slider" data-pp-routine-slider>
+            {%- for rec in rec_products limit: 8 -%}
+              <a href="{{ rec.url }}" class="pp-pdp__routine-item">
+                <div class="pp-pdp__routine-img">
+                  {%- if rec.featured_image != blank -%}
+                    <img src="{{ rec.featured_image | image_url: width: 200 }}" alt="{{ rec.title }}" width="80" height="100" loading="lazy">
+                  {%- endif -%}
+                </div>
+                <span class="pp-pdp__routine-name">{{ rec.title }}</span>
+                <span class="pp-pdp__routine-price">{{ rec.price | money }}</span>
+              </a>
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+
       {%- comment -%} Bottom shipping text {%- endcomment -%}
       <div class="pp-pdp__shipping-bottom">
         <p>Recibe tu pedido en 24/48h</p>
@@ -559,6 +605,23 @@
       "unit": "px",
       "label": "Padding bottom",
       "default": 40
+    },
+    {
+      "type": "select",
+      "id": "recommended_source",
+      "label": "Recommended products source",
+      "options": [
+        { "value": "metafield", "label": "Metafield (productos_recomendados)" },
+        { "value": "collection", "label": "Metafield (explora_la_coleccion)" },
+        { "value": "auto", "label": "Shopify Search & Discovery" }
+      ],
+      "default": "metafield"
+    },
+    {
+      "type": "text",
+      "id": "recommended_title",
+      "label": "Recommended section title",
+      "default": "INICIA TU RUTINA"
     }
   ],
   "blocks": [
