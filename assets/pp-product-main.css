@@ -801,6 +801,26 @@
   font-weight: 600;
 }
 
+.pp-pdp__shipping-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pp-pdp__shipping-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #e4ffd3;
+  flex-shrink: 0;
+  animation: pp-dot-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pp-dot-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.3; transform: scale(0.8); }
+}
+
 .pp-pdp__shipping-bottom {
   margin-top: 16px;
   text-align: center;
