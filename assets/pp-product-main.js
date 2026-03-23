@@ -425,58 +425,13 @@
       var isExpanding = false;
 
       summary.addEventListener('click', function (e) {
-        e.preventDefault();
-
-        // Clear previous animation
-        if (animation) animation.cancel();
-
-        if (details.open) {
-          // --- CLOSING ---
-          isClosing = true;
-          var startHeight = details.offsetHeight + 'px';
-          var endHeight = summary.offsetHeight + 'px';
-
-          animation = details.animate(
-            { height: [startHeight, endHeight] },
-            { duration: 250, easing: 'ease-out' }
-          );
-          animation.onfinish = function () {
-            details.open = false;
-            isClosing = false;
-            details.style.height = '';
-            details.style.overflow = '';
-          };
-          animation.oncancel = function () { isClosing = false; };
-          details.style.overflow = 'hidden';
-        } else {
-          // --- OPENING ---
-
-          // Close siblings if single-open mode
-          if (singleOpen) {
-            detailsEls.forEach(function (other) {
-              if (other !== details && other.open) {
-                closeDetails(other);
-              }
-            });
-          }
-
-          details.open = true;
-          isExpanding = true;
-
-          var startHeight = summary.offsetHeight + 'px';
-          var endHeight = details.scrollHeight + 'px';
-
-          details.style.overflow = 'hidden';
-          animation = details.animate(
-            { height: [startHeight, endHeight] },
-            { duration: 250, easing: 'ease-out' }
-          );
-          animation.onfinish = function () {
-            isExpanding = false;
-            details.style.height = '';
-            details.style.overflow = '';
-          };
-          animation.oncancel = function () { isExpanding = false; };
+        // Close siblings if single-open mode
+        if (!details.open && singleOpen) {
+          detailsEls.forEach(function (other) {
+            if (other !== details && other.open) {
+              other.open = false;
+            }
+          });
         }
       });
 
