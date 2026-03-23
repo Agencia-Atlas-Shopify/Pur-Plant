@@ -543,7 +543,6 @@
                     <img src="{{ rec.featured_image | image_url: width: 200 }}" alt="{{ rec.title }}" width="80" height="100" loading="lazy">
                   {%- endif -%}
                 </div>
-                <span class="pp-pdp__routine-name">{{ rec.title }}</span>
                 <span class="pp-pdp__routine-price">{{ rec.price | money }}</span>
               </a>
             {%- endfor -%}
