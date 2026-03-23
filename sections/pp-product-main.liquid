@@ -165,7 +165,7 @@
                       {%- endif -%}
                     {%- when 'metafield' -%}
                       {%- if product.metafields.custom[mf_key] != blank -%}
-                        {{ product.metafields.custom[mf_key] | metafield_tag }}
+                        {{ product.metafields.custom[mf_key].value }}
                       {%- else -%}
                         <p>Información pendiente de rellenar.</p>
                       {%- endif -%}
