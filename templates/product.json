@@ -16,6 +16,8 @@
           "type": "care_icon",
           "settings": {
             "metafield_source": "pet_friendly",
+            "icon": "shopify://shop_images/ICONO_PET_FRIENDLY.svg",
+            "icon_false": "shopify://shop_images/ICONO_NO_PET_FRIENDLY.svg",
             "label": "Pet Friendly"
           }
         },
@@ -23,6 +25,7 @@
           "type": "care_icon",
           "settings": {
             "metafield_source": "luz",
+            "icon": "shopify://shop_images/ICONO_LUZ.svg",
             "label": "Luz"
           }
         },
@@ -30,6 +33,7 @@
           "type": "care_icon",
           "settings": {
             "metafield_source": "riego",
+            "icon": "shopify://shop_images/ICONO_RIEGO.svg",
             "label": "Riego"
           }
         },
@@ -37,6 +41,7 @@
           "type": "care_icon",
           "settings": {
             "metafield_source": "dificultad",
+            "icon": "shopify://shop_images/ICONO_NIVEL_CUIDADOS.svg",
             "label": "Nivel"
           }
         },
