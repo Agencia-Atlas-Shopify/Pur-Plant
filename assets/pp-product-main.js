@@ -90,15 +90,16 @@
     var days = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
     var months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 
-    function fmt(d) {
-      return days[d.getDay()] + ' ' + d.getDate() + ' ' + months[d.getMonth()];
-    }
-
     // If same day, show just one date; if different, show range
-    if (minDate.getDate() === maxDate.getDate()) {
-      return fmt(minDate);
+    if (minDate.getDate() === maxDate.getDate() && minDate.getMonth() === maxDate.getMonth()) {
+      return days[minDate.getDay()] + ' ' + minDate.getDate() + ' ' + months[minDate.getMonth()];
     }
-    return fmt(minDate) + ' - ' + fmt(maxDate);
+    // Same month: "Martes 24 - Miércoles 25 Marzo"
+    if (minDate.getMonth() === maxDate.getMonth()) {
+      return days[minDate.getDay()] + ' ' + minDate.getDate() + ' - ' + days[maxDate.getDay()] + ' ' + maxDate.getDate() + ' ' + months[maxDate.getMonth()];
+    }
+    // Different months: "Lunes 31 Mar - Martes 1 Abr"
+    return days[minDate.getDay()] + ' ' + minDate.getDate() + ' ' + months[minDate.getMonth()] + ' - ' + days[maxDate.getDay()] + ' ' + maxDate.getDate() + ' ' + months[maxDate.getMonth()];
   }
 
   // Unified shipping line: countdown + delivery date
