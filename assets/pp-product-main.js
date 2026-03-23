@@ -126,7 +126,11 @@
           var s = Math.floor((diff % 60000) / 1000);
           var pad = function(n) { return n < 10 ? '0' + n : '' + n; };
 
-          el.innerHTML = 'Compra antes de <strong>' + pad(h) + ':' + pad(m) + ':' + pad(s) + '</strong> y recíbelo el <strong>' + deliveryDate + '</strong>';
+          var parts = [];
+          if (h > 0) parts.push(h + (h === 1 ? ' hora' : ' horas'));
+          if (m > 0) parts.push(m + (m === 1 ? ' minuto' : ' minutos'));
+          parts.push(s + (s === 1 ? ' segundo' : ' segundos'));
+          el.innerHTML = 'Compra antes de <strong>' + parts.join(' ') + '</strong> y recíbelo el <strong>' + deliveryDate + '</strong>';
           return;
         }
       }
@@ -136,7 +140,16 @@
     }
 
     update();
-    setInterval(update, 1000);
+    // Use requestAnimationFrame throttled to ~1s for performance
+    var lastTick = 0;
+    function tick(ts) {
+      if (ts - lastTick >= 1000) {
+        lastTick = ts;
+        update();
+      }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
   })();
 
   /* ----------------------------------------------------------
