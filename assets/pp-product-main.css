@@ -103,7 +103,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: 16px;
+  gap: 10px;
   padding: 10px 15px;
   max-width: 439px;
   margin-left: auto;
@@ -1087,4 +1087,53 @@
   .pp-pdp__main-image:hover img {
     transform: scale(1.03);
   }
+}
+
+/* ═══════════════════════════════════════════
+   Image Zoom Lightbox
+   ═══════════════════════════════════════════ */
+.pp-pdp__zoom-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  cursor: zoom-out;
+}
+
+.pp-pdp__zoom-overlay.is-open {
+  opacity: 1;
+}
+
+.pp-pdp__zoom-img {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  cursor: default;
+}
+
+.pp-pdp__zoom-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 32px;
+  font-weight: 300;
+  cursor: pointer;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Gallery images cursor */
+.pp-pdp__main-image img {
+  cursor: zoom-in;
 }

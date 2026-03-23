@@ -724,14 +724,59 @@
         var visibleCenter = (visibleTop + visibleBottom) / 2;
         thumbsContainer.style.top = visibleCenter + 'px';
 
-        // Hide if gallery is out of viewport
-        var inView = rect.bottom > 100 && rect.top < window.innerHeight - 100;
+        // Hide if gallery is out of viewport (check gallery images container, not just wrapper)
+        var lastImg = gallery.querySelector('.pp-pdp__main-image:last-child');
+        var lastImgRect = lastImg ? lastImg.getBoundingClientRect() : rect;
+        var inView = lastImgRect.bottom > 100 && rect.top < window.innerHeight - 100;
         thumbsContainer.style.opacity = inView ? '1' : '0';
         thumbsContainer.style.pointerEvents = inView ? 'all' : 'none';
       }
       positionThumbs();
       window.addEventListener('scroll', positionThumbs, { passive: true });
       window.addEventListener('resize', positionThumbs, { passive: true });
+    }
+  }
+
+    // Image zoom lightbox
+    if (mainImages) {
+      mainImages.addEventListener('click', function(e) {
+        var img = e.target.closest('img');
+        if (!img) return;
+
+        var overlay = document.createElement('div');
+        overlay.className = 'pp-pdp__zoom-overlay';
+        var zoomImg = document.createElement('img');
+        zoomImg.src = img.src.replace(/&width=\d+/, '&width=2400');
+        zoomImg.className = 'pp-pdp__zoom-img';
+        overlay.appendChild(zoomImg);
+
+        var closeBtn = document.createElement('button');
+        closeBtn.className = 'pp-pdp__zoom-close';
+        closeBtn.innerHTML = '×';
+        closeBtn.type = 'button';
+        overlay.appendChild(closeBtn);
+
+        document.body.appendChild(overlay);
+        document.body.style.overflow = 'hidden';
+
+        requestAnimationFrame(function() { overlay.classList.add('is-open'); });
+
+        function close() {
+          overlay.classList.remove('is-open');
+          setTimeout(function() {
+            overlay.remove();
+            document.body.style.overflow = '';
+          }, 200);
+        }
+
+        closeBtn.addEventListener('click', close);
+        overlay.addEventListener('click', function(ev) {
+          if (ev.target === overlay) close();
+        });
+        document.addEventListener('keydown', function handler(ev) {
+          if (ev.key === 'Escape') { close(); document.removeEventListener('keydown', handler); }
+        });
+      });
     }
   }
 
