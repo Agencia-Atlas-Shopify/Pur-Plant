@@ -386,21 +386,19 @@
 }
 
 .pp-pdp__care-label {
-  font-family: var(--pp-font-body);
-  font-size: 9px;
-  font-weight: 600;
+  font-family: 'Tenor Sans', Georgia, serif;
+  font-size: 10.4px;
+  font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.255em;
   color: var(--pp-dark-green);
-  opacity: 0.5;
 }
 
 .pp-pdp__care-value {
-  font-family: var(--pp-font-body);
-  font-size: 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 10.4px;
   font-weight: 400;
   color: var(--pp-dark-green);
-  text-align: center;
   text-align: center;
   line-height: 1.2;
 }
