@@ -142,13 +142,11 @@
   width: 65px;
   z-index: 10;
   pointer-events: all;
-  max-height: 400px;
-  overflow-y: scroll;
+  max-height: calc(100% - 40px);
+  overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
   scroll-behavior: smooth;
-  cursor: grab;
-  user-select: none;
 }
 
 .pp-pdp__thumbnails::-webkit-scrollbar {
