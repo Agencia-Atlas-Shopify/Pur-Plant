@@ -101,22 +101,12 @@
     return fmt(minDate) + ' - ' + fmt(maxDate);
   }
 
-  // Set shipping date on load
-  (function initShippingDate() {
-    var el = qs('[data-pp-shipping-date]');
-    if (el) {
-      el.textContent = getShippingDate();
-    }
-  })();
-
-  /**
-   * Countdown to 18:00 Spanish time.
-   * Only shows on Mon-Thu before 18:00.
-   * Format: "Compra antes de HH:MM:SS y recíbelo antes"
-   */
-  (function initCountdown() {
-    var el = qs('[data-pp-countdown]');
+  // Unified shipping line: countdown + delivery date
+  (function initShippingFull() {
+    var el = qs('[data-pp-shipping-full]');
     if (!el) return;
+
+    var deliveryDate = getShippingDate();
 
     function update() {
       var now = new Date();
@@ -124,7 +114,7 @@
       var dow = spanish.getDay();
       var hour = spanish.getHours();
 
-      // Only show Mon-Thu before 18:00
+      // Mon-Thu before 18:00 → show countdown
       if (dow >= 1 && dow <= 4 && hour < 18) {
         var target = new Date(spanish);
         target.setHours(18, 0, 0, 0);
@@ -136,14 +126,13 @@
           var s = Math.floor((diff % 60000) / 1000);
           var pad = function(n) { return n < 10 ? '0' + n : '' + n; };
 
-          el.textContent = 'Compra antes de ' + pad(h) + ':' + pad(m) + ':' + pad(s) + ' y recíbelo antes';
-          el.style.display = '';
+          el.innerHTML = 'Compra antes de <strong>' + pad(h) + ':' + pad(m) + ':' + pad(s) + '</strong> y recíbelo el <strong>' + deliveryDate + '</strong>';
           return;
         }
       }
 
-      // Hide countdown on weekends, Fridays, and after 18:00
-      el.style.display = 'none';
+      // No countdown → just show delivery date
+      el.innerHTML = 'Compra ahora y recíbelo el <strong>' + deliveryDate + '</strong>';
     }
 
     update();
