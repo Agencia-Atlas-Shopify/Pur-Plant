@@ -125,10 +125,10 @@
           "settings": {
             "image_desktop": "shopify://shop_images/DEMASIADAS-GANAS.jpg",
             "subheading": "",
-            "heading": "NUEVA COLECCION",
+            "heading": "DÍA DE LA<br> MADRE",
             "subtitle": "",
-            "content_position": "bottom-center",
-            "button_text": "VER MAS",
+            "content_position": "bottom-left",
+            "button_text": "",
             "button_link": "",
             "button_style": "normal",
             "button_text_2": "",
