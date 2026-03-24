@@ -11,7 +11,9 @@
 -%}
 
 <pp-collection-header class="pp-collection-header" data-section-id="{{ section.id }}">
-  <h1 class="pp-collection-header__title">{{ collection_title }}</h1>
+  {%- if section.settings.show_title -%}
+    <h1 class="pp-collection-header__title">{{ collection_title }}</h1>
+  {%- endif -%}
 
   <div class="pp-collection-header__toolbar">
     <div class="pp-collection-header__filters">
@@ -513,6 +515,12 @@
     "templates": ["collection"]
   },
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show collection title",
+      "default": false
+    },
     {
       "type": "checkbox",
       "id": "show_filter_button",
