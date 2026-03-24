@@ -188,6 +188,7 @@
         "badge_1": {
           "type": "badge",
           "settings": {
+            "icon": "shopify://shop_images/ilustracion_envios_pur_plant.png",
             "title": "ENVÍOS RÁPIDOS Y SEGUROS",
             "description": ""
           }
@@ -195,6 +196,7 @@
         "badge_2": {
           "type": "badge",
           "settings": {
+            "icon": "shopify://shop_images/ilustracion_siempre_contigo_pur_plant.png",
             "title": "SIEMPRE CONTIGO",
             "description": ""
           }
@@ -202,6 +204,7 @@
         "badge_3": {
           "type": "badge",
           "settings": {
+            "icon": "shopify://shop_images/ilustracion_calidad_premium_pur_plant.png",
             "title": "CALIDAD PREMIUM",
             "description": ""
           }
