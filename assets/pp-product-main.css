@@ -623,8 +623,8 @@
   -moz-appearance: textfield;
   background: none;
   border: none;
-  border-left: 1px solid #000;
-  border-right: 1px solid #000;
+  border-left: none;
+  border-right: none;
   outline: none;
   box-shadow: none;
   border-radius: 0;
@@ -770,7 +770,7 @@
 
 .pp-pdp__routine-title {
   font-family: 'Tenor Sans', Georgia, serif;
-  font-size: 9.3px;
+  font-size: 14px;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.255em;
@@ -884,19 +884,21 @@
   gap: 10px;
 }
 
-.pp-pdp__shipping-bottom-img {
-  width: 40px;
+.pp-pdp__shipping-bottom-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pp-pdp__shipping-bottom-icon {
+  width: 28px;
   height: auto;
   flex-shrink: 0;
 }
 
-.pp-pdp__shipping-bottom-text {
-  flex: 1;
-}
-
 .pp-pdp__shipping-bottom p {
   font-family: 'Inter', sans-serif;
-  font-size: 10.3px;
+  font-size: 13px;
   font-weight: 400;
   color: var(--pp-dark-green);
   opacity: 1;
