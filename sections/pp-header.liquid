@@ -380,6 +380,9 @@
   </div>
 </pp-mobile-menu>
 
+{%- comment -%} Megamenu {%- endcomment -%}
+{% render 'pp-megamenu' %}
+
 {%- comment -%} Cart Drawer - GNG Style {%- endcomment -%}
 {%- if settings.cart_type == 'drawer' and template.name != 'cart' -%}
   {% render 'pp-cart-drawer' %}

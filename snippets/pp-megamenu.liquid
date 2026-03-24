@@ -1,0 +1,462 @@
+{%- comment -%}
+  PP Megamenu - Full-screen overlay navigation
+  Triggered by the hamburger button in pp-header.liquid
+  Include via: {% render 'pp-megamenu' %}
+{%- endcomment -%}
+
+{{ 'pp-megamenu.css' | asset_url | stylesheet_tag }}
+
+<div id="pp-megamenu" class="pp-megamenu" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Menú de navegación">
+
+  {%- comment -%} Top bar with close button {%- endcomment -%}
+  <div class="pp-megamenu__topbar">
+    <button type="button" class="pp-megamenu__close" data-megamenu-close aria-label="Cerrar menú">
+      <svg width="18" height="18" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M1 1L13 13M13 1L1 13" stroke="currentColor" stroke-width="1.5"/>
+      </svg>
+      <span>Cerrar</span>
+    </button>
+  </div>
+
+  {%- comment -%} Main scrollable body {%- endcomment -%}
+  <div class="pp-megamenu__body">
+
+    {%- comment -%} ========== Top-level tabs ========== {%- endcomment -%}
+    <ul class="pp-megamenu__toplevel" role="tablist">
+      <li><button type="button" class="pp-megamenu__toplevel-btn" role="tab" aria-selected="true" data-mega-toplevel="plantas">Plantas</button></li>
+      <li><button type="button" class="pp-megamenu__toplevel-btn" role="tab" aria-selected="false" data-mega-toplevel="regalos">Regalos</button></li>
+      <li><button type="button" class="pp-megamenu__toplevel-btn" role="tab" aria-selected="false" data-mega-toplevel="sobre">Sobre Pur Plant</button></li>
+    </ul>
+
+    {%- comment -%} =====================================================================
+       PANEL: PLANTAS
+       ===================================================================== {%- endcomment -%}
+    <div class="pp-megamenu__panel" data-mega-panel="plantas" aria-hidden="false">
+
+      {%- comment -%} Sub-tabs {%- endcomment -%}
+      <ul class="pp-megamenu__subtabs" role="tablist">
+        <li><button type="button" class="pp-megamenu__subtab-btn" role="tab" aria-selected="true" data-mega-subtab="interior">Interior</button></li>
+        <li><button type="button" class="pp-megamenu__subtab-btn" role="tab" aria-selected="false" data-mega-subtab="exterior">Exterior</button></li>
+        <li><button type="button" class="pp-megamenu__subtab-btn" role="tab" aria-selected="false" data-mega-subtab="macetas">Macetas</button></li>
+        <li><button type="button" class="pp-megamenu__subtab-btn" role="tab" aria-selected="false" data-mega-subtab="terrarios">Terrarios</button></li>
+        <li><button type="button" class="pp-megamenu__subtab-btn" role="tab" aria-selected="false" data-mega-subtab="cuidados">Cuidados</button></li>
+        <li><button type="button" class="pp-megamenu__subtab-btn" role="tab" aria-selected="false" data-mega-subtab="autorriegos">Autorriegos</button></li>
+        <li><button type="button" class="pp-megamenu__subtab-btn" role="tab" aria-selected="false" data-mega-subtab="ofertas">Ofertas</button></li>
+      </ul>
+
+      {%- comment -%} Quick links: Novedades / Best Seller {%- endcomment -%}
+      <div class="pp-megamenu__sidebar-links">
+        <a href="/collections/novedades" class="pp-megamenu__sidebar-link">Novedades</a>
+        <a href="/collections/best-seller" class="pp-megamenu__sidebar-link">Best Seller</a>
+      </div>
+
+      {%- comment -%} ---- Sub-panel: Plantas Interior (4 columns) ---- {%- endcomment -%}
+      <div class="pp-megamenu__subpanel" data-mega-subpanel="interior" aria-hidden="false">
+        <div class="pp-megamenu__columns pp-megamenu__columns--4">
+
+          <div class="pp-megamenu__column">
+            <h3 class="pp-megamenu__col-title">Tamaño</h3>
+            <ul class="pp-megamenu__col-links">
+              <li><a href="/collections/mini-plantas">Mini Plantas</a></li>
+              <li><a href="/collections/plantas-medianas">Plantas Medianas</a></li>
+              <li><a href="/collections/plantas-grandes">Plantas Grandes</a></li>
+              <li><a href="/collections/plantas-interior" data-view-all>Ver todos</a></li>
+            </ul>
+          </div>
+
+          <div class="pp-megamenu__column">
+            <h3 class="pp-megamenu__col-title">Características</h3>
+            <ul class="pp-megamenu__col-links">
+              <li><a href="/collections/plantas-faciles">Plantas Fáciles</a></li>
+              <li><a href="/collections/plantas-de-poca-luz">Plantas de Poca Luz</a></li>
+              <li><a href="/collections/plantas-pet-friendly">Plantas Pet Friendly</a></li>
+              <li><a href="/collections/plantas-raras">Plantas Raras</a></li>
+              <li><a href="/collections/plantas-colgantes">Plantas Colgantes</a></li>
+              <li><a href="/collections/plantas-con-flor">Plantas con Flor</a></li>
+              <li><a href="/collections/purificadoras-aire">Purificadoras Aire</a></li>
+            </ul>
+          </div>
+
+          <div class="pp-megamenu__column">
+            <h3 class="pp-megamenu__col-title">Familias</h3>
+            <ul class="pp-megamenu__col-links">
+              <li><a href="/collections/monstera">Monstera</a></li>
+              <li><a href="/collections/ficus">Ficus</a></li>
+              <li><a href="/collections/philodendron">Philodendron</a></li>
+              <li><a href="/collections/peperomia">Peperomia</a></li>
+              <li><a href="/collections/begonia">Begonia</a></li>
+              <li><a href="/collections/sansevieria">Sansevieria</a></li>
+              <li><a href="/collections/maranta">Maranta</a></li>
+              <li><a href="/collections/familias" data-view-all>Ver todos</a></li>
+            </ul>
+          </div>
+
+          <div class="pp-megamenu__column">
+            <h3 class="pp-megamenu__col-title">Por espacios</h3>
+            <ul class="pp-megamenu__col-links">
+              <li><a href="/collections/plantas-para-salon">Plantas para Salón</a></li>
+              <li><a href="/collections/plantas-para-dormitorio">Plantas para Dormitorio</a></li>
+              <li><a href="/collections/plantas-para-bano">Plantas para Baño</a></li>
+              <li><a href="/collections/plantas-para-cocina">Plantas para Cocina</a></li>
+              <li><a href="/collections/plantas-para-oficina">Plantas para Oficina</a></li>
+              <li><a href="/collections/plantas-por-espacios" data-view-all>Ver todos</a></li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      {%- comment -%} ---- Sub-panel: Plantas Exterior (2 columns) ---- {%- endcomment -%}
+      <div class="pp-megamenu__subpanel" data-mega-subpanel="exterior" aria-hidden="true">
+        <div class="pp-megamenu__columns pp-megamenu__columns--2">
+
+          <div class="pp-megamenu__column">
+            <h3 class="pp-megamenu__col-title">Tamaño</h3>
+            <ul class="pp-megamenu__col-links">
+              <li><a href="/collections/mini-plantas-exterior">Mini Plantas</a></li>
+              <li><a href="/collections/plantas-medianas-exterior">Plantas Medianas</a></li>
+              <li><a href="/collections/plantas-grandes-exterior">Plantas Grandes</a></li>
+              <li><a href="/collections/arboles">Árboles</a></li>
+              <li><a href="/collections/plantas-exterior" data-view-all>Ver todos</a></li>
+            </ul>
+          </div>
+
+          <div class="pp-megamenu__column">
+            <h3 class="pp-megamenu__col-title">Destacadas</h3>
+            <ul class="pp-megamenu__col-links">
+              <li><a href="/collections/aromaticas">Aromáticas</a></li>
+              <li><a href="/collections/coniferas">Coníferas</a></li>
+              <li><a href="/collections/cactus">Cactus</a></li>
+              <li><a href="/collections/frutales">Frutales</a></li>
+              <li><a href="/collections/olivos">Olivos</a></li>
+              <li><a href="/collections/jazmin">Jazmín</a></li>
+              <li><a href="/collections/lavanda">Lavanda</a></li>
+              <li><a href="/collections/rosal">Rosal</a></li>
+              <li><a href="/collections/suculentas">Suculentas</a></li>
+              <li><a href="/collections/trepadoras">Trepadoras</a></li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      {%- comment -%} ---- Sub-panel: Macetas (3 columns) ---- {%- endcomment -%}
+      <div class="pp-megamenu__subpanel" data-mega-subpanel="macetas" aria-hidden="true">
+        <div class="pp-megamenu__columns pp-megamenu__columns--3">
+
+          <div class="pp-megamenu__column">
+            <h3 class="pp-megamenu__col-title">Tamaño</h3>
+            <ul class="pp-megamenu__col-links">
+              <li><a href="/collections/mini-macetas">Mini Macetas</a></li>
+              <li><a href="/collections/macetas-medianas">Macetas Medianas</a></li>
+              <li><a href="/collections/macetas-grandes">Macetas Grandes</a></li>
+              <li><a href="/collections/macetas" data-view-all>Ver todos</a></li>
+            </ul>
+          </div>
+
+          <div class="pp-megamenu__column">
+            <h3 class="pp-megamenu__col-title">Por espacios</h3>
+            <ul class="pp-megamenu__col-links">
+              <li><a href="/collections/macetas-interior">Macetas para Interior</a></li>
+              <li><a href="/collections/macetas-exterior">Macetas para exterior</a></li>
+            </ul>
+          </div>
+
+          <div class="pp-megamenu__column">
+            <h3 class="pp-megamenu__col-title">Destacadas</h3>
+            <ul class="pp-megamenu__col-links">
+              <li><a href="/collections/macetas-decorativas">Macetas decorativas</a></li>
+              <li><a href="/collections/macetas-terracota">Macetas de terracota</a></li>
+              <li><a href="/collections/maceteros-color">Maceteros color</a></li>
+              <li><a href="/collections/jarrones">Jarrones</a></li>
+              <li><a href="/collections/cubremacetas">Cubremacetas</a></li>
+              <li><a href="/collections/macetas-autorriego">Macetas Autorriego</a></li>
+              <li><a href="/collections/platos-para-macetas">Platos para Macetas</a></li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      {%- comment -%} ---- Sub-panel: Terrarios (2 columns) ---- {%- endcomment -%}
+      <div class="pp-megamenu__subpanel" data-mega-subpanel="terrarios" aria-hidden="true">
+        <div class="pp-megamenu__columns pp-megamenu__columns--2">
+
+          <div class="pp-megamenu__column">
+            <h3 class="pp-megamenu__col-title">Tamaño</h3>
+            <ul class="pp-megamenu__col-links">
+              <li><a href="/collections/terrarios-mini">Terrarios Mini</a></li>
+              <li><a href="/collections/terrarios-m">Terrarios M</a></li>
+              <li><a href="/collections/terrarios-grandes">Terrarios Grandes</a></li>
+              <li><a href="/collections/terrarios" data-view-all>Ver todos</a></li>
+            </ul>
+          </div>
+
+          <div class="pp-megamenu__column">
+            <h3 class="pp-megamenu__col-title">Destacados</h3>
+            <ul class="pp-megamenu__col-links">
+              <li><a href="/collections/terrarios-de-plantas">Terrarios de plantas</a></li>
+              <li><a href="/collections/kit-terrarios-diy">Kit Terrarios DIY</a></li>
+              <li><a href="/collections/recipientes-para-terrarios">Recipientes para terrarios</a></li>
+              <li><a href="/collections/terrarios-marimo">Terrarios Marimo</a></li>
+              <li><a href="/collections/plantas-para-terrarios">Plantas para Terrarios</a></li>
+              <li><a href="/collections/musgos">Musgos</a></li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      {%- comment -%} ---- Sub-panel: Cuidados (3 columns) ---- {%- endcomment -%}
+      <div class="pp-megamenu__subpanel" data-mega-subpanel="cuidados" aria-hidden="true">
+        <div class="pp-megamenu__columns pp-megamenu__columns--3">
+
+          <div class="pp-megamenu__column">
+            <h3 class="pp-megamenu__col-title">Sustratos</h3>
+            <ul class="pp-megamenu__col-links">
+              <li><a href="/collections/sustratos-organicos">Sustratos orgánicos</a></li>
+              <li><a href="/collections/ingredientes-sueltos">Ingredientes Sueltos</a></li>
+            </ul>
+          </div>
+
+          <div class="pp-megamenu__column">
+            <h3 class="pp-megamenu__col-title">Fertilizantes</h3>
+            <ul class="pp-megamenu__col-links">
+              <li><a href="/collections/abonos-liquidos">Abonos líquidos</a></li>
+              <li><a href="/collections/abonos-solidos">Abonos sólidos</a></li>
+              <li><a href="/collections/humus-lombriz">Humus lombriz</a></li>
+              <li><a href="/collections/pack-fertilizacion">Pack fertilización</a></li>
+              <li><a href="/collections/control-de-plagas">Control de plagas</a></li>
+              <li><a href="/collections/fertilizantes" data-view-all>Ver todos</a></li>
+            </ul>
+          </div>
+
+          <div class="pp-megamenu__column">
+            <h3 class="pp-megamenu__col-title">Accesorios</h3>
+            <ul class="pp-megamenu__col-links">
+              <li><a href="/collections/tutores">Tutores</a></li>
+              <li><a href="/collections/regaderas">Regaderas</a></li>
+              <li><a href="/collections/pulverizadores">Pulverizadores</a></li>
+              <li><a href="/collections/alfombrilla-trasplante">Alfombrilla trasplante</a></li>
+              <li><a href="/collections/germinacion">Germinación</a></li>
+              <li><a href="/collections/accesorios" data-view-all>Ver todos</a></li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      {%- comment -%} ---- Sub-panel: Autorriegos (1 column) ---- {%- endcomment -%}
+      <div class="pp-megamenu__subpanel" data-mega-subpanel="autorriegos" aria-hidden="true">
+        <div class="pp-megamenu__columns pp-megamenu__columns--1">
+
+          <div class="pp-megamenu__column">
+            <h3 class="pp-megamenu__col-title">Sistemas de autorriego</h3>
+            <ul class="pp-megamenu__col-links">
+              <li><a href="/collections/tubos-de-autorriego">Tubos de autorriego</a></li>
+              <li><a href="/collections/burbuja-autorriego">Burbuja autorriego para plantas interior</a></li>
+              <li><a href="/collections/ollas-autorriego">Ollas autorriego para plantas exterior</a></li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      {%- comment -%} ---- Sub-panel: Ofertas (1 column, no titles) ---- {%- endcomment -%}
+      <div class="pp-megamenu__subpanel" data-mega-subpanel="ofertas" aria-hidden="true">
+        <ul class="pp-megamenu__flat-links">
+          <li><a href="/collections/ofertas-flash">Ofertas Flash</a></li>
+          <li><a href="/collections/plantas-por-muy-poco">Plantas por muy poco</a></li>
+          <li><a href="/collections/packs-ahorro">Packs Ahorro</a></li>
+        </ul>
+      </div>
+
+    </div>{%- comment -%} /panel plantas {%- endcomment -%}
+
+
+    {%- comment -%} =====================================================================
+       PANEL: REGALOS
+       ===================================================================== {%- endcomment -%}
+    <div class="pp-megamenu__panel" data-mega-panel="regalos" aria-hidden="true">
+      <div class="pp-megamenu__columns pp-megamenu__columns--3">
+
+        <div class="pp-megamenu__column">
+          <h3 class="pp-megamenu__col-title">Categorías principales</h3>
+          <ul class="pp-megamenu__col-links">
+            <li><a href="/collections/sets-de-plantas-con-maceta">Sets de plantas con maceta</a></li>
+            <li><a href="/collections/terrarios-de-plantas">Terrarios de plantas</a></li>
+            <li><a href="/collections/kit-terrarios-diy">Kit Terrarios DIY</a></li>
+            <li><a href="/collections/jarrones-con-flores">Jarrones con flores</a></li>
+            <li><a href="/collections/jardin-vertical">Jardín vertical</a></li>
+            <li><a href="/collections/set-ambientador-natural">Set ambientador natural</a></li>
+            <li><a href="/collections/tarjeta-regalo">Tarjeta regalo</a></li>
+          </ul>
+        </div>
+
+        <div class="pp-megamenu__column">
+          <h3 class="pp-megamenu__col-title">Por precio</h3>
+          <ul class="pp-megamenu__col-links">
+            <li><a href="/collections/regalos-menos-20">Regalos por menos de 20&euro;</a></li>
+            <li><a href="/collections/regalos-menos-30">Regalos por menos de 30&euro;</a></li>
+            <li><a href="/collections/regalos-menos-50">Regalos por menos de 50&euro;</a></li>
+            <li><a href="/collections/regalos-especiales">Regalos especiales (+50&euro;)</a></li>
+          </ul>
+        </div>
+
+        <div class="pp-megamenu__column">
+          <h3 class="pp-megamenu__col-title">Ideas de regalo</h3>
+          <ul class="pp-megamenu__col-links">
+            <li><a href="/collections/plantas-faciles-para-regalar">Plantas Fáciles para Regalar</a></li>
+            <li><a href="/collections/plantas-para-expertos">Plantas para Expertos</a></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+
+    {%- comment -%} =====================================================================
+       PANEL: SOBRE PUR PLANT
+       ===================================================================== {%- endcomment -%}
+    <div class="pp-megamenu__panel" data-mega-panel="sobre" aria-hidden="true">
+      <div class="pp-megamenu__columns pp-megamenu__columns--3">
+
+        <div class="pp-megamenu__column">
+          <h3 class="pp-megamenu__col-title">Inspírate</h3>
+          <ul class="pp-megamenu__col-links">
+            <li><a href="/blogs/blog">Blog</a></li>
+            <li><a href="/blogs/guias-de-cuidados">Guías de cuidados</a></li>
+          </ul>
+        </div>
+
+        <div class="pp-megamenu__column">
+          <h3 class="pp-megamenu__col-title">¿Quiénes somos?</h3>
+          <ul class="pp-megamenu__col-links">
+            <li><a href="/pages/sobre-nosotros">Conócenos</a></li>
+          </ul>
+        </div>
+
+        <div class="pp-megamenu__column">
+          <h3 class="pp-megamenu__col-title">¿Necesitas ayuda?</h3>
+          <ul class="pp-megamenu__col-links">
+            <li><a href="/pages/contacto">Contacto</a></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+  </div>{%- comment -%} /body {%- endcomment -%}
+</div>{%- comment -%} /megamenu {%- endcomment -%}
+
+
+{%- comment -%} =====================================================================
+   JavaScript — Vanilla, no dependencies
+   ===================================================================== {%- endcomment -%}
+<script>
+(function() {
+  'use strict';
+
+  var megamenu = document.getElementById('pp-megamenu');
+  if (!megamenu) return;
+
+  /* ----- References ----- */
+  var closeBtn = megamenu.querySelector('[data-megamenu-close]');
+  var toplevelBtns = megamenu.querySelectorAll('[data-mega-toplevel]');
+  var subtabBtns = megamenu.querySelectorAll('[data-mega-subtab]');
+  var panels = megamenu.querySelectorAll('[data-mega-panel]');
+  var subpanels = megamenu.querySelectorAll('[data-mega-subpanel]');
+
+  /* ----- Open / Close ----- */
+  function open() {
+    megamenu.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('pp-megamenu-open');
+    /* Focus the close button after transition */
+    setTimeout(function() { closeBtn.focus(); }, 100);
+  }
+
+  function close() {
+    megamenu.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('pp-megamenu-open');
+    /* Return focus to the hamburger if available */
+    var hamburger = document.querySelector('.pp-header__menu-toggle');
+    if (hamburger) hamburger.focus();
+  }
+
+  /* ----- Top-level tab switching ----- */
+  function activateToplevel(key) {
+    toplevelBtns.forEach(function(btn) {
+      btn.setAttribute('aria-selected', btn.getAttribute('data-mega-toplevel') === key ? 'true' : 'false');
+    });
+    panels.forEach(function(panel) {
+      panel.setAttribute('aria-hidden', panel.getAttribute('data-mega-panel') === key ? 'false' : 'true');
+    });
+  }
+
+  /* ----- Sub-tab switching (within Plantas) ----- */
+  function activateSubtab(key) {
+    subtabBtns.forEach(function(btn) {
+      btn.setAttribute('aria-selected', btn.getAttribute('data-mega-subtab') === key ? 'true' : 'false');
+    });
+    subpanels.forEach(function(sp) {
+      sp.setAttribute('aria-hidden', sp.getAttribute('data-mega-subpanel') === key ? 'false' : 'true');
+    });
+  }
+
+  /* ----- Event listeners ----- */
+
+  /* Close button */
+  closeBtn.addEventListener('click', close);
+
+  /* Top-level tabs */
+  toplevelBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      activateToplevel(btn.getAttribute('data-mega-toplevel'));
+    });
+  });
+
+  /* Sub-tabs */
+  subtabBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      activateSubtab(btn.getAttribute('data-mega-subtab'));
+    });
+  });
+
+  /* ESC key */
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && megamenu.getAttribute('aria-hidden') === 'false') {
+      close();
+    }
+  });
+
+  /* ----- Hook into PP Header hamburger button ----- */
+  /* The hamburger is .pp-header__menu-toggle. We listen on document for
+     clicks so it works even if the header re-renders. */
+  document.addEventListener('click', function(e) {
+    var hamburger = e.target.closest('.pp-header__menu-toggle');
+    if (!hamburger) return;
+
+    var isOpen = megamenu.getAttribute('aria-hidden') === 'false';
+    if (isOpen) {
+      close();
+    } else {
+      open();
+    }
+  });
+
+  /* ----- Close when clicking outside the body content (on the overlay itself) ----- */
+  megamenu.addEventListener('click', function(e) {
+    if (e.target === megamenu) {
+      close();
+    }
+  });
+
+  /* ----- Expose globally so header JS can call ppMegamenu.open() / .close() if needed ----- */
+  window.ppMegamenu = {
+    open: open,
+    close: close,
+    isOpen: function() { return megamenu.getAttribute('aria-hidden') === 'false'; }
+  };
+
+})();
+</script>
