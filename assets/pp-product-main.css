@@ -183,7 +183,7 @@
 
 .pp-pdp__main-image {
   width: 100%;
-  border-radius: var(--pp-radius-sm);
+  border-radius: 0;
   overflow: hidden;
   position: relative;
 }
@@ -815,6 +815,7 @@
 
 .pp-pdp__routine-item:first-child {
   padding-left: 10px;
+  padding-right: 10px;
 }
 
 .pp-pdp__routine-img {
@@ -878,6 +879,19 @@
 .pp-pdp__shipping-bottom {
   margin-top: 16px;
   text-align: left;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.pp-pdp__shipping-bottom-img {
+  width: 40px;
+  height: auto;
+  flex-shrink: 0;
+}
+
+.pp-pdp__shipping-bottom-text {
+  flex: 1;
 }
 
 .pp-pdp__shipping-bottom p {
