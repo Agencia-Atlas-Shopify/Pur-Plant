@@ -408,16 +408,22 @@
   /* Close button */
   closeBtn.addEventListener('click', close);
 
-  /* Top-level tabs */
+  /* Top-level tabs — click + hover */
   toplevelBtns.forEach(function(btn) {
     btn.addEventListener('click', function() {
       activateToplevel(btn.getAttribute('data-mega-toplevel'));
     });
+    btn.addEventListener('mouseenter', function() {
+      activateToplevel(btn.getAttribute('data-mega-toplevel'));
+    });
   });
 
-  /* Sub-tabs */
+  /* Sub-tabs — click + hover */
   subtabBtns.forEach(function(btn) {
     btn.addEventListener('click', function() {
+      activateSubtab(btn.getAttribute('data-mega-subtab'));
+    });
+    btn.addEventListener('mouseenter', function() {
       activateSubtab(btn.getAttribute('data-mega-subtab'));
     });
   });
@@ -436,13 +442,24 @@
     var hamburger = e.target.closest('.pp-header__menu-toggle');
     if (!hamburger) return;
 
+    /* Prevent mobile menu from also opening */
+    e.stopPropagation();
+    e.preventDefault();
+
+    /* Close mobile menu if open */
+    var mobileMenu = document.querySelector('pp-mobile-menu');
+    if (mobileMenu && mobileMenu.hasAttribute('open')) {
+      mobileMenu.removeAttribute('open');
+      mobileMenu.setAttribute('hidden', '');
+    }
+
     var isOpen = megamenu.getAttribute('aria-hidden') === 'false';
     if (isOpen) {
       close();
     } else {
       open();
     }
-  });
+  }, true); /* capture phase to run before mobile menu */
 
   /* ----- Close when clicking outside the body content (on the overlay itself) ----- */
   megamenu.addEventListener('click', function(e) {
@@ -450,6 +467,38 @@
       close();
     }
   });
+
+  /* ----- Open megamenu on hover over header nav links ----- */
+  var navLinkMap = {
+    '/collections/plantas': 'plantas',
+    '/collections/plantas-interior': 'plantas',
+    '/collections/regalos': 'regalos',
+    '/pages/sobre-nosotros': 'sobre'
+  };
+
+  document.addEventListener('mouseenter', function(e) {
+    var link = e.target.closest('.pp-header__desktop-link, .pp-header__nav-link');
+    if (!link) return;
+    var href = link.getAttribute('href');
+    var panel = null;
+    for (var path in navLinkMap) {
+      if (href && href.indexOf(path) !== -1) {
+        panel = navLinkMap[path];
+        break;
+      }
+    }
+    // Also match by text content
+    if (!panel) {
+      var text = (link.textContent || '').trim().toLowerCase();
+      if (text === 'plantas') panel = 'plantas';
+      else if (text === 'regalos') panel = 'regalos';
+      else if (text.indexOf('sobre') !== -1 || text.indexOf('pur plant') !== -1) panel = 'sobre';
+    }
+    if (panel) {
+      open();
+      activateToplevel(panel);
+    }
+  }, true);
 
   /* ----- Expose globally so header JS can call ppMegamenu.open() / .close() if needed ----- */
   window.ppMegamenu = {
