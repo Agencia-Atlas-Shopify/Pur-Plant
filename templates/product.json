@@ -218,7 +218,8 @@
       "settings": {
         "heading": "POR QUÉ COMPRAR EN PUR PLANT",
         "padding_top": 100,
-        "padding_bottom": 100
+        "padding_bottom": 52,
+        "icon_size": 200
       }
     },
     "faq": {
