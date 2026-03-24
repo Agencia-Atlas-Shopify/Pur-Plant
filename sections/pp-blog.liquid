@@ -1,0 +1,126 @@
+{{ 'pp-sections.css' | asset_url | stylesheet_tag }}
+
+{%- paginate blog.articles by section.settings.articles_per_page -%}
+
+<section class="pp-blog" style="
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  ">
+  <div class="pp-blog__inner">
+
+    {%- comment -%} Title {%- endcomment -%}
+    <h1 class="pp-blog__title">{{ blog.title }}</h1>
+
+    {%- comment -%} Category nav {%- endcomment -%}
+    <div class="pp-blog__cat-nav">
+      <div class="pp-blog__cat-left">
+        <span class="pp-blog__cat-heading">Categorías</span>
+        <a href="{{ blog.url }}" class="pp-blog__cat-viewall">Ver todo</a>
+      </div>
+      <nav class="pp-blog__cat-links" data-pp-blog-cats>
+        {%- for tag in blog.all_tags -%}
+          <a href="{{ blog.url }}/tagged/{{ tag | handleize }}" class="pp-blog__cat-link{% if current_tags contains tag %} is-active{% endif %}">
+            {{ tag }}
+          </a>
+        {%- endfor -%}
+      </nav>
+    </div>
+
+    {%- comment -%} Articles grid {%- endcomment -%}
+    <div class="pp-blog__grid">
+      {%- for article in blog.articles -%}
+        <a href="{{ article.url }}" class="pp-blog__article">
+          <div class="pp-blog__article-image">
+            {%- if article.image != blank -%}
+              <img
+                src="{{ article.image | image_url: width: 800 }}"
+                srcset="{{ article.image | image_url: width: 400 }} 400w, {{ article.image | image_url: width: 600 }} 600w, {{ article.image | image_url: width: 800 }} 800w"
+                alt="{{ article.title }}"
+                width="800"
+                height="{{ 800 | divided_by: 1.5 | round }}"
+                loading="lazy"
+                sizes="(min-width: 750px) 50vw, 100vw"
+              >
+            {%- else -%}
+              <div class="pp-blog__article-placeholder"></div>
+            {%- endif -%}
+          </div>
+          <div class="pp-blog__article-info">
+            <h2 class="pp-blog__article-title">{{ article.title }}</h2>
+            <time class="pp-blog__article-date" datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+              {{ article.published_at | date: '%d %B %Y' }}
+            </time>
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+
+    {%- comment -%} Pagination {%- endcomment -%}
+    {%- if paginate.pages > 1 -%}
+      <div class="pp-blog__pagination">
+        {%- if paginate.previous -%}
+          <a href="{{ paginate.previous.url }}" class="pp-blog__page-link">&larr; Anterior</a>
+        {%- endif -%}
+        {%- for part in paginate.parts -%}
+          {%- if part.is_link -%}
+            <a href="{{ part.url }}" class="pp-blog__page-link">{{ part.title }}</a>
+          {%- else -%}
+            <span class="pp-blog__page-link is-current">{{ part.title }}</span>
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if paginate.next -%}
+          <a href="{{ paginate.next.url }}" class="pp-blog__page-link">Siguiente &rarr;</a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "PP Blog",
+  "tag": "section",
+  "class": "pp-blog-section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "articles_per_page",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "label": "Articles per page",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 40
+    }
+  ],
+  "templates": ["blog"],
+  "presets": [
+    {
+      "name": "PP Blog",
+      "category": "Pur Plant"
+    }
+  ]
+}
+{% endschema %}

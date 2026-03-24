@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "pp-blog",
+      "settings": {
+        "articles_per_page": 12,
+        "padding_top": 32,
+        "padding_bottom": 40
+      }
+    }
+  },
+  "order": ["main"]
+}
