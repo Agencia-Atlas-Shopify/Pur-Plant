@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "pp_collection_header": {
@@ -12,16 +21,20 @@
     "main": {
       "type": "pp-collection",
       "settings": {
-        "products_per_page": 24,
+        "show_title": false,
+        "show_description": false,
         "products_per_row_mobile": 2,
         "products_per_row_tablet": 3,
         "products_per_row_desktop": 4,
-        "image_ratio": "portrait-tall",
         "gap_mobile": 12,
         "gap_tablet": 16,
         "gap_desktop": 20,
-        "show_title": true,
-        "show_description": false,
+        "products_per_page": 24,
+        "image_ratio": "portrait-tall",
+        "show_secondary_image": true,
+        "show_badges": true,
+        "show_swatches": true,
+        "swatch_option_name": "Color",
         "padding_top": 0,
         "padding_bottom": 40
       }
