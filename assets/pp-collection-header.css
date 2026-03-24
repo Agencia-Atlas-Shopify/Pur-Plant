@@ -206,6 +206,7 @@
   background-color: var(--rc-ch-color-white);
   border-radius: var(--rc-ch-border-radius);
   font-size: var(--rc-ch-font-size-btn);
+  margin-left: auto;
 }
 
 @media screen and (min-width: 768px) {
