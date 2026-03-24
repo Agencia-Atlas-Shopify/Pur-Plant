@@ -151,7 +151,9 @@
         "padding_top": 20,
         "padding_bottom": 40,
         "recommended_source": "metafield",
-        "recommended_title": "INICIA TU RUTINA"
+        "recommended_title": "INICIA TU RUTINA",
+        "shipping_bottom_line1": "RECÍBE TU PEDIDO EN 24/48H",
+        "shipping_bottom_line2": "ENVÍO GRATIS PEDIDOS +49€ (Península y Baleares)"
       }
     },
     "related_products": {
@@ -219,7 +221,7 @@
         "heading": "POR QUÉ COMPRAR EN PUR PLANT",
         "padding_top": 100,
         "padding_bottom": 52,
-        "icon_size": 200
+        "icon_size": 310
       }
     },
     "faq": {
