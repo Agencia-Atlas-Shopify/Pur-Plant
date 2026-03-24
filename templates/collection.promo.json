@@ -151,7 +151,7 @@
         "full_height_mobile": false,
         "height_mobile": 500,
         "full_height_desktop": false,
-        "height_desktop": 300,
+        "height_desktop": 610,
         "autoplay": true,
         "autoplay_speed": 5,
         "show_dots": true,
@@ -168,6 +168,7 @@
     "pp_collection_grid": {
       "type": "pp-collection",
       "settings": {
+        "show_toolbar": true,
         "show_title": false,
         "show_description": false,
         "products_per_row_mobile": 2,
@@ -176,7 +177,7 @@
         "gap_mobile": 10,
         "gap_tablet": 16,
         "gap_desktop": 20,
-        "products_per_page": 48,
+        "products_per_page": 24,
         "image_ratio": "portrait",
         "show_secondary_image": true,
         "show_badges": true,
@@ -200,6 +201,7 @@
       "type": "pp-collection",
       "disabled": true,
       "settings": {
+        "show_toolbar": true,
         "show_title": true,
         "show_description": false,
         "products_per_row_mobile": 2,
