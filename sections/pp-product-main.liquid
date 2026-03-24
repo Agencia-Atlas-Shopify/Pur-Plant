@@ -535,46 +535,6 @@
         {%- endif -%}
       {%- endfor -%}
 
-      {%- comment -%} Total {%- endcomment -%}
-      <div class="pp-pdp__total" data-pp-total>
-        <span class="pp-pdp__total-label">TOTAL</span>
-        <span class="pp-pdp__total-label" data-pp-total-price>{{ current_variant.price | money }}</span>
-      </div>
-
-      {%- comment -%} Quantity + Add to cart {%- endcomment -%}
-      {%- for block in section.blocks -%}
-        {%- if block.type == 'buy_button' -%}
-          <div class="pp-pdp__buy-wrap" {{ block.shopify_attributes }}>
-            <div class="pp-pdp__qty">
-              <button type="button" class="pp-pdp__qty-minus" data-pp-qty-minus aria-label="Decrease quantity">−</button>
-              <input type="number" class="pp-pdp__qty-input" data-pp-qty-input value="1" min="1" max="99" aria-label="Quantity">
-              <button type="button" class="pp-pdp__qty-plus" data-pp-qty-plus aria-label="Increase quantity">+</button>
-            </div>
-
-            <button
-              type="button"
-              class="pp-pdp__add-to-cart-btn"
-              data-pp-add-to-cart
-              data-variant-id="{{ current_variant.id }}"
-              {% unless current_variant.available %}disabled{% endunless %}
-            >
-              {%- if current_variant.available -%}
-                {{ block.settings.button_text | default: 'Añadir' }}
-              {%- else -%}
-                {{ 'products.product.sold_out' | t | default: 'Agotado' }}
-              {%- endif -%}
-            </button>
-
-            {%- if block.settings.show_dynamic_checkout -%}
-              {%- form 'product', product, id: 'pp-product-form' -%}
-                <input type="hidden" name="id" value="{{ current_variant.id }}" data-pp-form-variant-id>
-                {{ form | payment_button }}
-              {%- endform -%}
-            {%- endif -%}
-          </div>
-        {%- endif -%}
-      {%- endfor -%}
-
       {%- comment -%} INICIA TU RUTINA — Recommended products {%- endcomment -%}
       {%- liquid
         assign has_recs = false
@@ -629,6 +589,46 @@
           </div>
         </div>
       {%- endif -%}
+
+      {%- comment -%} Total {%- endcomment -%}
+      <div class="pp-pdp__total" data-pp-total>
+        <span class="pp-pdp__total-label">TOTAL</span>
+        <span class="pp-pdp__total-label" data-pp-total-price>{{ current_variant.price | money }}</span>
+      </div>
+
+      {%- comment -%} Quantity + Add to cart {%- endcomment -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'buy_button' -%}
+          <div class="pp-pdp__buy-wrap" {{ block.shopify_attributes }}>
+            <div class="pp-pdp__qty">
+              <button type="button" class="pp-pdp__qty-minus" data-pp-qty-minus aria-label="Decrease quantity">−</button>
+              <input type="number" class="pp-pdp__qty-input" data-pp-qty-input value="1" min="1" max="99" aria-label="Quantity">
+              <button type="button" class="pp-pdp__qty-plus" data-pp-qty-plus aria-label="Increase quantity">+</button>
+            </div>
+
+            <button
+              type="button"
+              class="pp-pdp__add-to-cart-btn"
+              data-pp-add-to-cart
+              data-variant-id="{{ current_variant.id }}"
+              {% unless current_variant.available %}disabled{% endunless %}
+            >
+              {%- if current_variant.available -%}
+                {{ block.settings.button_text | default: 'Añadir' }}
+              {%- else -%}
+                {{ 'products.product.sold_out' | t | default: 'Agotado' }}
+              {%- endif -%}
+            </button>
+
+            {%- if block.settings.show_dynamic_checkout -%}
+              {%- form 'product', product, id: 'pp-product-form' -%}
+                <input type="hidden" name="id" value="{{ current_variant.id }}" data-pp-form-variant-id>
+                {{ form | payment_button }}
+              {%- endform -%}
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
 
       {%- comment -%} Bottom shipping text {%- endcomment -%}
       <div class="pp-pdp__shipping-bottom">
