@@ -4,11 +4,11 @@
   <div class="pp-mega__inner">
 
     {%- comment -%} Mobile close + tabs {%- endcomment -%}
-    <button type="button" class="pp-mega__mobile-close" data-mega-close style="display:none; align-items:center; gap:6px; background:none; border:none; color:#daffd3; font-family:Inter,sans-serif; font-size:14px; cursor:pointer; padding:0; margin-bottom:16px;">
+    <button type="button" class="pp-mega__mobile-close" data-mega-close>
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1l12 12M13 1L1 13"/></svg>
       Cerrar
     </button>
-    <div class="pp-mega__mobile-tabs" style="display:none;">
+    <div class="pp-mega__mobile-tabs">
       <button type="button" class="pp-mega__mobile-tab is-active" data-mega-mobile-tab="plantas">Plantas</button>
       <button type="button" class="pp-mega__mobile-tab" data-mega-mobile-tab="regalos">Regalos</button>
       <button type="button" class="pp-mega__mobile-tab" data-mega-mobile-tab="sobre">Sobre Pur Plant</button>
@@ -306,6 +306,18 @@
   var sidebarBtns = mega.querySelectorAll('[data-mega-sub]');
   var subPanels = mega.querySelectorAll('[data-mega-subcontent]');
   var closeTimer = null;
+
+  /* Position mega below pp-header__inner (above announcement) */
+  function positionMega() {
+    var inner = document.querySelector('.pp-header__inner');
+    if (inner && window.innerWidth >= 750) {
+      var rect = inner.getBoundingClientRect();
+      mega.style.setProperty('--pp-mega-top', (rect.bottom) + 'px');
+    }
+  }
+  positionMega();
+  window.addEventListener('scroll', positionMega);
+  window.addEventListener('resize', positionMega);
 
   function open(panelId) {
     mega.setAttribute('aria-hidden', 'false');

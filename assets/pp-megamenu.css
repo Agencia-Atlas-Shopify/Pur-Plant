@@ -4,7 +4,7 @@
 
 .pp-mega {
   position: fixed;
-  top: var(--pp-header-height, 80px);
+  top: var(--pp-mega-top, 60px);
   left: 30px;
   right: 30px;
   z-index: 1001;
@@ -242,12 +242,22 @@
 
   /* Close button */
   .pp-mega__mobile-close {
-    display: flex;
+    display: flex !important;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    color: #daffd3;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: 16px;
   }
 
   /* Tabs */
   .pp-mega__mobile-tabs {
-    display: flex;
+    display: flex !important;
     gap: 16px;
     margin-bottom: 20px;
   }
