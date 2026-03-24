@@ -54,114 +54,6 @@
       </div>
     {%- endif -%}
 
-    {%- if section.settings.show_toolbar -%}
-      {{ 'pp-collection-header.css' | asset_url | stylesheet_tag }}
-      {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
-      <div class="pp-collection-header__toolbar">
-        <div class="pp-collection-header__filters">
-          {%- for filter in collection.filters -%}
-            {%- if filter.type == 'list' and filter.values.size > 0 -%}
-              <div class="pp-collection-header__dropdown" data-filter-dropdown>
-                <button type="button" class="pp-collection-header__btn pp-collection-header__dropdown-btn" data-dropdown-toggle>
-                  <span>{{ filter.label | upcase }}</span>
-                  {%- if filter.active_values.size > 0 -%}
-                    <span class="pp-collection-header__filter-badge">{{ filter.active_values.size }}</span>
-                  {%- endif -%}
-                  <svg xmlns="http://www.w3.org/2000/svg" width="8" height="6" viewBox="0 0 8 6" fill="none">
-                    <path d="M0.94 0.726672L4 3.78001L7.06 0.726672L8 1.66667L4 5.66667L0 1.66667L0.94 0.726672Z" fill="currentColor" fill-opacity="0.5"/>
-                  </svg>
-                </button>
-                <div class="pp-collection-header__dropdown-content" data-dropdown-content hidden>
-                  <ul class="pp-collection-header__filter-list">
-                    {%- for value in filter.values -%}
-                      {%- if value.count > 0 or value.active -%}
-                        <li>
-                          <a href="{{ value.url }}" class="pp-collection-header__filter-option{% if value.active %} is-active{% endif %}">
-                            <span class="pp-collection-header__filter-checkbox">
-                              {%- if value.active -%}
-                                <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                              {%- endif -%}
-                            </span>
-                            <span>{{ value.label }}</span>
-                            <span class="pp-collection-header__filter-count">({{ value.count }})</span>
-                          </a>
-                        </li>
-                      {%- endif -%}
-                    {%- endfor -%}
-                  </ul>
-                </div>
-              </div>
-            {%- endif -%}
-          {%- endfor -%}
-        </div>
-        <div class="pp-collection-header__sort" data-sort-dropdown>
-          <button type="button" class="pp-collection-header__btn pp-collection-header__sort-btn" data-sort-toggle>
-            <span>ORDENAR</span>
-          </button>
-          <div class="pp-collection-header__sort-options" data-sort-options hidden>
-            {%- for option in collection.sort_options -%}
-              <a href="{{ collection.url }}?sort_by={{ option.value }}" class="pp-collection-header__btn pp-collection-header__sort-option{% if sort_by == option.value %} is-active{% endif %}" data-sort-value="{{ option.value }}">
-                {{ option.name | upcase }}
-              </a>
-            {%- endfor -%}
-          </div>
-        </div>
-        <div class="pp-collection-header__view" data-view-options>
-          <span class="pp-collection-header__view-label">VISTA</span>
-          <div class="pp-collection-header__view-options pp-collection-header__view-options--desktop">
-            <button type="button" class="pp-collection-header__view-btn" data-view-columns="2" data-view-desktop="2">2</button>
-            <button type="button" class="pp-collection-header__view-btn{% if products_per_row_desktop == 3 %} is-active{% endif %}" data-view-columns="3" data-view-desktop="3">3</button>
-            <button type="button" class="pp-collection-header__view-btn{% if products_per_row_desktop == 4 %} is-active{% endif %}" data-view-columns="4" data-view-desktop="4">4</button>
-            <button type="button" class="pp-collection-header__view-btn" data-view-columns="6" data-view-desktop="6">6</button>
-          </div>
-        </div>
-      </div>
-      <script>
-        (function() {
-          var section = document.getElementById('RC-Collection-{{ section.id }}');
-          if (!section) return;
-
-          // View columns
-          section.querySelectorAll('[data-view-desktop]').forEach(function(btn) {
-            btn.addEventListener('click', function() {
-              var cols = btn.dataset.viewDesktop;
-              section.style.setProperty('--pp-items-per-row', cols);
-              section.querySelectorAll('[data-view-desktop]').forEach(function(b) { b.classList.remove('is-active'); });
-              btn.classList.add('is-active');
-            });
-          });
-
-          // Sort dropdown
-          var sortToggle = section.querySelector('[data-sort-toggle]');
-          var sortOptions = section.querySelector('[data-sort-options]');
-          if (sortToggle && sortOptions) {
-            sortToggle.addEventListener('click', function() {
-              sortOptions.hidden = !sortOptions.hidden;
-            });
-            document.addEventListener('click', function(e) {
-              if (!sortToggle.contains(e.target) && !sortOptions.contains(e.target)) {
-                sortOptions.hidden = true;
-              }
-            });
-          }
-
-          // Filter dropdowns
-          section.querySelectorAll('[data-dropdown-toggle]').forEach(function(toggle) {
-            var content = toggle.parentElement.querySelector('[data-dropdown-content]');
-            if (!content) return;
-            toggle.addEventListener('click', function() {
-              content.hidden = !content.hidden;
-            });
-            document.addEventListener('click', function(e) {
-              if (!toggle.contains(e.target) && !content.contains(e.target)) {
-                content.hidden = true;
-              }
-            });
-          });
-        })();
-      </script>
-    {%- endif -%}
-
     <div class="pp-collection__grid">
       {%- paginate collection.products by products_per_page -%}
         {%- assign product_index = 0 -%}
@@ -350,12 +242,6 @@
     {
       "type": "header",
       "content": "Header"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_toolbar",
-      "label": "Show filter/sort toolbar",
-      "default": true
     },
     {
       "type": "checkbox",

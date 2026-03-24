@@ -29,16 +29,16 @@
   --rc-ch-spacing-180: calc((180 / var(--rc-ch-base-font-size)) * 1rem);
 
   --rc-ch-color-white: #ffffff;
-  --rc-ch-color-black: #23372c;
-  --rc-ch-color-neutral-2: #f0f7f0;
-  --rc-ch-color-neutral-3: #e4ffd3;
-  --rc-ch-color-neutral-4: #daffd3;
+  --rc-ch-color-black: #000000;
+  --rc-ch-color-neutral-2: hsl(0, 0%, 97%);
+  --rc-ch-color-neutral-3: hsl(0, 0%, 93%);
+  --rc-ch-color-neutral-4: hsl(36, 26%, 93%);
   --rc-ch-color-tag: var(--rc-ch-color-neutral-2);
   --rc-ch-color-tag-hover: var(--rc-ch-color-neutral-4);
-  --rc-ch-color-tag-active: #23372c;
+  --rc-ch-color-tag-active: var(--rc-ch-color-neutral-4);
 
-  --rc-ch-border-radius: 20px;
-  --rc-ch-border-radius-btn: 20px;
+  --rc-ch-border-radius: 5px;
+  --rc-ch-border-radius-btn: 8px;
 }
 
 /* Container */
@@ -68,10 +68,9 @@
 /* Title */
 .pp-collection-header__title {
   margin: 0;
-  font-family: 'Aileron', sans-serif;
-  font-weight: 900;
-  font-style: normal;
-  color: #23372c;
+  font-family: var(--heading-font-family, Helvetica, Arial, sans-serif);
+  font-weight: var(--heading-font-weight, 400);
+  font-style: var(--heading-font-style, normal);
   font-size: var(--rc-ch-font-size-title);
   text-transform: capitalize;
   line-height: normal;
@@ -112,12 +111,12 @@
   padding: var(--rc-ch-spacing-16);
   background-color: var(--rc-ch-color-white);
   border-radius: var(--rc-ch-border-radius);
-  border: 1px solid #23372c;
-  font-family: 'Inter', sans-serif;
-  font-size: 12px;
+  border: none;
+  font-family: inherit;
+  font-size: var(--rc-ch-font-size-btn);
   font-weight: 400;
   text-transform: uppercase;
-  color: #23372c;
+  color: var(--rc-ch-color-black);
   cursor: pointer;
   transition: background-color 0.2s ease;
   white-space: nowrap;
