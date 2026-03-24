@@ -1,0 +1,101 @@
+{{ 'pp-sections.css' | asset_url | stylesheet_tag }}
+
+{%- if collection.description != blank -%}
+  <section class="pp-coll-desc" style="
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    ">
+    <div class="pp-coll-desc__inner">
+      <div class="pp-coll-desc__header">
+        <h2 class="pp-coll-desc__title">{{ section.settings.heading | default: collection.title }}</h2>
+        <button type="button" class="pp-coll-desc__toggle" data-pp-coll-desc-toggle aria-expanded="false">
+          <span class="pp-coll-desc__toggle-text">{{ section.settings.toggle_text | default: 'Leer más' }}</span>
+          <svg class="pp-coll-desc__arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5.5L7 9.5L11 5.5"/></svg>
+        </button>
+      </div>
+
+      <div class="pp-coll-desc__body" data-pp-coll-desc-body>
+        <div class="pp-coll-desc__columns">
+          {{ collection.description }}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    (function() {
+      var toggles = document.querySelectorAll('[data-pp-coll-desc-toggle]');
+      toggles.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var section = btn.closest('.pp-coll-desc');
+          var body = section.querySelector('[data-pp-coll-desc-body]');
+          var expanded = btn.getAttribute('aria-expanded') === 'true';
+
+          if (expanded) {
+            body.style.maxHeight = '0';
+            btn.setAttribute('aria-expanded', 'false');
+            btn.querySelector('.pp-coll-desc__toggle-text').textContent = '{{ section.settings.toggle_text | default: "Leer más" }}';
+          } else {
+            body.style.maxHeight = body.scrollHeight + 'px';
+            btn.setAttribute('aria-expanded', 'true');
+            btn.querySelector('.pp-coll-desc__toggle-text').textContent = '{{ section.settings.toggle_close_text | default: "Leer menos" }}';
+          }
+        });
+      });
+    })();
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "PP Collection Description",
+  "tag": "section",
+  "class": "pp-coll-desc-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading (leave blank for collection title)"
+    },
+    {
+      "type": "text",
+      "id": "toggle_text",
+      "label": "Toggle text (collapsed)",
+      "default": "Leer más"
+    },
+    {
+      "type": "text",
+      "id": "toggle_close_text",
+      "label": "Toggle text (expanded)",
+      "default": "Leer menos"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 40
+    }
+  ],
+  "templates": ["collection"],
+  "presets": [
+    {
+      "name": "PP Collection Description",
+      "category": "Pur Plant"
+    }
+  ]
+}
+{% endschema %}

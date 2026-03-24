@@ -766,3 +766,101 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
   color: #1a1a1a;
   text-align: center;
 }
+
+/* ═══ PP Collection Description ═══ */
+.pp-coll-desc__inner {
+  max-width: var(--page-content-width, 120rem);
+  margin: 0 auto;
+  padding: 0 var(--page-margin, 40px);
+}
+
+.pp-coll-desc__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.pp-coll-desc__title {
+  font-family: 'Aileron', sans-serif;
+  font-size: 31.6px;
+  font-weight: 700;
+  color: #23372c;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.pp-coll-desc__toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #23372c;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.pp-coll-desc__arrow {
+  transition: transform 0.3s ease;
+}
+
+.pp-coll-desc__toggle[aria-expanded="true"] .pp-coll-desc__arrow {
+  transform: rotate(180deg);
+}
+
+.pp-coll-desc__body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+
+.pp-coll-desc__columns {
+  padding-top: 24px;
+  color: #23372c;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  column-count: 2;
+  column-gap: 40px;
+}
+
+@media screen and (max-width: 749px) {
+  .pp-coll-desc__columns {
+    column-count: 1;
+  }
+
+  .pp-coll-desc__title {
+    font-size: 22px;
+  }
+}
+
+/* ═══ PP Collection Title ═══ */
+.pp-coll-title__inner {
+  max-width: var(--page-content-width, 120rem);
+  margin: 0 auto;
+  padding: 0 var(--page-margin, 40px);
+}
+
+.pp-coll-title__heading {
+  font-family: 'Aileron', sans-serif;
+  font-size: 42px;
+  font-weight: 900;
+  color: #23372c;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+@media screen and (max-width: 749px) {
+  .pp-coll-title__heading {
+    font-size: 28px;
+  }
+}
