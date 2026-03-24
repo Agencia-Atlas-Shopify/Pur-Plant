@@ -111,7 +111,7 @@
         "collection_list": "{{ collection.metafields.custom.colecciones_relacionadas.value }}",
         "layout_type": "carousel",
         "carousel_on_mobile": false,
-        "columns": 3,
+        "columns": 4,
         "mobile_columns": "2",
         "mobile_card_size": "44cqw",
         "columns_gap": 16,
