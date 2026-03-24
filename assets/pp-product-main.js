@@ -702,18 +702,27 @@
   ---------------------------------------------------------- */
 
   function init() {
-    if (!cacheDOM()) return;
+    if (!cacheDOM()) {
+      console.log('[PP PDP] cacheDOM failed — .pp-pdp not found');
+      return;
+    }
 
-    initVariantSelection();
-    initThumbnails();
-    initThumbnailObserver();
-    initMobileDots();
-    initAccordions();
-    initAddToCart();
-    initQuantitySelector();
+    console.log('[PP PDP] Init: thumbs=' + thumbs.length + ', mainImages=' + (mainImages ? 'yes' : 'no'));
 
-    // Set initial active thumb
-    if (thumbs.length) setActiveThumb(0);
+    try {
+      initVariantSelection();
+      initThumbnails();
+      initThumbnailObserver();
+      initMobileDots();
+      initAccordions();
+      initAddToCart();
+      initQuantitySelector();
+
+      // Set initial active thumb
+      if (thumbs.length) setActiveThumb(0);
+    } catch (err) {
+      console.error('[PP PDP] Init error:', err);
+    }
 
     // Thumbnails are now CSS sticky — no JS positioning needed
   }

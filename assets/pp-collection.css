@@ -21,12 +21,14 @@
 }
 
 .pp-collection__title {
-  font-family: var(--heading-font-family, inherit);
-  font-weight: var(--heading-font-weight, 400);
-  font-size: var(--text-h4, 1rem);
+  font-family: 'Aileron', sans-serif;
+  font-weight: 700;
+  font-size: 31.6px;
+  color: #23372c;
   text-transform: uppercase;
-  letter-spacing: var(--heading-letter-spacing, 0.05em);
-  margin: 0 0 0.5rem;
+  letter-spacing: -0.05em;
+  line-height: 0.8;
+  margin: 0 0 24px;
 }
 
 .pp-collection__description {
