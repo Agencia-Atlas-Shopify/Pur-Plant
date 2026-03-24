@@ -1016,7 +1016,7 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
 
 .pp-blog__article-title {
   font-family: 'Inter', sans-serif;
-  font-size: 22px;
+  font-size: 28px;
   font-weight: 700;
   color: #23372c;
   line-height: 1.3;
@@ -1025,7 +1025,7 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
 
 .pp-blog__article-date {
   font-family: 'Inter', sans-serif;
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 400;
   color: #23372c;
   opacity: 0.6;
