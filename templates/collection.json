@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "main": {
@@ -33,6 +24,7 @@
     },
     "collection_list_HeJ7Ch": {
       "type": "collection-list",
+      "disabled": true,
       "blocks": {
         "static-collection-card": {
           "type": "_collection-card",
@@ -118,9 +110,66 @@
         "padding-block-start": 32,
         "padding-block-end": 24
       }
+    },
+    "pp_collection_title": {
+      "type": "pp-collection-title",
+      "settings": {}
+    },
+    "pp_collection_list": {
+      "type": "pp-collection-list",
+      "settings": {
+        "heading": "",
+        "columns_desktop": 4,
+        "columns_mobile": 2,
+        "max_items": 8,
+        "image_ratio": "4 / 5",
+        "padding_top": 0,
+        "padding_bottom": 24
+      }
+    },
+    "pp_collection_header": {
+      "type": "pp-collection-header",
+      "settings": {
+        "show_filter_button": true,
+        "show_sort": true,
+        "show_view_options": true,
+        "show_layout_toggle": true
+      }
+    },
+    "pp_collection_grid": {
+      "type": "pp-collection",
+      "settings": {
+        "show_title": false,
+        "show_description": false,
+        "products_per_row_mobile": 2,
+        "products_per_row_tablet": 3,
+        "products_per_row_desktop": 4,
+        "gap_mobile": 10,
+        "gap_tablet": 16,
+        "gap_desktop": 20,
+        "products_per_page": 24,
+        "show_secondary_image": true,
+        "show_badges": true,
+        "show_swatches": true,
+        "swatch_option_name": "Color",
+        "padding_top": 0,
+        "padding_bottom": 40
+      }
+    },
+    "pp_collection_desc": {
+      "type": "pp-collection-description",
+      "settings": {
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
     }
   },
   "order": [
+    "pp_collection_title",
+    "pp_collection_list",
+    "pp_collection_header",
+    "pp_collection_grid",
+    "pp_collection_desc",
     "main",
     "collection_list_HeJ7Ch"
   ]
