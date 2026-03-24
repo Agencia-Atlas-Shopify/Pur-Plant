@@ -462,7 +462,7 @@
       {%- comment -%} Shipping date (skip weekends) {%- endcomment -%}
       {%- for block in section.blocks -%}
         {%- if block.type == 'shipping_info' -%}
-          <div class="pp-pdp__shipping-info" {{ block.shopify_attributes }}>
+          <div class="pp-pdp__shipping-info" style="padding-top: {{ block.settings.padding_top | default: 10 }}px; padding-bottom: {{ block.settings.padding_bottom | default: 10 }}px;" {{ block.shopify_attributes }}>
             {%- if block.settings.icon != blank -%}
               <img src="{{ block.settings.icon | image_url: width: 40 }}" width="20" height="20" alt="">
             {%- endif -%}
@@ -889,6 +889,26 @@
           "label": "Días de envío (laborables)",
           "default": 2,
           "info": "No cuenta fines de semana"
+        },
+        {
+          "type": "range",
+          "id": "padding_top",
+          "min": 0,
+          "max": 60,
+          "step": 2,
+          "unit": "px",
+          "label": "Padding top",
+          "default": 10
+        },
+        {
+          "type": "range",
+          "id": "padding_bottom",
+          "min": 0,
+          "max": 60,
+          "step": 2,
+          "unit": "px",
+          "label": "Padding bottom",
+          "default": 10
         }
       ]
     },
