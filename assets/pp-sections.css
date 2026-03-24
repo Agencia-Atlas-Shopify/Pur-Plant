@@ -937,7 +937,7 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
 
 .pp-blog__cat-link {
   font-family: 'Inter', sans-serif;
-  font-size: 13.4px;
+  font-size: 16px;
   font-weight: 400;
   color: #23372c;
   opacity: 0.6;
@@ -1025,10 +1025,10 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
 
 .pp-blog__article-date {
   font-family: 'Inter', sans-serif;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 400;
   color: #23372c;
-  opacity: 0.6;
+  opacity: 1;
 }
 
 /* Pagination */
