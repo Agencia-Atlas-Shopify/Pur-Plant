@@ -106,17 +106,6 @@
         "padding-block-end": 24
       }
     },
-    "pp_collection_header": {
-      "type": "pp-collection-header",
-      "disabled": true,
-      "settings": {
-        "show_title": false,
-        "show_filter_button": true,
-        "show_sort": true,
-        "show_view_options": true,
-        "show_layout_toggle": true
-      }
-    },
     "pp_hero_slider_UwEACy": {
       "type": "pp-hero-slider",
       "blocks": {
@@ -233,7 +222,6 @@
   "order": [
     "pp_collection_title",
     "collection_list_HeJ7Ch",
-    "pp_collection_header",
     "pp_hero_slider_UwEACy",
     "pp_collection_grid",
     "pp_collection_desc",
