@@ -1,399 +1,198 @@
-/* ==========================================================================
-   PP Megamenu - Full-screen overlay navigation
-   ========================================================================== */
+/* ═══════════════════════════════════════════
+   PP Megamenu — Dropdown from header
+   ═══════════════════════════════════════════ */
 
-/* ---------- Variables ---------- */
-:root {
-  --pp-mega-bg: #23372C;
-  --pp-mega-text: #DAFFD3;
-  --pp-mega-text-dim: rgba(218, 255, 211, 0.5);
-  --pp-mega-border: rgba(218, 255, 211, 0.12);
-  --pp-mega-transition: 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+.pp-mega {
+  position: fixed;
+  top: var(--pp-header-height, 80px);
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background: #23372c;
+  color: #daffd3;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+  opacity: 0;
+  pointer-events: none;
 }
 
-/* ---------- Overlay ---------- */
-.pp-megamenu {
-  position: fixed;
-  inset: 0;
-  z-index: 999;
-  background-color: var(--pp-mega-bg);
-  color: var(--pp-mega-text);
-  overflow: hidden;
+.pp-mega[aria-hidden="false"] {
+  max-height: 70vh;
+  opacity: 1;
+  pointer-events: auto;
+  overflow-y: auto;
+}
+
+.pp-mega__inner {
+  max-width: var(--page-content-width, 120rem);
+  margin: 0 auto;
+  padding: 32px var(--page-margin, 40px) 40px;
+}
+
+/* ── Panels ── */
+.pp-mega__panel {
+  display: none;
+  grid-template-columns: 180px 1fr 220px;
+  gap: 32px;
+  align-items: start;
+}
+
+.pp-mega__panel.is-active {
+  display: grid;
+}
+
+/* Regalos / Sobre — no sidebar, content takes full width */
+.pp-mega__content--full {
+  grid-column: 1 / 3;
+}
+
+/* ── Sidebar (Plantas left nav) ── */
+.pp-mega__sidebar {
   display: flex;
   flex-direction: column;
-
-  /* Hidden state */
-  visibility: hidden;
-  opacity: 0;
-  transform: translateY(-100%);
-  transition:
-    transform var(--pp-mega-transition),
-    opacity 0.3s ease,
-    visibility 0s linear 0.5s;
+  gap: 2px;
+  border-right: 1px solid rgba(218, 255, 211, 0.15);
+  padding-right: 24px;
 }
 
-.pp-megamenu[aria-hidden="false"] {
-  visibility: visible;
-  opacity: 1;
-  transform: translateY(0);
-  transition:
-    transform var(--pp-mega-transition),
-    opacity 0.25s ease,
-    visibility 0s linear 0s;
-}
-
-/* ---------- Top bar (close button row) ---------- */
-.pp-megamenu__topbar {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 20px 40px 0;
-  flex-shrink: 0;
-}
-
-@media screen and (max-width: 749px) {
-  .pp-megamenu__topbar {
-    padding: 16px 20px 0;
-  }
-}
-
-.pp-megamenu__close {
-  appearance: none;
-  background: none;
-  border: none;
-  color: var(--pp-mega-text);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: 'Inter', sans-serif;
-  font-size: 13px;
-  letter-spacing: 0.02em;
-  padding: 8px 0;
-  transition: opacity 0.2s ease;
-}
-
-.pp-megamenu__close:hover {
-  opacity: 0.7;
-}
-
-.pp-megamenu__close svg {
-  width: 18px;
-  height: 18px;
-}
-
-/* ---------- Main scrollable area ---------- */
-.pp-megamenu__body {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 0 40px 60px;
-  -webkit-overflow-scrolling: touch;
-}
-
-@media screen and (max-width: 749px) {
-  .pp-megamenu__body {
-    padding: 0 20px 40px;
-  }
-}
-
-/* ---------- Top-level navigation (Plantas / Regalos / Sobre Pur Plant) ---------- */
-.pp-megamenu__toplevel {
-  display: flex;
-  gap: 32px;
-  padding: 24px 0 20px;
-  border-bottom: 1px solid var(--pp-mega-border);
-  margin-bottom: 24px;
-  list-style: none;
-  flex-wrap: wrap;
-}
-
-@media screen and (max-width: 749px) {
-  .pp-megamenu__toplevel {
-    gap: 20px;
-    padding: 20px 0 16px;
-    margin-bottom: 20px;
-  }
-}
-
-.pp-megamenu__toplevel-btn {
-  appearance: none;
-  background: none;
-  border: none;
-  color: var(--pp-mega-text-dim);
-  font-family: 'Inter', sans-serif;
-  font-size: 22px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  cursor: pointer;
-  padding: 4px 0;
-  position: relative;
-  transition: color 0.25s ease;
-  white-space: nowrap;
-}
-
-.pp-megamenu__toplevel-btn::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 1.5px;
-  background-color: var(--pp-mega-text);
-  transition: width 0.3s ease;
-}
-
-.pp-megamenu__toplevel-btn[aria-selected="true"] {
-  color: var(--pp-mega-text);
-}
-
-.pp-megamenu__toplevel-btn[aria-selected="true"]::after {
-  width: 100%;
-}
-
-.pp-megamenu__toplevel-btn:hover {
-  color: var(--pp-mega-text);
-}
-
-@media screen and (max-width: 749px) {
-  .pp-megamenu__toplevel-btn {
-    font-size: 18px;
-  }
-}
-
-/* ---------- Panels (each top-level item has one) ---------- */
-.pp-megamenu__panel {
-  display: none;
-  animation: ppMegaFadeIn 0.3s ease forwards;
-}
-
-.pp-megamenu__panel[aria-hidden="false"] {
+.pp-mega__sidebar-link {
   display: block;
-}
-
-@keyframes ppMegaFadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ---------- Sub-tabs within Plantas ---------- */
-.pp-megamenu__subtabs {
-  display: flex;
-  gap: 24px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid var(--pp-mega-border);
-  margin-bottom: 28px;
-  list-style: none;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-@media screen and (max-width: 749px) {
-  .pp-megamenu__subtabs {
-    gap: 12px 16px;
-    padding-bottom: 16px;
-    margin-bottom: 20px;
-  }
-}
-
-.pp-megamenu__subtab-btn {
-  appearance: none;
   background: none;
   border: none;
-  color: var(--pp-mega-text-dim);
+  color: #daffd3;
+  opacity: 0.5;
   font-family: 'Inter', sans-serif;
   font-size: 14px;
   font-weight: 400;
-  letter-spacing: 0.01em;
+  text-align: left;
+  padding: 6px 0;
   cursor: pointer;
-  padding: 4px 0;
-  position: relative;
-  transition: color 0.2s ease;
+  text-decoration: none;
+  transition: opacity 0.15s ease;
   white-space: nowrap;
 }
 
-.pp-megamenu__subtab-btn::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
+.pp-mega__sidebar-link:hover,
+.pp-mega__sidebar-link.is-active {
+  opacity: 1;
+}
+
+.pp-mega__sidebar-link--highlight {
+  font-weight: 600;
+  opacity: 0.8;
+}
+
+.pp-mega__sidebar-link--highlight:hover {
+  opacity: 1;
+}
+
+.pp-mega__sidebar-divider {
   height: 1px;
-  background-color: var(--pp-mega-text);
-  transition: width 0.25s ease;
+  background: rgba(218, 255, 211, 0.15);
+  margin: 8px 0;
 }
 
-.pp-megamenu__subtab-btn[aria-selected="true"] {
-  color: var(--pp-mega-text);
+/* ── Content area ── */
+.pp-mega__content {
+  flex: 1;
 }
 
-.pp-megamenu__subtab-btn[aria-selected="true"]::after {
-  width: 100%;
-}
-
-.pp-megamenu__subtab-btn:hover {
-  color: var(--pp-mega-text);
-}
-
-/* Highlight badges for Novedades / Best Seller */
-.pp-megamenu__subtab-btn--highlight {
-  font-weight: 500;
-}
-
-/* ---------- Sub-panels ---------- */
-.pp-megamenu__subpanel {
+.pp-mega__sub {
   display: none;
-  animation: ppMegaFadeIn 0.25s ease forwards;
 }
 
-.pp-megamenu__subpanel[aria-hidden="false"] {
+.pp-mega__sub.is-active {
   display: block;
 }
 
-/* ---------- Columns grid ---------- */
-.pp-megamenu__columns {
+/* ── Columns ── */
+.pp-mega__columns {
   display: grid;
-  gap: 40px;
+  gap: 32px;
 }
 
-/* Responsive column counts */
-.pp-megamenu__columns--4 { grid-template-columns: repeat(4, 1fr); }
-.pp-megamenu__columns--3 { grid-template-columns: repeat(3, 1fr); }
-.pp-megamenu__columns--2 { grid-template-columns: repeat(2, 1fr); }
-.pp-megamenu__columns--1 { grid-template-columns: 1fr; max-width: 280px; }
+.pp-mega__columns--1 { grid-template-columns: 1fr; }
+.pp-mega__columns--2 { grid-template-columns: repeat(2, 1fr); }
+.pp-mega__columns--3 { grid-template-columns: repeat(3, 1fr); }
+.pp-mega__columns--4 { grid-template-columns: repeat(4, 1fr); }
 
-@media screen and (max-width: 999px) {
-  .pp-megamenu__columns--4 { grid-template-columns: repeat(2, 1fr); }
-  .pp-megamenu__columns--3 { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media screen and (max-width: 599px) {
-  .pp-megamenu__columns--4,
-  .pp-megamenu__columns--3,
-  .pp-megamenu__columns--2 {
-    grid-template-columns: 1fr 1fr;
-    gap: 28px 20px;
-  }
-  .pp-megamenu__columns--1 {
-    max-width: none;
-  }
-}
-
-/* ---------- Column ---------- */
-.pp-megamenu__col-title {
-  font-family: 'Inter', sans-serif;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--pp-mega-text);
-  margin: 0 0 16px;
-  opacity: 0.65;
-}
-
-.pp-megamenu__col-links {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.pp-mega__col {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 2px;
 }
 
-.pp-megamenu__col-links a {
+.pp-mega__col-title {
   font-family: 'Inter', sans-serif;
-  font-size: 13.5px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(218, 255, 211, 0.5);
+  margin-bottom: 8px;
+}
+
+.pp-mega__link {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
   font-weight: 400;
-  color: var(--pp-mega-text);
+  color: #daffd3;
   text-decoration: none;
-  transition: opacity 0.2s ease;
-  display: inline-block;
-  line-height: 1.4;
+  padding: 3px 0;
+  transition: opacity 0.15s ease;
+  opacity: 0.8;
 }
 
-.pp-megamenu__col-links a:hover {
-  opacity: 0.65;
-}
-
-/* "Ver todos" link style */
-.pp-megamenu__col-links a[data-view-all] {
-  font-weight: 500;
+.pp-mega__link:hover {
+  opacity: 1;
   text-decoration: underline;
   text-underline-offset: 3px;
-  text-decoration-thickness: 1px;
-  margin-top: 4px;
 }
 
-/* ---------- Left sidebar badges (Novedades, Best Seller) ---------- */
-.pp-megamenu__sidebar-links {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
-@media screen and (max-width: 749px) {
-  .pp-megamenu__sidebar-links {
-    margin-bottom: 20px;
-  }
-}
-
-.pp-megamenu__sidebar-link {
-  font-family: 'Inter', sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--pp-mega-text);
-  text-decoration: none;
-  padding: 6px 16px;
-  border: 1px solid var(--pp-mega-border);
-  border-radius: 100px;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
-  white-space: nowrap;
-}
-
-.pp-megamenu__sidebar-link:hover {
-  background-color: rgba(218, 255, 211, 0.08);
-  border-color: rgba(218, 255, 211, 0.3);
-}
-
-/* ---------- Ofertas panel (no column titles) ---------- */
-.pp-megamenu__flat-links {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  max-width: 280px;
-}
-
-.pp-megamenu__flat-links a {
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  color: var(--pp-mega-text);
-  text-decoration: none;
-  transition: opacity 0.2s ease;
-}
-
-.pp-megamenu__flat-links a:hover {
-  opacity: 0.65;
-}
-
-/* ---------- Scrollbar styling ---------- */
-.pp-megamenu__body::-webkit-scrollbar {
-  width: 4px;
-}
-
-.pp-megamenu__body::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.pp-megamenu__body::-webkit-scrollbar-thumb {
-  background-color: rgba(218, 255, 211, 0.2);
-  border-radius: 4px;
-}
-
-/* ---------- Utility: body lock when megamenu is open ---------- */
-body.pp-megamenu-open {
+/* ── Image ── */
+.pp-mega__image {
+  width: 220px;
+  flex-shrink: 0;
+  border-radius: 8px;
   overflow: hidden;
+  align-self: start;
+}
+
+.pp-mega__image img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.pp-mega__image img[src=""],
+.pp-mega__image:empty {
+  display: none;
+}
+
+/* ── Backdrop overlay on page ── */
+.pp-mega::after {
+  content: '';
+  position: fixed;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.pp-mega[aria-hidden="false"]::after {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ── Hide on mobile ── */
+@media screen and (max-width: 749px) {
+  .pp-mega {
+    display: none;
+  }
 }
