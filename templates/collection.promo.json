@@ -176,7 +176,7 @@
         "gap_mobile": 10,
         "gap_tablet": 16,
         "gap_desktop": 20,
-        "products_per_page": 24,
+        "products_per_page": 48,
         "image_ratio": "portrait",
         "show_secondary_image": true,
         "show_badges": true,
