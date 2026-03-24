@@ -142,11 +142,12 @@
 
 .pp-mega__col-title {
   font-family: 'Inter', sans-serif;
-  font-size: 11px;
+  font-size: 15px;
   font-weight: 400;
-  letter-spacing: 0.1em;
+  letter-spacing: 0;
   text-transform: uppercase;
-  color: rgba(218, 255, 211, 0.4);
+  color: #daffd3;
+  opacity: 0.7;
   margin-bottom: 6px;
 }
 
