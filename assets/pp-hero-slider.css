@@ -58,13 +58,13 @@
   display: grid;
   grid-template: 1fr / 1fr;
   place-items: center;
-  min-height: var(--rc-slide-height-mobile, 100vh);
+  height: var(--rc-slide-height-mobile, 100vh);
   overflow: hidden;
 }
 
 @media screen and (min-width: 700px) {
   .pp-hero-slider__slide {
-    min-height: var(--rc-slide-height-desktop, 100vh);
+    height: var(--rc-slide-height-desktop, 100vh);
   }
 }
 
