@@ -116,6 +116,50 @@
           </div>
         </div>
       </div>
+      <script>
+        (function() {
+          var section = document.getElementById('RC-Collection-{{ section.id }}');
+          if (!section) return;
+
+          // View columns
+          section.querySelectorAll('[data-view-desktop]').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+              var cols = btn.dataset.viewDesktop;
+              section.style.setProperty('--pp-items-per-row', cols);
+              section.querySelectorAll('[data-view-desktop]').forEach(function(b) { b.classList.remove('is-active'); });
+              btn.classList.add('is-active');
+            });
+          });
+
+          // Sort dropdown
+          var sortToggle = section.querySelector('[data-sort-toggle]');
+          var sortOptions = section.querySelector('[data-sort-options]');
+          if (sortToggle && sortOptions) {
+            sortToggle.addEventListener('click', function() {
+              sortOptions.hidden = !sortOptions.hidden;
+            });
+            document.addEventListener('click', function(e) {
+              if (!sortToggle.contains(e.target) && !sortOptions.contains(e.target)) {
+                sortOptions.hidden = true;
+              }
+            });
+          }
+
+          // Filter dropdowns
+          section.querySelectorAll('[data-dropdown-toggle]').forEach(function(toggle) {
+            var content = toggle.parentElement.querySelector('[data-dropdown-content]');
+            if (!content) return;
+            toggle.addEventListener('click', function() {
+              content.hidden = !content.hidden;
+            });
+            document.addEventListener('click', function(e) {
+              if (!toggle.contains(e.target) && !content.contains(e.target)) {
+                content.hidden = true;
+              }
+            });
+          });
+        })();
+      </script>
     {%- endif -%}
 
     <div class="pp-collection__grid">
