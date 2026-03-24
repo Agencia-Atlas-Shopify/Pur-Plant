@@ -1094,3 +1094,8 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
   background: #23372c;
   color: #daffd3;
 }
+
+/* Collection card title line-height fix */
+.collection-card__content .text-block p {
+  line-height: normal;
+}

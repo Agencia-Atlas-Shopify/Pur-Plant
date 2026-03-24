@@ -336,5 +336,16 @@
       "success_moderated": "Comentario publicado y a la espera de moderación",
       "success": "Comentario publicado"
     }
+  },
+  "general": {
+    "pagination": {
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "page": "Página {{ current }} / {{ total }}",
+      "nav_label": "Paginación"
+    },
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "go_to_slide": "Ir a la diapositiva {{ index }}"
   }
 }
