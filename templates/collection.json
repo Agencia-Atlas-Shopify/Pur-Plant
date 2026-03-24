@@ -107,6 +107,7 @@
     "pp_collection_header": {
       "type": "pp-collection-header",
       "settings": {
+        "show_title": false,
         "show_filter_button": true,
         "show_sort": true,
         "show_view_options": true,
@@ -137,7 +138,7 @@
     "pp_collection_desc": {
       "type": "pp-collection-description",
       "settings": {
-        "heading": "",
+        "heading": "{{ collection.title }}",
         "toggle_text": "Leer más",
         "toggle_close_text": "Leer menos",
         "padding_top": 40,
