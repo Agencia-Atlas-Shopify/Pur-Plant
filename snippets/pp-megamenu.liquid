@@ -5,21 +5,24 @@
 
     {%- comment -%} ═══ PLANTAS ═══ {%- endcomment -%}
     <div class="pp-mega__panel" data-mega-panel="plantas">
-      <div class="pp-mega__sidebar">
-        <a href="/collections/plantas" class="pp-mega__sidebar-link pp-mega__sidebar-link--highlight">Ver todas</a>
-        <a href="/collections/novedades" class="pp-mega__sidebar-link pp-mega__sidebar-link--highlight">Novedades</a>
-        <a href="/collections/best-sellers" class="pp-mega__sidebar-link pp-mega__sidebar-link--highlight">Best Seller</a>
-        <div class="pp-mega__sidebar-divider"></div>
-        <button type="button" class="pp-mega__sidebar-link is-active" data-mega-sub="interior">Interior</button>
-        <button type="button" class="pp-mega__sidebar-link" data-mega-sub="exterior">Exterior</button>
-        <button type="button" class="pp-mega__sidebar-link" data-mega-sub="terrarios">Terrarios</button>
-        <button type="button" class="pp-mega__sidebar-link" data-mega-sub="macetas">Macetas</button>
-        <button type="button" class="pp-mega__sidebar-link" data-mega-sub="autorriegos">Autorriegos</button>
-        <button type="button" class="pp-mega__sidebar-link" data-mega-sub="cuidados">Cuidados</button>
-        <button type="button" class="pp-mega__sidebar-link" data-mega-sub="ofertas">Ofertas</button>
+      <div class="pp-mega__quick-links">
+        <a href="/collections/plantas" class="pp-mega__quick-link">Ver todas</a>
+        <a href="/collections/novedades" class="pp-mega__quick-link">Novedades</a>
+        <a href="/collections/best-sellers" class="pp-mega__quick-link">Best Seller</a>
       </div>
 
-      <div class="pp-mega__content">
+      <div class="pp-mega__main">
+        <nav class="pp-mega__tabs">
+          <button type="button" class="pp-mega__tab is-active" data-mega-sub="interior">Interior</button>
+          <button type="button" class="pp-mega__tab" data-mega-sub="exterior">Exterior</button>
+          <button type="button" class="pp-mega__tab" data-mega-sub="terrarios">Terrarios</button>
+          <button type="button" class="pp-mega__tab" data-mega-sub="macetas">Macetas</button>
+          <button type="button" class="pp-mega__tab" data-mega-sub="autorriegos">Autorriegos</button>
+          <button type="button" class="pp-mega__tab" data-mega-sub="cuidados">Cuidados</button>
+          <button type="button" class="pp-mega__tab" data-mega-sub="ofertas">Ofertas</button>
+        </nav>
+        <div class="pp-mega__tab-divider"></div>
+        <div class="pp-mega__content">
         {%- comment -%} Interior {%- endcomment -%}
         <div class="pp-mega__sub is-active" data-mega-subcontent="interior">
           <div class="pp-mega__columns pp-mega__columns--4">
@@ -192,6 +195,7 @@
               <a href="/collections/packs-ahorro" class="pp-mega__link">Packs Ahorro</a>
             </div>
           </div>
+        </div>
         </div>
       </div>
 
