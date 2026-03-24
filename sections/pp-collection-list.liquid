@@ -22,10 +22,16 @@
         {%- for coll in related_collections limit: section.settings.max_items -%}
           <a href="{{ coll.url }}" class="pp-collection-list__item">
             <div class="pp-collection-list__image" style="--pp-coll-list-ratio: {{ section.settings.image_ratio }};">
-              {%- if coll.image != blank -%}
+              {%- liquid
+                assign display_image = coll.image
+                if display_image == blank and coll.products.size > 0
+                  assign display_image = coll.products.first.featured_image
+                endif
+              -%}
+              {%- if display_image != blank -%}
                 <img
-                  src="{{ coll.image | image_url: width: 600 }}"
-                  srcset="{{ coll.image | image_url: width: 300 }} 300w, {{ coll.image | image_url: width: 450 }} 450w, {{ coll.image | image_url: width: 600 }} 600w"
+                  src="{{ display_image | image_url: width: 600 }}"
+                  srcset="{{ display_image | image_url: width: 300 }} 300w, {{ display_image | image_url: width: 450 }} 450w, {{ display_image | image_url: width: 600 }} 600w"
                   alt="{{ coll.title }}"
                   width="600"
                   height="{{ 600 | divided_by: 0.8 | round }}"
