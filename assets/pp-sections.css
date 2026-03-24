@@ -904,10 +904,10 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
 
 .pp-blog__cat-heading {
   font-family: 'Aileron', sans-serif;
-  font-size: 23.7px;
+  font-size: 31.6px;
   font-weight: 900;
   color: #23372c;
-  letter-spacing: -0.036em;
+  letter-spacing: -0.05em;
   line-height: 0.8;
   text-transform: uppercase;
 }

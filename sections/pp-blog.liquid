@@ -13,6 +13,9 @@
 
     {%- comment -%} Blog nav — links to all blogs {%- endcomment -%}
     <div class="pp-blog__cat-nav">
+      <div class="pp-blog__cat-left">
+        <span class="pp-blog__cat-heading">Categorías</span>
+      </div>
       <nav class="pp-blog__cat-links" data-pp-blog-cats>
         {%- assign blog_handles = 'plantas,huerto-urbano,fertilizante,insecticidas,permacultura,arboles,kokedamas,sustratos,blog' | split: ',' -%}
         {%- for handle in blog_handles -%}
