@@ -114,7 +114,9 @@
         "shipping": {
           "type": "shipping_info",
           "settings": {
-            "shipping_days": 2
+            "shipping_days": 2,
+            "padding_top": 24,
+            "padding_bottom": 0
           }
         },
         "total": {
