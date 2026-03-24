@@ -9,19 +9,11 @@
  */
 {
   "sections": {
-    "pp_collection_header": {
-      "type": "pp-collection-header",
-      "settings": {
-        "show_filter_button": true,
-        "show_sort": true,
-        "show_view_options": true,
-        "show_layout_toggle": true
-      }
-    },
     "main": {
       "type": "pp-collection",
+      "disabled": true,
       "settings": {
-        "show_title": false,
+        "show_title": true,
         "show_description": false,
         "products_per_row_mobile": 2,
         "products_per_row_tablet": 3,
@@ -129,7 +121,6 @@
     }
   },
   "order": [
-    "pp_collection_header",
     "main",
     "collection_list_HeJ7Ch"
   ]
