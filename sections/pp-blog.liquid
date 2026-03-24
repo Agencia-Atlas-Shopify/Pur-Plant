@@ -18,8 +18,10 @@
         <a href="{{ blog.url }}" class="pp-blog__cat-viewall">Ver todo</a>
       </div>
       <nav class="pp-blog__cat-links" data-pp-blog-cats>
-        {%- for b in blogs -%}
-          {%- if b.articles_count > 0 -%}
+        {%- assign blog_handles = 'plantas,huerto-urbano,fertilizante,insecticidas,permacultura,arboles,kokedamas,sustratos,blog' | split: ',' -%}
+        {%- for handle in blog_handles -%}
+          {%- assign b = blogs[handle] -%}
+          {%- if b and b.articles_count > 0 -%}
             <a href="{{ b.url }}" class="pp-blog__cat-link{% if b.handle == blog.handle %} is-active{% endif %}">
               {{ b.title }}
             </a>
