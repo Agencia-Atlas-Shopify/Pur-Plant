@@ -105,7 +105,15 @@
   // Unified shipping line: countdown + delivery date
   (function initShippingFull() {
     var el = qs('[data-pp-shipping-full]');
-    if (!el) return;
+    if (!el) {
+      // Retry after DOM ready (customizer may load sections late)
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initShippingFull);
+      } else {
+        setTimeout(initShippingFull, 500);
+      }
+      return;
+    }
 
     var deliveryDate = getShippingDate();
 
