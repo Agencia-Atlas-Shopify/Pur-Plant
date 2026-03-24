@@ -60,8 +60,37 @@
           </div>
           <div class="pp-blog__article-info">
             <h2 class="pp-blog__article-title">{{ article.title }}</h2>
+            {%- liquid
+              assign month_num = article.published_at | date: '%m' | plus: 0
+              case month_num
+                when 1
+                  assign month_es = 'Enero'
+                when 2
+                  assign month_es = 'Febrero'
+                when 3
+                  assign month_es = 'Marzo'
+                when 4
+                  assign month_es = 'Abril'
+                when 5
+                  assign month_es = 'Mayo'
+                when 6
+                  assign month_es = 'Junio'
+                when 7
+                  assign month_es = 'Julio'
+                when 8
+                  assign month_es = 'Agosto'
+                when 9
+                  assign month_es = 'Septiembre'
+                when 10
+                  assign month_es = 'Octubre'
+                when 11
+                  assign month_es = 'Noviembre'
+                when 12
+                  assign month_es = 'Diciembre'
+              endcase
+            -%}
             <time class="pp-blog__article-date" datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
-              {{ article.published_at | date: '%d %B %Y' }}
+              {{ article.published_at | date: '%d' }} {{ month_es }} {{ article.published_at | date: '%Y' }}
             </time>
           </div>
         </a>
