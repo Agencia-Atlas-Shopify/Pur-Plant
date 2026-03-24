@@ -987,7 +987,7 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
 .pp-blog__article-image {
   aspect-ratio: 3 / 2;
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: 0;
   background: #f5f5f5;
 }
 
