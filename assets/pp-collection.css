@@ -263,3 +263,11 @@
     font-size: var(--text-xs, 0.625rem);
   }
 }
+
+/* Hide title and wishlist when 6 columns */
+.pp-collection[style*="--pp-items-per-row: 6"] .pp-card__title,
+.pp-collection[style*="--pp-items-per-row:6"] .pp-card__title,
+.pp-collection[style*="--pp-items-per-row: 6"] .pp-card__wishlist-inline,
+.pp-collection[style*="--pp-items-per-row:6"] .pp-card__wishlist-inline {
+  display: none !important;
+}
