@@ -218,7 +218,7 @@
 @media screen and (max-width: 749px) {
   .pp-mega {
     position: fixed;
-    top: var(--pp-mega-top, 60px);
+    top: var(--pp-mega-top, 100px);
     left: 15px;
     right: 15px;
     bottom: 0;
@@ -320,8 +320,9 @@
     padding: 8px 0;
     cursor: pointer;
     display: flex;
-    justify-content: space-between;
+    justify-content: normal;
     align-items: center;
+    gap: 10px;
     width: 100%;
   }
 
