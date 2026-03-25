@@ -488,6 +488,74 @@
     document.body.style.overflow = '';
   };
 
+  /* Mobile accordion — expand sub-links under each button */
+  mega.querySelectorAll('.pp-mega__mobile-item').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var subId = btn.getAttribute('data-mega-sub');
+      var existing = btn.nextElementSibling;
+
+      /* If already open, close it */
+      if (existing && existing.classList.contains('pp-mega__mobile-sub-links')) {
+        existing.remove();
+        btn.classList.remove('is-expanded');
+        var plus = btn.querySelector('.pp-mega__mobile-plus');
+        if (plus) plus.textContent = '+';
+        return;
+      }
+
+      /* Close any other open accordion */
+      mega.querySelectorAll('.pp-mega__mobile-sub-links').forEach(function(el) { el.remove(); });
+      mega.querySelectorAll('.pp-mega__mobile-item.is-expanded').forEach(function(el) {
+        el.classList.remove('is-expanded');
+        var p = el.querySelector('.pp-mega__mobile-plus');
+        if (p) p.textContent = '+';
+      });
+
+      /* Find the sub-panel content and clone links */
+      var subPanel = mega.querySelector('[data-mega-subcontent="' + subId + '"]');
+      if (!subPanel) return;
+
+      var linksDiv = document.createElement('div');
+      linksDiv.className = 'pp-mega__mobile-sub-links';
+
+      /* Get all links from the columns */
+      subPanel.querySelectorAll('a').forEach(function(a) {
+        var link = document.createElement('a');
+        link.href = a.href;
+        link.className = 'pp-mega__mobile-sub-link';
+        link.textContent = a.textContent.trim();
+        linksDiv.appendChild(link);
+      });
+
+      /* Get column headings too */
+      var cols = subPanel.querySelectorAll('.pp-mega__col');
+      if (cols.length > 0) {
+        linksDiv.innerHTML = '';
+        cols.forEach(function(col) {
+          var heading = col.querySelector('.pp-mega__col-heading');
+          if (heading) {
+            var h = document.createElement('span');
+            h.className = 'pp-mega__mobile-sub-heading';
+            h.textContent = heading.textContent.trim();
+            linksDiv.appendChild(h);
+          }
+          col.querySelectorAll('a').forEach(function(a) {
+            var link = document.createElement('a');
+            link.href = a.href;
+            link.className = 'pp-mega__mobile-sub-link';
+            link.textContent = a.textContent.trim();
+            linksDiv.appendChild(link);
+          });
+        });
+      }
+
+      btn.after(linksDiv);
+      btn.classList.add('is-expanded');
+      var plus = btn.querySelector('.pp-mega__mobile-plus');
+      if (plus) plus.textContent = '−';
+    });
+  });
+
   window.ppMegamenu = { open: open, close: close };
 })();
 </script>

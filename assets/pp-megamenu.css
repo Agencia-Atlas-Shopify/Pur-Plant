@@ -342,6 +342,46 @@
     grid-row: 1 / -1;
     align-self: start;
   }
+
+  /* Mobile accordion expanded links */
+  .pp-mega__mobile-sub-links {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 0 12px 16px;
+    gap: 2px;
+  }
+
+  .pp-mega__mobile-sub-heading {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #daffd3;
+    opacity: 0.5;
+    padding: 8px 0 4px;
+  }
+
+  .pp-mega__mobile-sub-heading:first-child {
+    padding-top: 0;
+  }
+
+  .pp-mega__mobile-sub-link {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #daffd3;
+    text-decoration: none;
+    padding: 5px 0;
+    opacity: 0.8;
+  }
+
+  .pp-mega__mobile-sub-link:hover {
+    opacity: 1;
+  }
+
+  .pp-mega__mobile-item.is-expanded {
+    opacity: 1;
+  }
 }
 
 /* Desktop: hide mobile elements */
