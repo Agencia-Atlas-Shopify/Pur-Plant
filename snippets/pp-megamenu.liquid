@@ -249,9 +249,9 @@
     <div class="pp-mega__panel" data-mega-panel="regalos">
       {%- comment -%} Mobile list {%- endcomment -%}
       <div class="pp-mega__mobile-list">
-        <button type="button" class="pp-mega__mobile-item">Categorías <span class="pp-mega__mobile-plus">+</span></button>
-        <button type="button" class="pp-mega__mobile-item">Por Precio <span class="pp-mega__mobile-plus">+</span></button>
-        <button type="button" class="pp-mega__mobile-item">Ideas de Regalo <span class="pp-mega__mobile-plus">+</span></button>
+        <button type="button" class="pp-mega__mobile-item" data-mega-col="0">Categorías <span class="pp-mega__mobile-plus">+</span></button>
+        <button type="button" class="pp-mega__mobile-item" data-mega-col="1">Por Precio <span class="pp-mega__mobile-plus">+</span></button>
+        <button type="button" class="pp-mega__mobile-item" data-mega-col="2">Ideas de Regalo <span class="pp-mega__mobile-plus">+</span></button>
       </div>
       <div class="pp-mega__content pp-mega__content--full">
         <div class="pp-mega__columns pp-mega__columns--3">
@@ -294,9 +294,9 @@
     <div class="pp-mega__panel" data-mega-panel="sobre">
       {%- comment -%} Mobile list {%- endcomment -%}
       <div class="pp-mega__mobile-list">
-        <button type="button" class="pp-mega__mobile-item">Inspírate <span class="pp-mega__mobile-plus">+</span></button>
-        <button type="button" class="pp-mega__mobile-item">¿Quiénes somos? <span class="pp-mega__mobile-plus">+</span></button>
-        <button type="button" class="pp-mega__mobile-item">¿Necesitas ayuda? <span class="pp-mega__mobile-plus">+</span></button>
+        <button type="button" class="pp-mega__mobile-item" data-mega-col="0">Inspírate <span class="pp-mega__mobile-plus">+</span></button>
+        <button type="button" class="pp-mega__mobile-item" data-mega-col="1">¿Quiénes somos? <span class="pp-mega__mobile-plus">+</span></button>
+        <button type="button" class="pp-mega__mobile-item" data-mega-col="2">¿Necesitas ayuda? <span class="pp-mega__mobile-plus">+</span></button>
       </div>
       <div class="pp-mega__content pp-mega__content--full">
         <div class="pp-mega__columns pp-mega__columns--3">
@@ -491,7 +491,6 @@
   /* Mobile accordion — expand sub-links under each button */
   mega.querySelectorAll('.pp-mega__mobile-item').forEach(function(btn) {
     btn.addEventListener('click', function() {
-      var subId = btn.getAttribute('data-mega-sub');
       var existing = btn.nextElementSibling;
 
       /* If already open, close it */
@@ -503,56 +502,78 @@
         return;
       }
 
-      /* Close any other open accordion */
-      mega.querySelectorAll('.pp-mega__mobile-sub-links').forEach(function(el) { el.remove(); });
-      mega.querySelectorAll('.pp-mega__mobile-item.is-expanded').forEach(function(el) {
-        el.classList.remove('is-expanded');
-        var p = el.querySelector('.pp-mega__mobile-plus');
-        if (p) p.textContent = '+';
-      });
-
-      /* Find the sub-panel content and clone links */
-      var subPanel = mega.querySelector('[data-mega-subcontent="' + subId + '"]');
-      if (!subPanel) return;
+      /* Close any other open accordion in this panel */
+      var panel = btn.closest('[data-mega-panel]');
+      if (panel) {
+        panel.querySelectorAll('.pp-mega__mobile-sub-links').forEach(function(el) { el.remove(); });
+        panel.querySelectorAll('.pp-mega__mobile-item.is-expanded').forEach(function(el) {
+          el.classList.remove('is-expanded');
+          var p = el.querySelector('.pp-mega__mobile-plus');
+          if (p) p.textContent = '+';
+        });
+      }
 
       var linksDiv = document.createElement('div');
       linksDiv.className = 'pp-mega__mobile-sub-links';
 
-      /* Get all links from the columns */
-      subPanel.querySelectorAll('a').forEach(function(a) {
-        var link = document.createElement('a');
-        link.href = a.href;
-        link.className = 'pp-mega__mobile-sub-link';
-        link.textContent = a.textContent.trim();
-        linksDiv.appendChild(link);
-      });
+      var subId = btn.getAttribute('data-mega-sub');
+      var colIdx = btn.getAttribute('data-mega-col');
 
-      /* Get column headings too */
-      var cols = subPanel.querySelectorAll('.pp-mega__col');
-      if (cols.length > 0) {
-        linksDiv.innerHTML = '';
-        cols.forEach(function(col) {
-          var heading = col.querySelector('.pp-mega__col-heading');
-          if (heading) {
-            var h = document.createElement('span');
-            h.className = 'pp-mega__mobile-sub-heading';
-            h.textContent = heading.textContent.trim();
-            linksDiv.appendChild(h);
-          }
-          col.querySelectorAll('a').forEach(function(a) {
+      if (subId) {
+        /* Plantas-style: find sub-panel by data-mega-subcontent */
+        var subPanel = mega.querySelector('[data-mega-subcontent="' + subId + '"]');
+        if (!subPanel) return;
+
+        var cols = subPanel.querySelectorAll('.pp-mega__col');
+        if (cols.length > 0) {
+          cols.forEach(function(col) {
+            var heading = col.querySelector('.pp-mega__col-heading');
+            if (heading) {
+              var h = document.createElement('span');
+              h.className = 'pp-mega__mobile-sub-heading';
+              h.textContent = heading.textContent.trim();
+              linksDiv.appendChild(h);
+            }
+            col.querySelectorAll('a').forEach(function(a) {
+              var link = document.createElement('a');
+              link.href = a.href;
+              link.className = 'pp-mega__mobile-sub-link';
+              link.textContent = a.textContent.trim();
+              linksDiv.appendChild(link);
+            });
+          });
+        } else {
+          subPanel.querySelectorAll('a').forEach(function(a) {
             var link = document.createElement('a');
             link.href = a.href;
             link.className = 'pp-mega__mobile-sub-link';
             link.textContent = a.textContent.trim();
             linksDiv.appendChild(link);
           });
+        }
+      } else if (colIdx !== null) {
+        /* Regalos/Sobre-style: find column by index */
+        var content = panel.querySelector('.pp-mega__content, .pp-mega__content--full');
+        if (!content) return;
+        var cols = content.querySelectorAll('.pp-mega__col');
+        var col = cols[parseInt(colIdx)];
+        if (!col) return;
+
+        col.querySelectorAll('a').forEach(function(a) {
+          var link = document.createElement('a');
+          link.href = a.href;
+          link.className = 'pp-mega__mobile-sub-link';
+          link.textContent = a.textContent.trim();
+          linksDiv.appendChild(link);
         });
       }
 
-      btn.after(linksDiv);
-      btn.classList.add('is-expanded');
-      var plus = btn.querySelector('.pp-mega__mobile-plus');
-      if (plus) plus.textContent = '−';
+      if (linksDiv.children.length > 0) {
+        btn.after(linksDiv);
+        btn.classList.add('is-expanded');
+        var plus = btn.querySelector('.pp-mega__mobile-plus');
+        if (plus) plus.textContent = '−';
+      }
     });
   });
 
