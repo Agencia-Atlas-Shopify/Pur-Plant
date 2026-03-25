@@ -1365,24 +1365,41 @@ button.pp-header__nav-link,
   }
 
   .pp-header__inner {
+    display: grid !important;
+    grid-template-columns: auto 1fr auto !important;
+    align-items: center !important;
     padding: 8px 15px !important;
+    gap: 0.5rem !important;
   }
 
-  /* Nav icons on mobile — ensure visible */
+  /* Burger left */
+  .pp-header__primary-nav {
+    grid-column: 1 !important;
+    justify-self: start !important;
+  }
+
+  /* Logo center */
+  .pp-header__logo {
+    grid-column: 2 !important;
+    justify-self: center !important;
+  }
+
+  /* Icons right — gap 0 */
+  .pp-header__secondary-nav {
+    grid-column: 3 !important;
+    justify-self: end !important;
+  }
+
   .pp-header__secondary-nav-list {
-    gap: 2px;
-  }
-
-  .pp-header__nav-item {
-    display: flex !important;
-    align-items: center;
+    gap: 0 !important;
   }
 
   .pp-header__nav-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 36px;
-    min-height: 36px;
+    padding: 6px !important;
+  }
+
+  .pp-header__nav-link svg {
+    width: 18px !important;
+    height: 18px !important;
   }
 }
