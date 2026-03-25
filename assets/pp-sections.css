@@ -1113,3 +1113,16 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
     letter-spacing: 0.4em !important;
   }
 }
+
+/* Collection list responsive columns */
+@media screen and (min-width: 750px) and (max-width: 1199px) {
+  .section-resource-list .resource-list--grid {
+    --column-count: var(--column-count-laptop, 3) !important;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .section-resource-list .resource-list--grid {
+    --column-count: var(--column-count-mobile, 1) !important;
+  }
+}
