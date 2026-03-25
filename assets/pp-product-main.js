@@ -322,13 +322,13 @@
   function initThumbnails() {
     if (!pdp || !thumbs.length) return;
 
-    pdp.addEventListener('click', function (e) {
-      var thumb = e.target.closest('.pp-pdp__thumb');
-      if (!thumb) return;
-      var index = thumbs.indexOf(thumb);
-      if (index === -1) return;
-      scrollMainImageTo(index);
-      setActiveThumb(index);
+    thumbs.forEach(function (thumb, index) {
+      thumb.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        scrollMainImageTo(index);
+        setActiveThumb(index);
+      });
     });
   }
 
