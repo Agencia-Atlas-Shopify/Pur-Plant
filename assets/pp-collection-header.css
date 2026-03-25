@@ -81,6 +81,7 @@
 .pp-collection-header__toolbar {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: var(--rc-ch-spacing-8);
 }
 
@@ -88,6 +89,29 @@
   .pp-collection-header__toolbar {
     gap: var(--rc-ch-spacing-15);
   }
+}
+
+/* Push view options to the right */
+.pp-collection-header__view {
+  margin-left: auto;
+}
+
+/* Hide layout toggle (grid/list) — not needed */
+.pp-collection-header__layout {
+  display: none;
+}
+
+/* In 6-column view: hide title and wishlist, show only image + price */
+.pp-collection__grid[style*="--pp-items-per-row: 6"] .pp-card__title,
+.pp-collection__grid[style*="--pp-items-per-row: 6"] .pp-card__quick-add,
+.pp-collection__grid[style*="--pp-items-per-row: 6"] .pp-wishlist-btn--icon {
+  display: none !important;
+}
+
+[data-pp-view-columns="6"] .pp-card__title,
+[data-pp-view-columns="6"] .pp-card__quick-add,
+[data-pp-view-columns="6"] .pp-wishlist-btn--icon {
+  display: none !important;
 }
 
 /* Filters container */

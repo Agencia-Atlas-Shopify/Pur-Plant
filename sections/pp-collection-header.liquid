@@ -428,6 +428,7 @@
         grid.style.setProperty('--pp-cols-desktop', finalDesktop);
         grid.style.setProperty('--pp-cols-mobile', finalMobile);
         grid.style.setProperty('--pp-items-per-row', finalDesktop);
+        grid.setAttribute('data-pp-view-columns', finalDesktop);
 
         // Tablet is between mobile and desktop
         const tablet = Math.max(2, Math.min(parseInt(finalDesktop) - 1, parseInt(finalMobile) + 1));
