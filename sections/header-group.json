@@ -143,6 +143,19 @@
             "submenu": ""
           }
         },
+        "megamenu_promo_fCzLLM": {
+          "type": "megamenu_promo",
+          "settings": {
+            "menu_handle": "Plantas",
+            "promo_image": "shopify://shop_images/tronco_de_brasil_salon.jpg",
+            "promo_title": "Ver colección",
+            "promo_subtitle": "",
+            "promo_link": "",
+            "promo_style": "default",
+            "promo_bg_color": "#ffffff",
+            "promo_text_color": "#000000"
+          }
+        },
         "mobile_promo_1": {
           "type": "mobile_promo",
           "settings": {
@@ -165,6 +178,7 @@
         "menu_ahora",
         "divider_1",
         "menu_sobre",
+        "megamenu_promo_fCzLLM",
         "mobile_promo_1",
         "mobile_promo_2"
       ],
