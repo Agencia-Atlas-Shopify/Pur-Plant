@@ -106,104 +106,14 @@
     {%- endif -%}
   {%- endif -%}
 
-  {%- comment -%} ── Content blocks from JSON metafield ── {%- endcomment -%}
-  <div class="pp-guide__body pp-guide__body--columns" data-pp-guide-body>
-    <script type="application/json" data-pp-guide-blocks>{{ page.metafields.custom.page_blocks.value | default: '[]' }}</script>
-  </div>
-
-  <div class="pp-guide__empty" data-pp-guide-empty style="display:none;">
-    <p>Esta guía aún no tiene contenido configurado.</p>
-  </div>
+  {%- comment -%} ── Page content ── {%- endcomment -%}
+  {%- if page.content != blank -%}
+    <div class="pp-guide__body pp-guide__body--columns">
+      {{ page.content }}
+    </div>
+  {%- endif -%}
 
 </section>
-
-<script>
-(function() {
-  var container = document.querySelector('[data-pp-guide-body]');
-  var emptyMsg = document.querySelector('[data-pp-guide-empty]');
-  var dataEl = document.querySelector('[data-pp-guide-blocks]');
-  if (!container || !dataEl) return;
-
-  var blocks;
-  try {
-    blocks = JSON.parse(dataEl.textContent);
-  } catch(e) {
-    blocks = [];
-  }
-
-  /* Remove the JSON script tag */
-  dataEl.remove();
-
-  if (!Array.isArray(blocks) || blocks.length === 0) {
-    container.style.display = 'none';
-    if (emptyMsg) emptyMsg.style.display = '';
-    return;
-  }
-
-  /* Helper: escape HTML */
-  function esc(str) {
-    if (!str) return '';
-    var div = document.createElement('div');
-    div.appendChild(document.createTextNode(str));
-    return div.innerHTML;
-  }
-
-  /* Helper: process paragraph text, injecting links */
-  function renderParagraphText(text, links) {
-    var html = esc(text);
-    if (links && Array.isArray(links)) {
-      links.forEach(function(link) {
-        if (link.text && link.url) {
-          var escaped = esc(link.text);
-          /* Replace plain text with link — first occurrence */
-          html = html.replace(escaped, '<a href="' + esc(link.url) + '">' + escaped + '</a>');
-        }
-      });
-    }
-    return html;
-  }
-
-  var html = '';
-  blocks.forEach(function(block) {
-    if (!block || !block.type) return;
-
-    switch(block.type) {
-      case 'heading':
-        var level = block.level || 2;
-        if (level < 1) level = 1;
-        if (level > 6) level = 6;
-        var cls = 'pp-guide__block-h' + level;
-        var tag = 'h' + level;
-        html += '<' + tag + ' class="' + cls + '">' + esc(block.text || '') + '</' + tag + '>';
-        break;
-
-      case 'paragraph':
-        html += '<p class="pp-guide__block-p">' + renderParagraphText(block.text || '', block.links) + '</p>';
-        break;
-
-      case 'image':
-        var alt = block.alt ? esc(block.alt) : '';
-        var url = block.url || '';
-        if (url) {
-          html += '<div class="pp-guide__block-img"><img src="' + esc(url) + '" alt="' + alt + '" loading="lazy"></div>';
-        }
-        break;
-
-      case 'list':
-        if (block.items && Array.isArray(block.items) && block.items.length > 0) {
-          html += '<ul class="pp-guide__block-list">';
-          block.items.forEach(function(item) {
-            html += '<li>' + esc(item) + '</li>';
-          });
-          html += '</ul>';
-        }
-        break;
-    }
-  });
-
-  container.innerHTML = html;
-})();
-</script>
 
 {% schema %}
 {
