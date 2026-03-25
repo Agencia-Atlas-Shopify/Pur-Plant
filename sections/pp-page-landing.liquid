@@ -192,7 +192,7 @@
   {%- comment -%} -- Content blocks from JSON metafield -- {%- endcomment -%}
   <div class="pp-landing__content">
     <div class="pp-guide__body pp-guide__body--columns" data-pp-landing-body>
-      <script type="application/json" data-pp-landing-blocks>{%- if blocks_meta -%}{{ blocks_meta | json }}{%- else -%}[]{%- endif -%}</script>
+      <script type="application/json" data-pp-landing-blocks>{%- if blocks_meta -%}{{ blocks_meta }}{%- else -%}[]{%- endif -%}</script>
     </div>
   </div>
 

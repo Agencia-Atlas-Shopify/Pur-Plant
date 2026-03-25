@@ -278,7 +278,7 @@
 
   {%- comment -%} -- Content blocks from JSON metafield -- {%- endcomment -%}
   <div class="pp-guide__body pp-guide__body--columns" data-pp-problemas-body>
-    <script type="application/json" data-pp-problemas-blocks>{%- if blocks_meta -%}{{ blocks_meta | json }}{%- else -%}[]{%- endif -%}</script>
+    <script type="application/json" data-pp-problemas-blocks>{%- if blocks_meta -%}{{ blocks_meta }}{%- else -%}[]{%- endif -%}</script>
   </div>
 
   <div class="pp-guide__empty" data-pp-problemas-empty style="display:none;">
