@@ -1368,17 +1368,21 @@ button.pp-header__nav-link,
     padding: 8px 15px !important;
   }
 
-  /* Bigger nav icons on mobile */
+  /* Nav icons on mobile — ensure visible */
   .pp-header__secondary-nav-list {
-    gap: 4px !important;
+    gap: 2px;
   }
 
-  .pp-header__nav-link svg {
-    width: 24px !important;
-    height: 24px !important;
+  .pp-header__nav-item {
+    display: flex !important;
+    align-items: center;
   }
 
   .pp-header__nav-link {
-    padding: 8px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    min-height: 36px;
   }
 }
