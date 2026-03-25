@@ -1,0 +1,320 @@
+/* ==========================================================================
+   Pur Plant — Page Guide (guia-cuidado, guia-tipos, guia-problemas, plantas-domicilio)
+   ========================================================================== */
+
+/* ---------- Custom Properties ---------- */
+.pp-guide {
+  --pp-dark-green: #23372C;
+  --pp-light-green: #DAFFD3;
+  --pp-beige: #F5F0E8;
+  --pp-font-body: 'Inter', sans-serif;
+  --pp-font-heading: 'Tenor Sans', Georgia, serif;
+  --pp-font-section: 'Aileron', sans-serif;
+  --pp-radius: 8px;
+  --pp-content-max: 800px;
+  --pp-transition: 0.25s ease;
+}
+
+/* ---------- Section wrapper ---------- */
+.pp-guide {
+  max-width: var(--page-content-width, 120rem);
+  margin: 0 auto;
+  padding: var(--pp-guide-pad-top, 40px) var(--page-margin, 40px) var(--pp-guide-pad-bottom, 60px);
+  font-family: var(--pp-font-body);
+  color: var(--pp-dark-green);
+}
+
+/* ---------- Breadcrumb ---------- */
+.pp-guide__breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 0;
+  margin: 0 0 24px;
+  font-family: var(--pp-font-body);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--pp-dark-green);
+  opacity: 0.6;
+  list-style: none;
+}
+
+.pp-guide__breadcrumb a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity var(--pp-transition);
+}
+
+.pp-guide__breadcrumb a:hover {
+  opacity: 0.7;
+}
+
+.pp-guide__breadcrumb-sep {
+  font-size: 10px;
+  opacity: 0.5;
+}
+
+/* ---------- Page Title (H1) ---------- */
+.pp-guide__title {
+  font-family: var(--pp-font-heading);
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 400;
+  color: var(--pp-dark-green);
+  line-height: 1.15;
+  margin: 0 0 8px;
+  text-transform: none;
+}
+
+/* ---------- Care Icons Row ---------- */
+.pp-guide__care-icons {
+  display: flex;
+  align-items: flex-start;
+  gap: 28px;
+  margin: 24px 0 32px;
+  padding: 20px 0;
+  border-top: 1px solid rgba(35, 55, 44, 0.12);
+  border-bottom: 1px solid rgba(35, 55, 44, 0.12);
+  flex-wrap: wrap;
+}
+
+.pp-guide__care-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: var(--pp-dark-green);
+  min-width: 70px;
+  flex: 0 0 auto;
+}
+
+.pp-guide__care-item img {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+
+.pp-guide__care-label {
+  font-family: var(--pp-font-heading);
+  font-size: 11px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--pp-dark-green);
+  text-align: center;
+  display: block;
+  width: 100%;
+}
+
+.pp-guide__care-value {
+  font-family: var(--pp-font-body);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--pp-dark-green);
+  text-align: center;
+  line-height: 1.3;
+  opacity: 0.75;
+}
+
+/* ---------- Content body ---------- */
+.pp-guide__body {
+  max-width: var(--pp-content-max);
+}
+
+/* 2-column layout for longer content on desktop */
+.pp-guide__body--columns {
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+/* ---------- Block: Heading H1 (title, normally only one) ---------- */
+.pp-guide__block-h1 {
+  font-family: var(--pp-font-heading);
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 400;
+  color: var(--pp-dark-green);
+  line-height: 1.15;
+  margin: 0 0 16px;
+}
+
+/* ---------- Block: Heading H2 (section separators) ---------- */
+.pp-guide__block-h2 {
+  font-family: var(--pp-font-heading);
+  font-size: clamp(24px, 3.5vw, 34px);
+  font-weight: 400;
+  color: var(--pp-dark-green);
+  line-height: 1.2;
+  margin: 48px 0 16px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(35, 55, 44, 0.12);
+  /* force h2 to span both columns */
+  grid-column: 1 / -1;
+}
+
+.pp-guide__block-h2:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+/* ---------- Block: Heading H3 ---------- */
+.pp-guide__block-h3 {
+  font-family: var(--pp-font-heading);
+  font-size: clamp(20px, 2.5vw, 26px);
+  font-weight: 400;
+  color: var(--pp-dark-green);
+  line-height: 1.25;
+  margin: 32px 0 12px;
+}
+
+/* ---------- Block: Heading H4 (small headings, labels) ---------- */
+.pp-guide__block-h4 {
+  font-family: var(--pp-font-section);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--pp-dark-green);
+  line-height: 1.3;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  margin: 24px 0 8px;
+}
+
+/* ---------- Block: Heading H5 ---------- */
+.pp-guide__block-h5 {
+  font-family: var(--pp-font-section);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--pp-dark-green);
+  line-height: 1.3;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  margin: 20px 0 8px;
+}
+
+/* ---------- Block: Heading H6 ---------- */
+.pp-guide__block-h6 {
+  font-family: var(--pp-font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--pp-dark-green);
+  line-height: 1.3;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 16px 0 8px;
+}
+
+/* ---------- Block: Paragraph ---------- */
+.pp-guide__block-p {
+  font-family: var(--pp-font-body);
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--pp-dark-green);
+  line-height: 1.75;
+  margin: 0 0 16px;
+}
+
+.pp-guide__block-p a {
+  color: var(--pp-dark-green);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 500;
+  transition: color 0.15s ease;
+}
+
+.pp-guide__block-p a:hover {
+  color: #4B7A5A;
+}
+
+/* ---------- Block: Image ---------- */
+.pp-guide__block-img {
+  margin: 24px 0;
+  /* images span both columns */
+  grid-column: 1 / -1;
+}
+
+.pp-guide__block-img img {
+  width: 100%;
+  max-width: var(--pp-content-max);
+  height: auto;
+  border-radius: var(--pp-radius);
+  display: block;
+}
+
+/* ---------- Block: List ---------- */
+.pp-guide__block-list {
+  font-family: var(--pp-font-body);
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--pp-dark-green);
+  line-height: 1.75;
+  padding-left: 1.5em;
+  margin: 0 0 16px;
+}
+
+.pp-guide__block-list li {
+  margin: 0.4em 0;
+}
+
+.pp-guide__block-list li::marker {
+  color: rgba(35, 55, 44, 0.4);
+}
+
+/* ---------- Empty state ---------- */
+.pp-guide__empty {
+  text-align: center;
+  padding: 80px 20px;
+  font-family: var(--pp-font-body);
+  font-size: 15px;
+  color: var(--pp-dark-green);
+  opacity: 0.5;
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media screen and (max-width: 749px) {
+  .pp-guide__body--columns {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .pp-guide__care-icons {
+    gap: 16px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 12px;
+  }
+
+  .pp-guide__care-icons::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pp-guide__care-item {
+    flex-shrink: 0;
+    min-width: 72px;
+  }
+
+  .pp-guide__block-h2 {
+    margin-top: 32px;
+    padding-top: 16px;
+  }
+
+  .pp-guide__block-img img {
+    border-radius: 6px;
+  }
+
+  .pp-guide__block-p {
+    font-size: 14px;
+  }
+
+  .pp-guide__block-list {
+    font-size: 14px;
+  }
+}

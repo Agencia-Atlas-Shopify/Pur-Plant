@@ -1,0 +1,263 @@
+{%- comment -%}
+  PP Page Guide — Renders guide pages (guia-cuidado, guia-tipos, guia-problemas, plantas-domicilio)
+  from JSON metafield data stored in page.metafields.custom.page_blocks
+{%- endcomment -%}
+
+{{ 'pp-page-guide.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign page_type = page.metafields.custom.page_type | default: ''
+  assign blocks_json = page.metafields.custom.page_blocks | default: '[]'
+  assign is_care_guide = false
+  if page_type == 'guia-cuidado'
+    assign is_care_guide = true
+  endif
+
+  comment
+    Determine breadcrumb middle label based on page_type
+  endcomment
+  assign breadcrumb_label = 'Guía'
+  case page_type
+    when 'guia-cuidado'
+      assign breadcrumb_label = 'Guía Cuidados'
+    when 'guia-tipos'
+      assign breadcrumb_label = 'Guía de Tipos'
+    when 'guia-problemas'
+      assign breadcrumb_label = 'Guía de Problemas'
+    when 'plantas-domicilio'
+      assign breadcrumb_label = 'Plantas a Domicilio'
+  endcase
+-%}
+
+<section
+  class="pp-guide"
+  style="
+    background-color: {{ section.settings.bg_color }};
+    --pp-guide-pad-top: {{ section.settings.padding_top }}px;
+    --pp-guide-pad-bottom: {{ section.settings.padding_bottom }}px;
+  "
+>
+
+  {%- comment -%} ── Breadcrumb ── {%- endcomment -%}
+  {%- if section.settings.show_breadcrumb -%}
+    <nav class="pp-guide__breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Pur Plant</a>
+      <span class="pp-guide__breadcrumb-sep">/</span>
+      <span>{{ breadcrumb_label }}</span>
+      <span class="pp-guide__breadcrumb-sep">/</span>
+      <span>{{ page.title }}</span>
+    </nav>
+  {%- endif -%}
+
+  {%- comment -%} ── Page title ── {%- endcomment -%}
+  <h1 class="pp-guide__title">{{ page.title }}</h1>
+
+  {%- comment -%} ── Care icons (guia-cuidado only) ── {%- endcomment -%}
+  {%- if is_care_guide and section.settings.show_care_icons -%}
+    {%- liquid
+      assign icon_luz = page.metafields.custom.guia_icono_luz | default: ''
+      assign icon_riego = page.metafields.custom.guia_icono_riego | default: ''
+      assign icon_clima = page.metafields.custom.guia_icono_clima | default: ''
+      assign icon_pet = page.metafields.custom.guia_icono_pet
+      assign icon_plagas = page.metafields.custom.guia_icono_plagas | default: ''
+      assign has_any_icon = false
+      if icon_luz != blank or icon_riego != blank or icon_clima != blank or icon_pet != nil or icon_plagas != blank
+        assign has_any_icon = true
+      endif
+    -%}
+    {%- if has_any_icon -%}
+      <div class="pp-guide__care-icons">
+        {%- if icon_luz != blank -%}
+          <div class="pp-guide__care-item">
+            <img src="{{ 'icono-luz-indirecta-planta.png' | asset_url }}" alt="Luz" width="36" height="36" loading="lazy">
+            <span class="pp-guide__care-label">Luz</span>
+            <span class="pp-guide__care-value">{{ icon_luz }}</span>
+          </div>
+        {%- endif -%}
+        {%- if icon_riego != blank -%}
+          <div class="pp-guide__care-item">
+            <img src="{{ 'icono-riego-planta.png' | asset_url }}" alt="Riego" width="36" height="36" loading="lazy">
+            <span class="pp-guide__care-label">Riego</span>
+            <span class="pp-guide__care-value">{{ icon_riego }}</span>
+          </div>
+        {%- endif -%}
+        {%- if icon_clima != blank -%}
+          <div class="pp-guide__care-item">
+            <img src="{{ 'iconclima.png' | asset_url }}" alt="Clima" width="36" height="36" loading="lazy">
+            <span class="pp-guide__care-label">Clima</span>
+            <span class="pp-guide__care-value">{{ icon_clima }}</span>
+          </div>
+        {%- endif -%}
+        {%- if icon_pet != nil -%}
+          <div class="pp-guide__care-item">
+            <img src="{{ 'icono-petfriendly-planta.png' | asset_url }}" alt="Pet Friendly" width="36" height="36" loading="lazy">
+            <span class="pp-guide__care-label">Pet Friendly</span>
+            <span class="pp-guide__care-value">{%- if icon_pet -%}Sí{%- else -%}No{%- endif -%}</span>
+          </div>
+        {%- endif -%}
+        {%- if icon_plagas != blank -%}
+          <div class="pp-guide__care-item">
+            <img src="{{ 'plagas-enfermedades-icon.png' | asset_url }}" alt="Plagas" width="36" height="36" loading="lazy">
+            <span class="pp-guide__care-label">Plagas</span>
+            <span class="pp-guide__care-value">{{ icon_plagas }}</span>
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+
+  {%- comment -%} ── Content blocks from JSON metafield ── {%- endcomment -%}
+  <div class="pp-guide__body pp-guide__body--columns" data-pp-guide-body>
+    {%- assign blocks_raw = blocks_json -%}
+
+    <script type="application/json" data-pp-guide-blocks>{{ blocks_raw }}</script>
+  </div>
+
+  <div class="pp-guide__empty" data-pp-guide-empty style="display:none;">
+    <p>Esta guía aún no tiene contenido configurado.</p>
+  </div>
+
+</section>
+
+<script>
+(function() {
+  var container = document.querySelector('[data-pp-guide-body]');
+  var emptyMsg = document.querySelector('[data-pp-guide-empty]');
+  var dataEl = document.querySelector('[data-pp-guide-blocks]');
+  if (!container || !dataEl) return;
+
+  var blocks;
+  try {
+    blocks = JSON.parse(dataEl.textContent);
+  } catch(e) {
+    blocks = [];
+  }
+
+  /* Remove the JSON script tag */
+  dataEl.remove();
+
+  if (!Array.isArray(blocks) || blocks.length === 0) {
+    container.style.display = 'none';
+    if (emptyMsg) emptyMsg.style.display = '';
+    return;
+  }
+
+  /* Helper: escape HTML */
+  function esc(str) {
+    if (!str) return '';
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+  }
+
+  /* Helper: process paragraph text, injecting links */
+  function renderParagraphText(text, links) {
+    var html = esc(text);
+    if (links && Array.isArray(links)) {
+      links.forEach(function(link) {
+        if (link.text && link.url) {
+          var escaped = esc(link.text);
+          /* Replace plain text with link — first occurrence */
+          html = html.replace(escaped, '<a href="' + esc(link.url) + '">' + escaped + '</a>');
+        }
+      });
+    }
+    return html;
+  }
+
+  var html = '';
+  blocks.forEach(function(block) {
+    if (!block || !block.type) return;
+
+    switch(block.type) {
+      case 'heading':
+        var level = block.level || 2;
+        if (level < 1) level = 1;
+        if (level > 6) level = 6;
+        var cls = 'pp-guide__block-h' + level;
+        var tag = 'h' + level;
+        html += '<' + tag + ' class="' + cls + '">' + esc(block.text || '') + '</' + tag + '>';
+        break;
+
+      case 'paragraph':
+        html += '<p class="pp-guide__block-p">' + renderParagraphText(block.text || '', block.links) + '</p>';
+        break;
+
+      case 'image':
+        var alt = block.alt ? esc(block.alt) : '';
+        var url = block.url || '';
+        if (url) {
+          html += '<div class="pp-guide__block-img"><img src="' + esc(url) + '" alt="' + alt + '" loading="lazy"></div>';
+        }
+        break;
+
+      case 'list':
+        if (block.items && Array.isArray(block.items) && block.items.length > 0) {
+          html += '<ul class="pp-guide__block-list">';
+          block.items.forEach(function(item) {
+            html += '<li>' + esc(item) + '</li>';
+          });
+          html += '</ul>';
+        }
+        break;
+    }
+  });
+
+  container.innerHTML = html;
+})();
+</script>
+
+{% schema %}
+{
+  "name": "PP Page Guide",
+  "tag": "section",
+  "class": "pp-guide-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_breadcrumb",
+      "label": "Show breadcrumb",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_care_icons",
+      "label": "Show care icons (guia-cuidado only)",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#F5F0E8"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    }
+  ],
+  "templates": ["page"],
+  "presets": [
+    {
+      "name": "PP Page Guide",
+      "category": "Pur Plant"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "pp-page-guide",
+      "settings": {
+        "show_breadcrumb": true,
+        "show_care_icons": true,
+        "bg_color": "#F5F0E8",
+        "padding_top": 40,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": ["main"]
+}
