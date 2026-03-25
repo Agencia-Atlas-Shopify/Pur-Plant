@@ -8,7 +8,7 @@
 {{ 'pp-page-guide.css' | asset_url | stylesheet_tag }}
 
 {%- liquid
-  assign blocks_json = page.metafields.custom.page_blocks | default: '[]'
+  assign blocks_meta = page.metafields.custom.page_blocks
   assign problemas_intro = page.metafields.custom.problemas_intro | default: ''
 -%}
 
@@ -278,7 +278,7 @@
 
   {%- comment -%} -- Content blocks from JSON metafield -- {%- endcomment -%}
   <div class="pp-guide__body pp-guide__body--columns" data-pp-problemas-body>
-    <script type="application/json" data-pp-problemas-blocks>{{ blocks_json }}</script>
+    <script type="application/json" data-pp-problemas-blocks>{%- if blocks_meta -%}{{ blocks_meta | json }}{%- else -%}[]{%- endif -%}</script>
   </div>
 
   <div class="pp-guide__empty" data-pp-problemas-empty style="display:none;">

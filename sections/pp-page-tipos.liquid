@@ -7,7 +7,7 @@
 {{ 'pp-page-guide.css' | asset_url | stylesheet_tag }}
 
 {%- liquid
-  assign blocks_json = page.metafields.custom.page_blocks | default: '[]'
+  assign blocks_meta = page.metafields.custom.page_blocks
   assign tipos_intro = page.metafields.custom.tipos_intro | default: ''
 -%}
 
@@ -159,7 +159,7 @@
 
   {%- comment -%} -- Content blocks from JSON metafield -- {%- endcomment -%}
   <div class="pp-guide__body pp-guide__body--columns" data-pp-tipos-body>
-    <script type="application/json" data-pp-tipos-blocks>{{ blocks_json }}</script>
+    <script type="application/json" data-pp-tipos-blocks>{%- if blocks_meta -%}{{ blocks_meta | json }}{%- else -%}[]{%- endif -%}</script>
   </div>
 
   <div class="pp-guide__empty" data-pp-tipos-empty style="display:none;">
