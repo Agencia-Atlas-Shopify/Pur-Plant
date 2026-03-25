@@ -146,7 +146,7 @@
         "megamenu_promo_fCzLLM": {
           "type": "megamenu_promo",
           "settings": {
-            "menu_handle": "Plantas",
+            "menu_handle": "plantas",
             "promo_image": "shopify://shop_images/tronco_de_brasil_salon.jpg",
             "promo_title": "Ver colección",
             "promo_subtitle": "",
@@ -192,6 +192,9 @@
         "announcement_text_color": "#23372c",
         "menu": "pur-plant-1",
         "secondary_menu": "",
+        "mega_plantas_image_link": "",
+        "mega_regalos_image_link": "",
+        "mega_sobre_image_link": "",
         "sticky_header": true,
         "transparent_header": true,
         "transparent_text_color": "#daffd3",
