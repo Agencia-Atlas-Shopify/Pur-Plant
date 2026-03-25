@@ -1357,3 +1357,10 @@ button.pp-header__nav-link,
   width: 18px;
   height: 18px;
 }
+
+/* Mobile header margins */
+@media screen and (max-width: 749px) {
+  .pp-header {
+    max-width: calc(100% - 30px) !important;
+  }
+}

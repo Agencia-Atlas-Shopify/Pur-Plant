@@ -1099,3 +1099,17 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
 .collection-card__content .text-block p {
   line-height: normal;
 }
+
+/* Hero slider mobile text sizes */
+@media screen and (max-width: 749px) {
+  .pp-hero-slider__subheading {
+    font-size: 28px !important;
+  }
+  .pp-hero-slider__heading {
+    font-size: 36px !important;
+  }
+  .pp-hero-slider__subtitle {
+    font-size: 9px !important;
+    letter-spacing: 0.4em !important;
+  }
+}

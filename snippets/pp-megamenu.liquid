@@ -220,13 +220,28 @@
         </div>
       </div>
 
-      {%- comment -%} Image right {%- endcomment -%}
+      {%- comment -%} Image right — from megamenu_promo blocks or section setting {%- endcomment -%}
       <div class="pp-mega__image">
-        {%- if section.settings.mega_plantas_image != blank -%}
-          <a href="{{ section.settings.mega_plantas_image_link | default: '/collections/plantas' }}">
-            <img src="{{ section.settings.mega_plantas_image | image_url: width: 600 }}" alt="" width="200" height="250" loading="lazy">
-          </a>
-        {%- endif -%}
+        {%- assign found_promo = false -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'megamenu_promo' and block.settings.menu_handle == 'plantas' and block.settings.promo_image != blank -%}
+            <a href="{{ block.settings.promo_link | default: '/collections/plantas' }}" {{ block.shopify_attributes }}>
+              <img src="{{ block.settings.promo_image | image_url: width: 600 }}" alt="{{ block.settings.promo_title }}" width="200" height="250" loading="lazy">
+              {%- if block.settings.promo_title != blank -%}
+                <span class="pp-mega__image-title">{{ block.settings.promo_title }}</span>
+              {%- endif -%}
+            </a>
+            {%- assign found_promo = true -%}
+            {%- break -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- unless found_promo -%}
+          {%- if section.settings.mega_plantas_image != blank -%}
+            <a href="{{ section.settings.mega_plantas_image_link | default: '/collections/plantas' }}">
+              <img src="{{ section.settings.mega_plantas_image | image_url: width: 600 }}" alt="" width="200" height="250" loading="lazy">
+            </a>
+          {%- endif -%}
+        {%- endunless -%}
       </div>
     </div>
 
