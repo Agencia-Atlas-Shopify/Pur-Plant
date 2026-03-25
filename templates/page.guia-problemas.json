@@ -1,0 +1,17 @@
+{
+  "sections": {
+    "main": {
+      "type": "pp-page-problemas",
+      "settings": {
+        "show_breadcrumb": true,
+        "show_accordion": true,
+        "show_warning_banner": true,
+        "warning_text": "Identifica y soluciona los problemas mas comunes de tus plantas. Actua rapido para mejores resultados.",
+        "bg_color": "#F5F0E8",
+        "padding_top": 40,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": ["main"]
+}

@@ -1,0 +1,439 @@
+{%- comment -%}
+  PP Page Problemas — Renders plant problems/troubleshooting guide pages
+  from JSON metafield data stored in page.metafields.custom.page_blocks
+  Additional metafields: problemas_intro, problemas_h2_1..5, problemas_texto_1..5
+  Features FAQ accordion-style expandable problems with amber/yellow accent
+{%- endcomment -%}
+
+{{ 'pp-page-guide.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign blocks_json = page.metafields.custom.page_blocks | default: '[]'
+  assign problemas_intro = page.metafields.custom.problemas_intro | default: ''
+-%}
+
+<style>
+  /* --- PP Page Problemas: type-specific styles --- */
+  .pp-problemas {
+    --pp-amber: #B8860B;
+    --pp-amber-light: #FFF8E7;
+    --pp-amber-border: rgba(184, 134, 11, 0.2);
+    --pp-amber-hover: rgba(184, 134, 11, 0.06);
+  }
+
+  .pp-problemas__intro {
+    font-family: var(--pp-font-body);
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--pp-dark-green);
+    line-height: 1.75;
+    margin: 0 0 32px;
+    max-width: var(--pp-content-max);
+    opacity: 0.85;
+  }
+
+  .pp-problemas__warning-banner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--pp-amber-light);
+    border: 1px solid var(--pp-amber-border);
+    border-radius: var(--pp-radius);
+    padding: 16px 20px;
+    margin: 0 0 36px;
+    max-width: var(--pp-content-max);
+  }
+
+  .pp-problemas__warning-icon {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--pp-amber);
+    font-size: 20px;
+  }
+
+  .pp-problemas__warning-text {
+    font-family: var(--pp-font-body);
+    font-size: 14px;
+    color: var(--pp-dark-green);
+    line-height: 1.5;
+    opacity: 0.8;
+  }
+
+  /* --- Accordion for structured problems --- */
+  .pp-problemas__accordion {
+    margin: 0 0 40px;
+    max-width: 100%;
+  }
+
+  .pp-problemas__accordion-item {
+    border: 1px solid rgba(35, 55, 44, 0.1);
+    border-radius: var(--pp-radius);
+    margin: 0 0 12px;
+    overflow: hidden;
+    background: #fff;
+    transition: box-shadow var(--pp-transition);
+  }
+
+  .pp-problemas__accordion-item:hover {
+    box-shadow: 0 2px 12px rgba(184, 134, 11, 0.1);
+  }
+
+  .pp-problemas__accordion-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+    padding: 20px 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--pp-font-heading);
+    font-size: clamp(18px, 2.5vw, 22px);
+    font-weight: 400;
+    color: var(--pp-dark-green);
+    line-height: 1.3;
+    transition: background var(--pp-transition);
+  }
+
+  .pp-problemas__accordion-trigger:hover {
+    background: var(--pp-amber-hover);
+  }
+
+  .pp-problemas__accordion-trigger::before {
+    content: '';
+    display: inline-block;
+    flex-shrink: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--pp-amber);
+    margin-right: 4px;
+  }
+
+  .pp-problemas__accordion-icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    transition: transform var(--pp-transition);
+    color: var(--pp-amber);
+  }
+
+  .pp-problemas__accordion-item[open] .pp-problemas__accordion-icon {
+    transform: rotate(180deg);
+  }
+
+  .pp-problemas__accordion-content {
+    padding: 0 24px 24px 48px;
+    font-family: var(--pp-font-body);
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--pp-dark-green);
+    line-height: 1.75;
+    opacity: 0.85;
+    border-top: 1px solid rgba(35, 55, 44, 0.06);
+    margin-top: -1px;
+    padding-top: 20px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .pp-problemas__accordion-trigger {
+      padding: 16px 16px;
+      font-size: 16px;
+    }
+
+    .pp-problemas__accordion-content {
+      padding: 0 16px 20px 32px;
+      font-size: 14px;
+    }
+
+    .pp-problemas__warning-banner {
+      padding: 12px 16px;
+    }
+  }
+</style>
+
+<section
+  class="pp-guide pp-problemas"
+  style="
+    background-color: {{ section.settings.bg_color }};
+    --pp-guide-pad-top: {{ section.settings.padding_top }}px;
+    --pp-guide-pad-bottom: {{ section.settings.padding_bottom }}px;
+  "
+>
+
+  {%- comment -%} -- Breadcrumb -- {%- endcomment -%}
+  {%- if section.settings.show_breadcrumb -%}
+    <nav class="pp-guide__breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Pur Plant</a>
+      <span class="pp-guide__breadcrumb-sep">/</span>
+      <a href="/pages/problemas-plantas">Problemas Plantas</a>
+      <span class="pp-guide__breadcrumb-sep">/</span>
+      <span>{{ page.title }}</span>
+    </nav>
+  {%- endif -%}
+
+  {%- comment -%} -- Page title -- {%- endcomment -%}
+  <h1 class="pp-guide__title">{{ page.title }}</h1>
+
+  {%- comment -%} -- Warning banner -- {%- endcomment -%}
+  {%- if section.settings.show_warning_banner -%}
+    <div class="pp-problemas__warning-banner">
+      <span class="pp-problemas__warning-icon" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 9v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span class="pp-problemas__warning-text">{{ section.settings.warning_text }}</span>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} -- Intro paragraph from metafield -- {%- endcomment -%}
+  {%- if problemas_intro != blank -%}
+    <p class="pp-problemas__intro">{{ problemas_intro }}</p>
+  {%- endif -%}
+
+  {%- comment -%} -- Structured accordion from problemas_h2_X / problemas_texto_X metafields -- {%- endcomment -%}
+  {%- liquid
+    assign h2_1 = page.metafields.custom.problemas_h2_1 | default: ''
+    assign h2_2 = page.metafields.custom.problemas_h2_2 | default: ''
+    assign h2_3 = page.metafields.custom.problemas_h2_3 | default: ''
+    assign h2_4 = page.metafields.custom.problemas_h2_4 | default: ''
+    assign h2_5 = page.metafields.custom.problemas_h2_5 | default: ''
+    assign t_1 = page.metafields.custom.problemas_texto_1 | default: ''
+    assign t_2 = page.metafields.custom.problemas_texto_2 | default: ''
+    assign t_3 = page.metafields.custom.problemas_texto_3 | default: ''
+    assign t_4 = page.metafields.custom.problemas_texto_4 | default: ''
+    assign t_5 = page.metafields.custom.problemas_texto_5 | default: ''
+    assign has_structured = false
+    if h2_1 != blank or h2_2 != blank or h2_3 != blank or h2_4 != blank or h2_5 != blank
+      assign has_structured = true
+    endif
+  -%}
+
+  {%- if has_structured and section.settings.show_accordion -%}
+    <div class="pp-problemas__accordion">
+      {%- if h2_1 != blank -%}
+        <details class="pp-problemas__accordion-item" open>
+          <summary class="pp-problemas__accordion-trigger">
+            <span>{{ h2_1 }}</span>
+            <svg class="pp-problemas__accordion-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </summary>
+          <div class="pp-problemas__accordion-content">{{ t_1 }}</div>
+        </details>
+      {%- endif -%}
+      {%- if h2_2 != blank -%}
+        <details class="pp-problemas__accordion-item">
+          <summary class="pp-problemas__accordion-trigger">
+            <span>{{ h2_2 }}</span>
+            <svg class="pp-problemas__accordion-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </summary>
+          <div class="pp-problemas__accordion-content">{{ t_2 }}</div>
+        </details>
+      {%- endif -%}
+      {%- if h2_3 != blank -%}
+        <details class="pp-problemas__accordion-item">
+          <summary class="pp-problemas__accordion-trigger">
+            <span>{{ h2_3 }}</span>
+            <svg class="pp-problemas__accordion-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </summary>
+          <div class="pp-problemas__accordion-content">{{ t_3 }}</div>
+        </details>
+      {%- endif -%}
+      {%- if h2_4 != blank -%}
+        <details class="pp-problemas__accordion-item">
+          <summary class="pp-problemas__accordion-trigger">
+            <span>{{ h2_4 }}</span>
+            <svg class="pp-problemas__accordion-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </summary>
+          <div class="pp-problemas__accordion-content">{{ t_4 }}</div>
+        </details>
+      {%- endif -%}
+      {%- if h2_5 != blank -%}
+        <details class="pp-problemas__accordion-item">
+          <summary class="pp-problemas__accordion-trigger">
+            <span>{{ h2_5 }}</span>
+            <svg class="pp-problemas__accordion-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </summary>
+          <div class="pp-problemas__accordion-content">{{ t_5 }}</div>
+        </details>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} -- Content blocks from JSON metafield -- {%- endcomment -%}
+  <div class="pp-guide__body pp-guide__body--columns" data-pp-problemas-body>
+    <script type="application/json" data-pp-problemas-blocks>{{ blocks_json }}</script>
+  </div>
+
+  <div class="pp-guide__empty" data-pp-problemas-empty style="display:none;">
+    <p>Esta guia aun no tiene contenido configurado.</p>
+  </div>
+
+</section>
+
+<script>
+(function() {
+  var container = document.querySelector('[data-pp-problemas-body]');
+  var emptyMsg = document.querySelector('[data-pp-problemas-empty]');
+  var dataEl = document.querySelector('[data-pp-problemas-blocks]');
+  if (!container || !dataEl) return;
+
+  var blocks;
+  try {
+    blocks = JSON.parse(dataEl.textContent);
+  } catch(e) {
+    blocks = [];
+  }
+
+  dataEl.remove();
+
+  if (!Array.isArray(blocks) || blocks.length === 0) {
+    container.style.display = 'none';
+    if (emptyMsg) emptyMsg.style.display = '';
+    return;
+  }
+
+  function esc(str) {
+    if (!str) return '';
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+  }
+
+  function renderParagraphText(text, links) {
+    var html = esc(text);
+    if (links && Array.isArray(links)) {
+      links.forEach(function(link) {
+        if (link.text && link.url) {
+          var escaped = esc(link.text);
+          html = html.replace(escaped, '<a href="' + esc(link.url) + '">' + escaped + '</a>');
+        }
+      });
+    }
+    return html;
+  }
+
+  var html = '';
+  blocks.forEach(function(block) {
+    if (!block || !block.type) return;
+
+    switch(block.type) {
+      case 'heading':
+        var level = block.level || 2;
+        if (level < 1) level = 1;
+        if (level > 6) level = 6;
+        var cls = 'pp-guide__block-h' + level;
+        var tag = 'h' + level;
+        html += '<' + tag + ' class="' + cls + '">' + esc(block.text || '') + '</' + tag + '>';
+        break;
+
+      case 'paragraph':
+        html += '<p class="pp-guide__block-p">' + renderParagraphText(block.text || '', block.links) + '</p>';
+        break;
+
+      case 'image':
+        var alt = block.alt ? esc(block.alt) : '';
+        var url = block.url || '';
+        if (url) {
+          html += '<div class="pp-guide__block-img"><img src="' + esc(url) + '" alt="' + alt + '" loading="lazy"></div>';
+        }
+        break;
+
+      case 'list':
+        if (block.items && Array.isArray(block.items) && block.items.length > 0) {
+          html += '<ul class="pp-guide__block-list">';
+          block.items.forEach(function(item) {
+            html += '<li>' + esc(item) + '</li>';
+          });
+          html += '</ul>';
+        }
+        break;
+    }
+  });
+
+  container.innerHTML = html;
+})();
+</script>
+
+{% schema %}
+{
+  "name": "PP Page Problemas",
+  "tag": "section",
+  "class": "pp-guide-section pp-problemas-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_breadcrumb",
+      "label": "Show breadcrumb",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_accordion",
+      "label": "Show problem accordion (from metafields)",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_warning_banner",
+      "label": "Show warning banner",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "warning_text",
+      "label": "Warning banner text",
+      "default": "Identifica y soluciona los problemas mas comunes de tus plantas. Actua rapido para mejores resultados."
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#F5F0E8"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    }
+  ],
+  "templates": ["page"],
+  "presets": [
+    {
+      "name": "PP Page Problemas",
+      "category": "Pur Plant"
+    }
+  ]
+}
+{% endschema %}

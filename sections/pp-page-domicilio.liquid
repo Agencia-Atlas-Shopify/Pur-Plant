@@ -1,0 +1,584 @@
+{%- comment -%}
+  PP Page Domicilio — Renders city delivery landing pages (plantas-domicilio, flores-domicilio)
+  from JSON metafield data stored in page.metafields.custom.page_blocks
+  Additional metafields: domicilio_ciudad, domicilio_intro, domicilio_h2_1..3, domicilio_texto_1..3
+  Features hero header, trust badges, CTA buttons
+{%- endcomment -%}
+
+{{ 'pp-page-guide.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign page_type = page.metafields.custom.page_type | default: ''
+  assign blocks_json = page.metafields.custom.page_blocks | default: '[]'
+  assign ciudad = page.metafields.custom.domicilio_ciudad | default: ''
+  assign domicilio_intro = page.metafields.custom.domicilio_intro | default: ''
+  assign is_flores = false
+  if page_type == 'flores-domicilio'
+    assign is_flores = true
+  endif
+-%}
+
+<style>
+  /* --- PP Page Domicilio: type-specific styles --- */
+  .pp-domicilio__hero {
+    background: var(--pp-dark-green);
+    border-radius: var(--pp-radius);
+    padding: 48px 40px;
+    margin: 0 0 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pp-domicilio__hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 60% 20%, rgba(218, 255, 211, 0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .pp-domicilio__hero-subtitle {
+    font-family: var(--pp-font-section);
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(218, 255, 211, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin: 0 0 12px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .pp-domicilio__hero-title {
+    font-family: var(--pp-font-heading);
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 400;
+    color: #fff;
+    line-height: 1.15;
+    margin: 0 0 16px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .pp-domicilio__hero-city {
+    color: var(--pp-light-green);
+  }
+
+  .pp-domicilio__hero-intro {
+    font-family: var(--pp-font-body);
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.65;
+    margin: 0 auto 28px;
+    max-width: 600px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .pp-domicilio__hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--pp-light-green);
+    color: var(--pp-dark-green);
+    font-family: var(--pp-font-section);
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 14px 32px;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: transform var(--pp-transition), box-shadow var(--pp-transition);
+    position: relative;
+    z-index: 1;
+  }
+
+  .pp-domicilio__hero-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(218, 255, 211, 0.3);
+  }
+
+  .pp-domicilio__hero-cta svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* --- Trust badges --- */
+  .pp-domicilio__trust {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    margin: 0 0 48px;
+    padding: 24px 0;
+    border-bottom: 1px solid rgba(35, 55, 44, 0.1);
+  }
+
+  .pp-domicilio__trust-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--pp-font-body);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--pp-dark-green);
+  }
+
+  .pp-domicilio__trust-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(35, 55, 44, 0.06);
+    border-radius: 50%;
+    flex-shrink: 0;
+    color: var(--pp-dark-green);
+  }
+
+  .pp-domicilio__trust-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* --- Structured delivery sections --- */
+  .pp-domicilio__sections {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 36px;
+    margin: 0 0 40px;
+    max-width: var(--pp-content-max);
+  }
+
+  .pp-domicilio__section-block h2 {
+    font-family: var(--pp-font-heading);
+    font-size: clamp(22px, 3vw, 30px);
+    font-weight: 400;
+    color: var(--pp-dark-green);
+    line-height: 1.2;
+    margin: 0 0 12px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid rgba(35, 55, 44, 0.08);
+  }
+
+  .pp-domicilio__section-block p {
+    font-family: var(--pp-font-body);
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--pp-dark-green);
+    line-height: 1.75;
+    margin: 0;
+    opacity: 0.85;
+  }
+
+  /* --- Bottom CTA --- */
+  .pp-domicilio__bottom-cta {
+    text-align: center;
+    padding: 40px 0 0;
+    border-top: 1px solid rgba(35, 55, 44, 0.1);
+    margin-top: 40px;
+  }
+
+  .pp-domicilio__bottom-cta-title {
+    font-family: var(--pp-font-heading);
+    font-size: clamp(22px, 3vw, 30px);
+    font-weight: 400;
+    color: var(--pp-dark-green);
+    margin: 0 0 20px;
+  }
+
+  .pp-domicilio__bottom-cta a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--pp-dark-green);
+    color: #fff;
+    font-family: var(--pp-font-section);
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 14px 32px;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: transform var(--pp-transition), opacity var(--pp-transition);
+  }
+
+  .pp-domicilio__bottom-cta a:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+  }
+
+  @media screen and (max-width: 749px) {
+    .pp-domicilio__hero {
+      padding: 32px 20px;
+    }
+
+    .pp-domicilio__trust {
+      gap: 16px;
+    }
+
+    .pp-domicilio__trust-badge {
+      font-size: 13px;
+      gap: 8px;
+      flex: 0 0 calc(50% - 8px);
+    }
+
+    .pp-domicilio__trust-icon {
+      width: 32px;
+      height: 32px;
+    }
+
+    .pp-domicilio__trust-icon svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+</style>
+
+<section
+  class="pp-guide pp-domicilio"
+  style="
+    background-color: {{ section.settings.bg_color }};
+    --pp-guide-pad-top: {{ section.settings.padding_top }}px;
+    --pp-guide-pad-bottom: {{ section.settings.padding_bottom }}px;
+  "
+>
+
+  {%- comment -%} -- Breadcrumb -- {%- endcomment -%}
+  {%- if section.settings.show_breadcrumb -%}
+    <nav class="pp-guide__breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Pur Plant</a>
+      <span class="pp-guide__breadcrumb-sep">/</span>
+      {%- if is_flores -%}
+        <span>Flores a Domicilio</span>
+      {%- else -%}
+        <span>Plantas a Domicilio</span>
+      {%- endif -%}
+      {%- if ciudad != blank -%}
+        <span class="pp-guide__breadcrumb-sep">/</span>
+        <span>{{ ciudad }}</span>
+      {%- endif -%}
+    </nav>
+  {%- endif -%}
+
+  {%- comment -%} -- Hero header -- {%- endcomment -%}
+  {%- if section.settings.show_hero -%}
+    <div class="pp-domicilio__hero">
+      <p class="pp-domicilio__hero-subtitle">
+        {%- if is_flores -%}
+          Envio de flores a domicilio
+        {%- else -%}
+          Envio de plantas a domicilio
+        {%- endif -%}
+      </p>
+      <h1 class="pp-domicilio__hero-title">
+        {%- if is_flores -%}
+          Flores a Domicilio{% if ciudad != blank %} en <span class="pp-domicilio__hero-city">{{ ciudad }}</span>{% endif %}
+        {%- else -%}
+          Plantas a Domicilio{% if ciudad != blank %} en <span class="pp-domicilio__hero-city">{{ ciudad }}</span>{% endif %}
+        {%- endif -%}
+      </h1>
+      {%- if domicilio_intro != blank -%}
+        <p class="pp-domicilio__hero-intro">{{ domicilio_intro }}</p>
+      {%- endif -%}
+      <a href="{{ section.settings.cta_url }}" class="pp-domicilio__hero-cta">
+        {{ section.settings.cta_text }}
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3.333 8h9.334M8.667 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  {%- else -%}
+    <h1 class="pp-guide__title">{{ page.title }}</h1>
+    {%- if domicilio_intro != blank -%}
+      <p class="pp-domicilio__hero-intro" style="color: var(--pp-dark-green); opacity: 0.85; max-width: var(--pp-content-max); text-align: left; margin: 0 0 32px;">{{ domicilio_intro }}</p>
+    {%- endif -%}
+  {%- endif -%}
+
+  {%- comment -%} -- Trust badges -- {%- endcomment -%}
+  {%- if section.settings.show_trust_badges -%}
+    <div class="pp-domicilio__trust">
+      <div class="pp-domicilio__trust-badge">
+        <span class="pp-domicilio__trust-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span>{{ section.settings.badge_delivery }}</span>
+      </div>
+      <div class="pp-domicilio__trust-badge">
+        <span class="pp-domicilio__trust-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span>{{ section.settings.badge_shipping }}</span>
+      </div>
+      <div class="pp-domicilio__trust-badge">
+        <span class="pp-domicilio__trust-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span>{{ section.settings.badge_guarantee }}</span>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} -- Structured sections from domicilio_h2_X / domicilio_texto_X -- {%- endcomment -%}
+  {%- liquid
+    assign h2_1 = page.metafields.custom.domicilio_h2_1 | default: ''
+    assign h2_2 = page.metafields.custom.domicilio_h2_2 | default: ''
+    assign h2_3 = page.metafields.custom.domicilio_h2_3 | default: ''
+    assign t_1 = page.metafields.custom.domicilio_texto_1 | default: ''
+    assign t_2 = page.metafields.custom.domicilio_texto_2 | default: ''
+    assign t_3 = page.metafields.custom.domicilio_texto_3 | default: ''
+    assign has_structured = false
+    if h2_1 != blank or h2_2 != blank or h2_3 != blank
+      assign has_structured = true
+    endif
+  -%}
+
+  {%- if has_structured and section.settings.show_structured_sections -%}
+    <div class="pp-domicilio__sections">
+      {%- if h2_1 != blank -%}
+        <div class="pp-domicilio__section-block">
+          <h2>{{ h2_1 }}</h2>
+          {%- if t_1 != blank -%}<p>{{ t_1 }}</p>{%- endif -%}
+        </div>
+      {%- endif -%}
+      {%- if h2_2 != blank -%}
+        <div class="pp-domicilio__section-block">
+          <h2>{{ h2_2 }}</h2>
+          {%- if t_2 != blank -%}<p>{{ t_2 }}</p>{%- endif -%}
+        </div>
+      {%- endif -%}
+      {%- if h2_3 != blank -%}
+        <div class="pp-domicilio__section-block">
+          <h2>{{ h2_3 }}</h2>
+          {%- if t_3 != blank -%}<p>{{ t_3 }}</p>{%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} -- Content blocks from JSON metafield -- {%- endcomment -%}
+  <div class="pp-guide__body pp-guide__body--columns" data-pp-domicilio-body>
+    <script type="application/json" data-pp-domicilio-blocks>{{ blocks_json }}</script>
+  </div>
+
+  <div class="pp-guide__empty" data-pp-domicilio-empty style="display:none;">
+    <p>Esta pagina aun no tiene contenido configurado.</p>
+  </div>
+
+  {%- comment -%} -- Bottom CTA -- {%- endcomment -%}
+  {%- if section.settings.show_bottom_cta -%}
+    <div class="pp-domicilio__bottom-cta">
+      <p class="pp-domicilio__bottom-cta-title">{{ section.settings.bottom_cta_title }}</p>
+      <a href="{{ section.settings.cta_url }}">
+        {{ section.settings.cta_text }}
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3.333 8h9.334M8.667 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  {%- endif -%}
+
+</section>
+
+<script>
+(function() {
+  var container = document.querySelector('[data-pp-domicilio-body]');
+  var emptyMsg = document.querySelector('[data-pp-domicilio-empty]');
+  var dataEl = document.querySelector('[data-pp-domicilio-blocks]');
+  if (!container || !dataEl) return;
+
+  var blocks;
+  try {
+    blocks = JSON.parse(dataEl.textContent);
+  } catch(e) {
+    blocks = [];
+  }
+
+  dataEl.remove();
+
+  if (!Array.isArray(blocks) || blocks.length === 0) {
+    container.style.display = 'none';
+    if (emptyMsg) emptyMsg.style.display = '';
+    return;
+  }
+
+  function esc(str) {
+    if (!str) return '';
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+  }
+
+  function renderParagraphText(text, links) {
+    var html = esc(text);
+    if (links && Array.isArray(links)) {
+      links.forEach(function(link) {
+        if (link.text && link.url) {
+          var escaped = esc(link.text);
+          html = html.replace(escaped, '<a href="' + esc(link.url) + '">' + escaped + '</a>');
+        }
+      });
+    }
+    return html;
+  }
+
+  var html = '';
+  blocks.forEach(function(block) {
+    if (!block || !block.type) return;
+
+    switch(block.type) {
+      case 'heading':
+        var level = block.level || 2;
+        if (level < 1) level = 1;
+        if (level > 6) level = 6;
+        var cls = 'pp-guide__block-h' + level;
+        var tag = 'h' + level;
+        html += '<' + tag + ' class="' + cls + '">' + esc(block.text || '') + '</' + tag + '>';
+        break;
+
+      case 'paragraph':
+        html += '<p class="pp-guide__block-p">' + renderParagraphText(block.text || '', block.links) + '</p>';
+        break;
+
+      case 'image':
+        var alt = block.alt ? esc(block.alt) : '';
+        var url = block.url || '';
+        if (url) {
+          html += '<div class="pp-guide__block-img"><img src="' + esc(url) + '" alt="' + alt + '" loading="lazy"></div>';
+        }
+        break;
+
+      case 'list':
+        if (block.items && Array.isArray(block.items) && block.items.length > 0) {
+          html += '<ul class="pp-guide__block-list">';
+          block.items.forEach(function(item) {
+            html += '<li>' + esc(item) + '</li>';
+          });
+          html += '</ul>';
+        }
+        break;
+    }
+  });
+
+  container.innerHTML = html;
+})();
+</script>
+
+{% schema %}
+{
+  "name": "PP Page Domicilio",
+  "tag": "section",
+  "class": "pp-guide-section pp-domicilio-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_breadcrumb",
+      "label": "Show breadcrumb",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_hero",
+      "label": "Show hero header",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trust_badges",
+      "label": "Show trust badges",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_structured_sections",
+      "label": "Show structured sections (from metafields)",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_bottom_cta",
+      "label": "Show bottom CTA",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA button text",
+      "default": "Ver plantas"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA button link",
+      "default": "/collections/plantas"
+    },
+    {
+      "type": "text",
+      "id": "bottom_cta_title",
+      "label": "Bottom CTA title",
+      "default": "Encuentra la planta perfecta"
+    },
+    {
+      "type": "text",
+      "id": "badge_delivery",
+      "label": "Trust badge: Delivery",
+      "default": "Entrega en 24/48h"
+    },
+    {
+      "type": "text",
+      "id": "badge_shipping",
+      "label": "Trust badge: Shipping",
+      "default": "Envio gratis +49€"
+    },
+    {
+      "type": "text",
+      "id": "badge_guarantee",
+      "label": "Trust badge: Guarantee",
+      "default": "Garantia de frescura"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#F5F0E8"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    }
+  ],
+  "templates": ["page"],
+  "presets": [
+    {
+      "name": "PP Page Domicilio",
+      "category": "Pur Plant"
+    }
+  ]
+}
+{% endschema %}

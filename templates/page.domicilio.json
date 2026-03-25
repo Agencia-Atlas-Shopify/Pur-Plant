@@ -1,0 +1,24 @@
+{
+  "sections": {
+    "main": {
+      "type": "pp-page-domicilio",
+      "settings": {
+        "show_breadcrumb": true,
+        "show_hero": true,
+        "show_trust_badges": true,
+        "show_structured_sections": true,
+        "show_bottom_cta": true,
+        "cta_text": "Ver plantas",
+        "cta_url": "/collections/plantas",
+        "bottom_cta_title": "Encuentra la planta perfecta",
+        "badge_delivery": "Entrega en 24/48h",
+        "badge_shipping": "Envio gratis +49\u20ac",
+        "badge_guarantee": "Garantia de frescura",
+        "bg_color": "#F5F0E8",
+        "padding_top": 40,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": ["main"]
+}

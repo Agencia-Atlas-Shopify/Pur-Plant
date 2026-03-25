@@ -1,0 +1,308 @@
+{%- comment -%}
+  PP Page Tipos — Renders plant types/varieties guide pages
+  from JSON metafield data stored in page.metafields.custom.page_blocks
+  Additional metafields: tipos_intro, tipos_h2_1..5, tipos_texto_1..5
+{%- endcomment -%}
+
+{{ 'pp-page-guide.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign blocks_json = page.metafields.custom.page_blocks | default: '[]'
+  assign tipos_intro = page.metafields.custom.tipos_intro | default: ''
+-%}
+
+<style>
+  /* --- PP Page Tipos: type-specific styles --- */
+  .pp-tipos__intro {
+    font-family: var(--pp-font-body);
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--pp-dark-green);
+    line-height: 1.75;
+    margin: 0 0 32px;
+    max-width: var(--pp-content-max);
+    opacity: 0.85;
+  }
+
+  .pp-tipos__structured-sections {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin: 40px 0;
+  }
+
+  .pp-tipos__section-card {
+    background: rgba(35, 55, 44, 0.04);
+    border-radius: var(--pp-radius);
+    padding: 28px 24px;
+    border: 1px solid rgba(35, 55, 44, 0.08);
+    transition: box-shadow var(--pp-transition);
+  }
+
+  .pp-tipos__section-card:hover {
+    box-shadow: 0 4px 20px rgba(35, 55, 44, 0.08);
+  }
+
+  .pp-tipos__section-card h2 {
+    font-family: var(--pp-font-heading);
+    font-size: clamp(20px, 2.5vw, 26px);
+    font-weight: 400;
+    color: var(--pp-dark-green);
+    line-height: 1.25;
+    margin: 0 0 12px;
+    padding: 0;
+    border: none;
+  }
+
+  .pp-tipos__section-card p {
+    font-family: var(--pp-font-body);
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--pp-dark-green);
+    line-height: 1.75;
+    margin: 0;
+    opacity: 0.85;
+  }
+
+  @media screen and (max-width: 749px) {
+    .pp-tipos__structured-sections {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .pp-tipos__section-card {
+      padding: 20px 16px;
+    }
+  }
+</style>
+
+<section
+  class="pp-guide pp-tipos"
+  style="
+    background-color: {{ section.settings.bg_color }};
+    --pp-guide-pad-top: {{ section.settings.padding_top }}px;
+    --pp-guide-pad-bottom: {{ section.settings.padding_bottom }}px;
+  "
+>
+
+  {%- comment -%} -- Breadcrumb -- {%- endcomment -%}
+  {%- if section.settings.show_breadcrumb -%}
+    <nav class="pp-guide__breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Pur Plant</a>
+      <span class="pp-guide__breadcrumb-sep">/</span>
+      <a href="/pages/tipos-de-plantas">Tipos de Plantas</a>
+      <span class="pp-guide__breadcrumb-sep">/</span>
+      <span>{{ page.title }}</span>
+    </nav>
+  {%- endif -%}
+
+  {%- comment -%} -- Page title -- {%- endcomment -%}
+  <h1 class="pp-guide__title">{{ page.title }}</h1>
+
+  {%- comment -%} -- Intro paragraph from metafield -- {%- endcomment -%}
+  {%- if tipos_intro != blank -%}
+    <p class="pp-tipos__intro">{{ tipos_intro }}</p>
+  {%- endif -%}
+
+  {%- comment -%} -- Structured sections from tipos_h2_X / tipos_texto_X metafields -- {%- endcomment -%}
+  {%- liquid
+    assign h2_1 = page.metafields.custom.tipos_h2_1 | default: ''
+    assign h2_2 = page.metafields.custom.tipos_h2_2 | default: ''
+    assign h2_3 = page.metafields.custom.tipos_h2_3 | default: ''
+    assign h2_4 = page.metafields.custom.tipos_h2_4 | default: ''
+    assign h2_5 = page.metafields.custom.tipos_h2_5 | default: ''
+    assign t_1 = page.metafields.custom.tipos_texto_1 | default: ''
+    assign t_2 = page.metafields.custom.tipos_texto_2 | default: ''
+    assign t_3 = page.metafields.custom.tipos_texto_3 | default: ''
+    assign t_4 = page.metafields.custom.tipos_texto_4 | default: ''
+    assign t_5 = page.metafields.custom.tipos_texto_5 | default: ''
+    assign has_structured = false
+    if h2_1 != blank or h2_2 != blank or h2_3 != blank or h2_4 != blank or h2_5 != blank
+      assign has_structured = true
+    endif
+  -%}
+
+  {%- if has_structured and section.settings.show_structured_sections -%}
+    <div class="pp-tipos__structured-sections">
+      {%- if h2_1 != blank -%}
+        <div class="pp-tipos__section-card">
+          <h2>{{ h2_1 }}</h2>
+          {%- if t_1 != blank -%}<p>{{ t_1 }}</p>{%- endif -%}
+        </div>
+      {%- endif -%}
+      {%- if h2_2 != blank -%}
+        <div class="pp-tipos__section-card">
+          <h2>{{ h2_2 }}</h2>
+          {%- if t_2 != blank -%}<p>{{ t_2 }}</p>{%- endif -%}
+        </div>
+      {%- endif -%}
+      {%- if h2_3 != blank -%}
+        <div class="pp-tipos__section-card">
+          <h2>{{ h2_3 }}</h2>
+          {%- if t_3 != blank -%}<p>{{ t_3 }}</p>{%- endif -%}
+        </div>
+      {%- endif -%}
+      {%- if h2_4 != blank -%}
+        <div class="pp-tipos__section-card">
+          <h2>{{ h2_4 }}</h2>
+          {%- if t_4 != blank -%}<p>{{ t_4 }}</p>{%- endif -%}
+        </div>
+      {%- endif -%}
+      {%- if h2_5 != blank -%}
+        <div class="pp-tipos__section-card">
+          <h2>{{ h2_5 }}</h2>
+          {%- if t_5 != blank -%}<p>{{ t_5 }}</p>{%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} -- Content blocks from JSON metafield -- {%- endcomment -%}
+  <div class="pp-guide__body pp-guide__body--columns" data-pp-tipos-body>
+    <script type="application/json" data-pp-tipos-blocks>{{ blocks_json }}</script>
+  </div>
+
+  <div class="pp-guide__empty" data-pp-tipos-empty style="display:none;">
+    <p>Esta guia aun no tiene contenido configurado.</p>
+  </div>
+
+</section>
+
+<script>
+(function() {
+  var container = document.querySelector('[data-pp-tipos-body]');
+  var emptyMsg = document.querySelector('[data-pp-tipos-empty]');
+  var dataEl = document.querySelector('[data-pp-tipos-blocks]');
+  if (!container || !dataEl) return;
+
+  var blocks;
+  try {
+    blocks = JSON.parse(dataEl.textContent);
+  } catch(e) {
+    blocks = [];
+  }
+
+  dataEl.remove();
+
+  if (!Array.isArray(blocks) || blocks.length === 0) {
+    container.style.display = 'none';
+    if (emptyMsg) emptyMsg.style.display = '';
+    return;
+  }
+
+  function esc(str) {
+    if (!str) return '';
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+  }
+
+  function renderParagraphText(text, links) {
+    var html = esc(text);
+    if (links && Array.isArray(links)) {
+      links.forEach(function(link) {
+        if (link.text && link.url) {
+          var escaped = esc(link.text);
+          html = html.replace(escaped, '<a href="' + esc(link.url) + '">' + escaped + '</a>');
+        }
+      });
+    }
+    return html;
+  }
+
+  var html = '';
+  blocks.forEach(function(block) {
+    if (!block || !block.type) return;
+
+    switch(block.type) {
+      case 'heading':
+        var level = block.level || 2;
+        if (level < 1) level = 1;
+        if (level > 6) level = 6;
+        var cls = 'pp-guide__block-h' + level;
+        var tag = 'h' + level;
+        html += '<' + tag + ' class="' + cls + '">' + esc(block.text || '') + '</' + tag + '>';
+        break;
+
+      case 'paragraph':
+        html += '<p class="pp-guide__block-p">' + renderParagraphText(block.text || '', block.links) + '</p>';
+        break;
+
+      case 'image':
+        var alt = block.alt ? esc(block.alt) : '';
+        var url = block.url || '';
+        if (url) {
+          html += '<div class="pp-guide__block-img"><img src="' + esc(url) + '" alt="' + alt + '" loading="lazy"></div>';
+        }
+        break;
+
+      case 'list':
+        if (block.items && Array.isArray(block.items) && block.items.length > 0) {
+          html += '<ul class="pp-guide__block-list">';
+          block.items.forEach(function(item) {
+            html += '<li>' + esc(item) + '</li>';
+          });
+          html += '</ul>';
+        }
+        break;
+    }
+  });
+
+  container.innerHTML = html;
+})();
+</script>
+
+{% schema %}
+{
+  "name": "PP Page Tipos",
+  "tag": "section",
+  "class": "pp-guide-section pp-tipos-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_breadcrumb",
+      "label": "Show breadcrumb",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_structured_sections",
+      "label": "Show structured H2 sections (from metafields)",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#F5F0E8"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    }
+  ],
+  "templates": ["page"],
+  "presets": [
+    {
+      "name": "PP Page Tipos",
+      "category": "Pur Plant"
+    }
+  ]
+}
+{% endschema %}

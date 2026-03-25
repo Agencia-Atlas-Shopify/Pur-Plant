@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "main": {
+      "type": "pp-page-landing",
+      "settings": {
+        "show_breadcrumb": false,
+        "show_hero": true,
+        "hero_overlay_color": "rgba(35, 55, 44, 0.45)",
+        "cta_text": "Ver ofertas",
+        "cta_url": "/collections/all",
+        "bg_color": "#F5F0E8",
+        "padding_top": 0,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": ["main"]
+}
