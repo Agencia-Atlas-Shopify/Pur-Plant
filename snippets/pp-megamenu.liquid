@@ -222,7 +222,11 @@
 
       {%- comment -%} Image right {%- endcomment -%}
       <div class="pp-mega__image">
-        <img src="{{ section.settings.mega_plantas_image | default: '' | image_url: width: 600 }}" alt="" loading="lazy">
+        {%- if section.settings.mega_plantas_image != blank -%}
+          <a href="{{ section.settings.mega_plantas_image_link | default: '/collections/plantas' }}">
+            <img src="{{ section.settings.mega_plantas_image | image_url: width: 600 }}" alt="" width="200" height="250" loading="lazy">
+          </a>
+        {%- endif -%}
       </div>
     </div>
 
@@ -263,7 +267,11 @@
         </div>
       </div>
       <div class="pp-mega__image">
-        <img src="{{ section.settings.mega_regalos_image | default: '' | image_url: width: 600 }}" alt="" loading="lazy">
+        {%- if section.settings.mega_regalos_image != blank -%}
+          <a href="{{ section.settings.mega_regalos_image_link | default: '/collections/regalos' }}">
+            <img src="{{ section.settings.mega_regalos_image | image_url: width: 600 }}" alt="" width="200" height="250" loading="lazy">
+          </a>
+        {%- endif -%}
       </div>
     </div>
 
@@ -291,6 +299,13 @@
             <a href="/pages/contacto" class="pp-mega__link">Contacto</a>
           </div>
         </div>
+      </div>
+      <div class="pp-mega__image">
+        {%- if section.settings.mega_sobre_image != blank -%}
+          <a href="{{ section.settings.mega_sobre_image_link | default: '/pages/sobre-nosotros' }}">
+            <img src="{{ section.settings.mega_sobre_image | image_url: width: 600 }}" alt="" width="200" height="250" loading="lazy">
+          </a>
+        {%- endif -%}
       </div>
     </div>
 

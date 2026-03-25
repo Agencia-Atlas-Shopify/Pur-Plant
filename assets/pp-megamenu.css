@@ -217,28 +217,27 @@
 @media screen and (max-width: 749px) {
   .pp-mega {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+    top: var(--pp-mega-top, 60px);
+    left: 15px;
+    right: 15px;
     bottom: 0;
-    border-radius: 0;
+    border-radius: 0 0 16px 16px;
     z-index: 10000;
     max-height: none;
-    height: 0;
+    height: auto;
     opacity: 0;
-    transition: height 0s 0.3s, opacity 0.3s ease;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
   }
 
   .pp-mega[aria-hidden="false"] {
-    height: 100%;
     opacity: 1;
+    pointer-events: auto;
     overflow-y: auto;
-    transition: height 0s, opacity 0.3s ease;
   }
 
   .pp-mega__inner {
-    padding: 20px 20px 40px;
-    min-height: 100%;
+    padding: 20px 15px 40px;
   }
 
   /* Close button */
