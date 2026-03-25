@@ -7,7 +7,7 @@
 
 {%- liquid
   assign page_type = page.metafields.custom.page_type | default: ''
-  assign blocks_meta = page.metafields.custom.page_blocks.value
+  assign blocks_meta = page.metafields.custom.page_blocks
   assign is_care_guide = false
   if page_type == 'guia-cuidado'
     assign is_care_guide = true
@@ -108,13 +108,7 @@
 
   {%- comment -%} ── Content blocks from JSON metafield ── {%- endcomment -%}
   <div class="pp-guide__body pp-guide__body--columns" data-pp-guide-body>
-    <script type="application/json" data-pp-guide-blocks>
-      {%- if blocks_meta -%}
-        {{ blocks_meta | json }}
-      {%- else -%}
-        []
-      {%- endif -%}
-    </script>
+    <script type="application/json" data-pp-guide-blocks>{{ page.metafields.custom.page_blocks.value | default: '[]' }}</script>
   </div>
 
   <div class="pp-guide__empty" data-pp-guide-empty style="display:none;">
