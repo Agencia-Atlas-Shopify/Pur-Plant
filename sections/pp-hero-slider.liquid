@@ -132,8 +132,22 @@
                 class="pp-hero-slider__media pp-hero-slider__media--mobile"
                 {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}
               >
+            {%- elsif has_video_desktop -%}
+              {%- comment -%} Fallback to desktop video if no mobile content {%- endcomment -%}
+              <div class="pp-hero-slider__video-wrapper pp-hero-slider__video-wrapper--mobile">
+                {{
+                  block.settings.video_desktop
+                  | video_tag:
+                    autoplay: true,
+                    loop: true,
+                    muted: true,
+                    playsinline: true,
+                    class: 'pp-hero-slider__video',
+                    preload: 'metadata'
+                }}
+              </div>
             {%- elsif block.settings.image_desktop != blank -%}
-              {%- comment -%} Fallback to desktop image if no mobile image {%- endcomment -%}
+              {%- comment -%} Fallback to desktop image if no mobile content {%- endcomment -%}
               <img
                 src="{{ block.settings.image_desktop | image_url: width: 800 }}"
                 srcset="{{ block.settings.image_desktop | image_url: width: 400 }} 400w, {{ block.settings.image_desktop | image_url: width: 600 }} 600w, {{ block.settings.image_desktop | image_url: width: 800 }} 800w, {{ block.settings.image_desktop | image_url: width: 1000 }} 1000w"
