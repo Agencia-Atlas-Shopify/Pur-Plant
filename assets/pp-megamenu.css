@@ -281,9 +281,10 @@
     text-underline-offset: 4px;
   }
 
-  /* Panel layout: list left + image right */
+  /* Panel layout: 2 columns — menus left, promo right */
   .pp-mega__panel {
     grid-template-columns: 1fr auto;
+    grid-template-rows: auto;
     gap: 16px;
   }
 
@@ -300,11 +301,12 @@
     display: none !important;
   }
 
-  /* Show mobile accordion list */
+  /* Show mobile accordion list — sits in left column */
   .pp-mega__mobile-list {
     display: flex !important;
     flex-direction: column;
     gap: 4px;
+    grid-column: 1;
   }
 
   .pp-mega__mobile-item {
@@ -332,10 +334,13 @@
     opacity: 0.5;
   }
 
-  /* Image */
+  /* Promo image — sits in right column, aligned top */
   .pp-mega__image {
     width: 140px;
     border-radius: 8px;
+    grid-column: 2;
+    grid-row: 1 / -1;
+    align-self: start;
   }
 }
 

@@ -1363,4 +1363,22 @@ button.pp-header__nav-link,
   .pp-header {
     max-width: calc(100% - 30px) !important;
   }
+
+  .pp-header__inner {
+    padding: 8px 15px !important;
+  }
+
+  /* Bigger nav icons on mobile */
+  .pp-header__secondary-nav-list {
+    gap: 4px !important;
+  }
+
+  .pp-header__nav-link svg {
+    width: 24px !important;
+    height: 24px !important;
+  }
+
+  .pp-header__nav-link {
+    padding: 8px !important;
+  }
 }
