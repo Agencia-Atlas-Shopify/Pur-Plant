@@ -1,375 +1,696 @@
 {%- comment -%}
   PP Page Problemas — Renders plant problems/troubleshooting guide pages
-  from JSON metafield data stored in page.metafields.custom.page_blocks
-  Additional metafields: problemas_intro, problemas_h2_1..5, problemas_texto_1..5
-  Features FAQ accordion-style expandable problems with amber/yellow accent
+  Based on WordPress reference: purplant.es/guia-problemas-plantas/
+  Uses individual metafields: page_heading_1..50, page_text_1..30,
+  page_image_1..35, page_collection_1..3
 {%- endcomment -%}
 
 {{ 'pp-page-guide.css' | asset_url | stylesheet_tag }}
 
 {%- liquid
-  assign blocks_meta = page.metafields.custom.page_blocks
-  assign problemas_intro = page.metafields.custom.problemas_intro | default: ''
+  assign grid_after = section.settings.collection_grid_after_section | default: 3
+  assign products_per_row = section.settings.products_per_row | default: 4
+  assign collection_index = 0
+  assign section_count = 0
 -%}
 
 <style>
-  /* --- PP Page Problemas: type-specific styles --- */
-  .pp-problemas {
-    --pp-amber: #B8860B;
-    --pp-amber-light: #FFF8E7;
-    --pp-amber-border: rgba(184, 134, 11, 0.2);
-    --pp-amber-hover: rgba(184, 134, 11, 0.06);
+  /* ==========================================================================
+     PP Page Problemas — Inline Styles
+     ========================================================================== */
+
+  /* --- Hero --- */
+  .pp-problemas-hero {
+    position: relative;
+    width: 100%;
+    min-height: 340px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: var(--pp-radius, 8px);
+    margin-bottom: 48px;
   }
 
+  .pp-problemas-hero__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  .pp-problemas-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(35,55,44,0.45) 0%, rgba(35,55,44,0.7) 100%);
+    z-index: 1;
+  }
+
+  .pp-problemas-hero__gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #23372C 0%, #3a5a42 50%, #23372C 100%);
+    z-index: 0;
+  }
+
+  .pp-problemas-hero__content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 60px 24px;
+    max-width: 800px;
+  }
+
+  .pp-problemas-hero__title {
+    font-family: 'Aileron', sans-serif;
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.1;
+    margin: 0;
+    text-transform: none;
+    letter-spacing: -0.02em;
+  }
+
+  /* --- Container --- */
+  .pp-problemas {
+    --pp-dark-green: #23372C;
+    --pp-light-green: #DAFFD3;
+    --pp-beige: #F5F0E8;
+    --pp-text: #3a3838;
+    --pp-font-body: 'Inter', sans-serif;
+    --pp-font-heading: 'Tenor Sans', Georgia, serif;
+    --pp-font-display: 'Aileron', sans-serif;
+    --pp-radius: 8px;
+    --pp-content-max: 800px;
+    --pp-transition: 0.25s ease;
+    max-width: var(--page-content-width, 120rem);
+    margin: 0 auto;
+    padding: var(--pp-problemas-pad-top, 40px) var(--page-margin, 40px) var(--pp-problemas-pad-bottom, 60px);
+    font-family: var(--pp-font-body);
+    color: var(--pp-text);
+  }
+
+  /* --- Intro text --- */
   .pp-problemas__intro {
     font-family: var(--pp-font-body);
     font-size: 16px;
     font-weight: 400;
-    color: var(--pp-dark-green);
-    line-height: 1.75;
-    margin: 0 0 32px;
+    color: var(--pp-text);
+    line-height: 1.8;
+    margin: 0 auto 48px;
     max-width: var(--pp-content-max);
-    opacity: 0.85;
+    text-align: center;
+    opacity: 0.9;
   }
 
-  .pp-problemas__warning-banner {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: var(--pp-amber-light);
-    border: 1px solid var(--pp-amber-border);
-    border-radius: var(--pp-radius);
-    padding: 16px 20px;
-    margin: 0 0 36px;
-    max-width: var(--pp-content-max);
+  /* --- Problem section (heading + text + optional image) --- */
+  .pp-problemas__section {
+    margin-bottom: 48px;
   }
 
-  .pp-problemas__warning-icon {
-    flex-shrink: 0;
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--pp-amber);
-    font-size: 20px;
-  }
-
-  .pp-problemas__warning-text {
-    font-family: var(--pp-font-body);
-    font-size: 14px;
-    color: var(--pp-dark-green);
-    line-height: 1.5;
-    opacity: 0.8;
-  }
-
-  /* --- Accordion for structured problems --- */
-  .pp-problemas__accordion {
-    margin: 0 0 40px;
-    max-width: 100%;
-  }
-
-  .pp-problemas__accordion-item {
-    border: 1px solid rgba(35, 55, 44, 0.1);
-    border-radius: var(--pp-radius);
-    margin: 0 0 12px;
-    overflow: hidden;
-    background: #fff;
-    transition: box-shadow var(--pp-transition);
-  }
-
-  .pp-problemas__accordion-item:hover {
-    box-shadow: 0 2px 12px rgba(184, 134, 11, 0.1);
-  }
-
-  .pp-problemas__accordion-trigger {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    width: 100%;
-    padding: 20px 24px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    text-align: left;
+  .pp-problemas__section-heading {
     font-family: var(--pp-font-heading);
-    font-size: clamp(18px, 2.5vw, 22px);
+    font-size: clamp(24px, 3.5vw, 34px);
     font-weight: 400;
     color: var(--pp-dark-green);
-    line-height: 1.3;
-    transition: background var(--pp-transition);
+    line-height: 1.2;
+    margin: 0 0 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(35, 55, 44, 0.12);
   }
 
-  .pp-problemas__accordion-trigger:hover {
-    background: var(--pp-amber-hover);
+  .pp-problemas__section-body {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
   }
 
-  .pp-problemas__accordion-trigger::before {
-    content: '';
-    display: inline-block;
-    flex-shrink: 0;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--pp-amber);
-    margin-right: 4px;
+  .pp-problemas__section-body--with-image {
+    flex-direction: row;
   }
 
-  .pp-problemas__accordion-icon {
-    flex-shrink: 0;
-    width: 20px;
-    height: 20px;
-    transition: transform var(--pp-transition);
-    color: var(--pp-amber);
+  .pp-problemas__section-image {
+    flex: 0 0 35%;
+    max-width: 35%;
   }
 
-  .pp-problemas__accordion-item[open] .pp-problemas__accordion-icon {
-    transform: rotate(180deg);
+  .pp-problemas__section-image img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--pp-radius);
+    display: block;
+    object-fit: cover;
   }
 
-  .pp-problemas__accordion-content {
-    padding: 0 24px 24px 48px;
+  .pp-problemas__section-text {
+    flex: 1;
     font-family: var(--pp-font-body);
     font-size: 15px;
     font-weight: 400;
-    color: var(--pp-dark-green);
+    color: var(--pp-text);
     line-height: 1.75;
-    opacity: 0.85;
-    border-top: 1px solid rgba(35, 55, 44, 0.06);
-    margin-top: -1px;
-    padding-top: 20px;
+  }
+
+  .pp-problemas__section-text--full {
+    max-width: var(--pp-content-max);
+  }
+
+  /* --- Product grid --- */
+  .pp-problemas__product-grid-wrapper {
+    margin: 56px 0;
+    padding: 40px 0;
+    border-top: 1px solid rgba(35, 55, 44, 0.1);
+    border-bottom: 1px solid rgba(35, 55, 44, 0.1);
+  }
+
+  .pp-problemas__product-grid-title {
+    font-family: var(--pp-font-heading);
+    font-size: clamp(20px, 2.5vw, 28px);
+    font-weight: 400;
+    color: var(--pp-dark-green);
+    margin: 0 0 24px;
+    text-align: center;
+  }
+
+  .pp-problemas__product-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--pp-products-per-row, 4), 1fr);
+    gap: 20px;
+  }
+
+  /* --- Closing text --- */
+  .pp-problemas__closing {
+    font-family: var(--pp-font-body);
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--pp-text);
+    line-height: 1.8;
+    margin: 48px auto 0;
+    max-width: var(--pp-content-max);
+    text-align: center;
+    opacity: 0.9;
+  }
+
+  /* --- Banner CTA --- */
+  .pp-problemas__banner {
+    background: var(--pp-dark-green);
+    border-radius: var(--pp-radius);
+    padding: 48px 40px;
+    text-align: center;
+    margin-top: 56px;
+  }
+
+  .pp-problemas__banner-text {
+    font-family: var(--pp-font-heading);
+    font-size: clamp(22px, 3vw, 32px);
+    font-weight: 400;
+    color: #DAFFD3;
+    line-height: 1.3;
+    margin: 0 0 24px;
+  }
+
+  .pp-problemas__banner-btn {
+    display: inline-block;
+    font-family: var(--pp-font-body);
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--pp-dark-green);
+    background: #DAFFD3;
+    border: none;
+    border-radius: 100px;
+    padding: 14px 36px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background var(--pp-transition), transform var(--pp-transition);
+  }
+
+  .pp-problemas__banner-btn:hover {
+    background: #c4f5bb;
+    transform: translateY(-1px);
+  }
+
+  /* --- Breadcrumb (inherits from pp-page-guide.css, local overrides) --- */
+  .pp-problemas .pp-guide__breadcrumb {
+    margin-bottom: 24px;
+  }
+
+  /* ==========================================================================
+     Responsive
+     ========================================================================== */
+  @media screen and (max-width: 989px) {
+    .pp-problemas__product-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
 
   @media screen and (max-width: 749px) {
-    .pp-problemas__accordion-trigger {
-      padding: 16px 16px;
-      font-size: 16px;
+    .pp-problemas-hero {
+      min-height: 240px;
+      border-radius: 0;
+      margin-bottom: 32px;
     }
 
-    .pp-problemas__accordion-content {
-      padding: 0 16px 20px 32px;
-      font-size: 14px;
+    .pp-problemas-hero__content {
+      padding: 40px 20px;
     }
 
-    .pp-problemas__warning-banner {
-      padding: 12px 16px;
+    .pp-problemas__section-body {
+      flex-direction: column;
+    }
+
+    .pp-problemas__section-image {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+
+    .pp-problemas__product-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .pp-problemas__section {
+      margin-bottom: 32px;
+    }
+
+    .pp-problemas__product-grid-wrapper {
+      margin: 36px 0;
+      padding: 28px 0;
+    }
+
+    .pp-problemas__banner {
+      padding: 32px 20px;
+      margin-top: 36px;
+    }
+
+    .pp-problemas__intro,
+    .pp-problemas__closing {
+      font-size: 15px;
     }
   }
 </style>
 
 <section
-  class="pp-guide pp-problemas"
+  class="pp-problemas"
   style="
-    background-color: {{ section.settings.bg_color }};
-    --pp-guide-pad-top: {{ section.settings.padding_top }}px;
-    --pp-guide-pad-bottom: {{ section.settings.padding_bottom }}px;
+    --pp-problemas-pad-top: {{ section.settings.padding_top }}px;
+    --pp-problemas-pad-bottom: {{ section.settings.padding_bottom }}px;
+    --pp-products-per-row: {{ products_per_row }};
   "
 >
 
-  {%- comment -%} -- Breadcrumb -- {%- endcomment -%}
+  {%- comment -%} ── Breadcrumb ── {%- endcomment -%}
   {%- if section.settings.show_breadcrumb -%}
     <nav class="pp-guide__breadcrumb" aria-label="Breadcrumb">
       <a href="/">Pur Plant</a>
       <span class="pp-guide__breadcrumb-sep">/</span>
-      <a href="/pages/problemas-plantas">Problemas Plantas</a>
+      <a href="/pages/problemas-plantas">Guia de Problemas</a>
       <span class="pp-guide__breadcrumb-sep">/</span>
       <span>{{ page.title }}</span>
     </nav>
   {%- endif -%}
 
-  {%- comment -%} -- Page title -- {%- endcomment -%}
-  <h1 class="pp-guide__title">{{ page.title }}</h1>
-
-  {%- comment -%} -- Warning banner -- {%- endcomment -%}
-  {%- if section.settings.show_warning_banner -%}
-    <div class="pp-problemas__warning-banner">
-      <span class="pp-problemas__warning-icon" aria-hidden="true">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 9v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </span>
-      <span class="pp-problemas__warning-text">{{ section.settings.warning_text }}</span>
+  {%- comment -%} ── 1. Hero Section ── {%- endcomment -%}
+  {%- if section.settings.show_hero -%}
+    {%- assign hero_image = page.metafields.custom.page_image_1 | default: '' -%}
+    <div class="pp-problemas-hero">
+      {%- if hero_image != blank -%}
+        <img
+          class="pp-problemas-hero__bg"
+          src="{{ hero_image }}"
+          alt="{{ page.title | escape }}"
+          loading="eager"
+          width="1600"
+          height="400"
+        >
+        <div class="pp-problemas-hero__overlay"></div>
+      {%- else -%}
+        <div class="pp-problemas-hero__gradient"></div>
+      {%- endif -%}
+      <div class="pp-problemas-hero__content">
+        <h1 class="pp-problemas-hero__title">{{ page.title }}</h1>
+      </div>
     </div>
   {%- endif -%}
 
-  {%- comment -%} -- Intro paragraph from metafield -- {%- endcomment -%}
-  {%- if problemas_intro != blank -%}
-    <p class="pp-problemas__intro">{{ problemas_intro }}</p>
+  {%- comment -%} ── 2. Intro text (page_text_1) ── {%- endcomment -%}
+  {%- assign intro_text = page.metafields.custom.page_text_1 | default: '' -%}
+  {%- if intro_text != blank -%}
+    <div class="pp-problemas__intro">{{ intro_text }}</div>
   {%- endif -%}
 
-  {%- comment -%} -- Structured accordion from problemas_h2_X / problemas_texto_X metafields -- {%- endcomment -%}
+  {%- comment -%} ── 3. Problem Sections — Dynamic loop ── {%- endcomment -%}
+  {%- comment -%}
+    Iterate from 1..30 looking for page_heading_X.
+    For each heading found, pair with page_text_X and page_image_X.
+    After every N sections (collection_grid_after_section), insert a product grid.
+    Track which collection to use (page_collection_1, then _2, then _3).
+  {%- endcomment -%}
+
+  {%- for i in (1..30) -%}
+    {%- liquid
+      case i
+        when 1
+          assign current_heading = page.metafields.custom.page_heading_1
+          assign current_text = page.metafields.custom.page_text_1
+          assign current_image = page.metafields.custom.page_image_1
+        when 2
+          assign current_heading = page.metafields.custom.page_heading_2
+          assign current_text = page.metafields.custom.page_text_2
+          assign current_image = page.metafields.custom.page_image_2
+        when 3
+          assign current_heading = page.metafields.custom.page_heading_3
+          assign current_text = page.metafields.custom.page_text_3
+          assign current_image = page.metafields.custom.page_image_3
+        when 4
+          assign current_heading = page.metafields.custom.page_heading_4
+          assign current_text = page.metafields.custom.page_text_4
+          assign current_image = page.metafields.custom.page_image_4
+        when 5
+          assign current_heading = page.metafields.custom.page_heading_5
+          assign current_text = page.metafields.custom.page_text_5
+          assign current_image = page.metafields.custom.page_image_5
+        when 6
+          assign current_heading = page.metafields.custom.page_heading_6
+          assign current_text = page.metafields.custom.page_text_6
+          assign current_image = page.metafields.custom.page_image_6
+        when 7
+          assign current_heading = page.metafields.custom.page_heading_7
+          assign current_text = page.metafields.custom.page_text_7
+          assign current_image = page.metafields.custom.page_image_7
+        when 8
+          assign current_heading = page.metafields.custom.page_heading_8
+          assign current_text = page.metafields.custom.page_text_8
+          assign current_image = page.metafields.custom.page_image_8
+        when 9
+          assign current_heading = page.metafields.custom.page_heading_9
+          assign current_text = page.metafields.custom.page_text_9
+          assign current_image = page.metafields.custom.page_image_9
+        when 10
+          assign current_heading = page.metafields.custom.page_heading_10
+          assign current_text = page.metafields.custom.page_text_10
+          assign current_image = page.metafields.custom.page_image_10
+        when 11
+          assign current_heading = page.metafields.custom.page_heading_11
+          assign current_text = page.metafields.custom.page_text_11
+          assign current_image = page.metafields.custom.page_image_11
+        when 12
+          assign current_heading = page.metafields.custom.page_heading_12
+          assign current_text = page.metafields.custom.page_text_12
+          assign current_image = page.metafields.custom.page_image_12
+        when 13
+          assign current_heading = page.metafields.custom.page_heading_13
+          assign current_text = page.metafields.custom.page_text_13
+          assign current_image = page.metafields.custom.page_image_13
+        when 14
+          assign current_heading = page.metafields.custom.page_heading_14
+          assign current_text = page.metafields.custom.page_text_14
+          assign current_image = page.metafields.custom.page_image_14
+        when 15
+          assign current_heading = page.metafields.custom.page_heading_15
+          assign current_text = page.metafields.custom.page_text_15
+          assign current_image = page.metafields.custom.page_image_15
+        when 16
+          assign current_heading = page.metafields.custom.page_heading_16
+          assign current_text = page.metafields.custom.page_text_16
+          assign current_image = page.metafields.custom.page_image_16
+        when 17
+          assign current_heading = page.metafields.custom.page_heading_17
+          assign current_text = page.metafields.custom.page_text_17
+          assign current_image = page.metafields.custom.page_image_17
+        when 18
+          assign current_heading = page.metafields.custom.page_heading_18
+          assign current_text = page.metafields.custom.page_text_18
+          assign current_image = page.metafields.custom.page_image_18
+        when 19
+          assign current_heading = page.metafields.custom.page_heading_19
+          assign current_text = page.metafields.custom.page_text_19
+          assign current_image = page.metafields.custom.page_image_19
+        when 20
+          assign current_heading = page.metafields.custom.page_heading_20
+          assign current_text = page.metafields.custom.page_text_20
+          assign current_image = page.metafields.custom.page_image_20
+        when 21
+          assign current_heading = page.metafields.custom.page_heading_21
+          assign current_text = page.metafields.custom.page_text_21
+          assign current_image = page.metafields.custom.page_image_21
+        when 22
+          assign current_heading = page.metafields.custom.page_heading_22
+          assign current_text = page.metafields.custom.page_text_22
+          assign current_image = page.metafields.custom.page_image_22
+        when 23
+          assign current_heading = page.metafields.custom.page_heading_23
+          assign current_text = page.metafields.custom.page_text_23
+          assign current_image = page.metafields.custom.page_image_23
+        when 24
+          assign current_heading = page.metafields.custom.page_heading_24
+          assign current_text = page.metafields.custom.page_text_24
+          assign current_image = page.metafields.custom.page_image_24
+        when 25
+          assign current_heading = page.metafields.custom.page_heading_25
+          assign current_text = page.metafields.custom.page_text_25
+          assign current_image = page.metafields.custom.page_image_25
+        when 26
+          assign current_heading = page.metafields.custom.page_heading_26
+          assign current_text = page.metafields.custom.page_text_26
+          assign current_image = page.metafields.custom.page_image_26
+        when 27
+          assign current_heading = page.metafields.custom.page_heading_27
+          assign current_text = page.metafields.custom.page_text_27
+          assign current_image = page.metafields.custom.page_image_27
+        when 28
+          assign current_heading = page.metafields.custom.page_heading_28
+          assign current_text = page.metafields.custom.page_text_28
+          assign current_image = page.metafields.custom.page_image_28
+        when 29
+          assign current_heading = page.metafields.custom.page_heading_29
+          assign current_text = page.metafields.custom.page_text_29
+          assign current_image = page.metafields.custom.page_image_29
+        when 30
+          assign current_heading = page.metafields.custom.page_heading_30
+          assign current_text = page.metafields.custom.page_text_30
+          assign current_image = page.metafields.custom.page_image_30
+      endcase
+
+      assign heading_val = current_heading | default: ''
+      assign text_val = current_text | default: ''
+      assign image_val = current_image | default: ''
+    -%}
+
+    {%- comment -%} Skip index 1 for text — already used as intro {%- endcomment -%}
+    {%- if heading_val == blank -%}
+      {%- continue -%}
+    {%- endif -%}
+
+    {%- liquid
+      assign section_count = section_count | plus: 1
+    -%}
+
+    <div class="pp-problemas__section" id="section-{{ i }}">
+      <h2 class="pp-problemas__section-heading">{{ heading_val }}</h2>
+
+      {%- if image_val != blank and text_val != blank -%}
+        <div class="pp-problemas__section-body pp-problemas__section-body--with-image">
+          <div class="pp-problemas__section-image">
+            <img
+              src="{{ image_val }}"
+              alt="{{ heading_val | escape }}"
+              loading="lazy"
+              width="480"
+              height="360"
+            >
+          </div>
+          <div class="pp-problemas__section-text">{{ text_val }}</div>
+        </div>
+      {%- elsif text_val != blank -%}
+        <div class="pp-problemas__section-body">
+          <div class="pp-problemas__section-text pp-problemas__section-text--full">{{ text_val }}</div>
+        </div>
+      {%- elsif image_val != blank -%}
+        <div class="pp-problemas__section-body">
+          <div class="pp-problemas__section-image" style="max-width:100%;flex:1;">
+            <img
+              src="{{ image_val }}"
+              alt="{{ heading_val | escape }}"
+              loading="lazy"
+              width="800"
+              height="450"
+            >
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} ── Insert product grid after every N sections ── {%- endcomment -%}
+    {%- assign grid_mod = section_count | modulo: grid_after -%}
+    {%- if grid_mod == 0 and collection_index < 3 -%}
+      {%- liquid
+        assign collection_index = collection_index | plus: 1
+        case collection_index
+          when 1
+            assign current_coll = page.metafields.custom.page_collection_1.value
+          when 2
+            assign current_coll = page.metafields.custom.page_collection_2.value
+          when 3
+            assign current_coll = page.metafields.custom.page_collection_3.value
+        endcase
+      -%}
+
+      {%- if current_coll -%}
+        <div class="pp-problemas__product-grid-wrapper">
+          {%- if current_coll.title != blank -%}
+            <h3 class="pp-problemas__product-grid-title">{{ current_coll.title }}</h3>
+          {%- endif -%}
+          <div class="pp-problemas__product-grid">
+            {%- for product in current_coll.products limit: 8 -%}
+              {%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+
+  {%- endfor -%}
+
+  {%- comment -%} ── 4. Remaining product grids (if any collections not yet shown) ── {%- endcomment -%}
+  {%- if collection_index < 1 -%}
+    {%- assign remaining_coll_1 = page.metafields.custom.page_collection_1.value -%}
+    {%- if remaining_coll_1 -%}
+      <div class="pp-problemas__product-grid-wrapper">
+        {%- if remaining_coll_1.title != blank -%}
+          <h3 class="pp-problemas__product-grid-title">{{ remaining_coll_1.title }}</h3>
+        {%- endif -%}
+        <div class="pp-problemas__product-grid">
+          {%- for product in remaining_coll_1.products limit: 8 -%}
+            {%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+
+  {%- if collection_index < 2 -%}
+    {%- assign remaining_coll_2 = page.metafields.custom.page_collection_2.value -%}
+    {%- if remaining_coll_2 -%}
+      <div class="pp-problemas__product-grid-wrapper">
+        {%- if remaining_coll_2.title != blank -%}
+          <h3 class="pp-problemas__product-grid-title">{{ remaining_coll_2.title }}</h3>
+        {%- endif -%}
+        <div class="pp-problemas__product-grid">
+          {%- for product in remaining_coll_2.products limit: 8 -%}
+            {%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+
+  {%- if collection_index < 3 -%}
+    {%- assign remaining_coll_3 = page.metafields.custom.page_collection_3.value -%}
+    {%- if remaining_coll_3 -%}
+      <div class="pp-problemas__product-grid-wrapper">
+        {%- if remaining_coll_3.title != blank -%}
+          <h3 class="pp-problemas__product-grid-title">{{ remaining_coll_3.title }}</h3>
+        {%- endif -%}
+        <div class="pp-problemas__product-grid">
+          {%- for product in remaining_coll_3.products limit: 8 -%}
+            {%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+
+  {%- comment -%} ── 5. Closing text — last page_text_X that has content ── {%- endcomment -%}
   {%- liquid
-    assign h2_1 = page.metafields.custom.problemas_h2_1 | default: ''
-    assign h2_2 = page.metafields.custom.problemas_h2_2 | default: ''
-    assign h2_3 = page.metafields.custom.problemas_h2_3 | default: ''
-    assign h2_4 = page.metafields.custom.problemas_h2_4 | default: ''
-    assign h2_5 = page.metafields.custom.problemas_h2_5 | default: ''
-    assign t_1 = page.metafields.custom.problemas_texto_1 | default: ''
-    assign t_2 = page.metafields.custom.problemas_texto_2 | default: ''
-    assign t_3 = page.metafields.custom.problemas_texto_3 | default: ''
-    assign t_4 = page.metafields.custom.problemas_texto_4 | default: ''
-    assign t_5 = page.metafields.custom.problemas_texto_5 | default: ''
-    assign has_structured = false
-    if h2_1 != blank or h2_2 != blank or h2_3 != blank or h2_4 != blank or h2_5 != blank
-      assign has_structured = true
+    assign closing_text = ''
+    assign t30 = page.metafields.custom.page_text_30 | default: ''
+    assign t29 = page.metafields.custom.page_text_29 | default: ''
+    assign t28 = page.metafields.custom.page_text_28 | default: ''
+    assign t27 = page.metafields.custom.page_text_27 | default: ''
+    assign t26 = page.metafields.custom.page_text_26 | default: ''
+    assign t25 = page.metafields.custom.page_text_25 | default: ''
+    assign t24 = page.metafields.custom.page_text_24 | default: ''
+    assign t23 = page.metafields.custom.page_text_23 | default: ''
+    assign t22 = page.metafields.custom.page_text_22 | default: ''
+    assign t21 = page.metafields.custom.page_text_21 | default: ''
+    assign t20 = page.metafields.custom.page_text_20 | default: ''
+    assign t19 = page.metafields.custom.page_text_19 | default: ''
+    assign t18 = page.metafields.custom.page_text_18 | default: ''
+    assign t17 = page.metafields.custom.page_text_17 | default: ''
+    assign t16 = page.metafields.custom.page_text_16 | default: ''
+    assign t15 = page.metafields.custom.page_text_15 | default: ''
+
+    if t30 != blank
+      assign closing_text = t30
+    elsif t29 != blank
+      assign closing_text = t29
+    elsif t28 != blank
+      assign closing_text = t28
+    elsif t27 != blank
+      assign closing_text = t27
+    elsif t26 != blank
+      assign closing_text = t26
+    elsif t25 != blank
+      assign closing_text = t25
+    elsif t24 != blank
+      assign closing_text = t24
+    elsif t23 != blank
+      assign closing_text = t23
+    elsif t22 != blank
+      assign closing_text = t22
+    elsif t21 != blank
+      assign closing_text = t21
+    elsif t20 != blank
+      assign closing_text = t20
+    elsif t19 != blank
+      assign closing_text = t19
+    elsif t18 != blank
+      assign closing_text = t18
+    elsif t17 != blank
+      assign closing_text = t17
+    elsif t16 != blank
+      assign closing_text = t16
+    elsif t15 != blank
+      assign closing_text = t15
     endif
   -%}
 
-  {%- if has_structured and section.settings.show_accordion -%}
-    <div class="pp-problemas__accordion">
-      {%- if h2_1 != blank -%}
-        <details class="pp-problemas__accordion-item" open>
-          <summary class="pp-problemas__accordion-trigger">
-            <span>{{ h2_1 }}</span>
-            <svg class="pp-problemas__accordion-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </summary>
-          <div class="pp-problemas__accordion-content">{{ t_1 }}</div>
-        </details>
-      {%- endif -%}
-      {%- if h2_2 != blank -%}
-        <details class="pp-problemas__accordion-item">
-          <summary class="pp-problemas__accordion-trigger">
-            <span>{{ h2_2 }}</span>
-            <svg class="pp-problemas__accordion-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </summary>
-          <div class="pp-problemas__accordion-content">{{ t_2 }}</div>
-        </details>
-      {%- endif -%}
-      {%- if h2_3 != blank -%}
-        <details class="pp-problemas__accordion-item">
-          <summary class="pp-problemas__accordion-trigger">
-            <span>{{ h2_3 }}</span>
-            <svg class="pp-problemas__accordion-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </summary>
-          <div class="pp-problemas__accordion-content">{{ t_3 }}</div>
-        </details>
-      {%- endif -%}
-      {%- if h2_4 != blank -%}
-        <details class="pp-problemas__accordion-item">
-          <summary class="pp-problemas__accordion-trigger">
-            <span>{{ h2_4 }}</span>
-            <svg class="pp-problemas__accordion-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </summary>
-          <div class="pp-problemas__accordion-content">{{ t_4 }}</div>
-        </details>
-      {%- endif -%}
-      {%- if h2_5 != blank -%}
-        <details class="pp-problemas__accordion-item">
-          <summary class="pp-problemas__accordion-trigger">
-            <span>{{ h2_5 }}</span>
-            <svg class="pp-problemas__accordion-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </summary>
-          <div class="pp-problemas__accordion-content">{{ t_5 }}</div>
-        </details>
+  {%- comment -%} Only show closing text if it is different from intro text {%- endcomment -%}
+  {%- if closing_text != blank and closing_text != intro_text -%}
+    <div class="pp-problemas__closing">{{ closing_text }}</div>
+  {%- endif -%}
+
+  {%- comment -%} ── 6. Banner CTA ── {%- endcomment -%}
+  {%- if section.settings.banner_text != blank -%}
+    <div class="pp-problemas__banner" style="background-color: {{ section.settings.hero_bg_color }};">
+      <p class="pp-problemas__banner-text">{{ section.settings.banner_text }}</p>
+      {%- if section.settings.banner_cta_text != blank and section.settings.banner_cta_url != blank -%}
+        <a href="{{ section.settings.banner_cta_url }}" class="pp-problemas__banner-btn">
+          {{ section.settings.banner_cta_text }}
+        </a>
       {%- endif -%}
     </div>
   {%- endif -%}
 
-  {%- comment -%} -- Content blocks from JSON metafield -- {%- endcomment -%}
-  <div class="pp-guide__body pp-guide__body--columns" data-pp-problemas-body>
-    <script type="application/json" data-pp-problemas-blocks>{%- if blocks_meta -%}{{ blocks_meta }}{%- else -%}[]{%- endif -%}</script>
-  </div>
+  {%- comment -%} ── Fallback: render page.content if no metafield sections found ── {%- endcomment -%}
+  {%- if section_count == 0 and page.content != blank -%}
+    <div class="pp-guide__body pp-guide__body--columns">
+      {{ page.content }}
+    </div>
+  {%- endif -%}
 
-  <div class="pp-guide__empty" data-pp-problemas-empty style="display:none;">
-    <p>Esta guia aun no tiene contenido configurado.</p>
-  </div>
+  {%- if section_count == 0 and page.content == blank -%}
+    <div class="pp-guide__empty">
+      <p>Esta guia aun no tiene contenido configurado.</p>
+    </div>
+  {%- endif -%}
 
 </section>
-
-<script>
-(function() {
-  var container = document.querySelector('[data-pp-problemas-body]');
-  var emptyMsg = document.querySelector('[data-pp-problemas-empty]');
-  var dataEl = document.querySelector('[data-pp-problemas-blocks]');
-  if (!container || !dataEl) return;
-
-  var blocks;
-  try {
-    blocks = JSON.parse(dataEl.textContent);
-  } catch(e) {
-    blocks = [];
-  }
-
-  dataEl.remove();
-
-  if (!Array.isArray(blocks) || blocks.length === 0) {
-    container.style.display = 'none';
-    if (emptyMsg) emptyMsg.style.display = '';
-    return;
-  }
-
-  function esc(str) {
-    if (!str) return '';
-    var div = document.createElement('div');
-    div.appendChild(document.createTextNode(str));
-    return div.innerHTML;
-  }
-
-  function renderParagraphText(text, links) {
-    var html = esc(text);
-    if (links && Array.isArray(links)) {
-      links.forEach(function(link) {
-        if (link.text && link.url) {
-          var escaped = esc(link.text);
-          html = html.replace(escaped, '<a href="' + esc(link.url) + '">' + escaped + '</a>');
-        }
-      });
-    }
-    return html;
-  }
-
-  var html = '';
-  blocks.forEach(function(block) {
-    if (!block || !block.type) return;
-
-    switch(block.type) {
-      case 'heading':
-        var level = block.level || 2;
-        if (level < 1) level = 1;
-        if (level > 6) level = 6;
-        var cls = 'pp-guide__block-h' + level;
-        var tag = 'h' + level;
-        html += '<' + tag + ' class="' + cls + '">' + esc(block.text || '') + '</' + tag + '>';
-        break;
-
-      case 'paragraph':
-        html += '<p class="pp-guide__block-p">' + renderParagraphText(block.text || '', block.links) + '</p>';
-        break;
-
-      case 'image':
-        var alt = block.alt ? esc(block.alt) : '';
-        var url = block.url || '';
-        if (url) {
-          html += '<div class="pp-guide__block-img"><img src="' + esc(url) + '" alt="' + alt + '" loading="lazy"></div>';
-        }
-        break;
-
-      case 'list':
-        if (block.items && Array.isArray(block.items) && block.items.length > 0) {
-          html += '<ul class="pp-guide__block-list">';
-          block.items.forEach(function(item) {
-            html += '<li>' + esc(item) + '</li>';
-          });
-          html += '</ul>';
-        }
-        break;
-    }
-  });
-
-  container.innerHTML = html;
-})();
-</script>
 
 {% schema %}
 {
@@ -378,40 +699,79 @@
   "class": "pp-guide-section pp-problemas-section",
   "settings": [
     {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_hero",
+      "label": "Show hero section",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "hero_bg_color",
+      "label": "Hero / Banner background color",
+      "default": "#23372C"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
       "type": "checkbox",
       "id": "show_breadcrumb",
       "label": "Show breadcrumb",
       "default": true
     },
     {
-      "type": "checkbox",
-      "id": "show_accordion",
-      "label": "Show problem accordion (from metafields)",
-      "default": true
+      "type": "range",
+      "id": "products_per_row",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "label": "Products per row (desktop)",
+      "default": 4
     },
     {
-      "type": "checkbox",
-      "id": "show_warning_banner",
-      "label": "Show warning banner",
-      "default": true
+      "type": "range",
+      "id": "collection_grid_after_section",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "label": "Show product grid after every N sections",
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Banner CTA"
     },
     {
       "type": "text",
-      "id": "warning_text",
-      "label": "Warning banner text",
-      "default": "Identifica y soluciona los problemas mas comunes de tus plantas. Actua rapido para mejores resultados."
+      "id": "banner_text",
+      "label": "Banner text",
+      "default": "¿Necesitas ayuda con tus plantas?"
     },
     {
-      "type": "color",
-      "id": "bg_color",
-      "label": "Background color",
-      "default": "#F5F0E8"
+      "type": "text",
+      "id": "banner_cta_text",
+      "label": "CTA button text",
+      "default": "Ver productos"
+    },
+    {
+      "type": "url",
+      "id": "banner_cta_url",
+      "label": "CTA button URL"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
     },
     {
       "type": "range",
       "id": "padding_top",
       "min": 0,
-      "max": 120,
+      "max": 100,
       "step": 4,
       "unit": "px",
       "label": "Padding top",
@@ -421,7 +781,7 @@
       "type": "range",
       "id": "padding_bottom",
       "min": 0,
-      "max": 120,
+      "max": 100,
       "step": 4,
       "unit": "px",
       "label": "Padding bottom",

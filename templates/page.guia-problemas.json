@@ -3,11 +3,14 @@
     "main": {
       "type": "pp-page-problemas",
       "settings": {
+        "show_hero": true,
+        "hero_bg_color": "#23372C",
         "show_breadcrumb": true,
-        "show_accordion": true,
-        "show_warning_banner": true,
-        "warning_text": "Identifica y soluciona los problemas mas comunes de tus plantas. Actua rapido para mejores resultados.",
-        "bg_color": "#F5F0E8",
+        "products_per_row": 4,
+        "collection_grid_after_section": 3,
+        "banner_text": "¿Necesitas ayuda con tus plantas?",
+        "banner_cta_text": "Ver productos",
+        "banner_cta_url": "/collections/all",
         "padding_top": 40,
         "padding_bottom": 60
       }
