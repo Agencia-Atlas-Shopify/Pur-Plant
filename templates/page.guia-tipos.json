@@ -3,9 +3,14 @@
     "main": {
       "type": "pp-page-tipos",
       "settings": {
+        "show_hero": true,
+        "hero_bg_color": "#23372C",
         "show_breadcrumb": true,
-        "show_structured_sections": true,
-        "bg_color": "#F5F0E8",
+        "cards_per_row": 2,
+        "products_per_row": 4,
+        "banner_text": "Descubre todas las variedades disponibles",
+        "banner_cta_text": "Ver productos",
+        "banner_cta_url": "/collections/all",
         "padding_top": 40,
         "padding_bottom": 60
       }
