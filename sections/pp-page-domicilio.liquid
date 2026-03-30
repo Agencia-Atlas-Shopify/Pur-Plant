@@ -1,17 +1,16 @@
 {%- comment -%}
   PP Page Domicilio — Renders city delivery landing pages (plantas-domicilio, flores-domicilio)
-  from JSON metafield data stored in page.metafields.custom.page_blocks
-  Additional metafields: domicilio_ciudad, domicilio_intro, domicilio_h2_1..3, domicilio_texto_1..3
-  Features hero header, trust badges, CTA buttons
+  Reads content from page.metafields.custom.page_content JSON array.
+  Widget types: heading, text (raw HTML), image.
+  Also uses: page_type, page_collection_1..3.
+  Features hero header, trust badges, CTA buttons.
 {%- endcomment -%}
 
 {{ 'pp-page-guide.css' | asset_url | stylesheet_tag }}
 
 {%- liquid
   assign page_type = page.metafields.custom.page_type | default: ''
-  assign blocks_meta = page.metafields.custom.page_blocks
-  assign ciudad = page.metafields.custom.domicilio_ciudad | default: ''
-  assign domicilio_intro = page.metafields.custom.domicilio_intro | default: ''
+  assign products_per_row = section.settings.products_per_row | default: 4
   assign is_flores = false
   if page_type == 'flores-domicilio'
     assign is_flores = true
@@ -63,18 +62,6 @@
 
   .pp-domicilio__hero-city {
     color: var(--pp-light-green);
-  }
-
-  .pp-domicilio__hero-intro {
-    font-family: var(--pp-font-body);
-    font-size: 16px;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.8);
-    line-height: 1.65;
-    margin: 0 auto 28px;
-    max-width: 600px;
-    position: relative;
-    z-index: 1;
   }
 
   .pp-domicilio__hero-cta {
@@ -144,58 +131,98 @@
     height: 20px;
   }
 
-  /* --- Structured delivery sections --- */
-  .pp-domicilio__sections {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 36px;
-    margin: 0 0 40px;
-    max-width: var(--pp-content-max);
-  }
-
-  .pp-domicilio__section-block h2 {
+  /* --- Content widget styles --- */
+  .pp-domicilio .pp-content__heading {
     font-family: var(--pp-font-heading);
     font-size: clamp(22px, 3vw, 30px);
     font-weight: 400;
     color: var(--pp-dark-green);
     line-height: 1.2;
-    margin: 0 0 12px;
+    margin: 36px 0 12px;
     padding-bottom: 12px;
     border-bottom: 2px solid rgba(35, 55, 44, 0.08);
   }
 
-  .pp-domicilio__section-block p {
+  .pp-domicilio .pp-content__heading:first-child {
+    margin-top: 0;
+  }
+
+  .pp-domicilio .pp-content__text {
     font-family: var(--pp-font-body);
     font-size: 15px;
     font-weight: 400;
     color: var(--pp-dark-green);
     line-height: 1.75;
-    margin: 0;
+    margin: 0 0 24px;
     opacity: 0.85;
   }
 
-  /* --- Bottom CTA --- */
-  .pp-domicilio__bottom-cta {
-    text-align: center;
-    padding: 40px 0 0;
-    border-top: 1px solid rgba(35, 55, 44, 0.1);
-    margin-top: 40px;
+  .pp-domicilio .pp-content__text p { margin: 0 0 16px; }
+  .pp-domicilio .pp-content__text p:last-child { margin-bottom: 0; }
+  .pp-domicilio .pp-content__text ul,
+  .pp-domicilio .pp-content__text ol { margin: 0 0 16px; padding-left: 24px; }
+  .pp-domicilio .pp-content__text li { margin-bottom: 6px; }
+  .pp-domicilio .pp-content__text a { color: var(--pp-dark-green); text-decoration: underline; }
+  .pp-domicilio .pp-content__text strong { font-weight: 600; }
+
+  .pp-domicilio .pp-content__image {
+    margin: 0 0 24px;
   }
 
-  .pp-domicilio__bottom-cta-title {
+  .pp-domicilio .pp-content__image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--pp-radius, 8px);
+    display: block;
+  }
+
+  /* --- Product grid --- */
+  .pp-domicilio__product-grid-wrapper {
+    margin: 56px 0;
+    padding: 40px 0;
+    border-top: 1px solid rgba(35, 55, 44, 0.1);
+    border-bottom: 1px solid rgba(35, 55, 44, 0.1);
+  }
+
+  .pp-domicilio__product-grid-title {
     font-family: var(--pp-font-heading);
-    font-size: clamp(22px, 3vw, 30px);
+    font-size: clamp(20px, 2.5vw, 28px);
     font-weight: 400;
     color: var(--pp-dark-green);
-    margin: 0 0 20px;
+    margin: 0 0 24px;
+    text-align: center;
   }
 
-  .pp-domicilio__bottom-cta a {
+  .pp-domicilio__product-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--pp-products-per-row, 4), 1fr);
+    gap: 20px;
+  }
+
+  /* --- Bottom CTA banner --- */
+  .pp-domicilio__banner {
+    background: var(--pp-dark-green);
+    border-radius: var(--pp-radius);
+    padding: 48px 40px;
+    text-align: center;
+    margin-top: 56px;
+  }
+
+  .pp-domicilio__banner-text {
+    font-family: var(--pp-font-heading);
+    font-size: clamp(22px, 3vw, 32px);
+    font-weight: 400;
+    color: #DAFFD3;
+    line-height: 1.3;
+    margin: 0 0 24px;
+  }
+
+  .pp-domicilio__banner-btn {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: var(--pp-dark-green);
-    color: #fff;
+    background: var(--pp-light-green);
+    color: var(--pp-dark-green);
     font-family: var(--pp-font-section);
     font-size: 14px;
     font-weight: 700;
@@ -207,9 +234,15 @@
     transition: transform var(--pp-transition), opacity var(--pp-transition);
   }
 
-  .pp-domicilio__bottom-cta a:hover {
+  .pp-domicilio__banner-btn:hover {
     transform: translateY(-2px);
     opacity: 0.9;
+  }
+
+  @media screen and (max-width: 989px) {
+    .pp-domicilio__product-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
 
   @media screen and (max-width: 749px) {
@@ -236,6 +269,21 @@
       width: 16px;
       height: 16px;
     }
+
+    .pp-domicilio__product-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .pp-domicilio__product-grid-wrapper {
+      margin: 36px 0;
+      padding: 28px 0;
+    }
+
+    .pp-domicilio__banner {
+      padding: 32px 20px;
+      margin-top: 36px;
+    }
   }
 </style>
 
@@ -245,6 +293,7 @@
     background-color: {{ section.settings.bg_color }};
     --pp-guide-pad-top: {{ section.settings.padding_top }}px;
     --pp-guide-pad-bottom: {{ section.settings.padding_bottom }}px;
+    --pp-products-per-row: {{ products_per_row }};
   "
 >
 
@@ -258,10 +307,8 @@
       {%- else -%}
         <span>Plantas a Domicilio</span>
       {%- endif -%}
-      {%- if ciudad != blank -%}
-        <span class="pp-guide__breadcrumb-sep">/</span>
-        <span>{{ ciudad }}</span>
-      {%- endif -%}
+      <span class="pp-guide__breadcrumb-sep">/</span>
+      <span>{{ page.title }}</span>
     </nav>
   {%- endif -%}
 
@@ -275,18 +322,9 @@
           Envio de plantas a domicilio
         {%- endif -%}
       </p>
-      <h1 class="pp-domicilio__hero-title">
-        {%- if is_flores -%}
-          Flores a Domicilio{% if ciudad != blank %} en <span class="pp-domicilio__hero-city">{{ ciudad }}</span>{% endif %}
-        {%- else -%}
-          Plantas a Domicilio{% if ciudad != blank %} en <span class="pp-domicilio__hero-city">{{ ciudad }}</span>{% endif %}
-        {%- endif -%}
-      </h1>
-      {%- if domicilio_intro != blank -%}
-        <p class="pp-domicilio__hero-intro">{{ domicilio_intro }}</p>
-      {%- endif -%}
-      <a href="{{ section.settings.cta_url }}" class="pp-domicilio__hero-cta">
-        {{ section.settings.cta_text }}
+      <h1 class="pp-domicilio__hero-title">{{ page.title }}</h1>
+      <a href="{{ section.settings.banner_cta_url }}" class="pp-domicilio__hero-cta">
+        {{ section.settings.banner_cta_text | default: 'Ver plantas' }}
         <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M3.333 8h9.334M8.667 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
@@ -294,9 +332,6 @@
     </div>
   {%- else -%}
     <h1 class="pp-guide__title">{{ page.title }}</h1>
-    {%- if domicilio_intro != blank -%}
-      <p class="pp-domicilio__hero-intro" style="color: var(--pp-dark-green); opacity: 0.85; max-width: var(--pp-content-max); text-align: left; margin: 0 0 32px;">{{ domicilio_intro }}</p>
-    {%- endif -%}
   {%- endif -%}
 
   {%- comment -%} -- Trust badges -- {%- endcomment -%}
@@ -329,144 +364,105 @@
     </div>
   {%- endif -%}
 
-  {%- comment -%} -- Structured sections from domicilio_h2_X / domicilio_texto_X -- {%- endcomment -%}
-  {%- liquid
-    assign h2_1 = page.metafields.custom.domicilio_h2_1 | default: ''
-    assign h2_2 = page.metafields.custom.domicilio_h2_2 | default: ''
-    assign h2_3 = page.metafields.custom.domicilio_h2_3 | default: ''
-    assign t_1 = page.metafields.custom.domicilio_texto_1 | default: ''
-    assign t_2 = page.metafields.custom.domicilio_texto_2 | default: ''
-    assign t_3 = page.metafields.custom.domicilio_texto_3 | default: ''
-    assign has_structured = false
-    if h2_1 != blank or h2_2 != blank or h2_3 != blank
-      assign has_structured = true
-    endif
-  -%}
+  {%- comment -%} -- JSON data source for page_content -- {%- endcomment -%}
+  <script type="application/json" data-page-content>
+    {{ page.metafields.custom.page_content | default: '[]' }}
+  </script>
 
-  {%- if has_structured and section.settings.show_structured_sections -%}
-    <div class="pp-domicilio__sections">
-      {%- if h2_1 != blank -%}
-        <div class="pp-domicilio__section-block">
-          <h2>{{ h2_1 }}</h2>
-          {%- if t_1 != blank -%}<p>{{ t_1 }}</p>{%- endif -%}
-        </div>
+  {%- comment -%} -- Content container (JS-rendered) -- {%- endcomment -%}
+  <div data-content-container></div>
+
+  {%- comment -%} -- Product grids -- {%- endcomment -%}
+  {%- assign coll_1 = page.metafields.custom.page_collection_1.value -%}
+  {%- if coll_1 -%}
+    <div class="pp-domicilio__product-grid-wrapper">
+      {%- if coll_1.title != blank -%}
+        <h3 class="pp-domicilio__product-grid-title">{{ coll_1.title }}</h3>
       {%- endif -%}
-      {%- if h2_2 != blank -%}
-        <div class="pp-domicilio__section-block">
-          <h2>{{ h2_2 }}</h2>
-          {%- if t_2 != blank -%}<p>{{ t_2 }}</p>{%- endif -%}
-        </div>
+      <div class="pp-domicilio__product-grid">
+        {%- for product in coll_1.products limit: 8 -%}
+          {%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- assign coll_2 = page.metafields.custom.page_collection_2.value -%}
+  {%- if coll_2 -%}
+    <div class="pp-domicilio__product-grid-wrapper">
+      {%- if coll_2.title != blank -%}
+        <h3 class="pp-domicilio__product-grid-title">{{ coll_2.title }}</h3>
       {%- endif -%}
-      {%- if h2_3 != blank -%}
-        <div class="pp-domicilio__section-block">
-          <h2>{{ h2_3 }}</h2>
-          {%- if t_3 != blank -%}<p>{{ t_3 }}</p>{%- endif -%}
-        </div>
+      <div class="pp-domicilio__product-grid">
+        {%- for product in coll_2.products limit: 8 -%}
+          {%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- assign coll_3 = page.metafields.custom.page_collection_3.value -%}
+  {%- if coll_3 -%}
+    <div class="pp-domicilio__product-grid-wrapper">
+      {%- if coll_3.title != blank -%}
+        <h3 class="pp-domicilio__product-grid-title">{{ coll_3.title }}</h3>
+      {%- endif -%}
+      <div class="pp-domicilio__product-grid">
+        {%- for product in coll_3.products limit: 8 -%}
+          {%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} -- Banner CTA -- {%- endcomment -%}
+  {%- if section.settings.banner_text != blank -%}
+    <div class="pp-domicilio__banner">
+      <p class="pp-domicilio__banner-text">{{ section.settings.banner_text }}</p>
+      {%- if section.settings.banner_cta_text != blank and section.settings.banner_cta_url != blank -%}
+        <a href="{{ section.settings.banner_cta_url }}" class="pp-domicilio__banner-btn">
+          {{ section.settings.banner_cta_text }}
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3.333 8h9.334M8.667 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
       {%- endif -%}
     </div>
   {%- endif -%}
 
-  {%- comment -%} -- Content blocks from JSON metafield -- {%- endcomment -%}
-  <div class="pp-guide__body pp-guide__body--columns" data-pp-domicilio-body>
-    <script type="application/json" data-pp-domicilio-blocks>{%- if blocks_meta -%}{{ blocks_meta }}{%- else -%}[]{%- endif -%}</script>
-  </div>
-
-  <div class="pp-guide__empty" data-pp-domicilio-empty style="display:none;">
+  {%- comment -%} -- Fallback -- {%- endcomment -%}
+  <div class="pp-guide__empty" data-pp-empty style="display:none;">
     <p>Esta pagina aun no tiene contenido configurado.</p>
   </div>
-
-  {%- comment -%} -- Bottom CTA -- {%- endcomment -%}
-  {%- if section.settings.show_bottom_cta -%}
-    <div class="pp-domicilio__bottom-cta">
-      <p class="pp-domicilio__bottom-cta-title">{{ section.settings.bottom_cta_title }}</p>
-      <a href="{{ section.settings.cta_url }}">
-        {{ section.settings.cta_text }}
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3.333 8h9.334M8.667 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </a>
-    </div>
-  {%- endif -%}
 
 </section>
 
 <script>
 (function() {
-  var container = document.querySelector('[data-pp-domicilio-body]');
-  var emptyMsg = document.querySelector('[data-pp-domicilio-empty]');
-  var dataEl = document.querySelector('[data-pp-domicilio-blocks]');
-  if (!container || !dataEl) return;
+  var dataEl = document.querySelector('[data-page-content]');
+  var container = document.querySelector('[data-content-container]');
+  var emptyMsg = document.querySelector('[data-pp-empty]');
+  if (!dataEl || !container) return;
 
-  var blocks;
-  try {
-    blocks = JSON.parse(dataEl.textContent);
-  } catch(e) {
-    blocks = [];
-  }
-
+  var widgets;
+  try { widgets = JSON.parse(dataEl.textContent); } catch(e) { widgets = []; }
   dataEl.remove();
 
-  if (!Array.isArray(blocks) || blocks.length === 0) {
-    container.style.display = 'none';
+  if (!Array.isArray(widgets) || !widgets.length) {
     if (emptyMsg) emptyMsg.style.display = '';
     return;
   }
 
-  function esc(str) {
-    if (!str) return '';
-    var div = document.createElement('div');
-    div.appendChild(document.createTextNode(str));
-    return div.innerHTML;
-  }
-
-  function renderParagraphText(text, links) {
-    var html = esc(text);
-    if (links && Array.isArray(links)) {
-      links.forEach(function(link) {
-        if (link.text && link.url) {
-          var escaped = esc(link.text);
-          html = html.replace(escaped, '<a href="' + esc(link.url) + '">' + escaped + '</a>');
-        }
-      });
-    }
-    return html;
-  }
-
   var html = '';
-  blocks.forEach(function(block) {
-    if (!block || !block.type) return;
+  widgets.forEach(function(w) {
+    if (!w || !w.type) return;
 
-    switch(block.type) {
-      case 'heading':
-        var level = block.level || 2;
-        if (level < 1) level = 1;
-        if (level > 6) level = 6;
-        var cls = 'pp-guide__block-h' + level;
-        var tag = 'h' + level;
-        html += '<' + tag + ' class="' + cls + '">' + esc(block.text || '') + '</' + tag + '>';
-        break;
-
-      case 'paragraph':
-        html += '<p class="pp-guide__block-p">' + renderParagraphText(block.text || '', block.links) + '</p>';
-        break;
-
-      case 'image':
-        var alt = block.alt ? esc(block.alt) : '';
-        var url = block.url || '';
-        if (url) {
-          html += '<div class="pp-guide__block-img"><img src="' + esc(url) + '" alt="' + alt + '" loading="lazy"></div>';
-        }
-        break;
-
-      case 'list':
-        if (block.items && Array.isArray(block.items) && block.items.length > 0) {
-          html += '<ul class="pp-guide__block-list">';
-          block.items.forEach(function(item) {
-            html += '<li>' + esc(item) + '</li>';
-          });
-          html += '</ul>';
-        }
-        break;
+    if (w.type === 'heading') {
+      html += '<h2 class="pp-content__heading">' + w.value + '</h2>';
+    } else if (w.type === 'text') {
+      html += '<div class="pp-content__text">' + w.value + '</div>';
+    } else if (w.type === 'image') {
+      html += '<div class="pp-content__image"><img src="' + w.src + '" alt="' + (w.alt || '') + '" loading="lazy"></div>';
     }
   });
 
@@ -499,33 +495,38 @@
       "default": true
     },
     {
-      "type": "checkbox",
-      "id": "show_structured_sections",
-      "label": "Show structured sections (from metafields)",
-      "default": true
+      "type": "range",
+      "id": "products_per_row",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "label": "Products per row (desktop)",
+      "default": 4
     },
     {
-      "type": "checkbox",
-      "id": "show_bottom_cta",
-      "label": "Show bottom CTA",
-      "default": true
+      "type": "header",
+      "content": "Banner CTA"
     },
     {
       "type": "text",
-      "id": "cta_text",
+      "id": "banner_text",
+      "label": "Banner text",
+      "default": "Encuentra la planta perfecta"
+    },
+    {
+      "type": "text",
+      "id": "banner_cta_text",
       "label": "CTA button text",
       "default": "Ver plantas"
     },
     {
       "type": "url",
-      "id": "cta_url",
+      "id": "banner_cta_url",
       "label": "CTA button link"
     },
     {
-      "type": "text",
-      "id": "bottom_cta_title",
-      "label": "Bottom CTA title",
-      "default": "Encuentra la planta perfecta"
+      "type": "header",
+      "content": "Trust Badges"
     },
     {
       "type": "text",
@@ -537,7 +538,7 @@
       "type": "text",
       "id": "badge_shipping",
       "label": "Trust badge: Shipping",
-      "default": "Envio gratis +49€"
+      "default": "Envio gratis +49\u20ac"
     },
     {
       "type": "text",
@@ -550,6 +551,10 @@
       "id": "bg_color",
       "label": "Background color",
       "default": "#F5F0E8"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
     },
     {
       "type": "range",

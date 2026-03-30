@@ -1,33 +1,123 @@
 {%- comment -%}
   PP Page Guide — Renders guide pages (guia-cuidado, guia-tipos, guia-problemas, plantas-domicilio)
-  from JSON metafield data stored in page.metafields.custom.page_blocks
+  Reads content from page.metafields.custom.page_content JSON array.
+  Widget types: heading, text (raw HTML), image.
+  Also uses: page_type, page_icon_* (care icons for guia-cuidado), page_collection_1..3.
 {%- endcomment -%}
 
 {{ 'pp-page-guide.css' | asset_url | stylesheet_tag }}
 
 {%- liquid
   assign page_type = page.metafields.custom.page_type | default: ''
-  assign blocks_meta = page.metafields.custom.page_blocks
   assign is_care_guide = false
   if page_type == 'guia-cuidado'
     assign is_care_guide = true
   endif
+  assign products_per_row = section.settings.products_per_row | default: 4
 
   comment
     Determine breadcrumb middle label based on page_type
   endcomment
-  assign breadcrumb_label = 'Guía'
+  assign breadcrumb_label = 'Guia'
   case page_type
     when 'guia-cuidado'
-      assign breadcrumb_label = 'Guía Cuidados'
+      assign breadcrumb_label = 'Guia Cuidados'
     when 'guia-tipos'
-      assign breadcrumb_label = 'Guía de Tipos'
+      assign breadcrumb_label = 'Guia de Tipos'
     when 'guia-problemas'
-      assign breadcrumb_label = 'Guía de Problemas'
+      assign breadcrumb_label = 'Guia de Problemas'
     when 'plantas-domicilio'
       assign breadcrumb_label = 'Plantas a Domicilio'
   endcase
 -%}
+
+<style>
+  /* --- PP Page Guide: content widget styles --- */
+  .pp-guide .pp-content__heading {
+    font-family: var(--pp-font-heading);
+    font-size: clamp(24px, 3.5vw, 34px);
+    font-weight: 400;
+    color: var(--pp-dark-green);
+    line-height: 1.2;
+    margin: 40px 0 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(35, 55, 44, 0.12);
+  }
+
+  .pp-guide .pp-content__heading:first-child {
+    margin-top: 0;
+  }
+
+  .pp-guide .pp-content__text {
+    font-family: var(--pp-font-body);
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--pp-text);
+    line-height: 1.75;
+    margin: 0 0 24px;
+  }
+
+  .pp-guide .pp-content__text p { margin: 0 0 16px; }
+  .pp-guide .pp-content__text p:last-child { margin-bottom: 0; }
+  .pp-guide .pp-content__text ul,
+  .pp-guide .pp-content__text ol { margin: 0 0 16px; padding-left: 24px; }
+  .pp-guide .pp-content__text li { margin-bottom: 6px; }
+  .pp-guide .pp-content__text a { color: var(--pp-dark-green); text-decoration: underline; }
+  .pp-guide .pp-content__text a:hover { opacity: 0.8; }
+  .pp-guide .pp-content__text strong { font-weight: 600; }
+
+  .pp-guide .pp-content__image {
+    margin: 0 0 24px;
+  }
+
+  .pp-guide .pp-content__image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--pp-radius, 8px);
+    display: block;
+  }
+
+  /* --- Product grid --- */
+  .pp-guide__product-grid-wrapper {
+    margin: 56px 0;
+    padding: 40px 0;
+    border-top: 1px solid rgba(35, 55, 44, 0.1);
+    border-bottom: 1px solid rgba(35, 55, 44, 0.1);
+  }
+
+  .pp-guide__product-grid-title {
+    font-family: var(--pp-font-heading);
+    font-size: clamp(20px, 2.5vw, 28px);
+    font-weight: 400;
+    color: var(--pp-dark-green);
+    margin: 0 0 24px;
+    text-align: center;
+  }
+
+  .pp-guide__product-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--pp-products-per-row, 4), 1fr);
+    gap: 20px;
+  }
+
+  @media screen and (max-width: 989px) {
+    .pp-guide__product-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .pp-guide__product-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .pp-guide__product-grid-wrapper {
+      margin: 36px 0;
+      padding: 28px 0;
+    }
+  }
+</style>
 
 <section
   class="pp-guide"
@@ -35,10 +125,11 @@
     background-color: {{ section.settings.bg_color }};
     --pp-guide-pad-top: {{ section.settings.padding_top }}px;
     --pp-guide-pad-bottom: {{ section.settings.padding_bottom }}px;
+    --pp-products-per-row: {{ products_per_row }};
   "
 >
 
-  {%- comment -%} ── Breadcrumb ── {%- endcomment -%}
+  {%- comment -%} -- Breadcrumb -- {%- endcomment -%}
   {%- if section.settings.show_breadcrumb -%}
     <nav class="pp-guide__breadcrumb" aria-label="Breadcrumb">
       <a href="/">Pur Plant</a>
@@ -49,17 +140,17 @@
     </nav>
   {%- endif -%}
 
-  {%- comment -%} ── Page title ── {%- endcomment -%}
+  {%- comment -%} -- Page title -- {%- endcomment -%}
   <h1 class="pp-guide__title">{{ page.title }}</h1>
 
-  {%- comment -%} ── Care icons (guia-cuidado only) ── {%- endcomment -%}
+  {%- comment -%} -- Care icons (guia-cuidado only) -- {%- endcomment -%}
   {%- if is_care_guide and section.settings.show_care_icons -%}
     {%- liquid
-      assign icon_luz = page.metafields.custom.guia_icono_luz | default: ''
-      assign icon_riego = page.metafields.custom.guia_icono_riego | default: ''
-      assign icon_clima = page.metafields.custom.guia_icono_clima | default: ''
-      assign icon_pet = page.metafields.custom.guia_icono_pet
-      assign icon_plagas = page.metafields.custom.guia_icono_plagas | default: ''
+      assign icon_luz = page.metafields.custom.page_icon_luz | default: ''
+      assign icon_riego = page.metafields.custom.page_icon_riego | default: ''
+      assign icon_clima = page.metafields.custom.page_icon_clima | default: ''
+      assign icon_pet = page.metafields.custom.page_icon_pet
+      assign icon_plagas = page.metafields.custom.page_icon_plagas | default: ''
       assign has_any_icon = false
       if icon_luz != blank or icon_riego != blank or icon_clima != blank or icon_pet != nil or icon_plagas != blank
         assign has_any_icon = true
@@ -92,7 +183,7 @@
           <div class="pp-guide__care-item">
             <img src="{{ 'icono-petfriendly-planta.png' | asset_url }}" alt="Pet Friendly" width="36" height="36" loading="lazy">
             <span class="pp-guide__care-label">Pet Friendly</span>
-            <span class="pp-guide__care-value">{%- if icon_pet -%}Sí{%- else -%}No{%- endif -%}</span>
+            <span class="pp-guide__care-value">{%- if icon_pet -%}Si{%- else -%}No{%- endif -%}</span>
           </div>
         {%- endif -%}
         {%- if icon_plagas != blank -%}
@@ -106,14 +197,96 @@
     {%- endif -%}
   {%- endif -%}
 
-  {%- comment -%} ── Page content ── {%- endcomment -%}
-  {%- if page.content != blank -%}
-    <div class="pp-guide__body pp-guide__body--columns">
-      {{ page.content }}
+  {%- comment -%} -- JSON data source for page_content -- {%- endcomment -%}
+  <script type="application/json" data-page-content>
+    {{ page.metafields.custom.page_content | default: '[]' }}
+  </script>
+
+  {%- comment -%} -- Content container (JS-rendered) -- {%- endcomment -%}
+  <div data-content-container class="pp-guide__body"></div>
+
+  {%- comment -%} -- Product grids -- {%- endcomment -%}
+  {%- assign coll_1 = page.metafields.custom.page_collection_1.value -%}
+  {%- if coll_1 -%}
+    <div class="pp-guide__product-grid-wrapper">
+      {%- if coll_1.title != blank -%}
+        <h3 class="pp-guide__product-grid-title">{{ coll_1.title }}</h3>
+      {%- endif -%}
+      <div class="pp-guide__product-grid">
+        {%- for product in coll_1.products limit: 8 -%}
+          {%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}
+        {%- endfor -%}
+      </div>
     </div>
   {%- endif -%}
 
+  {%- assign coll_2 = page.metafields.custom.page_collection_2.value -%}
+  {%- if coll_2 -%}
+    <div class="pp-guide__product-grid-wrapper">
+      {%- if coll_2.title != blank -%}
+        <h3 class="pp-guide__product-grid-title">{{ coll_2.title }}</h3>
+      {%- endif -%}
+      <div class="pp-guide__product-grid">
+        {%- for product in coll_2.products limit: 8 -%}
+          {%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- assign coll_3 = page.metafields.custom.page_collection_3.value -%}
+  {%- if coll_3 -%}
+    <div class="pp-guide__product-grid-wrapper">
+      {%- if coll_3.title != blank -%}
+        <h3 class="pp-guide__product-grid-title">{{ coll_3.title }}</h3>
+      {%- endif -%}
+      <div class="pp-guide__product-grid">
+        {%- for product in coll_3.products limit: 8 -%}
+          {%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} -- Fallback -- {%- endcomment -%}
+  <div class="pp-guide__empty" data-pp-empty style="display:none;">
+    <p>Esta guia aun no tiene contenido configurado.</p>
+  </div>
+
 </section>
+
+<script>
+(function() {
+  var dataEl = document.querySelector('[data-page-content]');
+  var container = document.querySelector('[data-content-container]');
+  var emptyMsg = document.querySelector('[data-pp-empty]');
+  if (!dataEl || !container) return;
+
+  var widgets;
+  try { widgets = JSON.parse(dataEl.textContent); } catch(e) { widgets = []; }
+  dataEl.remove();
+
+  if (!Array.isArray(widgets) || !widgets.length) {
+    if (emptyMsg) emptyMsg.style.display = '';
+    return;
+  }
+
+  var html = '';
+  widgets.forEach(function(w) {
+    if (!w || !w.type) return;
+
+    if (w.type === 'heading') {
+      html += '<h2 class="pp-content__heading">' + w.value + '</h2>';
+    } else if (w.type === 'text') {
+      html += '<div class="pp-content__text">' + w.value + '</div>';
+    } else if (w.type === 'image') {
+      html += '<div class="pp-content__image"><img src="' + w.src + '" alt="' + (w.alt || '') + '" loading="lazy"></div>';
+    }
+  });
+
+  container.innerHTML = html;
+})();
+</script>
 
 {% schema %}
 {
@@ -134,10 +307,42 @@
       "default": true
     },
     {
+      "type": "range",
+      "id": "products_per_row",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "label": "Products per row (desktop)",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Banner CTA"
+    },
+    {
+      "type": "text",
+      "id": "banner_text",
+      "label": "Banner text"
+    },
+    {
+      "type": "text",
+      "id": "banner_cta_text",
+      "label": "CTA button text"
+    },
+    {
+      "type": "url",
+      "id": "banner_cta_url",
+      "label": "CTA button URL"
+    },
+    {
       "type": "color",
       "id": "bg_color",
       "label": "Background color",
       "default": "#F5F0E8"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
     },
     {
       "type": "range",

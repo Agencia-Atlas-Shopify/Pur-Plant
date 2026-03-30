@@ -1,13 +1,15 @@
 {%- comment -%}
   PP Page Landing — Renders generic/seasonal landing pages (Green Monday, Black Friday, etc.)
-  from JSON metafield data stored in page.metafields.custom.page_blocks
-  Full-width flexible layout, hero with first H1 + first image as background
+  Reads content from page.metafields.custom.page_content JSON array.
+  Widget types: heading, text (raw HTML), image.
+  First heading + first image = hero section (built via JS).
+  Rest rendered sequentially in full-width flexible layout.
 {%- endcomment -%}
 
 {{ 'pp-page-guide.css' | asset_url | stylesheet_tag }}
 
 {%- liquid
-  assign blocks_meta = page.metafields.custom.page_blocks
+  assign products_per_row = section.settings.products_per_row | default: 4
 -%}
 
 <style>
@@ -109,10 +111,55 @@
     padding: 0 var(--page-margin, 40px);
   }
 
+  /* --- Content widget styles --- */
+  .pp-landing .pp-content__heading {
+    font-family: var(--pp-font-heading);
+    font-size: clamp(24px, 3.5vw, 34px);
+    font-weight: 400;
+    color: var(--pp-dark-green);
+    line-height: 1.2;
+    margin: 40px 0 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(35, 55, 44, 0.12);
+  }
+
+  .pp-landing .pp-content__heading:first-child {
+    margin-top: 0;
+  }
+
+  .pp-landing .pp-content__text {
+    font-family: var(--pp-font-body);
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--pp-text);
+    line-height: 1.75;
+    margin: 0 0 24px;
+  }
+
+  .pp-landing .pp-content__text p { margin: 0 0 16px; }
+  .pp-landing .pp-content__text p:last-child { margin-bottom: 0; }
+  .pp-landing .pp-content__text ul,
+  .pp-landing .pp-content__text ol { margin: 0 0 16px; padding-left: 24px; }
+  .pp-landing .pp-content__text li { margin-bottom: 6px; }
+  .pp-landing .pp-content__text a { color: var(--pp-dark-green); text-decoration: underline; }
+  .pp-landing .pp-content__text a:hover { opacity: 0.8; }
+  .pp-landing .pp-content__text strong { font-weight: 600; }
+
+  .pp-landing .pp-content__image {
+    margin: 24px 0;
+  }
+
+  .pp-landing .pp-content__image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: var(--pp-radius, 8px);
+    max-width: 100%;
+  }
+
   /* --- Full-width images --- */
   .pp-landing__block-img--full {
     margin: 40px 0;
-    grid-column: 1 / -1;
   }
 
   .pp-landing__block-img--full img {
@@ -123,13 +170,73 @@
     max-width: 100%;
   }
 
-  /* --- Section divider --- */
-  .pp-landing__divider {
-    width: 60px;
-    height: 2px;
-    background: rgba(35, 55, 44, 0.15);
-    margin: 48px auto;
-    grid-column: 1 / -1;
+  /* --- Product grid --- */
+  .pp-landing__product-grid-wrapper {
+    margin: 56px 0;
+    padding: 40px 0;
+    border-top: 1px solid rgba(35, 55, 44, 0.1);
+    border-bottom: 1px solid rgba(35, 55, 44, 0.1);
+  }
+
+  .pp-landing__product-grid-title {
+    font-family: var(--pp-font-heading);
+    font-size: clamp(20px, 2.5vw, 28px);
+    font-weight: 400;
+    color: var(--pp-dark-green);
+    margin: 0 0 24px;
+    text-align: center;
+  }
+
+  .pp-landing__product-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--pp-products-per-row, 4), 1fr);
+    gap: 20px;
+  }
+
+  /* --- Banner CTA --- */
+  .pp-landing__banner {
+    background: var(--pp-dark-green);
+    border-radius: var(--pp-radius);
+    padding: 48px 40px;
+    text-align: center;
+    margin-top: 56px;
+  }
+
+  .pp-landing__banner-text {
+    font-family: var(--pp-font-heading);
+    font-size: clamp(22px, 3vw, 32px);
+    font-weight: 400;
+    color: #DAFFD3;
+    line-height: 1.3;
+    margin: 0 0 24px;
+  }
+
+  .pp-landing__banner-btn {
+    display: inline-block;
+    font-family: var(--pp-font-body);
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--pp-dark-green);
+    background: #DAFFD3;
+    border: none;
+    border-radius: 100px;
+    padding: 14px 36px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background var(--pp-transition), transform var(--pp-transition);
+  }
+
+  .pp-landing__banner-btn:hover {
+    background: #c4f5bb;
+    transform: translateY(-1px);
+  }
+
+  @media screen and (max-width: 989px) {
+    .pp-landing__product-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
 
   @media screen and (max-width: 749px) {
@@ -146,6 +253,21 @@
     .pp-landing__content {
       padding: 0 20px;
     }
+
+    .pp-landing__product-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .pp-landing__product-grid-wrapper {
+      margin: 36px 0;
+      padding: 28px 0;
+    }
+
+    .pp-landing__banner {
+      padding: 32px 20px;
+      margin-top: 36px;
+    }
   }
 </style>
 
@@ -155,6 +277,7 @@
     background-color: {{ section.settings.bg_color }};
     --pp-guide-pad-top: {{ section.settings.padding_top }}px;
     --pp-guide-pad-bottom: {{ section.settings.padding_bottom }}px;
+    --pp-products-per-row: {{ products_per_row }};
   "
 >
 
@@ -167,7 +290,7 @@
     </nav>
   {%- endif -%}
 
-  {%- comment -%} -- Hero (built from first H1 + first image in blocks, via JS) -- {%- endcomment -%}
+  {%- comment -%} -- Hero (built from first heading + first image in page_content, via JS) -- {%- endcomment -%}
   {%- if section.settings.show_hero -%}
     <div class="pp-landing__hero" data-pp-landing-hero style="display:none;">
       <div class="pp-landing__hero-bg" data-pp-landing-hero-bg></div>
@@ -189,14 +312,77 @@
     </div>
   {%- endunless -%}
 
-  {%- comment -%} -- Content blocks from JSON metafield -- {%- endcomment -%}
+  {%- comment -%} -- JSON data source for page_content -- {%- endcomment -%}
+  <script type="application/json" data-page-content>
+    {{ page.metafields.custom.page_content | default: '[]' }}
+  </script>
+
+  {%- comment -%} -- Content blocks (JS-rendered) -- {%- endcomment -%}
   <div class="pp-landing__content">
-    <div class="pp-guide__body pp-guide__body--columns" data-pp-landing-body>
-      <script type="application/json" data-pp-landing-blocks>{%- if blocks_meta -%}{{ blocks_meta }}{%- else -%}[]{%- endif -%}</script>
-    </div>
+    <div data-content-container></div>
   </div>
 
-  <div class="pp-guide__empty" data-pp-landing-empty style="display:none;">
+  {%- comment -%} -- Product grids -- {%- endcomment -%}
+  <div class="pp-landing__content">
+    {%- assign coll_1 = page.metafields.custom.page_collection_1.value -%}
+    {%- if coll_1 -%}
+      <div class="pp-landing__product-grid-wrapper">
+        {%- if coll_1.title != blank -%}
+          <h3 class="pp-landing__product-grid-title">{{ coll_1.title }}</h3>
+        {%- endif -%}
+        <div class="pp-landing__product-grid">
+          {%- for product in coll_1.products limit: 8 -%}
+            {%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- assign coll_2 = page.metafields.custom.page_collection_2.value -%}
+    {%- if coll_2 -%}
+      <div class="pp-landing__product-grid-wrapper">
+        {%- if coll_2.title != blank -%}
+          <h3 class="pp-landing__product-grid-title">{{ coll_2.title }}</h3>
+        {%- endif -%}
+        <div class="pp-landing__product-grid">
+          {%- for product in coll_2.products limit: 8 -%}
+            {%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- assign coll_3 = page.metafields.custom.page_collection_3.value -%}
+    {%- if coll_3 -%}
+      <div class="pp-landing__product-grid-wrapper">
+        {%- if coll_3.title != blank -%}
+          <h3 class="pp-landing__product-grid-title">{{ coll_3.title }}</h3>
+        {%- endif -%}
+        <div class="pp-landing__product-grid">
+          {%- for product in coll_3.products limit: 8 -%}
+            {%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- comment -%} -- Banner CTA -- {%- endcomment -%}
+  {%- if section.settings.banner_text != blank -%}
+    <div class="pp-landing__content">
+      <div class="pp-landing__banner">
+        <p class="pp-landing__banner-text">{{ section.settings.banner_text }}</p>
+        {%- if section.settings.banner_cta_text != blank and section.settings.banner_cta_url != blank -%}
+          <a href="{{ section.settings.banner_cta_url }}" class="pp-landing__banner-btn">
+            {{ section.settings.banner_cta_text }}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} -- Fallback -- {%- endcomment -%}
+  <div class="pp-guide__empty" data-pp-empty style="display:none;">
     <p>Esta pagina aun no tiene contenido configurado.</p>
   </div>
 
@@ -204,71 +390,49 @@
 
 <script>
 (function() {
-  var container = document.querySelector('[data-pp-landing-body]');
-  var emptyMsg = document.querySelector('[data-pp-landing-empty]');
-  var dataEl = document.querySelector('[data-pp-landing-blocks]');
+  var dataEl = document.querySelector('[data-page-content]');
+  var container = document.querySelector('[data-content-container]');
+  var emptyMsg = document.querySelector('[data-pp-empty]');
   var hero = document.querySelector('[data-pp-landing-hero]');
   var heroBg = document.querySelector('[data-pp-landing-hero-bg]');
   var heroTitle = document.querySelector('[data-pp-landing-hero-title]');
   var heroSubtitle = document.querySelector('[data-pp-landing-hero-subtitle]');
-  if (!container || !dataEl) return;
+  if (!dataEl || !container) return;
 
-  var blocks;
-  try {
-    blocks = JSON.parse(dataEl.textContent);
-  } catch(e) {
-    blocks = [];
-  }
-
+  var widgets;
+  try { widgets = JSON.parse(dataEl.textContent); } catch(e) { widgets = []; }
   dataEl.remove();
 
-  if (!Array.isArray(blocks) || blocks.length === 0) {
+  if (!Array.isArray(widgets) || !widgets.length) {
     container.style.display = 'none';
     if (emptyMsg) emptyMsg.style.display = '';
     return;
   }
 
-  function esc(str) {
-    if (!str) return '';
-    var div = document.createElement('div');
-    div.appendChild(document.createTextNode(str));
-    return div.innerHTML;
-  }
-
-  function renderParagraphText(text, links) {
-    var html = esc(text);
-    if (links && Array.isArray(links)) {
-      links.forEach(function(link) {
-        if (link.text && link.url) {
-          var escaped = esc(link.text);
-          html = html.replace(escaped, '<a href="' + esc(link.url) + '">' + escaped + '</a>');
-        }
-      });
-    }
-    return html;
-  }
-
-  /* --- Build hero from first H1/heading + first image --- */
+  /* --- Build hero from first heading + first image --- */
   var heroUsedIndexes = {};
   if (hero && heroTitle) {
     var foundTitle = false;
     var foundImage = false;
     var foundSubtitle = false;
 
-    for (var i = 0; i < blocks.length; i++) {
-      var b = blocks[i];
+    for (var i = 0; i < widgets.length; i++) {
+      var b = widgets[i];
       if (!b) continue;
 
-      if (!foundTitle && b.type === 'heading' && (b.level === 1 || b.level === 2)) {
-        heroTitle.textContent = b.text || '';
+      if (!foundTitle && b.type === 'heading') {
+        heroTitle.textContent = b.value || '';
         foundTitle = true;
         heroUsedIndexes[i] = true;
         continue;
       }
 
-      if (foundTitle && !foundSubtitle && b.type === 'paragraph') {
+      if (foundTitle && !foundSubtitle && b.type === 'text') {
         if (heroSubtitle) {
-          heroSubtitle.textContent = b.text || '';
+          /* Strip HTML tags for subtitle display */
+          var tmp = document.createElement('div');
+          tmp.innerHTML = b.value || '';
+          heroSubtitle.textContent = tmp.textContent || tmp.innerText || '';
           heroSubtitle.style.display = '';
           foundSubtitle = true;
           heroUsedIndexes[i] = true;
@@ -276,8 +440,8 @@
         continue;
       }
 
-      if (!foundImage && b.type === 'image' && b.url) {
-        heroBg.innerHTML = '<img src="' + esc(b.url) + '" alt="" loading="eager">';
+      if (!foundImage && b.type === 'image' && b.src) {
+        heroBg.innerHTML = '<img src="' + b.src + '" alt="" loading="eager">';
         foundImage = true;
         heroUsedIndexes[i] = true;
         continue;
@@ -289,49 +453,23 @@
     if (foundTitle) {
       hero.style.display = '';
       if (!foundImage) {
-        /* No image: dark green background */
         hero.style.background = 'var(--pp-dark-green)';
       }
     }
   }
 
-  /* --- Render remaining blocks --- */
+  /* --- Render remaining widgets --- */
   var html = '';
-  blocks.forEach(function(block, idx) {
+  widgets.forEach(function(w, idx) {
     if (heroUsedIndexes[idx]) return;
-    if (!block || !block.type) return;
+    if (!w || !w.type) return;
 
-    switch(block.type) {
-      case 'heading':
-        var level = block.level || 2;
-        if (level < 1) level = 1;
-        if (level > 6) level = 6;
-        var cls = 'pp-guide__block-h' + level;
-        var tag = 'h' + level;
-        html += '<' + tag + ' class="' + cls + '">' + esc(block.text || '') + '</' + tag + '>';
-        break;
-
-      case 'paragraph':
-        html += '<p class="pp-guide__block-p">' + renderParagraphText(block.text || '', block.links) + '</p>';
-        break;
-
-      case 'image':
-        var alt = block.alt ? esc(block.alt) : '';
-        var url = block.url || '';
-        if (url) {
-          html += '<div class="pp-guide__block-img pp-landing__block-img--full"><img src="' + esc(url) + '" alt="' + alt + '" loading="lazy"></div>';
-        }
-        break;
-
-      case 'list':
-        if (block.items && Array.isArray(block.items) && block.items.length > 0) {
-          html += '<ul class="pp-guide__block-list">';
-          block.items.forEach(function(item) {
-            html += '<li>' + esc(item) + '</li>';
-          });
-          html += '</ul>';
-        }
-        break;
+    if (w.type === 'heading') {
+      html += '<h2 class="pp-content__heading">' + w.value + '</h2>';
+    } else if (w.type === 'text') {
+      html += '<div class="pp-content__text">' + w.value + '</div>';
+    } else if (w.type === 'image') {
+      html += '<div class="pp-content__image"><img src="' + w.src + '" alt="' + (w.alt || '') + '" loading="lazy"></div>';
     }
   });
 
@@ -354,7 +492,7 @@
     {
       "type": "checkbox",
       "id": "show_hero",
-      "label": "Show hero (from first H1 + image in blocks)",
+      "label": "Show hero (from first heading + image in page_content)",
       "default": true
     },
     {
@@ -376,10 +514,42 @@
       "default": "/collections/all"
     },
     {
+      "type": "range",
+      "id": "products_per_row",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "label": "Products per row (desktop)",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Banner CTA"
+    },
+    {
+      "type": "text",
+      "id": "banner_text",
+      "label": "Banner text"
+    },
+    {
+      "type": "text",
+      "id": "banner_cta_text",
+      "label": "CTA button text"
+    },
+    {
+      "type": "url",
+      "id": "banner_cta_url",
+      "label": "CTA button URL"
+    },
+    {
       "type": "color",
       "id": "bg_color",
       "label": "Background color",
       "default": "#F5F0E8"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
     },
     {
       "type": "range",

@@ -1,8 +1,8 @@
 {%- comment -%}
   PP Page Problemas — Renders plant problems/troubleshooting guide pages
-  Based on WordPress reference: purplant.es/guia-problemas-plantas/
-  Uses individual metafields: page_heading_1..50, page_text_1..30,
-  page_image_1..35, page_collection_1..3
+  Reads content from page.metafields.custom.page_content JSON array.
+  Widget types: heading, text (raw HTML), image.
+  Also uses: page_collection_1..3 for product grids.
 {%- endcomment -%}
 
 {{ 'pp-page-guide.css' | asset_url | stylesheet_tag }}
@@ -10,8 +10,6 @@
 {%- liquid
   assign grid_after = section.settings.collection_grid_after_section | default: 3
   assign products_per_row = section.settings.products_per_row | default: 4
-  assign collection_index = 0
-  assign section_count = 0
 -%}
 
 <style>
@@ -30,22 +28,6 @@
     overflow: hidden;
     border-radius: var(--pp-radius, 8px);
     margin-bottom: 48px;
-  }
-
-  .pp-problemas-hero__bg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 0;
-  }
-
-  .pp-problemas-hero__overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(35,55,44,0.45) 0%, rgba(35,55,44,0.7) 100%);
-    z-index: 1;
   }
 
   .pp-problemas-hero__gradient {
@@ -93,25 +75,8 @@
     color: var(--pp-text);
   }
 
-  /* --- Intro text --- */
-  .pp-problemas__intro {
-    font-family: var(--pp-font-body);
-    font-size: 16px;
-    font-weight: 400;
-    color: var(--pp-text);
-    line-height: 1.8;
-    margin: 0 auto 48px;
-    max-width: var(--pp-content-max);
-    text-align: center;
-    opacity: 0.9;
-  }
-
-  /* --- Problem section (heading + text + optional image) --- */
-  .pp-problemas__section {
-    margin-bottom: 48px;
-  }
-
-  .pp-problemas__section-heading {
+  /* --- Content widgets --- */
+  .pp-content__heading {
     font-family: var(--pp-font-heading);
     font-size: clamp(24px, 3.5vw, 34px);
     font-weight: 400;
@@ -120,6 +85,40 @@
     margin: 0 0 20px;
     padding-bottom: 16px;
     border-bottom: 1px solid rgba(35, 55, 44, 0.12);
+  }
+
+  .pp-content__text {
+    font-family: var(--pp-font-body);
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--pp-text);
+    line-height: 1.75;
+    margin: 0 0 24px;
+  }
+
+  .pp-content__text p { margin: 0 0 16px; }
+  .pp-content__text p:last-child { margin-bottom: 0; }
+  .pp-content__text ul,
+  .pp-content__text ol { margin: 0 0 16px; padding-left: 24px; }
+  .pp-content__text li { margin-bottom: 6px; }
+  .pp-content__text a { color: var(--pp-dark-green); text-decoration: underline; }
+  .pp-content__text a:hover { opacity: 0.8; }
+  .pp-content__text strong { font-weight: 600; }
+
+  .pp-content__image {
+    margin: 0 0 24px;
+  }
+
+  .pp-content__image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--pp-radius);
+    display: block;
+  }
+
+  /* --- Section with image+text side by side --- */
+  .pp-problemas__section {
+    margin-bottom: 48px;
   }
 
   .pp-problemas__section-body {
@@ -154,6 +153,14 @@
     line-height: 1.75;
   }
 
+  .pp-problemas__section-text p { margin: 0 0 16px; }
+  .pp-problemas__section-text p:last-child { margin-bottom: 0; }
+  .pp-problemas__section-text ul,
+  .pp-problemas__section-text ol { margin: 0 0 16px; padding-left: 24px; }
+  .pp-problemas__section-text li { margin-bottom: 6px; }
+  .pp-problemas__section-text a { color: var(--pp-dark-green); text-decoration: underline; }
+  .pp-problemas__section-text strong { font-weight: 600; }
+
   .pp-problemas__section-text--full {
     max-width: var(--pp-content-max);
   }
@@ -179,19 +186,6 @@
     display: grid;
     grid-template-columns: repeat(var(--pp-products-per-row, 4), 1fr);
     gap: 20px;
-  }
-
-  /* --- Closing text --- */
-  .pp-problemas__closing {
-    font-family: var(--pp-font-body);
-    font-size: 16px;
-    font-weight: 400;
-    color: var(--pp-text);
-    line-height: 1.8;
-    margin: 48px auto 0;
-    max-width: var(--pp-content-max);
-    text-align: center;
-    opacity: 0.9;
   }
 
   /* --- Banner CTA --- */
@@ -286,11 +280,6 @@
       padding: 32px 20px;
       margin-top: 36px;
     }
-
-    .pp-problemas__intro,
-    .pp-problemas__closing {
-      font-size: 15px;
-    }
   }
 </style>
 
@@ -303,7 +292,7 @@
   "
 >
 
-  {%- comment -%} ── Breadcrumb ── {%- endcomment -%}
+  {%- comment -%} -- Breadcrumb -- {%- endcomment -%}
   {%- if section.settings.show_breadcrumb -%}
     <nav class="pp-guide__breadcrumb" aria-label="Breadcrumb">
       <a href="/">Pur Plant</a>
@@ -314,358 +303,73 @@
     </nav>
   {%- endif -%}
 
-  {%- comment -%} ── 1. Hero Section ── {%- endcomment -%}
+  {%- comment -%} -- 1. Hero Section -- {%- endcomment -%}
   {%- if section.settings.show_hero -%}
-    {%- assign hero_image = page.metafields.custom.page_image_1 | default: '' -%}
     <div class="pp-problemas-hero">
-      {%- if hero_image != blank -%}
-        <img
-          class="pp-problemas-hero__bg"
-          src="{{ hero_image }}"
-          alt="{{ page.title | escape }}"
-          loading="eager"
-          width="1600"
-          height="400"
-        >
-        <div class="pp-problemas-hero__overlay"></div>
-      {%- else -%}
-        <div class="pp-problemas-hero__gradient"></div>
-      {%- endif -%}
+      <div class="pp-problemas-hero__gradient"></div>
       <div class="pp-problemas-hero__content">
         <h1 class="pp-problemas-hero__title">{{ page.title }}</h1>
       </div>
     </div>
   {%- endif -%}
 
-  {%- comment -%} ── 2. Intro text (page_text_1) ── {%- endcomment -%}
-  {%- assign intro_text = page.metafields.custom.page_text_1 | default: '' -%}
-  {%- if intro_text != blank -%}
-    <div class="pp-problemas__intro">{{ intro_text }}</div>
-  {%- endif -%}
+  {%- comment -%} -- 2. JSON data source for page_content -- {%- endcomment -%}
+  <script type="application/json" data-page-content>
+    {{ page.metafields.custom.page_content | default: '[]' }}
+  </script>
 
-  {%- comment -%} ── 3. Problem Sections — Dynamic loop ── {%- endcomment -%}
+  {%- comment -%} -- 3. Content container (JS-rendered) -- {%- endcomment -%}
+  <div data-content-container></div>
+
+  {%- comment -%} -- 4. Product grid placeholders (JS inserts content sections between them) -- {%- endcomment -%}
   {%- comment -%}
-    Iterate from 1..30 looking for page_heading_X.
-    For each heading found, pair with page_text_X and page_image_X.
-    After every N sections (collection_grid_after_section), insert a product grid.
-    Track which collection to use (page_collection_1, then _2, then _3).
+    Product grids are rendered server-side via Liquid since they need collection data.
+    JS will move them into the right position after rendering content sections.
   {%- endcomment -%}
 
-  {%- for i in (1..30) -%}
-    {%- liquid
-      case i
-        when 1
-          assign current_heading = page.metafields.custom.page_heading_1
-          assign current_text = page.metafields.custom.page_text_2
-          assign current_image = page.metafields.custom.page_image_1
-        when 2
-          assign current_heading = page.metafields.custom.page_heading_2
-          assign current_text = page.metafields.custom.page_text_3
-          assign current_image = page.metafields.custom.page_image_2
-        when 3
-          assign current_heading = page.metafields.custom.page_heading_3
-          assign current_text = page.metafields.custom.page_text_4
-          assign current_image = page.metafields.custom.page_image_3
-        when 4
-          assign current_heading = page.metafields.custom.page_heading_4
-          assign current_text = page.metafields.custom.page_text_5
-          assign current_image = page.metafields.custom.page_image_4
-        when 5
-          assign current_heading = page.metafields.custom.page_heading_5
-          assign current_text = page.metafields.custom.page_text_6
-          assign current_image = page.metafields.custom.page_image_5
-        when 6
-          assign current_heading = page.metafields.custom.page_heading_6
-          assign current_text = page.metafields.custom.page_text_7
-          assign current_image = page.metafields.custom.page_image_6
-        when 7
-          assign current_heading = page.metafields.custom.page_heading_7
-          assign current_text = page.metafields.custom.page_text_8
-          assign current_image = page.metafields.custom.page_image_7
-        when 8
-          assign current_heading = page.metafields.custom.page_heading_8
-          assign current_text = page.metafields.custom.page_text_9
-          assign current_image = page.metafields.custom.page_image_8
-        when 9
-          assign current_heading = page.metafields.custom.page_heading_9
-          assign current_text = page.metafields.custom.page_text_10
-          assign current_image = page.metafields.custom.page_image_9
-        when 10
-          assign current_heading = page.metafields.custom.page_heading_10
-          assign current_text = page.metafields.custom.page_text_11
-          assign current_image = page.metafields.custom.page_image_10
-        when 11
-          assign current_heading = page.metafields.custom.page_heading_11
-          assign current_text = page.metafields.custom.page_text_12
-          assign current_image = page.metafields.custom.page_image_11
-        when 12
-          assign current_heading = page.metafields.custom.page_heading_12
-          assign current_text = page.metafields.custom.page_text_13
-          assign current_image = page.metafields.custom.page_image_12
-        when 13
-          assign current_heading = page.metafields.custom.page_heading_13
-          assign current_text = page.metafields.custom.page_text_14
-          assign current_image = page.metafields.custom.page_image_13
-        when 14
-          assign current_heading = page.metafields.custom.page_heading_14
-          assign current_text = page.metafields.custom.page_text_15
-          assign current_image = page.metafields.custom.page_image_14
-        when 15
-          assign current_heading = page.metafields.custom.page_heading_15
-          assign current_text = page.metafields.custom.page_text_16
-          assign current_image = page.metafields.custom.page_image_15
-        when 16
-          assign current_heading = page.metafields.custom.page_heading_16
-          assign current_text = page.metafields.custom.page_text_17
-          assign current_image = page.metafields.custom.page_image_16
-        when 17
-          assign current_heading = page.metafields.custom.page_heading_17
-          assign current_text = page.metafields.custom.page_text_18
-          assign current_image = page.metafields.custom.page_image_17
-        when 18
-          assign current_heading = page.metafields.custom.page_heading_18
-          assign current_text = page.metafields.custom.page_text_19
-          assign current_image = page.metafields.custom.page_image_18
-        when 19
-          assign current_heading = page.metafields.custom.page_heading_19
-          assign current_text = page.metafields.custom.page_text_20
-          assign current_image = page.metafields.custom.page_image_19
-        when 20
-          assign current_heading = page.metafields.custom.page_heading_20
-          assign current_text = page.metafields.custom.page_text_21
-          assign current_image = page.metafields.custom.page_image_20
-        when 21
-          assign current_heading = page.metafields.custom.page_heading_21
-          assign current_text = page.metafields.custom.page_text_22
-          assign current_image = page.metafields.custom.page_image_21
-        when 22
-          assign current_heading = page.metafields.custom.page_heading_22
-          assign current_text = page.metafields.custom.page_text_23
-          assign current_image = page.metafields.custom.page_image_22
-        when 23
-          assign current_heading = page.metafields.custom.page_heading_23
-          assign current_text = page.metafields.custom.page_text_24
-          assign current_image = page.metafields.custom.page_image_23
-        when 24
-          assign current_heading = page.metafields.custom.page_heading_24
-          assign current_text = page.metafields.custom.page_text_25
-          assign current_image = page.metafields.custom.page_image_24
-        when 25
-          assign current_heading = page.metafields.custom.page_heading_25
-          assign current_text = page.metafields.custom.page_text_26
-          assign current_image = page.metafields.custom.page_image_25
-        when 26
-          assign current_heading = page.metafields.custom.page_heading_26
-          assign current_text = page.metafields.custom.page_text_27
-          assign current_image = page.metafields.custom.page_image_26
-        when 27
-          assign current_heading = page.metafields.custom.page_heading_27
-          assign current_text = page.metafields.custom.page_text_28
-          assign current_image = page.metafields.custom.page_image_27
-        when 28
-          assign current_heading = page.metafields.custom.page_heading_28
-          assign current_text = page.metafields.custom.page_text_29
-          assign current_image = page.metafields.custom.page_image_28
-        when 29
-          assign current_heading = page.metafields.custom.page_heading_29
-          assign current_text = page.metafields.custom.page_text_30
-          assign current_image = page.metafields.custom.page_image_29
-        when 30
-          assign current_heading = page.metafields.custom.page_heading_30
-          assign current_text = page.metafields.custom.page_text_31
-          assign current_image = page.metafields.custom.page_image_30
-      endcase
-
-      assign heading_val = current_heading | default: ''
-      assign text_val = current_text | default: ''
-      assign image_val = current_image | default: ''
-    -%}
-
-    {%- comment -%} Skip index 1 for text — already used as intro {%- endcomment -%}
-    {%- if heading_val == blank -%}
-      {%- continue -%}
-    {%- endif -%}
-
-    {%- liquid
-      assign section_count = section_count | plus: 1
-    -%}
-
-    <div class="pp-problemas__section" id="section-{{ i }}">
-      <h2 class="pp-problemas__section-heading">{{ heading_val }}</h2>
-
-      {%- if image_val != blank and text_val != blank -%}
-        <div class="pp-problemas__section-body pp-problemas__section-body--with-image">
-          <div class="pp-problemas__section-image">
-            <img
-              src="{{ image_val }}"
-              alt="{{ heading_val | escape }}"
-              loading="lazy"
-              width="480"
-              height="360"
-            >
-          </div>
-          <div class="pp-problemas__section-text">{{ text_val }}</div>
-        </div>
-      {%- elsif text_val != blank -%}
-        <div class="pp-problemas__section-body">
-          <div class="pp-problemas__section-text pp-problemas__section-text--full">{{ text_val }}</div>
-        </div>
-      {%- elsif image_val != blank -%}
-        <div class="pp-problemas__section-body">
-          <div class="pp-problemas__section-image" style="max-width:100%;flex:1;">
-            <img
-              src="{{ image_val }}"
-              alt="{{ heading_val | escape }}"
-              loading="lazy"
-              width="800"
-              height="450"
-            >
-          </div>
-        </div>
+  {%- assign coll_1 = page.metafields.custom.page_collection_1.value -%}
+  {%- if coll_1 -%}
+    <div class="pp-problemas__product-grid-wrapper" data-product-grid="1" style="display:none;">
+      {%- if coll_1.title != blank -%}
+        <h3 class="pp-problemas__product-grid-title">{{ coll_1.title }}</h3>
       {%- endif -%}
+      <div class="pp-problemas__product-grid">
+        {%- for product in coll_1.products limit: 8 -%}
+          {%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}
+        {%- endfor -%}
+      </div>
     </div>
+  {%- endif -%}
 
-    {%- comment -%} ── Insert product grid after every N sections ── {%- endcomment -%}
-    {%- assign grid_mod = section_count | modulo: grid_after -%}
-    {%- if grid_mod == 0 and collection_index < 3 -%}
-      {%- liquid
-        assign collection_index = collection_index | plus: 1
-        case collection_index
-          when 1
-            assign current_coll = page.metafields.custom.page_collection_1.value
-          when 2
-            assign current_coll = page.metafields.custom.page_collection_2.value
-          when 3
-            assign current_coll = page.metafields.custom.page_collection_3.value
-        endcase
-      -%}
-
-      {%- if current_coll -%}
-        <div class="pp-problemas__product-grid-wrapper">
-          {%- if current_coll.title != blank -%}
-            <h3 class="pp-problemas__product-grid-title">{{ current_coll.title }}</h3>
-          {%- endif -%}
-          <div class="pp-problemas__product-grid">
-            {%- for product in current_coll.products limit: 8 -%}
-              {%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}
-            {%- endfor -%}
-          </div>
-        </div>
+  {%- assign coll_2 = page.metafields.custom.page_collection_2.value -%}
+  {%- if coll_2 -%}
+    <div class="pp-problemas__product-grid-wrapper" data-product-grid="2" style="display:none;">
+      {%- if coll_2.title != blank -%}
+        <h3 class="pp-problemas__product-grid-title">{{ coll_2.title }}</h3>
       {%- endif -%}
-    {%- endif -%}
-
-  {%- endfor -%}
-
-  {%- comment -%} ── 4. Remaining product grids (if any collections not yet shown) ── {%- endcomment -%}
-  {%- if collection_index < 1 -%}
-    {%- assign remaining_coll_1 = page.metafields.custom.page_collection_1.value -%}
-    {%- if remaining_coll_1 -%}
-      <div class="pp-problemas__product-grid-wrapper">
-        {%- if remaining_coll_1.title != blank -%}
-          <h3 class="pp-problemas__product-grid-title">{{ remaining_coll_1.title }}</h3>
-        {%- endif -%}
-        <div class="pp-problemas__product-grid">
-          {%- for product in remaining_coll_1.products limit: 8 -%}
-            {%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}
-          {%- endfor -%}
-        </div>
+      <div class="pp-problemas__product-grid">
+        {%- for product in coll_2.products limit: 8 -%}
+          {%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}
+        {%- endfor -%}
       </div>
-    {%- endif -%}
+    </div>
   {%- endif -%}
 
-  {%- if collection_index < 2 -%}
-    {%- assign remaining_coll_2 = page.metafields.custom.page_collection_2.value -%}
-    {%- if remaining_coll_2 -%}
-      <div class="pp-problemas__product-grid-wrapper">
-        {%- if remaining_coll_2.title != blank -%}
-          <h3 class="pp-problemas__product-grid-title">{{ remaining_coll_2.title }}</h3>
-        {%- endif -%}
-        <div class="pp-problemas__product-grid">
-          {%- for product in remaining_coll_2.products limit: 8 -%}
-            {%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}
-          {%- endfor -%}
-        </div>
+  {%- assign coll_3 = page.metafields.custom.page_collection_3.value -%}
+  {%- if coll_3 -%}
+    <div class="pp-problemas__product-grid-wrapper" data-product-grid="3" style="display:none;">
+      {%- if coll_3.title != blank -%}
+        <h3 class="pp-problemas__product-grid-title">{{ coll_3.title }}</h3>
+      {%- endif -%}
+      <div class="pp-problemas__product-grid">
+        {%- for product in coll_3.products limit: 8 -%}
+          {%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}
+        {%- endfor -%}
       </div>
-    {%- endif -%}
+    </div>
   {%- endif -%}
 
-  {%- if collection_index < 3 -%}
-    {%- assign remaining_coll_3 = page.metafields.custom.page_collection_3.value -%}
-    {%- if remaining_coll_3 -%}
-      <div class="pp-problemas__product-grid-wrapper">
-        {%- if remaining_coll_3.title != blank -%}
-          <h3 class="pp-problemas__product-grid-title">{{ remaining_coll_3.title }}</h3>
-        {%- endif -%}
-        <div class="pp-problemas__product-grid">
-          {%- for product in remaining_coll_3.products limit: 8 -%}
-            {%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}
-          {%- endfor -%}
-        </div>
-      </div>
-    {%- endif -%}
-  {%- endif -%}
-
-  {%- comment -%} ── 5. Closing text — last page_text_X that has content ── {%- endcomment -%}
-  {%- liquid
-    assign closing_text = ''
-    assign t30 = page.metafields.custom.page_text_30 | default: ''
-    assign t29 = page.metafields.custom.page_text_29 | default: ''
-    assign t28 = page.metafields.custom.page_text_28 | default: ''
-    assign t27 = page.metafields.custom.page_text_27 | default: ''
-    assign t26 = page.metafields.custom.page_text_26 | default: ''
-    assign t25 = page.metafields.custom.page_text_25 | default: ''
-    assign t24 = page.metafields.custom.page_text_24 | default: ''
-    assign t23 = page.metafields.custom.page_text_23 | default: ''
-    assign t22 = page.metafields.custom.page_text_22 | default: ''
-    assign t21 = page.metafields.custom.page_text_21 | default: ''
-    assign t20 = page.metafields.custom.page_text_20 | default: ''
-    assign t19 = page.metafields.custom.page_text_19 | default: ''
-    assign t18 = page.metafields.custom.page_text_18 | default: ''
-    assign t17 = page.metafields.custom.page_text_17 | default: ''
-    assign t16 = page.metafields.custom.page_text_16 | default: ''
-    assign t15 = page.metafields.custom.page_text_15 | default: ''
-
-    if t30 != blank
-      assign closing_text = t30
-    elsif t29 != blank
-      assign closing_text = t29
-    elsif t28 != blank
-      assign closing_text = t28
-    elsif t27 != blank
-      assign closing_text = t27
-    elsif t26 != blank
-      assign closing_text = t26
-    elsif t25 != blank
-      assign closing_text = t25
-    elsif t24 != blank
-      assign closing_text = t24
-    elsif t23 != blank
-      assign closing_text = t23
-    elsif t22 != blank
-      assign closing_text = t22
-    elsif t21 != blank
-      assign closing_text = t21
-    elsif t20 != blank
-      assign closing_text = t20
-    elsif t19 != blank
-      assign closing_text = t19
-    elsif t18 != blank
-      assign closing_text = t18
-    elsif t17 != blank
-      assign closing_text = t17
-    elsif t16 != blank
-      assign closing_text = t16
-    elsif t15 != blank
-      assign closing_text = t15
-    endif
-  -%}
-
-  {%- comment -%} Only show closing text if it is different from intro text {%- endcomment -%}
-  {%- if closing_text != blank and closing_text != intro_text -%}
-    <div class="pp-problemas__closing">{{ closing_text }}</div>
-  {%- endif -%}
-
-  {%- comment -%} ── 6. Banner CTA ── {%- endcomment -%}
+  {%- comment -%} -- 5. Banner CTA -- {%- endcomment -%}
   {%- if section.settings.banner_text != blank -%}
     <div class="pp-problemas__banner" style="background-color: {{ section.settings.hero_bg_color }};">
       <p class="pp-problemas__banner-text">{{ section.settings.banner_text }}</p>
@@ -677,20 +381,101 @@
     </div>
   {%- endif -%}
 
-  {%- comment -%} ── Fallback: render page.content if no metafield sections found ── {%- endcomment -%}
-  {%- if section_count == 0 and page.content != blank -%}
-    <div class="pp-guide__body pp-guide__body--columns">
-      {{ page.content }}
-    </div>
-  {%- endif -%}
-
-  {%- if section_count == 0 and page.content == blank -%}
-    <div class="pp-guide__empty">
-      <p>Esta guia aun no tiene contenido configurado.</p>
-    </div>
-  {%- endif -%}
+  {%- comment -%} -- Fallback -- {%- endcomment -%}
+  <div class="pp-guide__empty" data-pp-empty style="display:none;">
+    <p>Esta guia aun no tiene contenido configurado.</p>
+  </div>
 
 </section>
+
+<script>
+(function() {
+  var dataEl = document.querySelector('[data-page-content]');
+  var container = document.querySelector('[data-content-container]');
+  var emptyMsg = document.querySelector('[data-pp-empty]');
+  if (!dataEl || !container) return;
+
+  var widgets;
+  try { widgets = JSON.parse(dataEl.textContent); } catch(e) { widgets = []; }
+  dataEl.remove();
+
+  if (!Array.isArray(widgets) || !widgets.length) {
+    if (emptyMsg) emptyMsg.style.display = '';
+    return;
+  }
+
+  var GRID_AFTER = {{ grid_after }};
+  var sectionCount = 0;
+  var collectionIndex = 0;
+  var html = '';
+
+  /* Group widgets into "sections": a heading starts a new section.
+     After every GRID_AFTER sections, insert the next product grid. */
+  widgets.forEach(function(w, i) {
+    if (!w || !w.type) return;
+
+    if (w.type === 'heading') {
+      /* A heading marks a new section boundary */
+      sectionCount++;
+
+      /* Check if we should insert a product grid BEFORE this heading */
+      if (sectionCount > 1 && ((sectionCount - 1) % GRID_AFTER === 0) && collectionIndex < 3) {
+        collectionIndex++;
+        var gridEl = document.querySelector('[data-product-grid="' + collectionIndex + '"]');
+        if (gridEl) {
+          html += gridEl.outerHTML.replace('style="display:none;"', '');
+        }
+      }
+
+      html += '<div class="pp-problemas__section"><h2 class="pp-content__heading">' + w.value + '</h2>';
+
+      /* Look ahead: is the next widget an image followed by text (or vice versa)? */
+      var nextW = widgets[i + 1];
+      var nextNextW = widgets[i + 2];
+      var hasImageTextPair = false;
+
+      if (nextW && nextNextW && nextW.type === 'image' && nextNextW.type === 'text') {
+        hasImageTextPair = true;
+        html += '<div class="pp-problemas__section-body pp-problemas__section-body--with-image">';
+        html += '<div class="pp-problemas__section-image"><img src="' + nextW.src + '" alt="' + (nextW.alt || '') + '" loading="lazy" width="480" height="360"></div>';
+        html += '<div class="pp-problemas__section-text">' + nextNextW.value + '</div>';
+        html += '</div>';
+        /* Mark these as consumed */
+        widgets[i + 1] = { type: '_consumed' };
+        widgets[i + 2] = { type: '_consumed' };
+      }
+
+      if (!hasImageTextPair) {
+        /* Close section div — content widgets will follow as standalone */
+        /* Don't close yet, leave open for subsequent text/image */
+      }
+
+      html += '</div>';
+
+    } else if (w.type === 'text') {
+      html += '<div class="pp-content__text">' + w.value + '</div>';
+    } else if (w.type === 'image') {
+      html += '<div class="pp-content__image"><img src="' + w.src + '" alt="' + (w.alt || '') + '" loading="lazy"></div>';
+    }
+  });
+
+  /* Insert any remaining product grids that were not shown inline */
+  for (var g = collectionIndex + 1; g <= 3; g++) {
+    var gridEl = document.querySelector('[data-product-grid="' + g + '"]');
+    if (gridEl) {
+      html += gridEl.outerHTML.replace('style="display:none;"', '');
+    }
+  }
+
+  container.innerHTML = html;
+
+  /* Remove the original hidden product grid elements (they are now duplicated inside container) */
+  var origGrids = document.querySelectorAll('[data-product-grid]');
+  origGrids.forEach(function(el) {
+    if (!container.contains(el)) el.remove();
+  });
+})();
+</script>
 
 {% schema %}
 {
