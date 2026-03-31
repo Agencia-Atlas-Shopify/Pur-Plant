@@ -101,7 +101,7 @@
     line-height: 1.8;
     margin: 0 auto 48px;
     max-width: var(--pp-content-max);
-    text-align: center;
+    text-align: left;
     opacity: 0.9;
   }
 
@@ -122,15 +122,10 @@
     display: grid;
     grid-template-columns: 35% 1fr;
     gap: 0;
-    background: #ffffff;
-    border-radius: var(--pp-radius);
+    background: transparent;
+    border-radius: 0;
     overflow: hidden;
-    border: 1px solid rgba(35, 55, 44, 0.08);
-    transition: box-shadow var(--pp-transition);
-  }
-
-  .pp-tipos__card:hover {
-    box-shadow: 0 8px 32px rgba(35, 55, 44, 0.12);
+    border: none;
   }
 
   .pp-tipos__card-image {
