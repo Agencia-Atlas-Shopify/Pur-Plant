@@ -60,6 +60,7 @@
   }
 
   .pp-guide .pp-content__text p { margin: 0 0 16px; }
+  .pp-guide .pp-content__text p.pp-empty { margin: 0; line-height: 0; font-size: 0; }
   .pp-guide .pp-content__text p:last-child { margin-bottom: 0; }
   .pp-guide .pp-content__text ul,
   .pp-guide .pp-content__text ol { margin: 0 0 16px; padding-left: 24px; }
@@ -287,6 +288,13 @@
   });
 
   container.innerHTML = html;
+
+  /* Collapse empty &nbsp; paragraphs */
+  container.querySelectorAll('.pp-content__text p').forEach(function(p) {
+    if (p.innerHTML.replace(/&nbsp;/g, '').replace(/\u00a0/g, '').trim() === '') {
+      p.classList.add('pp-empty');
+    }
+  });
 })();
 </script>
 
