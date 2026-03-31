@@ -115,12 +115,14 @@
   .pp-landing .pp-content__heading {
     font-family: var(--pp-font-heading);
     font-size: clamp(24px, 3.5vw, 34px);
-    font-weight: 400;
-    color: var(--pp-dark-green);
+    font-weight: 700;
+    color: #23372c;
     line-height: 1.2;
     margin: 40px 0 20px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid rgba(35, 55, 44, 0.12);
+    text-transform: lowercase;
+  }
+  .pp-landing .pp-content__heading::first-letter {
+    text-transform: uppercase;
   }
 
   .pp-landing .pp-content__heading:first-child {

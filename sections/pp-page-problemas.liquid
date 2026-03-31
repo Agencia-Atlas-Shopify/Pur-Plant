@@ -17,17 +17,19 @@
      PP Page Problemas — Inline Styles
      ========================================================================== */
 
-  /* --- Hero --- */
+  /* --- Hero (full-width, under header) --- */
   .pp-problemas-hero {
     position: relative;
-    width: 100%;
-    min-height: 340px;
+    width: 100vw;
+    margin-left: calc(-1 * var(--page-margin, 40px));
+    min-height: 400px;
     display: flex;
     align-items: flex-end;
     justify-content: flex-start;
     overflow: hidden;
-    border-radius: var(--pp-radius, 8px);
+    border-radius: 0;
     margin-bottom: 48px;
+    margin-top: calc(-1 * var(--pp-problemas-pad-top, 40px));
   }
 
   .pp-problemas-hero__bg {
@@ -92,12 +94,14 @@
   .pp-content__heading {
     font-family: var(--pp-font-heading);
     font-size: clamp(24px, 3.5vw, 34px);
-    font-weight: 400;
-    color: var(--pp-dark-green);
+    font-weight: 700;
+    color: #23372c;
     line-height: 1.2;
     margin: 0 0 20px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid rgba(35, 55, 44, 0.12);
+    text-transform: lowercase;
+  }
+  .pp-content__heading::first-letter {
+    text-transform: uppercase;
   }
 
   .pp-content__text {
@@ -257,9 +261,8 @@
 
   @media screen and (max-width: 749px) {
     .pp-problemas-hero {
-      min-height: 240px;
-      border-radius: 0;
-      margin-bottom: 32px;
+      min-height: 280px;
+      margin-bottom: 24px;
     }
 
     .pp-problemas-hero__content {
@@ -305,18 +308,7 @@
   "
 >
 
-  {%- comment -%} -- Breadcrumb -- {%- endcomment -%}
-  {%- if section.settings.show_breadcrumb -%}
-    <nav class="pp-guide__breadcrumb" aria-label="Breadcrumb">
-      <a href="/">Pur Plant</a>
-      <span class="pp-guide__breadcrumb-sep">/</span>
-      <a href="/pages/problemas-plantas">Guia de Problemas</a>
-      <span class="pp-guide__breadcrumb-sep">/</span>
-      <span>{{ page.title }}</span>
-    </nav>
-  {%- endif -%}
-
-  {%- comment -%} -- 1. Hero Section -- {%- endcomment -%}
+  {%- comment -%} -- 1. Hero Section (full-width, under header) -- {%- endcomment -%}
   {%- if section.settings.show_hero -%}
     {%- assign hero_image = page.metafields.custom.imagen_portada.value -%}
     <div class="pp-problemas-hero">
@@ -330,6 +322,17 @@
         <h1 class="pp-problemas-hero__title">{{ page.title }}</h1>
       </div>
     </div>
+  {%- endif -%}
+
+  {%- comment -%} -- Breadcrumb (after hero) -- {%- endcomment -%}
+  {%- if section.settings.show_breadcrumb -%}
+    <nav class="pp-guide__breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Pur Plant</a>
+      <span class="pp-guide__breadcrumb-sep">/</span>
+      <a href="/pages/problemas-plantas">Guia de Problemas</a>
+      <span class="pp-guide__breadcrumb-sep">/</span>
+      <span>{{ page.title }}</span>
+    </nav>
   {%- endif -%}
 
   {%- comment -%} -- 2. JSON data source for page_content -- {%- endcomment -%}

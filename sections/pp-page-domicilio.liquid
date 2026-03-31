@@ -135,12 +135,14 @@
   .pp-domicilio .pp-content__heading {
     font-family: var(--pp-font-heading);
     font-size: clamp(22px, 3vw, 30px);
-    font-weight: 400;
-    color: var(--pp-dark-green);
+    font-weight: 700;
+    color: #23372c;
     line-height: 1.2;
     margin: 36px 0 12px;
-    padding-bottom: 12px;
-    border-bottom: 2px solid rgba(35, 55, 44, 0.08);
+    text-transform: lowercase;
+  }
+  .pp-domicilio .pp-content__heading::first-letter {
+    text-transform: uppercase;
   }
 
   .pp-domicilio .pp-content__heading:first-child {
