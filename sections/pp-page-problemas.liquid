@@ -17,19 +17,20 @@
      PP Page Problemas — Inline Styles
      ========================================================================== */
 
-  /* --- Hero (full-width, under header) --- */
+  /* --- Hero (full-width, overlaps header) --- */
   .pp-problemas-hero {
     position: relative;
     width: 100vw;
     margin-left: calc(-1 * var(--page-margin, 40px));
-    min-height: 400px;
+    min-height: 450px;
     display: flex;
     align-items: flex-end;
     justify-content: flex-start;
     overflow: hidden;
     border-radius: 0;
     margin-bottom: 48px;
-    margin-top: calc(-1 * (var(--pp-problemas-pad-top, 40px) + var(--header-height, 80px)));
+    margin-top: calc(-1 * (var(--pp-problemas-pad-top, 40px) + var(--pp-header-height, 120px)));
+    padding-top: var(--pp-header-height, 120px);
   }
 
   .pp-problemas-hero__bg {
@@ -56,7 +57,7 @@
     position: relative;
     z-index: 2;
     text-align: left;
-    padding: calc(var(--header-height, 80px) + 40px) 32px 40px;
+    padding: 40px 32px;
     max-width: 800px;
   }
 
