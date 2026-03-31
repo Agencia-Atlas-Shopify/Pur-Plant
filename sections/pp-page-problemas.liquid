@@ -143,7 +143,7 @@
   .pp-problemas__section-body {
     display: flex;
     gap: 32px;
-    align-items: flex-start;
+    align-items: center;
   }
 
   .pp-problemas__section-body--with-image {
@@ -151,12 +151,13 @@
   }
 
   .pp-problemas__section-image {
-    flex: 0 0 35%;
-    max-width: 35%;
+    flex: 0 0 auto;
+    max-width: 250px;
   }
 
   .pp-problemas__section-image img {
     width: 100%;
+    max-width: 250px;
     height: auto;
     border-radius: var(--pp-radius);
     display: block;
@@ -165,14 +166,43 @@
 
   .pp-problemas__section-text {
     flex: 1;
-    font-family: var(--pp-font-body);
-    font-size: 15px;
-    font-weight: 400;
-    color: var(--pp-text);
-    line-height: 1.75;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
   }
 
-  .pp-problemas__section-text p { margin: 0 0 16px; }
+  .pp-problemas__section-text-title {
+    font-family: 'Tenor Sans', Georgia, serif;
+    font-size: 22.3px;
+    font-weight: 400;
+    color: #23372c;
+    text-transform: uppercase;
+    margin: 0 0 20px;
+    line-height: 1.3;
+  }
+
+  .pp-problemas__section-text-btn {
+    display: inline-block;
+    font-family: 'Inter', sans-serif;
+    font-size: 19.9px;
+    font-weight: 400;
+    color: #23372c;
+    background: #daffd3;
+    border: 1px solid #23372c;
+    border-radius: 100px;
+    padding: 12px 32px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.25s ease, transform 0.25s ease;
+  }
+
+  .pp-problemas__section-text-btn:hover {
+    background: #c4f5bb;
+    transform: translateY(-1px);
+  }
+
+  .pp-problemas__section-text p { margin: 0 0 16px; font-family: var(--pp-font-body); font-size: 15px; color: var(--pp-text); line-height: 1.75; }
   .pp-problemas__section-text p:last-child { margin-bottom: 0; }
   .pp-problemas__section-text ul,
   .pp-problemas__section-text ol { margin: 0 0 16px; padding-left: 24px; }
@@ -247,6 +277,9 @@
     transform: translateY(-1px);
   }
 
+  /* --- Hide banner --- */
+  .pp-problemas__banner { display: none; }
+
   /* --- Breadcrumb (inherits from pp-page-guide.css, local overrides) --- */
   .pp-problemas .pp-guide__breadcrumb {
     margin-bottom: 24px;
@@ -277,7 +310,7 @@
 
     .pp-problemas__section-image {
       flex: 0 0 100%;
-      max-width: 100%;
+      max-width: 180px;
     }
 
     .pp-problemas__product-grid {
@@ -451,8 +484,6 @@
         }
       }
 
-      html += '<div class="pp-problemas__section"><h2 class="pp-content__heading">' + w.value + '</h2>';
-
       /* Look ahead: is the next widget an image followed by text (or vice versa)? */
       var nextW = widgets[i + 1];
       var nextNextW = widgets[i + 2];
@@ -460,9 +491,14 @@
 
       if (nextW && nextNextW && nextW.type === 'image' && nextNextW.type === 'text') {
         hasImageTextPair = true;
+        html += '<div class="pp-problemas__section" id="variety-' + sectionCount + '">';
         html += '<div class="pp-problemas__section-body pp-problemas__section-body--with-image">';
-        html += '<div class="pp-problemas__section-image"><img src="' + nextW.src + '" alt="' + (nextW.alt || '') + '" loading="lazy" width="480" height="360"></div>';
-        html += '<div class="pp-problemas__section-text">' + nextNextW.value + '</div>';
+        html += '<div class="pp-problemas__section-image"><img src="' + nextW.src + '" alt="' + (nextW.alt || '') + '" loading="lazy"></div>';
+        html += '<div class="pp-problemas__section-text">';
+        html += '<p class="pp-problemas__section-text-title">' + w.value + '</p>';
+        html += '<a href="#" class="pp-problemas__section-text-btn">Descubrir</a>';
+        html += '</div>';
+        html += '</div>';
         html += '</div>';
         /* Mark these as consumed */
         widgets[i + 1] = { type: '_consumed' };
@@ -470,8 +506,7 @@
       }
 
       if (!hasImageTextPair) {
-        /* Close section div — content widgets will follow as standalone */
-        /* Don't close yet, leave open for subsequent text/image */
+        html += '<div class="pp-problemas__section"><h2 class="pp-content__heading">' + w.value + '</h2>';
       }
 
       html += '</div>';
