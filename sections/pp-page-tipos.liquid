@@ -18,31 +18,47 @@
      PP Page Tipos — Inline Styles
      ========================================================================== */
 
-  /* --- Hero --- */
+  /* --- Hero (full-width, overlaps header) --- */
   .pp-tipos-hero {
     position: relative;
-    width: 100%;
-    min-height: 340px;
+    width: 100vw;
+    margin-left: calc(-1 * var(--page-margin, 40px));
+    min-height: 450px;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-end;
+    justify-content: flex-start;
     overflow: hidden;
-    border-radius: var(--pp-radius, 8px);
+    border-radius: 0;
     margin-bottom: 48px;
+    margin-top: calc(-1 * (var(--pp-tipos-pad-top, 40px) + var(--pp-header-height, 120px)));
+    padding-top: var(--pp-header-height, 120px);
+  }
+
+  .pp-tipos-hero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .pp-tipos-hero__bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   .pp-tipos-hero__gradient {
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, #23372C 0%, #3a5a42 50%, #23372C 100%);
-    z-index: 0;
+    background: rgba(35, 55, 44, 0.3);
+    z-index: 1;
   }
 
   .pp-tipos-hero__content {
     position: relative;
     z-index: 2;
-    text-align: center;
-    padding: 60px 24px;
+    text-align: left;
+    padding: 40px 32px;
     max-width: 800px;
   }
 
@@ -50,11 +66,11 @@
     font-family: 'Aileron', sans-serif;
     font-size: clamp(36px, 6vw, 64px);
     font-weight: 700;
-    color: #ffffff;
-    line-height: 1.1;
+    color: #e4ffd3;
+    line-height: 0.8;
     margin: 0;
-    text-transform: none;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.07em;
+    text-transform: uppercase;
   }
 
   /* --- Container --- */
@@ -149,10 +165,10 @@
 
   .pp-tipos__card-name {
     font-family: 'Aileron', sans-serif;
-    font-size: clamp(20px, 2.5vw, 26px);
+    font-size: clamp(24px, 3.5vw, 34px);
     font-weight: 800;
     color: #23372c;
-    line-height: 1.25;
+    line-height: 1.2;
     margin: 0 0 15px;
     text-transform: lowercase;
   }
@@ -241,6 +257,9 @@
     transform: translateY(-1px);
   }
 
+  /* --- Hide banner --- */
+  .pp-tipos__banner { display: none; }
+
   /* --- Breadcrumb --- */
   .pp-tipos .pp-guide__breadcrumb {
     margin-bottom: 24px;
@@ -257,13 +276,12 @@
 
   @media screen and (max-width: 749px) {
     .pp-tipos-hero {
-      min-height: 240px;
-      border-radius: 0;
-      margin-bottom: 32px;
+      min-height: 280px;
+      margin-bottom: 24px;
     }
 
     .pp-tipos-hero__content {
-      padding: 40px 20px;
+      padding: 24px 20px;
     }
 
     .pp-tipos__card {
@@ -315,7 +333,23 @@
   "
 >
 
-  {%- comment -%} -- Breadcrumb -- {%- endcomment -%}
+  {%- comment -%} -- 1. Hero Section (full-width, under header) -- {%- endcomment -%}
+  {%- if section.settings.show_hero -%}
+    {%- assign hero_image = page.metafields.custom.imagen_portada.value -%}
+    <div class="pp-tipos-hero">
+      {%- if hero_image -%}
+        <div class="pp-tipos-hero__bg">
+          {{ hero_image | image_url: width: 1600 | image_tag: loading: 'eager', sizes: '100vw' }}
+        </div>
+      {%- endif -%}
+      <div class="pp-tipos-hero__gradient"></div>
+      <div class="pp-tipos-hero__content">
+        <h1 class="pp-tipos-hero__title">{{ page.title }}</h1>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} -- Breadcrumb (after hero) -- {%- endcomment -%}
   {%- if section.settings.show_breadcrumb -%}
     <nav class="pp-guide__breadcrumb" aria-label="Breadcrumb">
       <a href="/">Pur Plant</a>
@@ -324,16 +358,6 @@
       <span class="pp-guide__breadcrumb-sep">/</span>
       <span>{{ page.title }}</span>
     </nav>
-  {%- endif -%}
-
-  {%- comment -%} -- 1. Hero Section -- {%- endcomment -%}
-  {%- if section.settings.show_hero -%}
-    <div class="pp-tipos-hero">
-      <div class="pp-tipos-hero__gradient"></div>
-      <div class="pp-tipos-hero__content">
-        <h1 class="pp-tipos-hero__title">{{ page.title }}</h1>
-      </div>
-    </div>
   {%- endif -%}
 
   {%- comment -%} -- 2. JSON data source -- {%- endcomment -%}
