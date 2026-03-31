@@ -32,6 +32,61 @@
 -%}
 
 <style>
+  /* --- Hero (full-width, overlaps header) --- */
+  .pp-guide-hero {
+    position: relative;
+    width: 100vw;
+    margin-left: calc(-1 * var(--page-margin, 40px));
+    min-height: 450px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    overflow: hidden;
+    border-radius: 0;
+    margin-bottom: 48px;
+    margin-top: calc(-1 * (var(--pp-guide-pad-top, 40px) + var(--pp-header-height, 120px)));
+    padding-top: var(--pp-header-height, 120px);
+  }
+
+  .pp-guide-hero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .pp-guide-hero__bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .pp-guide-hero__gradient {
+    position: absolute;
+    inset: 0;
+    background: rgba(35, 55, 44, 0.3);
+    z-index: 1;
+  }
+
+  .pp-guide-hero__content {
+    position: relative;
+    z-index: 2;
+    text-align: left;
+    padding: 40px 32px;
+    max-width: 800px;
+  }
+
+  .pp-guide-hero__title {
+    font-family: 'Aileron', sans-serif;
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 700;
+    color: #e4ffd3;
+    line-height: 0.8;
+    margin: 0;
+    letter-spacing: -0.07em;
+    text-transform: uppercase;
+  }
+
   /* --- PP Page Guide: content widget styles --- */
   .pp-guide .pp-content__heading {
     font-family: 'Aileron', sans-serif;
@@ -48,6 +103,16 @@
 
   .pp-guide .pp-content__heading:first-child {
     margin-top: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .pp-guide-hero {
+      min-height: 280px;
+      margin-bottom: 24px;
+    }
+    .pp-guide-hero__content {
+      padding: 24px 20px;
+    }
   }
 
   .pp-guide .pp-content__text {
@@ -132,7 +197,21 @@
   "
 >
 
-  {%- comment -%} -- Breadcrumb -- {%- endcomment -%}
+  {%- comment -%} -- 1. Hero Section (full-width, under header) -- {%- endcomment -%}
+  {%- assign hero_image = page.metafields.custom.imagen_portada.value -%}
+  <div class="pp-guide-hero">
+    {%- if hero_image -%}
+      <div class="pp-guide-hero__bg">
+        {{ hero_image | image_url: width: 1600 | image_tag: loading: 'eager', sizes: '100vw' }}
+      </div>
+    {%- endif -%}
+    <div class="pp-guide-hero__gradient"></div>
+    <div class="pp-guide-hero__content">
+      <h1 class="pp-guide-hero__title">{{ page.title }}</h1>
+    </div>
+  </div>
+
+  {%- comment -%} -- Breadcrumb (after hero) -- {%- endcomment -%}
   {%- if section.settings.show_breadcrumb -%}
     <nav class="pp-guide__breadcrumb" aria-label="Breadcrumb">
       <a href="/">Pur Plant</a>
@@ -142,9 +221,6 @@
       <span>{{ page.title }}</span>
     </nav>
   {%- endif -%}
-
-  {%- comment -%} -- Page title -- {%- endcomment -%}
-  <h1 class="pp-guide__title">{{ page.title }}</h1>
 
   {%- comment -%} -- Care icons (guia-cuidado only) -- {%- endcomment -%}
   {%- if is_care_guide and section.settings.show_care_icons -%}
