@@ -94,32 +94,33 @@
   .pp-tipos__intro a { color: var(--pp-dark-green); text-decoration: underline; }
   .pp-tipos__intro strong { font-weight: 600; }
 
-  /* --- Variety cards grid --- */
+  /* --- Variety cards (horizontal: image left, content right) --- */
   .pp-tipos__cards-grid {
-    display: grid;
-    grid-template-columns: repeat(var(--pp-cards-per-row, 2), 1fr);
-    gap: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
     margin: 0 0 56px;
   }
 
   .pp-tipos__card {
+    display: grid;
+    grid-template-columns: 35% 1fr;
+    gap: 0;
     background: #ffffff;
     border-radius: var(--pp-radius);
     overflow: hidden;
     border: 1px solid rgba(35, 55, 44, 0.08);
-    transition: box-shadow var(--pp-transition), transform var(--pp-transition);
+    transition: box-shadow var(--pp-transition);
   }
 
   .pp-tipos__card:hover {
     box-shadow: 0 8px 32px rgba(35, 55, 44, 0.12);
-    transform: translateY(-2px);
   }
 
   .pp-tipos__card-image {
     width: 100%;
-    aspect-ratio: 4 / 5;
+    min-height: 280px;
     overflow: hidden;
-    border-radius: var(--pp-radius) var(--pp-radius) 0 0;
   }
 
   .pp-tipos__card-image img {
@@ -134,8 +135,16 @@
     transform: scale(1.03);
   }
 
+  /* Card without image: content spans full width */
+  .pp-tipos__card--no-image {
+    grid-template-columns: 1fr;
+  }
+
   .pp-tipos__card-body {
-    padding: 24px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .pp-tipos__card-name {
@@ -144,7 +153,7 @@
     font-weight: 700;
     color: var(--pp-dark-green);
     line-height: 1.25;
-    margin: 0 0 12px;
+    margin: 0 0 16px;
   }
 
   .pp-tipos__card-desc {
@@ -253,8 +262,16 @@
       padding: 40px 20px;
     }
 
-    .pp-tipos__cards-grid {
+    .pp-tipos__card {
       grid-template-columns: 1fr;
+    }
+
+    .pp-tipos__card-image {
+      min-height: 220px;
+      max-height: 300px;
+    }
+
+    .pp-tipos__cards-grid {
       gap: 24px;
       margin-bottom: 36px;
     }
@@ -290,7 +307,7 @@
     --pp-tipos-pad-top: {{ section.settings.padding_top }}px;
     --pp-tipos-pad-bottom: {{ section.settings.padding_bottom }}px;
     --pp-products-per-row: {{ products_per_row }};
-    --pp-cards-per-row: {{ cards_per_row }};
+    /* cards are now horizontal layout, no per-row setting needed */
   "
 >
 
@@ -461,9 +478,10 @@
   if (cards.length > 0) {
     var html = '<div class="pp-tipos__cards-grid">';
     cards.forEach(function(card, ci) {
-      html += '<div class="pp-tipos__card" id="variety-' + (ci + 1) + '">';
+      var noImg = card.image ? '' : ' pp-tipos__card--no-image';
+      html += '<div class="pp-tipos__card' + noImg + '" id="variety-' + (ci + 1) + '">';
       if (card.image) {
-        html += '<div class="pp-tipos__card-image"><img src="' + card.image + '" alt="' + card.imageAlt + '" loading="lazy" width="600" height="750"></div>';
+        html += '<div class="pp-tipos__card-image"><img src="' + card.image + '" alt="' + card.imageAlt + '" loading="lazy"></div>';
       }
       html += '<div class="pp-tipos__card-body">';
       html += '<h3 class="pp-tipos__card-name">' + card.heading + '</h3>';
