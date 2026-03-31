@@ -511,10 +511,23 @@
 
       html += '</div>';
 
+    } else if (w.type === 'image') {
+      /* Check if this is an image followed by text (standalone, not inside a heading section) */
+      var nextText = widgets[i + 1];
+      if (nextText && nextText.type === 'text') {
+        /* Render as image-left + text-right card */
+        html += '<div class="pp-problemas__section">';
+        html += '<div class="pp-problemas__section-body pp-problemas__section-body--with-image">';
+        html += '<div class="pp-problemas__section-image"><img src="' + w.src + '" alt="' + (w.alt || '') + '" loading="lazy"></div>';
+        html += '<div class="pp-problemas__section-text">' + nextText.value + '</div>';
+        html += '</div>';
+        html += '</div>';
+        widgets[i + 1] = { type: '_consumed' };
+      } else {
+        html += '<div class="pp-content__image"><img src="' + w.src + '" alt="' + (w.alt || '') + '" loading="lazy"></div>';
+      }
     } else if (w.type === 'text') {
       html += '<div class="pp-content__text">' + w.value + '</div>';
-    } else if (w.type === 'image') {
-      html += '<div class="pp-content__image"><img src="' + w.src + '" alt="' + (w.alt || '') + '" loading="lazy"></div>';
     }
   });
 
