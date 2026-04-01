@@ -228,10 +228,11 @@
       assign icon_luz = page.metafields.custom.page_icon_luz | default: ''
       assign icon_riego = page.metafields.custom.page_icon_riego | default: ''
       assign icon_clima = page.metafields.custom.page_icon_clima | default: ''
-      assign icon_pet = page.metafields.custom.page_icon_pet
+      assign icon_pet = page.metafields.custom.page_icon_pet | default: ''
+      assign icon_toxica = page.metafields.custom.page_icon_toxica | default: ''
       assign icon_plagas = page.metafields.custom.page_icon_plagas | default: ''
       assign has_any_icon = false
-      if icon_luz != blank or icon_riego != blank or icon_clima != blank or icon_pet != nil or icon_plagas != blank
+      if icon_luz != blank or icon_riego != blank or icon_clima != blank or icon_pet != blank or icon_toxica != blank or icon_plagas != blank
         assign has_any_icon = true
       endif
     -%}
@@ -258,11 +259,18 @@
             <span class="pp-guide__care-value">{{ icon_clima }}</span>
           </div>
         {%- endif -%}
-        {%- if icon_pet != nil -%}
+        {%- if icon_pet != blank -%}
           <div class="pp-guide__care-item">
             <img src="{{ 'icono-petfriendly-planta.png' | asset_url }}" alt="Pet Friendly" width="36" height="36" loading="lazy">
             <span class="pp-guide__care-label">Pet Friendly</span>
-            <span class="pp-guide__care-value">{%- if icon_pet -%}Si{%- else -%}No{%- endif -%}</span>
+            <span class="pp-guide__care-value">{{ icon_pet }}</span>
+          </div>
+        {%- endif -%}
+        {%- if icon_toxica != blank -%}
+          <div class="pp-guide__care-item">
+            <img src="{{ 'icono-planta-toxica.png' | asset_url }}" alt="Tóxica" width="36" height="36" loading="lazy">
+            <span class="pp-guide__care-label">Tóxica</span>
+            <span class="pp-guide__care-value">{{ icon_toxica }}</span>
           </div>
         {%- endif -%}
         {%- if icon_plagas != blank -%}

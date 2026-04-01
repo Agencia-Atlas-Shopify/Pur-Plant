@@ -70,6 +70,7 @@
 .pp-guide__care-icons {
   display: flex;
   align-items: flex-start;
+  justify-content: center;
   gap: 28px;
   margin: 24px 0 32px;
   padding: 20px 0;
