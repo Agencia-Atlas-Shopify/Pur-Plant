@@ -71,6 +71,7 @@
 @media screen and (min-width: 700px) {
   .pp-hero-slider__slide {
     height: var(--rc-slide-height-desktop, 100vh);
+    max-height: var(--rc-slide-height-desktop, 100vh);
   }
 }
 
