@@ -16,16 +16,19 @@
 
     {%- comment -%} ═══ PLANTAS ═══ {%- endcomment -%}
     <div class="pp-mega__panel" data-mega-panel="plantas">
-      {%- comment -%} Mobile list {%- endcomment -%}
       <div class="pp-mega__mobile-list">
         <button type="button" class="pp-mega__mobile-item" data-mega-sub="interior">Interior <span class="pp-mega__mobile-plus">+</span></button>
         <button type="button" class="pp-mega__mobile-item" data-mega-sub="exterior">Exterior <span class="pp-mega__mobile-plus">+</span></button>
         <button type="button" class="pp-mega__mobile-item" data-mega-sub="macetas">Macetas <span class="pp-mega__mobile-plus">+</span></button>
+        <button type="button" class="pp-mega__mobile-item" data-mega-sub="terrarios">Terrarios <span class="pp-mega__mobile-plus">+</span></button>
+        <button type="button" class="pp-mega__mobile-item" data-mega-sub="cuidados">Cuidados <span class="pp-mega__mobile-plus">+</span></button>
+        <button type="button" class="pp-mega__mobile-item" data-mega-sub="autorriegos">Autorriegos <span class="pp-mega__mobile-plus">+</span></button>
+        <button type="button" class="pp-mega__mobile-item" data-mega-sub="ofertas">Ofertas <span class="pp-mega__mobile-plus">+</span></button>
       </div>
       <div class="pp-mega__quick-links">
-        <a href="/collections/plantas" class="pp-mega__quick-link">Ver todas</a>
-        <a href="/collections/novedades" class="pp-mega__quick-link">Novedades</a>
-        <a href="/collections/best-sellers" class="pp-mega__quick-link">Best Sellers</a>
+        <a href="/collections/plantas-interior" class="pp-mega__quick-link">Ver todas</a>
+        <a href="/collections/plantas-nuevas" class="pp-mega__quick-link">Novedades</a>
+        <a href="/collections/plantas-best-sellers" class="pp-mega__quick-link">Best Sellers</a>
       </div>
 
       <div class="pp-mega__main">
@@ -33,9 +36,14 @@
           <button type="button" class="pp-mega__tab" data-mega-sub="interior">Interior</button>
           <button type="button" class="pp-mega__tab" data-mega-sub="exterior">Exterior</button>
           <button type="button" class="pp-mega__tab" data-mega-sub="macetas">Macetas</button>
+          <button type="button" class="pp-mega__tab" data-mega-sub="terrarios">Terrarios</button>
+          <button type="button" class="pp-mega__tab" data-mega-sub="cuidados">Cuidados</button>
+          <button type="button" class="pp-mega__tab" data-mega-sub="autorriegos">Autorriegos</button>
+          <button type="button" class="pp-mega__tab" data-mega-sub="ofertas">Ofertas</button>
         </nav>
         <div class="pp-mega__tab-divider"></div>
         <div class="pp-mega__content">
+
         {%- comment -%} Interior {%- endcomment -%}
         <div class="pp-mega__sub" data-mega-subcontent="interior">
           <div class="pp-mega__columns pp-mega__columns--4">
@@ -68,6 +76,7 @@
               <a href="/collections/plantas-begonia" class="pp-mega__link">Begonia</a>
               <a href="/collections/plantas-sansevieria" class="pp-mega__link">Sansevieria</a>
               <a href="/collections/plantas-maranta" class="pp-mega__link">Maranta</a>
+              <a href="/collections/plantas-interior" class="pp-mega__link">Ver Todas</a>
             </div>
             <div class="pp-mega__col">
               <span class="pp-mega__col-title">POR ESPACIOS</span>
@@ -89,7 +98,7 @@
               <a href="/collections/plantas-minis" class="pp-mega__link">Plantas Mini</a>
               <a href="/collections/plantas-medianas" class="pp-mega__link">Plantas Medianas</a>
               <a href="/collections/plantas-grandes" class="pp-mega__link">Plantas Grandes</a>
-              <a href="/collections/arboles" class="pp-mega__link">Árboles</a>
+              <a href="/collections/plantas-arboles-frutales" class="pp-mega__link">Árboles</a>
               <a href="/collections/plantas-exterior" class="pp-mega__link">Ver todas</a>
             </div>
             <div class="pp-mega__col">
@@ -99,9 +108,9 @@
               <a href="/collections/plantas-cactus" class="pp-mega__link">Cactus</a>
               <a href="/collections/plantas-arboles-frutales" class="pp-mega__link">Frutales</a>
               <a href="/collections/plantas-olivo" class="pp-mega__link">Olivos</a>
-              <a href="/collections/semillas-eco" class="pp-mega__link">Semillas Eco</a>
+              <a href="/collections/semillas-organicas" class="pp-mega__link">Semillas Eco</a>
               <a href="/collections/plantas-jazmin" class="pp-mega__link">Jazmín</a>
-              <a href="/collections/palmeras" class="pp-mega__link">Palmeras</a>
+              <a href="/collections/plantas-palmera" class="pp-mega__link">Palmeras</a>
               <a href="/collections/plantas-rosal" class="pp-mega__link">Rosales</a>
               <a href="/collections/plantas-suculentas" class="pp-mega__link">Suculentas</a>
               <a href="/collections/plantas-trepadoras" class="pp-mega__link">Trepadoras</a>
@@ -112,39 +121,128 @@
 
         {%- comment -%} Macetas {%- endcomment -%}
         <div class="pp-mega__sub" data-mega-subcontent="macetas">
-          <div class="pp-mega__columns pp-mega__columns--2">
-            <div class="pp-mega__col">
-              <span class="pp-mega__col-title">POR TAMAÑOS</span>
-              <a href="/collections/mini-macetas" class="pp-mega__link">Mini macetas</a>
-              <a href="/collections/macetas-artesanales-medianas" class="pp-mega__link">Macetas Medianas</a>
-              <a href="/collections/macetas-artesanales-grandes" class="pp-mega__link">Macetas Grandes</a>
-              <a href="/collections/macetas" class="pp-mega__link">Ver todas</a>
-            </div>
+          <div class="pp-mega__columns pp-mega__columns--3">
             <div class="pp-mega__col">
               <span class="pp-mega__col-title">CATEGORÍAS</span>
-              <a href="/collections/macetas-exterior" class="pp-mega__link">Macetas para exterior</a>
-              <a href="/collections/cubremacetas" class="pp-mega__link">Cubremacetas</a>
-              <a href="/collections/jardineras" class="pp-mega__link">Jardineras</a>
-              <a href="/collections/macetas-autorriego" class="pp-mega__link">Macetas Autorriego</a>
-              <a href="/collections/platos-de-macetas" class="pp-mega__link">Platos para Macetas</a>
-              <a href="/collections/musgos-terrarios" class="pp-mega__link">Musgos</a>
-              <a href="/collections/macetas" class="pp-mega__link">Ver todos</a>
+              <a href="/collections/macetas-artesanales" class="pp-mega__link">Macetas decorativas</a>
+              <a href="/collections/macetas-barro-pequenas" class="pp-mega__link">Macetas de barro</a>
+              <a href="/collections/macetas-barro-esmaltadas" class="pp-mega__link">Macetas esmaltadas</a>
+              <a href="/collections/jarrones" class="pp-mega__link">Jarrones</a>
+            </div>
+            <div class="pp-mega__col">
+              <span class="pp-mega__col-title">POR TAMAÑOS</span>
+              <a href="/collections/macetas-artesanales-mini" class="pp-mega__link">Mini macetas</a>
+              <a href="/collections/macetas-artesanales-medianas" class="pp-mega__link">Macetas Medianas</a>
+              <a href="/collections/macetas-artesanales-grandes" class="pp-mega__link">Macetas Grandes</a>
+            </div>
+            <div class="pp-mega__col">
+              <span class="pp-mega__col-title">POR ESPACIOS</span>
+              <a href="/collections/macetas-artesanales" class="pp-mega__link">Macetas para interior</a>
+              <a href="/collections/macetas-autorriego" class="pp-mega__link">Macetas para exterior</a>
+              <a href="/collections/macetas-artesanales-mini" class="pp-mega__link">Macetas para escritorio</a>
+              <a href="/collections/macetas-artesanales-mini" class="pp-mega__link">Macetas para estanterías</a>
+              <a href="/collections/macetas-artesanales-grandes" class="pp-mega__link">Macetas para árboles</a>
             </div>
           </div>
         </div>
+
+        {%- comment -%} Terrarios {%- endcomment -%}
+        <div class="pp-mega__sub" data-mega-subcontent="terrarios">
+          <div class="pp-mega__columns pp-mega__columns--2">
+            <div class="pp-mega__col">
+              <span class="pp-mega__col-title">CATEGORÍAS PRINCIPALES</span>
+              <a href="/collections/terrarios" class="pp-mega__link">Terrarios de plantas</a>
+              <a href="/collections/terrarios-kits" class="pp-mega__link">Kit terrarios DIY</a>
+              <a href="/collections/terrarios-cristal" class="pp-mega__link">Recipientes para terrarios</a>
+              <a href="/collections/terrarios-marimo" class="pp-mega__link">Terrarios Marimo</a>
+              <a href="/collections/plantas-terrario" class="pp-mega__link">Plantas para terrario</a>
+            </div>
+            <div class="pp-mega__col">
+              <span class="pp-mega__col-title">POR TAMAÑO</span>
+              <a href="/collections/terrarios-mini" class="pp-mega__link">Terrarios Mini</a>
+              <a href="/collections/terrarios-grandes" class="pp-mega__link">Terrarios Medianos</a>
+              <a href="/collections/terrarios-grandes" class="pp-mega__link">Terrarios Grandes</a>
+            </div>
+          </div>
+        </div>
+
+        {%- comment -%} Cuidados {%- endcomment -%}
+        <div class="pp-mega__sub" data-mega-subcontent="cuidados">
+          <div class="pp-mega__columns pp-mega__columns--4">
+            <div class="pp-mega__col">
+              <span class="pp-mega__col-title">SUSTRATOS</span>
+              <a href="/collections/sustratos" class="pp-mega__link">Sustrato universal y específicos</a>
+              <a href="/collections/sustratos" class="pp-mega__link">Componentes de sustrato</a>
+              <a href="/collections/musgos" class="pp-mega__link">Musgos</a>
+            </div>
+            <div class="pp-mega__col">
+              <span class="pp-mega__col-title">FERTILIZANTES</span>
+              <a href="/collections/fertilizantes-organicos-liquidos" class="pp-mega__link">Abonos líquidos y sólidos</a>
+              <a href="/collections/fertilizantes-organicos-humus-lombriz" class="pp-mega__link">Humus de Lombriz</a>
+              <a href="/collections/fertilizantes-organicos-box" class="pp-mega__link">Packs Fertilización</a>
+            </div>
+            <div class="pp-mega__col">
+              <span class="pp-mega__col-title">CONTROL PLAGAS ECO</span>
+              <a href="/collections/fitosanitarios-ecologicos" class="pp-mega__link">Fitosanitarios ecológicos</a>
+              <a href="/collections/fungicidas-ecologicos" class="pp-mega__link">Fungicidas ecológicos</a>
+              <a href="/collections/insecticidas-ecologicos" class="pp-mega__link">Insecticidas ecológicos</a>
+            </div>
+            <div class="pp-mega__col">
+              <span class="pp-mega__col-title">ACCESORIOS</span>
+              <a href="/collections/tutores" class="pp-mega__link">Tutores</a>
+              <a href="/collections/regaderas" class="pp-mega__link">Regaderas y pulverizadores</a>
+              <a href="/collections/herramientas-trasplante" class="pp-mega__link">Herramientas</a>
+            </div>
+          </div>
+        </div>
+
+        {%- comment -%} Autorriegos {%- endcomment -%}
+        <div class="pp-mega__sub" data-mega-subcontent="autorriegos">
+          <div class="pp-mega__columns pp-mega__columns--2">
+            <div class="pp-mega__col">
+              <span class="pp-mega__col-title">SISTEMAS DE AUTORRIEGO</span>
+              <a href="/collections/auto-riego" class="pp-mega__link">Sistemas Autorriego</a>
+              <a href="/collections/auto-riego-kit" class="pp-mega__link">Kits de Autorriego</a>
+              <a href="/collections/auto-riego-ollas" class="pp-mega__link">Ollas Autorriego</a>
+              <a href="/collections/auto-riego-burbuja" class="pp-mega__link">Burbuja Autorriego</a>
+              <a href="/collections/auto-riego-tubos" class="pp-mega__link">Tubos Autorriego</a>
+            </div>
+            <div class="pp-mega__col">
+              <span class="pp-mega__col-title">MACETAS AUTORRIEGO</span>
+              <a href="/collections/macetas-autorriego" class="pp-mega__link">Macetas Autorriego</a>
+            </div>
+          </div>
+        </div>
+
+        {%- comment -%} Ofertas {%- endcomment -%}
+        <div class="pp-mega__sub" data-mega-subcontent="ofertas">
+          <div class="pp-mega__columns pp-mega__columns--2">
+            <div class="pp-mega__col">
+              <span class="pp-mega__col-title">OFERTAS</span>
+              <a href="/collections/ofertas-flash" class="pp-mega__link">Ofertas Flash</a>
+              <a href="/collections/plantas-por-muy-poco" class="pp-mega__link">Plantas por muy poco</a>
+              <a href="/collections/plantas-5-euros" class="pp-mega__link">Plantas por menos de 5€</a>
+              <a href="/collections/plantas-10-euros" class="pp-mega__link">Plantas por menos de 10€</a>
+              <a href="/collections/plantas-20-euros" class="pp-mega__link">Plantas por menos de 20€</a>
+            </div>
+            <div class="pp-mega__col">
+              <span class="pp-mega__col-title">BEST SELLERS</span>
+              <a href="/collections/plantas-best-sellers" class="pp-mega__link">Plantas Más Vendidas</a>
+              <a href="/collections/plantas-nuevas" class="pp-mega__link">Novedades</a>
+            </div>
+          </div>
+        </div>
+
         </div>
       </div>
 
-      {%- comment -%} Image right — from megamenu_promo blocks or section setting {%- endcomment -%}
+      {%- comment -%} Image right {%- endcomment -%}
       <div class="pp-mega__image">
         {%- assign found_promo = false -%}
         {%- for block in section.blocks -%}
           {%- if block.type == 'megamenu_promo' and block.settings.menu_handle == 'plantas' and block.settings.promo_image != blank -%}
             <a href="{{ block.settings.promo_link | default: '/collections/plantas' }}" {{ block.shopify_attributes }}>
               <img src="{{ block.settings.promo_image | image_url: width: 600 }}" alt="{{ block.settings.promo_title }}" width="200" height="250" loading="lazy">
-              {%- if block.settings.promo_title != blank -%}
-                <span class="pp-mega__image-title">{{ block.settings.promo_title }}</span>
-              {%- endif -%}
             </a>
             {%- assign found_promo = true -%}
             {%- break -%}
@@ -160,11 +258,8 @@
       </div>
     </div>
 
-    {%- comment -%} Terrarios, Cuidados removed — they are sub-tabs of Plantas now {%- endcomment -%}
-
     {%- comment -%} ═══ REGALOS ═══ {%- endcomment -%}
     <div class="pp-mega__panel" data-mega-panel="regalos">
-      {%- comment -%} Mobile list {%- endcomment -%}
       <div class="pp-mega__mobile-list">
         <button type="button" class="pp-mega__mobile-item" data-mega-col="0">Categorías Principales <span class="pp-mega__mobile-plus">+</span></button>
         <button type="button" class="pp-mega__mobile-item" data-mega-col="1">Regalos por Precio <span class="pp-mega__mobile-plus">+</span></button>
@@ -174,21 +269,21 @@
         <div class="pp-mega__columns pp-mega__columns--3">
           <div class="pp-mega__col">
             <span class="pp-mega__col-title">CATEGORÍAS PRINCIPALES</span>
-            <a href="/collections/sets-de-plantas-con-maceta" class="pp-mega__link">Sets de plantas con maceta</a>
-            <a href="/collections/terrarios-de-plantas" class="pp-mega__link">Terrarios de plantas</a>
+            <a href="/collections/regalos-originales" class="pp-mega__link">Sets de plantas con maceta</a>
+            <a href="/collections/terrarios" class="pp-mega__link">Terrarios de plantas</a>
             <a href="/collections/terrarios-kits" class="pp-mega__link">Kit Terrarios DIY</a>
-            <a href="/collections/plantas-hidroponicas-y-kokedama" class="pp-mega__link">Plantas hidropónicas</a>
+            <a href="/collections/plantas-hidroponia" class="pp-mega__link">Plantas hidropónicas</a>
             <a href="/collections/jarrones-con-flores" class="pp-mega__link">Jarrones con flores</a>
             <a href="/collections/jardin-vertical" class="pp-mega__link">Jardín vertical</a>
-            <a href="/collections/set-ambientador-natural" class="pp-mega__link">Set ambientador natural</a>
-            <a href="/collections/tarjetas-regalo" class="pp-mega__link">Tarjeta regalo</a>
+            <a href="/collections/ambientadores-solidos" class="pp-mega__link">Set ambientador natural</a>
+            <a href="/collections/tarjetas-felicitacion" class="pp-mega__link">Tarjeta regalo</a>
           </div>
           <div class="pp-mega__col">
             <span class="pp-mega__col-title">REGALOS POR PRECIO</span>
-            <a href="/collections/regalos-menos-20" class="pp-mega__link">Regalos por menos de 20€</a>
-            <a href="/collections/regalos-menos-30" class="pp-mega__link">Regalos por menos de 30€</a>
-            <a href="/collections/regalos-menos-50" class="pp-mega__link">Regalos por menos de 50€</a>
-            <a href="/collections/regalos-especiales" class="pp-mega__link">Regalos especiales (+50€)</a>
+            <a href="/collections/plantas-5-euros" class="pp-mega__link">Regalos por menos de 5€</a>
+            <a href="/collections/plantas-10-euros" class="pp-mega__link">Regalos por menos de 10€</a>
+            <a href="/collections/plantas-20-euros" class="pp-mega__link">Regalos por menos de 20€</a>
+            <a href="/collections/plantas-por-muy-poco" class="pp-mega__link">Regalos especiales</a>
           </div>
           <div class="pp-mega__col">
             <span class="pp-mega__col-title">IDEAS DE REGALO</span>
@@ -207,11 +302,8 @@
       </div>
     </div>
 
-    {%- comment -%} Bienestar removed — not in final menu {%- endcomment -%}
-
     {%- comment -%} ═══ SOBRE PUR PLANT ═══ {%- endcomment -%}
     <div class="pp-mega__panel" data-mega-panel="sobre">
-      {%- comment -%} Mobile list {%- endcomment -%}
       <div class="pp-mega__mobile-list">
         <button type="button" class="pp-mega__mobile-item" data-mega-col="0">Inspírate <span class="pp-mega__mobile-plus">+</span></button>
         <button type="button" class="pp-mega__mobile-item" data-mega-col="1">¿Quiénes somos? <span class="pp-mega__mobile-plus">+</span></button>
@@ -226,7 +318,7 @@
           </div>
           <div class="pp-mega__col">
             <span class="pp-mega__col-title">¿QUIÉNES SOMOS?</span>
-            <a href="/pages/sobre-nosotros" class="pp-mega__link">Conócenos</a>
+            <a href="/pages/conocenos" class="pp-mega__link">Conócenos</a>
           </div>
           <div class="pp-mega__col">
             <span class="pp-mega__col-title">¿NECESITAS AYUDA?</span>
@@ -236,7 +328,7 @@
       </div>
       <div class="pp-mega__image">
         {%- if section.settings.mega_sobre_image != blank -%}
-          <a href="{{ section.settings.mega_sobre_image_link | default: '/pages/sobre-nosotros' }}">
+          <a href="{{ section.settings.mega_sobre_image_link | default: '/pages/conocenos' }}">
             <img src="{{ section.settings.mega_sobre_image | image_url: width: 600 }}" alt="" width="200" height="250" loading="lazy">
           </a>
         {%- endif -%}
@@ -256,7 +348,6 @@
   var subPanels = mega.querySelectorAll('[data-mega-subcontent]');
   var closeTimer = null;
 
-  /* Position mega below pp-header__inner (above announcement) */
   function positionMega() {
     var inner = document.querySelector('.pp-header__inner');
     if (inner && window.innerWidth >= 750) {
@@ -279,6 +370,9 @@
   function close() {
     mega.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('pp-mega-open');
+    /* Clear all sub-panel active states */
+    sidebarBtns.forEach(function(b) { b.classList.remove('is-active'); });
+    subPanels.forEach(function(p) { p.classList.remove('is-active'); });
   }
 
   function activateSub(subId) {
@@ -290,7 +384,6 @@
     });
   }
 
-  /* Sidebar hover/click */
   sidebarBtns.forEach(function(btn) {
     btn.addEventListener('mouseenter', function() {
       activateSub(btn.getAttribute('data-mega-sub'));
@@ -300,7 +393,6 @@
     });
   });
 
-  /* Header nav hover to open */
   var headerLinks = document.querySelectorAll('.pp-header__desktop-link, .pp-header__nav-link');
   headerLinks.forEach(function(link) {
     link.addEventListener('mouseenter', function() {
@@ -313,52 +405,34 @@
       } else if (text.indexOf('sobre') !== -1 || text.indexOf('pur plant') !== -1) {
         open('sobre');
       } else {
-        // Non-menu link, close
         closeTimer = setTimeout(close, 300);
       }
     });
   });
 
-  /* Keep open while hovering megamenu */
-  mega.addEventListener('mouseenter', function() {
-    clearTimeout(closeTimer);
-  });
+  mega.addEventListener('mouseenter', function() { clearTimeout(closeTimer); });
+  mega.addEventListener('mouseleave', function() { closeTimer = setTimeout(close, 200); });
 
-  /* Close when leaving megamenu */
-  mega.addEventListener('mouseleave', function() {
-    closeTimer = setTimeout(close, 200);
-  });
-
-  /* Close when leaving header area */
   var header = document.querySelector('.pp-header');
   if (header) {
     header.addEventListener('mouseleave', function(e) {
-      /* Don't close if moving into the megamenu */
       var related = e.relatedTarget;
       if (related && (mega.contains(related) || mega === related)) return;
       closeTimer = setTimeout(close, 200);
     });
   }
 
-  /* ESC to close */
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') close();
-  });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') close(); });
 
-  /* Hamburger opens plantas by default */
   document.addEventListener('click', function(e) {
     var hamburger = e.target.closest('.pp-header__menu-toggle');
     if (!hamburger) return;
     e.stopPropagation();
     e.preventDefault();
-    if (mega.getAttribute('aria-hidden') === 'false') {
-      close();
-    } else {
-      open('plantas');
-    }
+    if (mega.getAttribute('aria-hidden') === 'false') { close(); }
+    else { open('plantas'); }
   }, true);
 
-  /* Close mobile menu if it opens */
   var mobileMenu = document.querySelector('pp-mobile-menu');
   if (mobileMenu) {
     new MutationObserver(function() {
@@ -369,13 +443,9 @@
     }).observe(mobileMenu, { attributes: true, attributeFilter: ['open'] });
   }
 
-  /* Mobile close button */
   var mobileCloseBtn = mega.querySelector('[data-mega-close]');
-  if (mobileCloseBtn) {
-    mobileCloseBtn.addEventListener('click', close);
-  }
+  if (mobileCloseBtn) { mobileCloseBtn.addEventListener('click', close); }
 
-  /* Mobile tabs */
   mega.querySelectorAll('[data-mega-mobile-tab]').forEach(function(tab) {
     tab.addEventListener('click', function() {
       mega.querySelectorAll('[data-mega-mobile-tab]').forEach(function(t) { t.classList.remove('is-active'); });
@@ -384,7 +454,6 @@
     });
   });
 
-  /* Lock body scroll on mobile when open */
   function updateBodyScroll() {
     if (window.innerWidth < 750 && mega.getAttribute('aria-hidden') === 'false') {
       document.body.style.overflow = 'hidden';
@@ -394,22 +463,13 @@
   }
 
   var origOpen = open;
-  open = function(panelId) {
-    origOpen(panelId);
-    updateBodyScroll();
-  };
+  open = function(panelId) { origOpen(panelId); updateBodyScroll(); };
   var origClose = close;
-  close = function() {
-    origClose();
-    document.body.style.overflow = '';
-  };
+  close = function() { origClose(); document.body.style.overflow = ''; };
 
-  /* Mobile accordion — expand sub-links under each button */
   mega.querySelectorAll('.pp-mega__mobile-item').forEach(function(btn) {
     btn.addEventListener('click', function() {
       var existing = btn.nextElementSibling;
-
-      /* If already open, close it */
       if (existing && existing.classList.contains('pp-mega__mobile-sub-links')) {
         existing.remove();
         btn.classList.remove('is-expanded');
@@ -417,8 +477,6 @@
         if (plus) plus.textContent = '+';
         return;
       }
-
-      /* Close any other open accordion in this panel */
       var panel = btn.closest('[data-mega-panel]');
       if (panel) {
         panel.querySelectorAll('.pp-mega__mobile-sub-links').forEach(function(el) { el.remove(); });
@@ -428,53 +486,29 @@
           if (p) p.textContent = '+';
         });
       }
-
       var linksDiv = document.createElement('div');
       linksDiv.className = 'pp-mega__mobile-sub-links';
-
       var subId = btn.getAttribute('data-mega-sub');
       var colIdx = btn.getAttribute('data-mega-col');
-
       if (subId) {
-        /* Plantas-style: find sub-panel by data-mega-subcontent */
         var subPanel = mega.querySelector('[data-mega-subcontent="' + subId + '"]');
         if (!subPanel) return;
-
         var cols = subPanel.querySelectorAll('.pp-mega__col');
-        if (cols.length > 0) {
-          cols.forEach(function(col) {
-            var heading = col.querySelector('.pp-mega__col-heading');
-            if (heading) {
-              var h = document.createElement('span');
-              h.className = 'pp-mega__mobile-sub-heading';
-              h.textContent = heading.textContent.trim();
-              linksDiv.appendChild(h);
-            }
-            col.querySelectorAll('a').forEach(function(a) {
-              var link = document.createElement('a');
-              link.href = a.href;
-              link.className = 'pp-mega__mobile-sub-link';
-              link.textContent = a.textContent.trim();
-              linksDiv.appendChild(link);
-            });
-          });
-        } else {
-          subPanel.querySelectorAll('a').forEach(function(a) {
+        cols.forEach(function(col) {
+          col.querySelectorAll('a').forEach(function(a) {
             var link = document.createElement('a');
             link.href = a.href;
             link.className = 'pp-mega__mobile-sub-link';
             link.textContent = a.textContent.trim();
             linksDiv.appendChild(link);
           });
-        }
+        });
       } else if (colIdx !== null) {
-        /* Regalos/Sobre-style: find column by index */
         var content = panel.querySelector('.pp-mega__content, .pp-mega__content--full');
         if (!content) return;
         var cols = content.querySelectorAll('.pp-mega__col');
         var col = cols[parseInt(colIdx)];
         if (!col) return;
-
         col.querySelectorAll('a').forEach(function(a) {
           var link = document.createElement('a');
           link.href = a.href;
@@ -483,7 +517,6 @@
           linksDiv.appendChild(link);
         });
       }
-
       if (linksDiv.children.length > 0) {
         btn.after(linksDiv);
         btn.classList.add('is-expanded');
