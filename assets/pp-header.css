@@ -283,6 +283,12 @@ body.pp-transparent-header-needs-offset.template-product main.content-for-layout
   display: flex;
 }
 
+@media screen and (min-width: 1000px) {
+  .pp-header__menu-toggle {
+    display: none !important;
+  }
+}
+
 /* ==========================================================================
    PP Header Desktop Menu (Horizontal)
    ========================================================================== */
