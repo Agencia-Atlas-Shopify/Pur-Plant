@@ -70,17 +70,17 @@
                     assign mf_value = 'Sí'
                   endif
                 when 'luz'
-                  if product.metafields.custom.luz != blank
+                  if product.metafields.custom.luz.value != blank
                     assign should_show = true
-                    assign mf_value = product.metafields.custom.luz | join: ', '
+                    assign mf_value = product.metafields.custom.luz.value | join: ', '
                   else
                     assign should_show = true
                     assign mf_value = 'Luz indirecta'
                   endif
                 when 'riego'
-                  if product.metafields.custom.riego != blank
+                  if product.metafields.custom.riego.value != blank
                     assign should_show = true
-                    assign mf_value = product.metafields.custom.riego | join: ', '
+                    assign mf_value = product.metafields.custom.riego.value | join: ', '
                   else
                     assign should_show = true
                     assign mf_value = 'Moderado'
