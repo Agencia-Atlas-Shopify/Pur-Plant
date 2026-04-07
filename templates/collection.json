@@ -322,6 +322,9 @@
       "block_order": [
         "text_rREK9b"
       ],
+      "custom_css": [
+        ".section-resource-list__content {padding-left: 0px; padding-bottom: 20px; color: #23372c;}"
+      ],
       "settings": {
         "collection_list": "{{ collection.metafields.custom.por_estancias.value }}",
         "layout_type": "carousel",
@@ -346,6 +349,32 @@
     "collection_list_w7ReDa": {
       "type": "collection-list",
       "blocks": {
+        "text_6NbfCj": {
+          "type": "text",
+          "name": "t:names.heading",
+          "settings": {
+            "text": "<h3><strong>También te enamorarán</strong></h3>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
         "static-collection-card": {
           "type": "_collection-card",
           "name": "t:names.collection_card",
@@ -411,6 +440,12 @@
           ]
         }
       },
+      "block_order": [
+        "text_6NbfCj"
+      ],
+      "custom_css": [
+        ".section-resource-list__content {padding-left: 0px; padding-bottom: 20px; color: #23372c;}"
+      ],
       "settings": {
         "collection_list": "{{ collection.metafields.custom.tambien_te_enamoraran.value }}",
         "layout_type": "carousel",
@@ -500,6 +535,9 @@
           ]
         }
       },
+      "custom_css": [
+        ".section-resource-list__content {padding-left: 0px; padding-bottom: 20px; color: #23372c;}"
+      ],
       "settings": {
         "collection_list": "{{ collection.metafields.custom.colecciones_inferior.value }}",
         "layout_type": "carousel",
