@@ -1,5 +1,11 @@
 {{ 'pp-sections.css' | asset_url | stylesheet_tag }}
 
+<style>
+  .pp-faq__item:last-child {
+    border-bottom: 1px solid #000;
+  }
+</style>
+
 <section class="pp-faq">
   {%- if section.settings.heading != blank -%}
     <h2 class="pp-faq__heading">{{ section.settings.heading }}</h2>
