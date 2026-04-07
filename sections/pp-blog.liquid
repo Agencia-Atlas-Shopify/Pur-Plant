@@ -17,11 +17,14 @@
         <span class="pp-blog__cat-heading">Categorías</span>
       </div>
       <nav class="pp-blog__cat-links" data-pp-blog-cats>
-        {%- assign blog_handles = 'plantas,huerto-urbano,fertilizante,insecticidas,permacultura,arboles,kokedamas,sustratos,blog' | split: ',' -%}
+        <a href="/blogs/plantas" class="pp-blog__cat-link{% if blog.handle == 'plantas' %} is-active{% endif %}">
+          Todos
+        </a>
+        {%- assign blog_handles = 'huerto-urbano,fertilizante,insecticidas,permacultura,arboles,kokedamas,sustratos,blog' | split: ',' -%}
         {%- for handle in blog_handles -%}
           {%- assign b = blogs[handle] -%}
           {%- if b and b.articles_count > 0 -%}
-            <a href="{{ b.url }}" class="pp-blog__cat-link{% if b.handle == blog.handle %} is-active{% endif %}">
+            <a href="{{ b.url }}" class="pp-blog__cat-link{% if b.handle == blog.handle and blog.handle != 'plantas' %} is-active{% endif %}">
               {{ b.title }}
             </a>
           {%- endif -%}
