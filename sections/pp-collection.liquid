@@ -210,23 +210,21 @@
         {%- endfor -%}
 
         {%- if paginate.pages > 1 -%}
-          <div class="pp-collection__pagination">
-            {%- if paginate.previous -%}
-              <a href="{{ paginate.previous.url }}" class="pp-collection__pagination-btn pp-collection__pagination-btn--prev">
-                {{ 'general.pagination.previous' | t | default: 'Previous' }}
-              </a>
-            {%- endif -%}
-
-            <span class="pp-collection__pagination-info">
-              {{ 'general.pagination.page' | t: current: paginate.current_page, total: paginate.pages }}
-            </span>
+          <nav class="pp-pagination" aria-label="Paginación">
+            {%- for part in paginate.parts -%}
+              {%- if part.is_link -%}
+                <a href="{{ part.url }}" class="pp-pagination__page">{{ part.title }}</a>
+              {%- elsif part.title == paginate.current_page -%}
+                <span class="pp-pagination__page pp-pagination__page--current">{{ part.title }}</span>
+              {%- else -%}
+                <span class="pp-pagination__ellipsis">…</span>
+              {%- endif -%}
+            {%- endfor -%}
 
             {%- if paginate.next -%}
-              <a href="{{ paginate.next.url }}" class="pp-collection__pagination-btn pp-collection__pagination-btn--next">
-                {{ 'general.pagination.next' | t | default: 'Next' }}
-              </a>
+              <a href="{{ paginate.next.url }}" class="pp-pagination__next">Siguiente</a>
             {%- endif -%}
-          </div>
+          </nav>
         {%- endif -%}
       {%- endpaginate -%}
     </div>
