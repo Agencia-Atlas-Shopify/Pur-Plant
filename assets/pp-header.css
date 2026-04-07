@@ -14,7 +14,7 @@
   --pp-header-border: 35 55 44;
   --pp-header-transparent-text: 35 55 44;
   /* Floating header style */
-  --pp-header-border-radius: 16px;
+  --pp-header-border-radius: 20px;
   --pp-header-max-width: calc(100% - 60px);
   --pp-header-margin-top: 0px;
   --pp-header-inner-padding: 8px 30px;
