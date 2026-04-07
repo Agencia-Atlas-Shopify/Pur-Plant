@@ -107,7 +107,8 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
   font-size: 23.6px !important;
   font-weight: 700 !important;
   letter-spacing: -0.05em !important;
-  line-height: 0.8 !important;
+  line-height: 1.1 !important;
+  padding-bottom: 0.1em !important;
 }
 
 /* ── PP Hero Slider Typography ── */
@@ -1160,11 +1161,6 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
   opacity: 1;
   background: #23372c;
   color: #daffd3;
-}
-
-/* Collection card title line-height fix */
-.collection-card__content .text-block p {
-  line-height: 1 !important;
 }
 
 /* Hero slider mobile text sizes */
