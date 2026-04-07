@@ -459,82 +459,6 @@
         </div>
       {%- endif -%}
 
-      {%- comment -%} Shipping date (skip weekends) {%- endcomment -%}
-      {%- for block in section.blocks -%}
-        {%- if block.type == 'shipping_info' -%}
-          <div class="pp-pdp__shipping-info" style="padding-top: {{ block.settings.padding_top | default: 10 }}px; padding-bottom: {{ block.settings.padding_bottom | default: 10 }}px;" {{ block.shopify_attributes }}>
-            {%- if block.settings.icon != blank -%}
-              <img src="{{ block.settings.icon | image_url: width: 40 }}" width="20" height="20" alt="">
-            {%- endif -%}
-            <span class="pp-pdp__shipping-dot"></span>
-            <span data-pp-shipping-full id="pp-shipping-full-{{ section.id }}"></span>
-          </div>
-          <script>
-            (function() {
-              var days = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
-              var months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-              var monthsFull = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-              var shippingDays = {{ block.settings.shipping_days | default: 2 }};
-
-              function addBusinessDays(date, n) {
-                var d = new Date(date);
-                while (n > 0) { d.setDate(d.getDate() + 1); if (d.getDay() !== 0 && d.getDay() !== 6) n--; }
-                return d;
-              }
-
-              function getDeliveryRange() {
-                var now = new Date();
-                var sp = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Madrid' }));
-                var dow = sp.getDay();
-                var hour = sp.getHours();
-                var base = new Date(sp);
-                if (dow === 0 || dow === 6 || hour >= 18) {
-                  if (dow === 5 && hour >= 18) { base.setDate(base.getDate() + 3); }
-                  else if (dow === 6) { base.setDate(base.getDate() + 2); }
-                  else if (dow === 0) { base.setDate(base.getDate() + 1); }
-                  else { base.setDate(base.getDate() + 1); }
-                }
-                var min = addBusinessDays(base, shippingDays);
-                var max = addBusinessDays(base, shippingDays + 1);
-                if (min.getMonth() === max.getMonth()) {
-                  return days[min.getDay()] + ' ' + min.getDate() + ' - ' + days[max.getDay()] + ' ' + max.getDate() + ' ' + monthsFull[min.getMonth()];
-                }
-                return days[min.getDay()] + ' ' + min.getDate() + ' ' + months[min.getMonth()] + ' - ' + days[max.getDay()] + ' ' + max.getDate() + ' ' + months[max.getMonth()];
-              }
-
-              var el = document.getElementById('pp-shipping-full-{{ section.id }}');
-              if (!el) return;
-              var deliveryDate = getDeliveryRange();
-
-              function update() {
-                var now = new Date();
-                var sp = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Madrid' }));
-                var dow = sp.getDay();
-                var hour = sp.getHours();
-                if (dow >= 1 && dow <= 4 && hour < 18) {
-                  var target = new Date(sp); target.setHours(18,0,0,0);
-                  var diff = target - sp;
-                  if (diff > 0) {
-                    var h = Math.floor(diff/3600000);
-                    var m = Math.floor((diff%3600000)/60000);
-                    var s = Math.floor((diff%60000)/1000);
-                    var parts = [];
-                    if (h > 0) parts.push(h + (h===1?' hora':' horas'));
-                    if (m > 0) parts.push(m + (m===1?' minuto':' minutos'));
-                    parts.push(s + (s===1?' segundo':' segundos'));
-                    el.innerHTML = 'Compra antes de <strong>' + parts.join(' ') + '</strong> y recíbelo el <strong>' + deliveryDate + '</strong>';
-                    return;
-                  }
-                }
-                el.innerHTML = 'Compra ahora y recíbelo el <strong>' + deliveryDate + '</strong>';
-              }
-              update();
-              setInterval(update, 1000);
-            })();
-          </script>
-        {%- endif -%}
-      {%- endfor -%}
-
       {%- comment -%} INICIA TU RUTINA — Recommended products {%- endcomment -%}
       {%- liquid
         assign has_recs = false
@@ -589,6 +513,72 @@
           </div>
         </div>
       {%- endif -%}
+
+      {%- comment -%} Shipping date (skip weekends) — above total {%- endcomment -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'shipping_info' -%}
+          <div class="pp-pdp__shipping-info" style="padding-top: {{ block.settings.padding_top | default: 10 }}px; padding-bottom: {{ block.settings.padding_bottom | default: 10 }}px;" {{ block.shopify_attributes }}>
+            {%- if block.settings.icon != blank -%}
+              <img src="{{ block.settings.icon | image_url: width: 40 }}" width="20" height="20" alt="">
+            {%- endif -%}
+            <span class="pp-pdp__shipping-dot"></span>
+            <span data-pp-shipping-full id="pp-shipping-full-{{ section.id }}"></span>
+          </div>
+          <script>
+            (function() {
+              var days = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+              var months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+              var monthsFull = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+              var shippingDays = {{ block.settings.shipping_days | default: 2 }};
+              function addBusinessDays(date, n) {
+                var d = new Date(date);
+                while (n > 0) { d.setDate(d.getDate() + 1); if (d.getDay() !== 0 && d.getDay() !== 6) n--; }
+                return d;
+              }
+              function getDeliveryRange() {
+                var now = new Date();
+                var sp = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Madrid' }));
+                var dow = sp.getDay(); var hour = sp.getHours(); var base = new Date(sp);
+                if (dow === 0 || dow === 6 || hour >= 18) {
+                  if (dow === 5 && hour >= 18) { base.setDate(base.getDate() + 3); }
+                  else if (dow === 6) { base.setDate(base.getDate() + 2); }
+                  else if (dow === 0) { base.setDate(base.getDate() + 1); }
+                  else { base.setDate(base.getDate() + 1); }
+                }
+                var min = addBusinessDays(base, shippingDays);
+                var max = addBusinessDays(base, shippingDays + 1);
+                if (min.getMonth() === max.getMonth()) {
+                  return days[min.getDay()] + ' ' + min.getDate() + ' - ' + days[max.getDay()] + ' ' + max.getDate() + ' ' + monthsFull[min.getMonth()];
+                }
+                return days[min.getDay()] + ' ' + min.getDate() + ' ' + months[min.getMonth()] + ' - ' + days[max.getDay()] + ' ' + max.getDate() + ' ' + months[max.getMonth()];
+              }
+              var el = document.getElementById('pp-shipping-full-{{ section.id }}');
+              if (!el) return;
+              var deliveryDate = getDeliveryRange();
+              function update() {
+                var now = new Date();
+                var sp = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Madrid' }));
+                var dow = sp.getDay(); var hour = sp.getHours();
+                if (dow >= 1 && dow <= 4 && hour < 18) {
+                  var target = new Date(sp); target.setHours(18,0,0,0);
+                  var diff = target - sp;
+                  if (diff > 0) {
+                    var h = Math.floor(diff/3600000); var m = Math.floor((diff%3600000)/60000); var s = Math.floor((diff%60000)/1000);
+                    var parts = [];
+                    if (h > 0) parts.push(h + (h===1?' hora':' horas'));
+                    if (m > 0) parts.push(m + (m===1?' minuto':' minutos'));
+                    parts.push(s + (s===1?' segundo':' segundos'));
+                    el.innerHTML = 'Compra antes de <strong>' + parts.join(' ') + '</strong> y recíbelo el <strong>' + deliveryDate + '</strong>';
+                    return;
+                  }
+                }
+                el.innerHTML = 'Compra ahora y recíbelo el <strong>' + deliveryDate + '</strong>';
+              }
+              update(); setInterval(update, 1000);
+            })();
+          </script>
+        {%- endif -%}
+      {%- endfor -%}
 
       {%- comment -%} Total {%- endcomment -%}
       <div class="pp-pdp__total" data-pp-total>
