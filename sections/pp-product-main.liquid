@@ -652,6 +652,52 @@
 </script>
 <script src="{{ 'pp-product-main.js' | asset_url }}" type="module" defer></script>
 
+<script>
+(function() {
+  var thumbs = document.querySelectorAll('[data-pp-thumb]');
+  var images = document.querySelectorAll('[data-pp-image]');
+  var mainContainer = document.querySelector('[data-pp-main-images]');
+  if (!thumbs.length || !images.length || !mainContainer) return;
+
+  function activateThumb(index) {
+    thumbs.forEach(function(t, i) {
+      t.classList.toggle('is-active', i === index);
+    });
+  }
+
+  /* Click thumbnail → scroll to image */
+  thumbs.forEach(function(thumb) {
+    thumb.addEventListener('click', function() {
+      var idx = parseInt(thumb.dataset.index);
+      var target = images[idx];
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        activateThumb(idx);
+      }
+    });
+  });
+
+  /* Scroll observer — highlight active thumbnail when scrolling main images */
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          var idx = parseInt(entry.target.dataset.index);
+          activateThumb(idx);
+        }
+      });
+    }, {
+      root: mainContainer,
+      threshold: 0.5
+    });
+
+    images.forEach(function(img) {
+      observer.observe(img);
+    });
+  }
+})();
+</script>
+
 {% schema %}
 {
   "name": "PP Product Main",
