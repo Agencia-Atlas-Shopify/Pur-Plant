@@ -15,14 +15,14 @@
       {% render 'spacing-style', settings: section.settings %}
     "
   >
+    {%- if article.image -%}
+      {%- content_for 'block', id: 'blog-post-image', type: '_blog-post-featured-image' %}
+    {%- endif -%}
+
     <header>
       {%- content_for 'block', id: 'blog-post-title', type: 'text' %}
       {%- content_for 'block', id: 'blog-post-details', type: '_blog-post-info-text' %}
     </header>
-
-    {%- if article.image -%}
-      {%- content_for 'block', id: 'blog-post-image', type: '_blog-post-featured-image' %}
-    {%- endif -%}
     {%- content_for 'block', id: 'blog-post-content', type: '_blog-post-content' %}
 
     {% comment %} Dynamic area for @app blocks only, at the bottom {% endcomment %}
