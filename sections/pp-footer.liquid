@@ -64,7 +64,7 @@
 
   .pp-footer__legal a {
     font-family: 'Inter', sans-serif;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 400;
     color: #e4ffd3;
     text-decoration: none;
@@ -137,11 +137,13 @@
       {%- endif -%}
     </nav>
 
-    <nav class="pp-footer__legal">
-      <a href="/pages/condiciones-venta">Condiciones de Venta</a>
-      <a href="/pages/politica-de-privacidad">Política de Privacidad</a>
-      <a href="/pages/condiciones-de-uso-y-servicio">Condiciones de Uso</a>
-    </nav>
+    {%- if section.settings.legal_menu != blank -%}
+      <nav class="pp-footer__legal">
+        {%- for link in section.settings.legal_menu.links -%}
+          <a href="{{ link.url }}">{{ link.title }}</a>
+        {%- endfor -%}
+      </nav>
+    {%- endif -%}
 
     <span class="pp-footer__copyright">Pur Plant &copy; {{ 'now' | date: '%Y' }}</span>
   </div>
@@ -157,6 +159,11 @@
       "type": "image_picker",
       "id": "logo",
       "label": "Logo (isotipo)"
+    },
+    {
+      "type": "link_list",
+      "id": "legal_menu",
+      "label": "Legal menu"
     },
     {
       "type": "header",
