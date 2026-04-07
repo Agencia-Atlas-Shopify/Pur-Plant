@@ -1,0 +1,198 @@
+<style>
+  .pp-footer {
+    background: #23372c;
+    color: #e4ffd3;
+    padding: 80px var(--page-margin, 40px) 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    min-height: 400px;
+    justify-content: space-between;
+  }
+
+  .pp-footer__logo {
+    align-self: flex-start;
+    margin-bottom: auto;
+  }
+
+  .pp-footer__logo img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: block;
+  }
+
+  .pp-footer__bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    width: 100%;
+  }
+
+  .pp-footer__social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .pp-footer__social a {
+    font-family: 'Tenor Sans', Georgia, serif;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #e4ffd3;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .pp-footer__social a:hover {
+    opacity: 0.6;
+  }
+
+  .pp-footer__legal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+
+  .pp-footer__legal a {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: #e4ffd3;
+    text-decoration: none;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+  }
+
+  .pp-footer__legal a:hover {
+    opacity: 1;
+  }
+
+  .pp-footer__copyright {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #e4ffd3;
+    opacity: 0.6;
+    letter-spacing: 0.05em;
+  }
+
+  @media screen and (max-width: 749px) {
+    .pp-footer {
+      padding: 60px 20px 30px;
+      min-height: 320px;
+    }
+
+    .pp-footer__social {
+      gap: 20px;
+    }
+
+    .pp-footer__social a {
+      font-size: 12px;
+    }
+
+    .pp-footer__legal {
+      gap: 16px;
+    }
+
+    .pp-footer__legal a {
+      font-size: 12px;
+    }
+  }
+</style>
+
+<footer class="pp-footer">
+  <div class="pp-footer__logo">
+    {%- if section.settings.logo != blank -%}
+      <img src="{{ section.settings.logo | image_url: width: 120 }}" alt="Pur Plant" width="60" height="60">
+    {%- else -%}
+      <img src="{{ 'logo_pur_plant_isotipo.png' | asset_url }}" alt="Pur Plant" width="60" height="60">
+    {%- endif -%}
+  </div>
+
+  <div class="pp-footer__bottom">
+    <nav class="pp-footer__social">
+      {%- if section.settings.instagram_url != blank -%}
+        <a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener">Instagram</a>
+      {%- endif -%}
+      {%- if section.settings.tiktok_url != blank -%}
+        <a href="{{ section.settings.tiktok_url }}" target="_blank" rel="noopener">Tik Tok</a>
+      {%- endif -%}
+      {%- if section.settings.pinterest_url != blank -%}
+        <a href="{{ section.settings.pinterest_url }}" target="_blank" rel="noopener">Pinterest</a>
+      {%- endif -%}
+      {%- if section.settings.facebook_url != blank -%}
+        <a href="{{ section.settings.facebook_url }}" target="_blank" rel="noopener">Facebook</a>
+      {%- endif -%}
+      {%- if section.settings.youtube_url != blank -%}
+        <a href="{{ section.settings.youtube_url }}" target="_blank" rel="noopener">YouTube</a>
+      {%- endif -%}
+    </nav>
+
+    <nav class="pp-footer__legal">
+      <a href="/pages/condiciones-venta">Condiciones de Venta</a>
+      <a href="/pages/politica-de-privacidad">Política de Privacidad</a>
+      <a href="/pages/condiciones-de-uso-y-servicio">Condiciones de Uso</a>
+    </nav>
+
+    <span class="pp-footer__copyright">Pur Plant &copy; {{ 'now' | date: '%Y' }}</span>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "PP Footer",
+  "tag": "section",
+  "class": "pp-footer-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo (isotipo)"
+    },
+    {
+      "type": "header",
+      "content": "Social links"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Instagram"
+    },
+    {
+      "type": "url",
+      "id": "tiktok_url",
+      "label": "TikTok"
+    },
+    {
+      "type": "url",
+      "id": "pinterest_url",
+      "label": "Pinterest"
+    },
+    {
+      "type": "url",
+      "id": "facebook_url",
+      "label": "Facebook"
+    },
+    {
+      "type": "url",
+      "id": "youtube_url",
+      "label": "YouTube"
+    }
+  ],
+  "presets": [
+    {
+      "name": "PP Footer",
+      "category": "Pur Plant"
+    }
+  ]
+}
+{% endschema %}
