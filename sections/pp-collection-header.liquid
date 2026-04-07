@@ -1,512 +1,605 @@
 {%- comment -%}
-  PP Collection Header - EME Studios style collection header with title, filters, sort, and view options
-  Uses Shopify Search & Discovery filters dynamically
+  PP Collection Header - Minimal sticky toolbar with filter+sort button and view icons
 {%- endcomment -%}
 
-{{ 'pp-collection-header.css' | asset_url | stylesheet_tag }}
-
 {%- liquid
-  assign collection_title = collection.title | default: 'Collection'
   assign sort_by = collection.sort_by | default: collection.default_sort_by
+  assign active_filters_count = 0
+  for filter in collection.filters
+    assign active_filters_count = active_filters_count | plus: filter.active_values.size
+  endfor
 -%}
 
-<pp-collection-header class="pp-collection-header" data-section-id="{{ section.id }}">
-  {%- if section.settings.show_title -%}
-    <h1 class="pp-collection-header__title">{{ collection_title }}</h1>
-  {%- endif -%}
+<style>
+  pp-collection-header {
+    display: block;
+  }
 
-  <div class="pp-collection-header__toolbar">
-    <div class="pp-collection-header__filters">
-      {%- comment -%} Filter Button - Opens filter panel {%- endcomment -%}
-      <button type="button" class="pp-collection-header__btn pp-collection-header__filter-btn" data-filter-toggle>
-        FILTRAR
-        {%- assign active_filters_count = 0 -%}
-        {%- for filter in collection.filters -%}
-          {%- assign active_filters_count = active_filters_count | plus: filter.active_values.size -%}
-        {%- endfor -%}
-        {%- if active_filters_count > 0 -%}
-          <span class="pp-collection-header__filter-count">{{ active_filters_count }}</span>
-        {%- endif -%}
-      </button>
+  .pp-ch {
+    position: sticky;
+    top: var(--pp-header-height, 60px);
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    padding: 12px var(--page-margin, 40px);
+    min-height: 52px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
 
-      {%- comment -%} Dynamic Filters from Search & Discovery - Only show list type filters {%- endcomment -%}
-      {%- for filter in collection.filters -%}
-        {%- if filter.type == 'list' and filter.values.size > 0 -%}
-          <div class="pp-collection-header__dropdown" data-filter-dropdown>
-            <button type="button" class="pp-collection-header__btn pp-collection-header__dropdown-btn" data-dropdown-toggle>
-              <span>{{ filter.label | upcase }}</span>
-              {%- if filter.active_values.size > 0 -%}
-                <span class="pp-collection-header__filter-badge">{{ filter.active_values.size }}</span>
-              {%- endif -%}
-              <svg xmlns="http://www.w3.org/2000/svg" width="8" height="6" viewBox="0 0 8 6" fill="none">
-                <path d="M0.94 0.726672L4 3.78001L7.06 0.726672L8 1.66667L4 5.66667L0 1.66667L0.94 0.726672Z" fill="currentColor" fill-opacity="0.5"/>
-              </svg>
-            </button>
-            <div class="pp-collection-header__dropdown-content" data-dropdown-content hidden>
-              <ul class="pp-collection-header__filter-list">
-                {%- for value in filter.values -%}
-                  {%- if value.count > 0 or value.active -%}
-                    <li>
-                      <a
-                        href="{{ value.url }}"
-                        class="pp-collection-header__filter-option{% if value.active %} is-active{% endif %}"
-                        {% if value.count == 0 and value.active == false %}aria-disabled="true"{% endif %}
-                      >
-                        <span class="pp-collection-header__filter-checkbox">
-                          {%- if value.active -%}
-                            <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
-                              <path d="M1 4L3.5 6.5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                          {%- endif -%}
-                        </span>
-                        <span>{{ value.label }}</span>
-                        <span class="pp-collection-header__filter-count">({{ value.count }})</span>
-                      </a>
-                    </li>
-                  {%- endif -%}
-                {%- endfor -%}
-              </ul>
-            </div>
-          </div>
-        {%- endif -%}
-      {%- endfor -%}
-    </div>
+  /* Filter + Sort button */
+  .pp-ch__filter-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #23372c;
+    padding: 8px 0;
+    transition: opacity 0.2s;
+  }
 
-    {%- comment -%} Sort Dropdown {%- endcomment -%}
-    <div class="pp-collection-header__sort" data-sort-dropdown>
-      <button type="button" class="pp-collection-header__btn pp-collection-header__sort-btn" data-sort-toggle>
-        <span>ORDENAR</span>
-      </button>
-      <div class="pp-collection-header__sort-options" data-sort-options hidden>
+  .pp-ch__filter-btn:hover {
+    opacity: 0.6;
+  }
+
+  .pp-ch__filter-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    background: #23372c;
+    color: #e4ffd3;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 700;
+  }
+
+  /* View icons */
+  .pp-ch__views {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+
+  .pp-ch__view-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #b0b0b0;
+    transition: color 0.15s;
+    position: relative;
+  }
+
+  .pp-ch__view-btn::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 1px;
+    background: #23372c;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  .pp-ch__view-btn:hover {
+    color: #23372c;
+  }
+
+  .pp-ch__view-btn:hover::after {
+    opacity: 0.3;
+  }
+
+  .pp-ch__view-btn.is-active {
+    color: #23372c;
+  }
+
+  .pp-ch__view-btn.is-active::after {
+    opacity: 1;
+  }
+
+  .pp-ch__view-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Desktop views hidden on mobile, mobile views hidden on desktop */
+  .pp-ch__views--desktop { display: none; }
+  .pp-ch__views--mobile { display: flex; }
+
+  @media screen and (min-width: 750px) {
+    .pp-ch__views--desktop { display: flex; }
+    .pp-ch__views--mobile { display: none; }
+  }
+
+  @media screen and (min-width: 1000px) {
+    .pp-ch__view-btn {
+      width: 28px;
+      height: 28px;
+    }
+    .pp-ch {
+      gap: 12px;
+    }
+  }
+
+  /* ═══ Filter/Sort Side Panel ═══ */
+  .pp-ch__panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 400px;
+    background: #fff;
+    z-index: 10001;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .pp-ch__panel.is-open {
+    transform: translateX(0);
+  }
+
+  .pp-ch__panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    flex-shrink: 0;
+  }
+
+  .pp-ch__panel-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #23372c;
+  }
+
+  .pp-ch__panel-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #23372c;
+    padding: 4px;
+  }
+
+  .pp-ch__panel-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0;
+  }
+
+  /* Sort section */
+  .pp-ch__sort-section {
+    padding: 16px 24px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+
+  .pp-ch__sort-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #23372c;
+    opacity: 0.5;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .pp-ch__sort-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .pp-ch__sort-option {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: #23372c;
+    text-decoration: none;
+    padding: 6px 12px;
+    border: 1px solid rgba(35,55,44,0.15);
+    border-radius: 100px;
+    transition: all 0.15s;
+  }
+
+  .pp-ch__sort-option:hover {
+    border-color: #23372c;
+  }
+
+  .pp-ch__sort-option.is-active {
+    background: #23372c;
+    color: #e4ffd3;
+    border-color: #23372c;
+  }
+
+  /* Filter groups */
+  .pp-ch__filter-group {
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+
+  .pp-ch__filter-group summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #23372c;
+    list-style: none;
+  }
+
+  .pp-ch__filter-group summary::-webkit-details-marker { display: none; }
+
+  .pp-ch__filter-group summary svg {
+    transition: transform 0.2s;
+  }
+
+  .pp-ch__filter-group[open] summary svg {
+    transform: rotate(180deg);
+  }
+
+  .pp-ch__filter-group-content {
+    padding: 0 24px 16px;
+  }
+
+  .pp-ch__filter-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .pp-ch__filter-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #23372c;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    padding: 6px 0;
+    transition: opacity 0.15s;
+  }
+
+  .pp-ch__filter-option:hover { opacity: 0.6; }
+
+  .pp-ch__filter-checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border: 1px solid rgba(35,55,44,0.3);
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  .pp-ch__filter-option.is-active .pp-ch__filter-checkbox {
+    background: #23372c;
+    border-color: #23372c;
+    color: #e4ffd3;
+  }
+
+  .pp-ch__filter-count {
+    opacity: 0.4;
+    font-size: 11px;
+    margin-left: auto;
+  }
+
+  /* Price range */
+  .pp-ch__price-inputs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .pp-ch__price-input {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    border: 1px solid rgba(35,55,44,0.2);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 13px;
+    flex: 1;
+  }
+
+  .pp-ch__price-input input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 13px;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .pp-ch__price-apply {
+    margin-top: 10px;
+    background: #23372c;
+    color: #e4ffd3;
+    border: none;
+    border-radius: 100px;
+    padding: 8px 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  /* Footer */
+  .pp-ch__panel-footer {
+    padding: 16px 24px;
+    border-top: 1px solid rgba(0,0,0,0.08);
+    flex-shrink: 0;
+  }
+
+  .pp-ch__filter-clear {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: #23372c;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* Backdrop */
+  .pp-ch__backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+
+  .pp-ch__backdrop.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+</style>
+
+<pp-collection-header class="pp-ch" data-section-id="{{ section.id }}">
+  {%- comment -%} Filter + Sort button {%- endcomment -%}
+  <button type="button" class="pp-ch__filter-btn" data-panel-open>
+    <span>Filtrar y ordenar</span>
+    {%- if active_filters_count > 0 -%}
+      <span class="pp-ch__filter-badge">{{ active_filters_count }}</span>
+    {%- endif -%}
+  </button>
+
+  {%- comment -%} View icons {%- endcomment -%}
+  <div class="pp-ch__views pp-ch__views--desktop">
+    <button type="button" class="pp-ch__view-btn" data-view-desktop="2" aria-label="Mostrar pocos artículos">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M14 14H2V2h12zM3 13h10V3H3z" clip-rule="evenodd"/></svg>
+    </button>
+    <button type="button" class="pp-ch__view-btn" data-view-desktop="3" aria-label="Mostrar más artículos">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M14 14H2V2h12zm-5.5-1H13V3H8.5zM3 13h4.5V3H3z" clip-rule="evenodd"/></svg>
+    </button>
+    <button type="button" class="pp-ch__view-btn" data-view-desktop="4" aria-label="Mostrar el máximo de artículos">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M14 14H2V2h12zM3 8.5V13h4.5V8.5zm5.5 0V13H13V8.5zM3 7.5h4.5V3H3zm5.5 0H13V3H8.5z" clip-rule="evenodd"/></svg>
+    </button>
+  </div>
+  <div class="pp-ch__views pp-ch__views--mobile">
+    <button type="button" class="pp-ch__view-btn" data-view-mobile="1" aria-label="1 columna">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M14 14H2V2h12zM3 13h10V3H3z" clip-rule="evenodd"/></svg>
+    </button>
+    <button type="button" class="pp-ch__view-btn" data-view-mobile="2" aria-label="2 columnas">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M14 14H2V2h12zm-5.5-1H13V3H8.5zM3 13h4.5V3H3z" clip-rule="evenodd"/></svg>
+    </button>
+    <button type="button" class="pp-ch__view-btn" data-view-mobile="3" aria-label="3 columnas">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M14 14H2V2h12zM3 8.5V13h4.5V8.5zm5.5 0V13H13V8.5zM3 7.5h4.5V3H3zm5.5 0H13V3H8.5z" clip-rule="evenodd"/></svg>
+    </button>
+  </div>
+</pp-collection-header>
+
+{%- comment -%} Side Panel {%- endcomment -%}
+<div class="pp-ch__panel" data-panel hidden>
+  <div class="pp-ch__panel-header">
+    <span class="pp-ch__panel-title">Filtrar y ordenar</span>
+    <button type="button" class="pp-ch__panel-close" data-panel-close>
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1L13 13M1 13L13 1"/></svg>
+    </button>
+  </div>
+  <div class="pp-ch__panel-content">
+    {%- comment -%} Sort {%- endcomment -%}
+    <div class="pp-ch__sort-section">
+      <span class="pp-ch__sort-label">Ordenar por</span>
+      <div class="pp-ch__sort-options">
         {%- for option in collection.sort_options -%}
-          <a
-            href="{{ collection.url }}?sort_by={{ option.value }}"
-            class="pp-collection-header__btn pp-collection-header__sort-option{% if option.value == sort_by %} is-active{% endif %}"
-            data-sort-value="{{ option.value }}"
-          >
-            {{ option.name | upcase }}
+          <a href="{{ collection.url }}?sort_by={{ option.value }}" class="pp-ch__sort-option{% if option.value == sort_by %} is-active{% endif %}">
+            {{ option.name }}
           </a>
         {%- endfor -%}
       </div>
     </div>
 
-    {%- comment -%} View Options {%- endcomment -%}
-    <div class="pp-collection-header__view" data-view-options>
-      <span class="pp-collection-header__view-label">VISTA</span>
-
-      {%- comment -%} Mobile View Options (1, 2, 3 columns) {%- endcomment -%}
-      <div class="pp-collection-header__view-options pp-collection-header__view-options--mobile">
-        <button type="button" class="pp-collection-header__view-btn" data-view-columns="1" data-view-mobile="1">1</button>
-        <button type="button" class="pp-collection-header__view-btn" data-view-columns="2" data-view-mobile="2">2</button>
-        <button type="button" class="pp-collection-header__view-btn" data-view-columns="3" data-view-mobile="3">3</button>
-      </div>
-
-      {%- comment -%} Desktop View Options (2, 3, 4, 6 columns) {%- endcomment -%}
-      <div class="pp-collection-header__view-options pp-collection-header__view-options--desktop">
-        <button type="button" class="pp-collection-header__view-btn" data-view-columns="2" data-view-desktop="2">2</button>
-        <button type="button" class="pp-collection-header__view-btn" data-view-columns="3" data-view-desktop="3">3</button>
-        <button type="button" class="pp-collection-header__view-btn" data-view-columns="4" data-view-desktop="4">4</button>
-        <button type="button" class="pp-collection-header__view-btn" data-view-columns="6" data-view-desktop="6">6</button>
-      </div>
-    </div>
-
-    {%- comment -%} Layout Toggle (Grid/List) {%- endcomment -%}
-    <div class="pp-collection-header__layout" data-layout-toggle>
-      <div class="pp-collection-header__layout-options">
-        <button type="button" class="pp-collection-header__layout-btn is-active" data-layout="grid" aria-label="Grid view">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <rect x="2" y="2" width="7" height="7" fill="currentColor"/>
-            <rect x="11" y="2" width="7" height="7" fill="currentColor"/>
-            <rect x="2" y="11" width="7" height="7" fill="currentColor"/>
-            <rect x="11" y="11" width="7" height="7" fill="currentColor"/>
-          </svg>
-        </button>
-        <button type="button" class="pp-collection-header__layout-btn" data-layout="list" aria-label="List view">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <rect x="2" y="2" width="16" height="4" fill="currentColor"/>
-            <rect x="2" y="8" width="16" height="4" fill="currentColor"/>
-            <rect x="2" y="14" width="16" height="4" fill="currentColor"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  {%- comment -%} Filter Panel (Mobile) {%- endcomment -%}
-  <div class="pp-collection-header__filter-panel" data-filter-panel hidden>
-    <div class="pp-collection-header__filter-panel-header">
-      <span>FILTRAR</span>
-      <button type="button" class="pp-collection-header__filter-panel-close" data-filter-close>
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M1 1L13 13M1 13L13 1"/>
-        </svg>
-      </button>
-    </div>
-    <div class="pp-collection-header__filter-panel-content">
-      {%- for filter in collection.filters -%}
-        {%- if filter.type == 'list' and filter.values.size > 0 -%}
-          <details class="pp-collection-header__filter-group" {% if filter.active_values.size > 0 %}open{% endif %}>
-            <summary class="pp-collection-header__filter-group-header">
-              <span>{{ filter.label }}</span>
-              {%- if filter.active_values.size > 0 -%}
-                <span class="pp-collection-header__filter-group-count">({{ filter.active_values.size }})</span>
-              {%- endif -%}
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path d="M2 4l3 3 3-3"/>
-              </svg>
-            </summary>
-            <div class="pp-collection-header__filter-group-content">
-              <ul class="pp-collection-header__filter-list">
-                {%- for value in filter.values -%}
-                  {%- if value.count > 0 or value.active -%}
-                    <li>
-                      <a
-                        href="{{ value.url }}"
-                        class="pp-collection-header__filter-option{% if value.active %} is-active{% endif %}"
-                      >
-                        <span class="pp-collection-header__filter-checkbox">
-                          {%- if value.active -%}
-                            <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
-                              <path d="M1 4L3.5 6.5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                          {%- endif -%}
-                        </span>
-                        <span>{{ value.label }}</span>
-                        <span class="pp-collection-header__filter-count">({{ value.count }})</span>
-                      </a>
-                    </li>
-                  {%- endif -%}
-                {%- endfor -%}
-              </ul>
-            </div>
-          </details>
-        {%- elsif filter.type == 'price_range' -%}
-          <details class="pp-collection-header__filter-group">
-            <summary class="pp-collection-header__filter-group-header">
-              <span>{{ filter.label }}</span>
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path d="M2 4l3 3 3-3"/>
-              </svg>
-            </summary>
-            <div class="pp-collection-header__filter-group-content">
-              <form class="pp-collection-header__price-form" data-price-form>
-                <div class="pp-collection-header__price-inputs">
-                  <div class="pp-collection-header__price-input">
-                    <span>{{ cart.currency.symbol }}</span>
-                    <input
-                      type="number"
-                      name="{{ filter.min_value.param_name }}"
-                      min="0"
-                      max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
-                      value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"
-                      placeholder="{{ filter.range_min | money_without_currency }}"
-                    >
-                  </div>
-                  <span>-</span>
-                  <div class="pp-collection-header__price-input">
-                    <span>{{ cart.currency.symbol }}</span>
-                    <input
-                      type="number"
-                      name="{{ filter.max_value.param_name }}"
-                      min="0"
-                      max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
-                      value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
-                      placeholder="{{ filter.range_max | money_without_currency }}"
-                    >
-                  </div>
+    {%- comment -%} Filters {%- endcomment -%}
+    {%- for filter in collection.filters -%}
+      {%- if filter.type == 'list' and filter.values.size > 0 -%}
+        <details class="pp-ch__filter-group" {% if filter.active_values.size > 0 %}open{% endif %}>
+          <summary>
+            <span>{{ filter.label }}{% if filter.active_values.size > 0 %} ({{ filter.active_values.size }}){% endif %}</span>
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4l3 3 3-3"/></svg>
+          </summary>
+          <div class="pp-ch__filter-group-content">
+            <ul class="pp-ch__filter-list">
+              {%- for value in filter.values -%}
+                {%- if value.count > 0 or value.active -%}
+                  <li>
+                    <a href="{{ value.url }}" class="pp-ch__filter-option{% if value.active %} is-active{% endif %}">
+                      <span class="pp-ch__filter-checkbox">
+                        {%- if value.active -%}
+                          <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        {%- endif -%}
+                      </span>
+                      <span>{{ value.label }}</span>
+                      <span class="pp-ch__filter-count">({{ value.count }})</span>
+                    </a>
+                  </li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          </div>
+        </details>
+      {%- elsif filter.type == 'price_range' -%}
+        <details class="pp-ch__filter-group">
+          <summary>
+            <span>{{ filter.label }}</span>
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4l3 3 3-3"/></svg>
+          </summary>
+          <div class="pp-ch__filter-group-content">
+            <form class="pp-ch__price-form" data-price-form>
+              <div class="pp-ch__price-inputs">
+                <div class="pp-ch__price-input">
+                  <span>{{ cart.currency.symbol }}</span>
+                  <input type="number" name="{{ filter.min_value.param_name }}" min="0" max="{{ filter.range_max | money_without_currency | replace: ',', '' }}" value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}" placeholder="{{ filter.range_min | money_without_currency }}">
                 </div>
-                <button type="submit" class="pp-collection-header__price-apply">Aplicar</button>
-              </form>
-            </div>
-          </details>
-        {%- endif -%}
-      {%- endfor -%}
-    </div>
-    {%- if active_filters_count > 0 -%}
-      <div class="pp-collection-header__filter-panel-footer">
-        <a href="{{ collection.url }}" class="pp-collection-header__filter-clear">Limpiar todo</a>
-      </div>
-    {%- endif -%}
+                <span>–</span>
+                <div class="pp-ch__price-input">
+                  <span>{{ cart.currency.symbol }}</span>
+                  <input type="number" name="{{ filter.max_value.param_name }}" min="0" max="{{ filter.range_max | money_without_currency | replace: ',', '' }}" value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}" placeholder="{{ filter.range_max | money_without_currency }}">
+                </div>
+              </div>
+              <button type="submit" class="pp-ch__price-apply">Aplicar</button>
+            </form>
+          </div>
+        </details>
+      {%- endif -%}
+    {%- endfor -%}
   </div>
-  <div class="pp-collection-header__backdrop" data-backdrop hidden></div>
-</pp-collection-header>
+  {%- if active_filters_count > 0 -%}
+    <div class="pp-ch__panel-footer">
+      <a href="{{ collection.url }}" class="pp-ch__filter-clear">Limpiar todo</a>
+    </div>
+  {%- endif -%}
+</div>
+<div class="pp-ch__backdrop" data-backdrop></div>
 
 <script>
-  if (!customElements.get('pp-collection-header')) {
-    class RCCollectionHeader extends HTMLElement {
-      constructor() {
-        super();
-        this.STORAGE_KEY_DESKTOP = 'pp_grid_columns_desktop';
-        this.STORAGE_KEY_MOBILE = 'pp_grid_columns_mobile';
-        this.STORAGE_KEY_LAYOUT = 'pp_grid_layout';
-      }
+if (!customElements.get('pp-collection-header')) {
+  class PPCollectionHeader extends HTMLElement {
+    constructor() { super(); }
 
-      connectedCallback() {
-        this.initFilterPanel();
-        this.initDropdowns();
-        this.initSortDropdown();
-        this.initViewOptions();
-        this.initLayoutToggle();
-        this.initPriceForms();
-      }
+    connectedCallback() {
+      this.STORAGE_DESKTOP = 'pp_grid_cols_desktop';
+      this.STORAGE_MOBILE = 'pp_grid_cols_mobile';
 
-      // Filter Panel (Mobile)
-      initFilterPanel() {
-        const filterToggle = this.querySelector('[data-filter-toggle]');
-        const filterPanel = this.querySelector('[data-filter-panel]');
-        const filterClose = this.querySelector('[data-filter-close]');
-        const backdrop = this.querySelector('[data-backdrop]');
-
-        if (!filterToggle || !filterPanel) return;
-
-        filterToggle.addEventListener('click', () => {
-          filterPanel.hidden = false;
-          backdrop.hidden = false;
-          document.body.style.overflow = 'hidden';
-          setTimeout(() => {
-            filterPanel.classList.add('is-open');
-            backdrop.classList.add('is-open');
-          }, 10);
-        });
-
-        const closePanel = () => {
-          filterPanel.classList.remove('is-open');
-          backdrop.classList.remove('is-open');
-          document.body.style.overflow = '';
-          setTimeout(() => {
-            filterPanel.hidden = true;
-            backdrop.hidden = true;
-          }, 300);
-        };
-
-        filterClose?.addEventListener('click', closePanel);
-        backdrop?.addEventListener('click', closePanel);
-      }
-
-      // Filter Dropdowns (Desktop)
-      initDropdowns() {
-        const dropdowns = this.querySelectorAll('[data-filter-dropdown]');
-
-        dropdowns.forEach(dropdown => {
-          const toggle = dropdown.querySelector('[data-dropdown-toggle]');
-          const content = dropdown.querySelector('[data-dropdown-content]');
-
-          if (!toggle || !content) return;
-
-          toggle.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const isOpen = !content.hidden;
-
-            // Close all dropdowns first (including sort)
-            this.closeAllDropdowns();
-            this.closeSortDropdown();
-
-            if (!isOpen) {
-              content.hidden = false;
-              dropdown.classList.add('is-open');
-            }
-          });
-        });
-
-        // Close dropdowns when clicking outside
-        document.addEventListener('click', (e) => {
-          if (!e.target.closest('[data-filter-dropdown]')) {
-            this.closeAllDropdowns();
-          }
-        });
-      }
-
-      closeAllDropdowns() {
-        const dropdowns = this.querySelectorAll('[data-filter-dropdown]');
-        dropdowns.forEach(dropdown => {
-          const content = dropdown.querySelector('[data-dropdown-content]');
-          if (content) {
-            content.hidden = true;
-            dropdown.classList.remove('is-open');
-          }
-        });
-      }
-
-      // Sort Dropdown
-      initSortDropdown() {
-        const sortDropdown = this.querySelector('[data-sort-dropdown]');
-        const sortToggle = this.querySelector('[data-sort-toggle]');
-        const sortOptions = this.querySelector('[data-sort-options]');
-
-        if (!sortToggle || !sortOptions) return;
-
-        sortToggle.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const isOpen = !sortOptions.hidden;
-
-          // Close filter dropdowns first
-          this.closeAllDropdowns();
-
-          sortOptions.hidden = isOpen;
-          sortDropdown?.classList.toggle('is-open', !isOpen);
-        });
-
-        document.addEventListener('click', (e) => {
-          if (!e.target.closest('[data-sort-dropdown]')) {
-            sortOptions.hidden = true;
-            sortDropdown?.classList.remove('is-open');
-          }
-        });
-      }
-
-      closeSortDropdown() {
-        const sortDropdown = this.querySelector('[data-sort-dropdown]');
-        const sortOptions = this.querySelector('[data-sort-options]');
-        if (sortOptions) {
-          sortOptions.hidden = true;
-          sortDropdown?.classList.remove('is-open');
-        }
-      }
-
-      // View Options (Grid columns)
-      initViewOptions() {
-        const viewContainer = this.querySelector('[data-view-options]');
-        if (!viewContainer) return;
-
-        const mobileButtons = viewContainer.querySelectorAll('[data-view-mobile]');
-        const desktopButtons = viewContainer.querySelectorAll('[data-view-desktop]');
-
-        // Get saved preferences
-        const savedDesktop = localStorage.getItem(this.STORAGE_KEY_DESKTOP) || '3';
-        const savedMobile = localStorage.getItem(this.STORAGE_KEY_MOBILE) || '2';
-
-        // Apply saved columns
-        this.applyGridColumns(savedDesktop, savedMobile);
-
-        // Set initial active states
-        mobileButtons.forEach(btn => {
-          if (btn.dataset.viewMobile === savedMobile) {
-            btn.classList.add('is-active');
-          }
-          btn.addEventListener('click', () => {
-            mobileButtons.forEach(b => b.classList.remove('is-active'));
-            btn.classList.add('is-active');
-            localStorage.setItem(this.STORAGE_KEY_MOBILE, btn.dataset.viewMobile);
-            this.applyGridColumns(
-              localStorage.getItem(this.STORAGE_KEY_DESKTOP) || '3',
-              btn.dataset.viewMobile
-            );
-          });
-        });
-
-        desktopButtons.forEach(btn => {
-          if (btn.dataset.viewDesktop === savedDesktop) {
-            btn.classList.add('is-active');
-          }
-          btn.addEventListener('click', () => {
-            desktopButtons.forEach(b => b.classList.remove('is-active'));
-            btn.classList.add('is-active');
-            localStorage.setItem(this.STORAGE_KEY_DESKTOP, btn.dataset.viewDesktop);
-            this.applyGridColumns(
-              btn.dataset.viewDesktop,
-              localStorage.getItem(this.STORAGE_KEY_MOBILE) || '2'
-            );
-          });
-        });
-      }
-
-      applyGridColumns(desktop, mobile) {
-        const grid = document.querySelector('.pp-collection__grid') ||
-                     document.querySelector('.product-grid') ||
-                     document.querySelector('[class*="collection"] ul[role="list"]');
-
-        if (!grid) return;
-
-        // Get default values from data attributes if not provided
-        const defaultDesktop = grid.dataset.defaultColsDesktop || '3';
-        const defaultMobile = grid.dataset.defaultColsMobile || '2';
-        const defaultTablet = grid.dataset.defaultColsTablet || '3';
-
-        const finalDesktop = desktop || defaultDesktop;
-        const finalMobile = mobile || defaultMobile;
-
-        grid.style.setProperty('--pp-cols-desktop', finalDesktop);
-        grid.style.setProperty('--pp-cols-mobile', finalMobile);
-        grid.style.setProperty('--pp-items-per-row', finalDesktop);
-        grid.setAttribute('data-pp-view-columns', finalDesktop);
-
-        // Tablet is between mobile and desktop
-        const tablet = Math.max(2, Math.min(parseInt(finalDesktop) - 1, parseInt(finalMobile) + 1));
-        grid.style.setProperty('--pp-cols-tablet', tablet);
-      }
-
-      // Layout Toggle (Grid/List)
-      initLayoutToggle() {
-        const layoutButtons = this.querySelectorAll('[data-layout]');
-        if (!layoutButtons.length) return;
-
-        // Get saved layout preference
-        const savedLayout = localStorage.getItem(this.STORAGE_KEY_LAYOUT) || 'grid';
-
-        // Apply saved layout on load
-        this.applyLayout(savedLayout);
-
-        // Set initial active state on buttons
-        layoutButtons.forEach(btn => {
-          if (btn.dataset.layout === savedLayout) {
-            btn.classList.add('is-active');
-          } else {
-            btn.classList.remove('is-active');
-          }
-
-          btn.addEventListener('click', () => {
-            const layout = btn.dataset.layout;
-
-            // Update active state
-            layoutButtons.forEach(b => b.classList.remove('is-active'));
-            btn.classList.add('is-active');
-
-            // Save preference
-            localStorage.setItem(this.STORAGE_KEY_LAYOUT, layout);
-
-            // Apply layout
-            this.applyLayout(layout);
-          });
-        });
-      }
-
-      applyLayout(layout) {
-        const grid = document.querySelector('.pp-collection__grid') ||
-                     document.querySelector('.product-grid');
-
-        if (!grid) return;
-
-        grid.dataset.layout = layout;
-        grid.classList.toggle('pp-collection__grid--list', layout === 'list');
-        grid.classList.toggle('product-grid--list', layout === 'list');
-      }
-
-      // Price Range Forms
-      initPriceForms() {
-        const priceForms = this.querySelectorAll('[data-price-form]');
-
-        priceForms.forEach(form => {
-          form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const formData = new FormData(form);
-            const url = new URL(window.location.href);
-
-            formData.forEach((value, key) => {
-              if (value) {
-                url.searchParams.set(key, value);
-              } else {
-                url.searchParams.delete(key);
-              }
-            });
-
-            window.location.href = url.toString();
-          });
-        });
-      }
+      this.initPanel();
+      this.initViews();
+      this.initPriceForms();
     }
 
-    customElements.define('pp-collection-header', RCCollectionHeader);
+    initPanel() {
+      const openBtn = this.querySelector('[data-panel-open]');
+      const panel = document.querySelector('.pp-ch__panel');
+      const closeBtn = document.querySelector('.pp-ch__panel-close');
+      const backdrop = document.querySelector('.pp-ch__backdrop');
+      if (!openBtn || !panel) return;
+
+      const open = () => {
+        panel.hidden = false;
+        backdrop.hidden = false;
+        document.body.style.overflow = 'hidden';
+        requestAnimationFrame(() => {
+          panel.classList.add('is-open');
+          backdrop.classList.add('is-open');
+        });
+      };
+
+      const close = () => {
+        panel.classList.remove('is-open');
+        backdrop.classList.remove('is-open');
+        document.body.style.overflow = '';
+        setTimeout(() => { panel.hidden = true; backdrop.hidden = true; }, 300);
+      };
+
+      openBtn.addEventListener('click', open);
+      closeBtn?.addEventListener('click', close);
+      backdrop?.addEventListener('click', close);
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+    }
+
+    initViews() {
+      const savedDesktop = localStorage.getItem(this.STORAGE_DESKTOP) || '3';
+      const savedMobile = localStorage.getItem(this.STORAGE_MOBILE) || '2';
+      this.applyGrid(savedDesktop, savedMobile);
+
+      this.querySelectorAll('[data-view-desktop]').forEach(btn => {
+        if (btn.dataset.viewDesktop === savedDesktop) btn.classList.add('is-active');
+        btn.addEventListener('click', () => {
+          this.querySelectorAll('[data-view-desktop]').forEach(b => b.classList.remove('is-active'));
+          btn.classList.add('is-active');
+          localStorage.setItem(this.STORAGE_DESKTOP, btn.dataset.viewDesktop);
+          this.applyGrid(btn.dataset.viewDesktop, localStorage.getItem(this.STORAGE_MOBILE) || '2');
+        });
+      });
+
+      this.querySelectorAll('[data-view-mobile]').forEach(btn => {
+        if (btn.dataset.viewMobile === savedMobile) btn.classList.add('is-active');
+        btn.addEventListener('click', () => {
+          this.querySelectorAll('[data-view-mobile]').forEach(b => b.classList.remove('is-active'));
+          btn.classList.add('is-active');
+          localStorage.setItem(this.STORAGE_MOBILE, btn.dataset.viewMobile);
+          this.applyGrid(localStorage.getItem(this.STORAGE_DESKTOP) || '3', btn.dataset.viewMobile);
+        });
+      });
+    }
+
+    applyGrid(desktop, mobile) {
+      const grid = document.querySelector('.pp-collection__grid') ||
+                   document.querySelector('.product-grid') ||
+                   document.querySelector('[class*="collection"] ul[role="list"]');
+      if (!grid) return;
+      grid.style.setProperty('--pp-cols-desktop', desktop);
+      grid.style.setProperty('--pp-cols-mobile', mobile);
+      grid.style.setProperty('--pp-items-per-row', desktop);
+      const tablet = Math.max(2, Math.min(parseInt(desktop) - 1, parseInt(mobile) + 1));
+      grid.style.setProperty('--pp-cols-tablet', tablet);
+    }
+
+    initPriceForms() {
+      document.querySelectorAll('[data-price-form]').forEach(form => {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const url = new URL(window.location.href);
+          new FormData(form).forEach((v, k) => { v ? url.searchParams.set(k, v) : url.searchParams.delete(k); });
+          window.location.href = url.toString();
+        });
+      });
+    }
   }
+
+  customElements.define('pp-collection-header', PPCollectionHeader);
+}
 </script>
 
 {% schema %}
@@ -516,38 +609,7 @@
   "enabled_on": {
     "templates": ["collection"]
   },
-  "settings": [
-    {
-      "type": "checkbox",
-      "id": "show_title",
-      "label": "Show collection title",
-      "default": false
-    },
-    {
-      "type": "checkbox",
-      "id": "show_filter_button",
-      "label": "Show filter button",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_sort",
-      "label": "Show sort options",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_view_options",
-      "label": "Show view options",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_layout_toggle",
-      "label": "Show layout toggle",
-      "default": true
-    }
-  ],
+  "settings": [],
   "presets": [
     {
       "name": "PP Collection Header"
