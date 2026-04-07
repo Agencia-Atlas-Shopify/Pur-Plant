@@ -107,13 +107,7 @@
     },
     "pp_collection_header": {
       "type": "pp-collection-header",
-      "settings": {
-        "show_title": false,
-        "show_filter_button": true,
-        "show_sort": true,
-        "show_view_options": true,
-        "show_layout_toggle": true
-      }
+      "settings": {}
     },
     "pp_collection_grid": {
       "type": "pp-collection",
@@ -329,7 +323,7 @@
         "collection_list": "{{ collection.metafields.custom.por_estancias.value }}",
         "layout_type": "carousel",
         "carousel_on_mobile": false,
-        "columns": 6,
+        "columns": 5,
         "columns_laptop": 3,
         "mobile_columns": "2",
         "mobile_card_size": "44cqw",
