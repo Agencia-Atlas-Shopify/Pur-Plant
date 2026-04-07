@@ -768,9 +768,9 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
   text-align: center;
 }
 
-/* ═══ PP Collection Description — PLNTS-inspired ═══ */
+/* ═══ PP Collection Description ═══ */
 .pp-coll-desc {
-  background-color: #F5F0E8;
+  background-color: #fff;
 }
 
 .pp-coll-desc__inner {
@@ -787,14 +787,16 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
   max-width: var(--page-content-width, 120rem);
   margin: 0 auto;
   padding: 0 var(--page-margin, 40px);
+  padding-bottom: 16px;
+  border-bottom: 1px solid #23372c;
 }
 
 .pp-coll-desc__title {
-  font-family: 'Tenor Sans', 'Aileron', serif;
-  font-size: 30px;
-  font-weight: 400;
+  font-family: 'Poppins', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
   color: #23372c;
-  line-height: 1;
+  line-height: 1.2;
   margin: 0;
 }
 
@@ -807,7 +809,7 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
   cursor: pointer;
   font-family: 'Inter', sans-serif;
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 300;
   color: #23372c;
   padding: 0;
   flex-shrink: 0;
@@ -835,16 +837,14 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
 }
 
 .pp-coll-desc__columns {
-  padding: 32px var(--page-margin, 40px) 0;
-  max-width: var(--page-content-width, 120rem);
+  padding: 24px var(--page-margin, 40px) 0;
+  max-width: 100%;
   margin: 0 auto;
   color: #23372c;
   font-family: 'Inter', sans-serif;
   font-size: 15px;
   line-height: 1.75;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 32px;
+  display: block;
 }
 
 /* Prose styling inside description */
@@ -893,8 +893,6 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
 
 @media screen and (max-width: 749px) {
   .pp-coll-desc__columns {
-    grid-template-columns: 1fr;
-    gap: 0;
     font-size: 14px;
   }
 

@@ -225,7 +225,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 8px;
+  gap: 0;
   padding-block: 3rem;
   font-family: 'Inter', sans-serif;
 }
