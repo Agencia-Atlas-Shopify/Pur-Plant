@@ -895,8 +895,9 @@
   margin-top: 16px;
   text-align: left;
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
-  gap: 10px;
+  gap: 4px;
 }
 
 .pp-pdp__shipping-bottom-row {
