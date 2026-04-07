@@ -836,7 +836,7 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
 }
 
 .pp-coll-desc__columns {
-  padding: 24px var(--page-margin, 40px) 0;
+  padding: 24px var(--page-margin, 40px) 0 0;
   max-width: 100%;
   margin: 0 auto;
   color: #23372c;
