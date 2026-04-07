@@ -177,7 +177,7 @@
         "title": "EXPLORA LA COLECCIÓN",
         "view_all_text": "Ver todo",
         "view_all_link": "",
-        "collection": "{{ product.metafields.custom.explora_la_coleccion.value }}",
+        "collection": "top-ventas",
         "max_products": 4,
         "image_ratio": "portrait",
         "products_per_row_mobile": 2,
