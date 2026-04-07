@@ -183,8 +183,8 @@
         "mobile_promo_2"
       ],
       "settings": {
-        "logo": "shopify://shop_images/logo_pur_plant_positivo.png",
-        "logo_width": 90,
+        "logo": "shopify://shop_images/Logo_Pur_Plant.svg",
+        "logo_width": 130,
         "logo_mobile_width": 90,
         "show_announcement": true,
         "announcement_text": "ENVÍO GRATIS PEDIDOS +49€ — ENVÍO GRATIS PEDIDOS +49€ — ENVÍO GRATIS PEDIDOS +49€ —",
