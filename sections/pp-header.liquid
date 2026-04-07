@@ -115,11 +115,7 @@
             </a>
           </li>
           <li class="pp-header__nav-item">
-            <a href="/pages/wishlist" class="pp-header__nav-link" aria-label="Favoritos">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10 17.5s-7-4.5-7-9a4 4 0 0 1 7-2.5A4 4 0 0 1 17 8.5c0 4.5-7 9-7 9z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
-              </svg>
-            </a>
+            <div class="swym-wishlist-launcher" data-swaction="addToWishlist"></div>
           </li>
           <li class="pp-header__nav-item pp-header__cart-link">
             <a href="{{ routes.cart_url }}" class="pp-header__nav-link" aria-label="Carrito" data-cart-drawer-trigger>
@@ -170,8 +166,7 @@
     {%- endif -%}
   </header>
 
-{%- comment -%} Load wishlist JS globally so counter works on every page {%- endcomment -%}
-<div style="display:none;" aria-hidden="true">{% render 'pp-wishlist', type: 'icon' %}</div>
+{%- comment -%} Swym Wishlist handles wishlist functionality via app embed {%- endcomment -%}
 
 {%- comment -%} Mobile Menu Drawer - EME Studios Style {%- endcomment -%}
 <pp-mobile-menu id="pp-mobile-menu" class="pp-mobile-menu" hidden>
