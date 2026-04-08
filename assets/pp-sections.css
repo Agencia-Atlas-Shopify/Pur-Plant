@@ -1200,3 +1200,26 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
   max-width: 100% !important;
   --max-width: 100% !important;
 }
+
+/* Swym wishlist button in product cards — inline next to title */
+.pp-card__title-row .swym-advanced-wishlist-collections-container {
+  position: static !important;
+  flex-shrink: 0;
+}
+
+.pp-card__title-row .swym-advanced-wishlist-collections {
+  padding: 0 !important;
+  background: none !important;
+  border: none !important;
+  width: auto !important;
+  height: auto !important;
+}
+
+.pp-card__title-row .swym-advanced-wishlist-collections svg {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+.pp-card__title-row .swym-advanced-wishlist-collections-social-count {
+  display: none !important;
+}
