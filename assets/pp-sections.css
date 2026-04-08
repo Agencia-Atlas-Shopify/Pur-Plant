@@ -1210,6 +1210,9 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
   line-height: 1 !important;
   display: flex !important;
   align-items: flex-start !important;
+  width: auto !important;
+  height: auto !important;
+  z-index: auto !important;
 }
 
 .pp-card__title-row .swym-advanced-wishlist-collections {
