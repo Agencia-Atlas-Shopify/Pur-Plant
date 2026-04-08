@@ -743,16 +743,17 @@ document.addEventListener('shopify:section:load', initMegamenuSliders);
       return;
     }
 
-    fetch('/search/suggest.json?q=' + encodeURIComponent(query) + '&resources[type]=product,collection,page,article&resources[limit]=8&resources[options][fields]=title,product_type,tag,vendor', {
-      signal: controller.signal
-    })
-    .then(function(r) { return r.json(); })
-    .then(function(data) {
-      var res = data.resources && data.resources.results || {};
-      var products = res.products || [];
-      var collections = res.collections || [];
-      var pages = res.pages || [];
-      var articles = res.articles || [];
+    Promise.all([
+      fetch('/search/suggest.json?q=' + encodeURIComponent(query) + '&resources[type]=product&resources[limit]=10', { signal: controller.signal }).then(function(r) { return r.json(); }),
+      fetch('/search/suggest.json?q=' + encodeURIComponent(query) + '&resources[type]=collection,page,article&resources[limit]=6', { signal: controller.signal }).then(function(r) { return r.json(); })
+    ])
+    .then(function(results) {
+      var res1 = results[0].resources && results[0].resources.results || {};
+      var res2 = results[1].resources && results[1].resources.results || {};
+      var products = res1.products || [];
+      var collections = res2.collections || [];
+      var pages = res2.pages || [];
+      var articles = res2.articles || [];
 
       if (!products.length && !collections.length && !pages.length && !articles.length) {
         resultsEl.innerHTML = '<div class="pp-search__empty">No se encontraron resultados para "' + query + '"</div>';
