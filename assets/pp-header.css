@@ -167,9 +167,9 @@ body.pp-transparent-header-needs-offset.template-product main.content-for-layout
   filter: invert(1) brightness(2);
 }
 
-/* Scrolled state — subtle shadow */
-.pp-header--scrolled {
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+/* Scrolled state — subtle shadow on inner (which has border-radius) */
+.pp-header--scrolled .pp-header__inner {
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
 }
 
 /* Header Inner Layout */
@@ -1465,9 +1465,11 @@ button.pp-header__nav-link,
 
 .pp-search__input {
   flex: 1;
-  background: none;
-  border: none;
-  outline: none;
+  background: none !important;
+  background-color: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
   font-family: 'Inter', sans-serif;
   font-size: 16px;
   color: #e4ffd3;
