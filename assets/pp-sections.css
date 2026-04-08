@@ -1203,7 +1203,7 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
 
 /* Swym wishlist button in product cards — inline next to title */
 .pp-card__title-row .swym-advanced-wishlist-collections-container {
-  position: static !important;
+  position: relative !important;
   flex-shrink: 0;
   margin: 0 !important;
   padding: 0 !important;
@@ -1212,7 +1212,7 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
   align-items: flex-start !important;
   width: auto !important;
   height: auto !important;
-  z-index: auto !important;
+  z-index: 2 !important;
 }
 
 .pp-card__title-row .swym-advanced-wishlist-collections {
