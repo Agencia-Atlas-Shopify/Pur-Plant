@@ -686,3 +686,101 @@ document.addEventListener('shopify:section:load', initMegamenuSliders);
     window.addEventListener('scroll', onScroll, { passive: true });
   }
 })();
+
+/* ==========================================================================
+   PP Predictive Search
+   ========================================================================== */
+(function() {
+  var panel = document.getElementById('pp-search-panel');
+  var backdrop = document.querySelector('.pp-search__backdrop');
+  var input = document.querySelector('[data-search-input]');
+  var resultsEl = document.querySelector('[data-search-results]');
+  var openBtns = document.querySelectorAll('[data-search-open]');
+  var closeBtn = document.querySelector('[data-search-close]');
+  if (!panel || !input) return;
+
+  var debounceTimer = null;
+  var controller = null;
+
+  function openSearch() {
+    panel.setAttribute('aria-hidden', 'false');
+    backdrop.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(function() { input.focus(); }, 100);
+    /* Close megamenu if open */
+    if (window.ppMegamenu) window.ppMegamenu.close();
+  }
+
+  function closeSearch() {
+    panel.setAttribute('aria-hidden', 'true');
+    backdrop.classList.remove('is-open');
+    document.body.style.overflow = '';
+    input.value = '';
+    resultsEl.innerHTML = '';
+  }
+
+  openBtns.forEach(function(btn) { btn.addEventListener('click', openSearch); });
+  closeBtn && closeBtn.addEventListener('click', closeSearch);
+  backdrop && backdrop.addEventListener('click', closeSearch);
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && panel.getAttribute('aria-hidden') === 'false') closeSearch();
+  });
+
+  function formatMoney(cents) {
+    return (cents / 100).toFixed(2).replace('.', ',') + ' €';
+  }
+
+  function doSearch(query) {
+    if (controller) controller.abort();
+    controller = new AbortController();
+
+    if (!query || query.length < 2) {
+      resultsEl.innerHTML = '';
+      return;
+    }
+
+    fetch('/search/suggest.json?q=' + encodeURIComponent(query) + '&resources[type]=product&resources[limit]=8', {
+      signal: controller.signal
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var products = data.resources && data.resources.results && data.resources.results.products || [];
+      if (!products.length) {
+        resultsEl.innerHTML = '<div class="pp-search__empty">No se encontraron resultados para "' + query + '"</div>';
+        return;
+      }
+
+      var html = '';
+      products.forEach(function(p) {
+        var img = p.image ? p.image.replace(/(\.\w+)$/, '_400x$1') : '';
+        var price = p.price ? formatMoney(parseFloat(p.price) * 100) : '';
+        html += '<a href="' + p.url + '" class="pp-search__item">';
+        if (img) html += '<div class="pp-search__item-image"><img src="' + img + '" alt="' + (p.title || '').replace(/"/g, '') + '" loading="lazy"></div>';
+        html += '<span class="pp-search__item-title">' + p.title + '</span>';
+        if (price) html += '<span class="pp-search__item-price">' + price + '</span>';
+        html += '</a>';
+      });
+
+      html += '<div class="pp-search__view-all"><a href="/search?q=' + encodeURIComponent(query) + '&type=product">Ver todos los resultados</a></div>';
+      resultsEl.innerHTML = html;
+    })
+    .catch(function(e) {
+      if (e.name !== 'AbortError') console.error('Search error:', e);
+    });
+  }
+
+  input.addEventListener('input', function() {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(function() {
+      doSearch(input.value.trim());
+    }, 300);
+  });
+
+  /* Submit form goes to full search page */
+  var form = input.closest('form');
+  if (form) {
+    form.addEventListener('submit', function() {
+      closeSearch();
+    });
+  }
+})();
