@@ -89,7 +89,7 @@
     "swym_advanced_collections_wishlist_icon_position": "bottom-right",
     "swym_advanced_collections_wishlist_icon_color": "#000000",
     "swym_advanced_collections_wishlist_icon_width": 1.7,
-    "swym_header_icon_enabled": false,
+    "swym_header_icon_enabled": true,
     "content_for_index": [],
     "blocks": {
       "14060646107696862457": {
@@ -110,7 +110,8 @@
           "storefront_layout_notification_position": "left",
           "storefront_layout_action_popup_position": "left",
           "storefront_layout_drawer_position": "left",
-          "storefront_layout_as_section_page": ""
+          "storefront_layout_as_section_page": "",
+          "show_ui": true
         }
       },
       "17755593662753636064": {
@@ -554,7 +555,13 @@
           "selected_variant_hover_border_color": "#2e4d38"
         }
       }
-    }
+    },
+    "swym_header_icon_show_count": true,
+    "swym_header_icon_custom_html": "",
+    "swym_header_icon_count_bubble_html": "",
+    "swym_header_icon_custom_css": "",
+    "swym_header_icon_selector_desktop": "",
+    "swym_header_icon_selector_mobile": ""
   },
   "presets": {
     "Horizon": {
