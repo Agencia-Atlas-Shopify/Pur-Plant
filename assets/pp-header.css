@@ -1606,10 +1606,10 @@ button.pp-header__nav-link,
 /* Search promo banner */
 .pp-search__banner {
   display: block;
-  grid-column: 1 / -1;
   border-radius: 8px;
   overflow: hidden;
   transition: opacity 0.15s;
+  align-self: start;
 }
 
 .pp-search__banner:hover {
@@ -1617,7 +1617,10 @@ button.pp-header__nav-link,
 }
 
 .pp-search__banner img {
-  width: 100%;
   height: auto;
+  width: auto;
+  max-height: 260px;
   display: block;
+  object-fit: contain;
+  border-radius: 8px;
 }
