@@ -1192,3 +1192,9 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
   max-width: 100% !important;
   padding-inline: var(--page-margin, 40px);
 }
+
+/* Override theme max-width on collection list text blocks */
+.section-resource-list__content .text-block {
+  max-width: 100% !important;
+  --max-width: 100% !important;
+}
