@@ -623,7 +623,7 @@ body.pp-transparent-header-needs-offset.template-product main.content-for-layout
 
 @media screen and (min-width: 700px) {
   .pp-header__secondary-nav-list {
-    gap: 0.5rem;
+    gap: 2px;
   }
 }
 
