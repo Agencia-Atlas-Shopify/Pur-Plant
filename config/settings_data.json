@@ -560,8 +560,8 @@
     "swym_header_icon_custom_html": "",
     "swym_header_icon_count_bubble_html": "",
     "swym_header_icon_custom_css": "",
-    "swym_header_icon_selector_desktop": "",
-    "swym_header_icon_selector_mobile": ""
+    "swym_header_icon_selector_desktop": ".pp-header__cart-link",
+    "swym_header_icon_selector_mobile": ".pp-header__cart-link"
   },
   "presets": {
     "Horizon": {
