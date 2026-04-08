@@ -114,8 +114,8 @@
               </svg>
             </a>
           </li>
-          <li class="pp-header__nav-item">
-            <div class="swym-wishlist-launcher" data-swaction="addToWishlist"></div>
+          <li class="pp-header__nav-item pp-header__wishlist-link">
+            {%- comment -%} Swym injects wishlist icon here via CSS selector .pp-header__wishlist-link {%- endcomment -%}
           </li>
           <li class="pp-header__nav-item pp-header__cart-link">
             <a href="{{ routes.cart_url }}" class="pp-header__nav-link" aria-label="Carrito" data-cart-drawer-trigger>
