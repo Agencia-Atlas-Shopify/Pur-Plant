@@ -717,6 +717,8 @@ document.addEventListener('shopify:section:load', initMegamenuSliders);
     document.body.style.overflow = '';
     input.value = '';
     resultsEl.innerHTML = '';
+    var bEl = document.querySelector('[data-search-banner]');
+    if (bEl) bEl.classList.remove('is-visible');
   }
 
   openBtns.forEach(function(btn) { btn.addEventListener('click', openSearch); });
@@ -736,6 +738,8 @@ document.addEventListener('shopify:section:load', initMegamenuSliders);
 
     if (!query || query.length < 2) {
       resultsEl.innerHTML = '';
+      var bEl = document.querySelector('[data-search-banner]');
+      if (bEl) bEl.classList.remove('is-visible');
       return;
     }
 
@@ -752,11 +756,9 @@ document.addEventListener('shopify:section:load', initMegamenuSliders);
 
       var html = '';
 
-      /* Insert promo banner if configured */
-      var bannerTpl = document.querySelector('[data-search-banner]');
-      if (bannerTpl) {
-        html += bannerTpl.innerHTML;
-      }
+      /* Show promo banner if configured */
+      var bannerEl = document.querySelector('[data-search-banner]');
+      if (bannerEl) bannerEl.classList.add('is-visible');
 
       products.forEach(function(p) {
         var img = p.image ? p.image.replace(/(\.\w+)$/, '_400x$1') : '';
