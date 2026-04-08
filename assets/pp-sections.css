@@ -1186,3 +1186,9 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
     --column-count: var(--column-count-mobile, 1) !important;
   }
 }
+
+/* Collection list — full width matching collection container */
+.section-resource-list__content {
+  max-width: 100% !important;
+  padding-inline: var(--page-margin, 40px);
+}
