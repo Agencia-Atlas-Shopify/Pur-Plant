@@ -152,6 +152,14 @@
             </button>
           </div>
         </form>
+        {%- comment -%} Search promo banner (rendered by JS if exists) {%- endcomment -%}
+        {%- if section.settings.search_banner_image != blank -%}
+          <template data-search-banner>
+            <a href="{{ section.settings.search_banner_link | default: '#' }}" class="pp-search__banner">
+              <img src="{{ section.settings.search_banner_image | image_url: width: 600 }}" alt="{{ section.settings.search_banner_image.alt | default: 'Promoción' }}" loading="lazy">
+            </a>
+          </template>
+        {%- endif -%}
         <div class="pp-search__results" data-search-results></div>
       </div>
     </div>
@@ -417,6 +425,20 @@
       "id": "logo_transparent",
       "label": "Logo for transparent header",
       "info": "Optional: Use a different logo (e.g., white) when header is transparent"
+    },
+    {
+      "type": "header",
+      "content": "Search banner"
+    },
+    {
+      "type": "image_picker",
+      "id": "search_banner_image",
+      "label": "Banner image (leave empty to hide)"
+    },
+    {
+      "type": "url",
+      "id": "search_banner_link",
+      "label": "Banner link"
     },
     {
       "type": "header",

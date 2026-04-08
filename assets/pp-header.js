@@ -751,6 +751,13 @@ document.addEventListener('shopify:section:load', initMegamenuSliders);
       }
 
       var html = '';
+
+      /* Insert promo banner if configured */
+      var bannerTpl = document.querySelector('[data-search-banner]');
+      if (bannerTpl) {
+        html += bannerTpl.innerHTML;
+      }
+
       products.forEach(function(p) {
         var img = p.image ? p.image.replace(/(\.\w+)$/, '_400x$1') : '';
         var price = p.price ? formatMoney(parseFloat(p.price) * 100) : '';

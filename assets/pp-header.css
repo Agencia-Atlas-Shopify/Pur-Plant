@@ -1602,3 +1602,30 @@ button.pp-header__nav-link,
     gap: 12px;
   }
 }
+
+/* Search promo banner */
+.pp-search__banner {
+  display: block;
+  grid-row: span 2;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: opacity 0.15s;
+}
+
+.pp-search__banner:hover {
+  opacity: 0.85;
+}
+
+.pp-search__banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media screen and (max-width: 749px) {
+  .pp-search__banner {
+    grid-row: span 1;
+    grid-column: 1 / -1;
+  }
+}
