@@ -771,6 +771,8 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
 /* ═══ PP Collection Description ═══ */
 .pp-coll-desc {
   background-color: #fff;
+  max-width: 100% !important;
+  width: 100% !important;
 }
 
 .pp-coll-desc__inner {

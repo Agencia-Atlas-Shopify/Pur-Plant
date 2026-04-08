@@ -743,34 +743,81 @@ document.addEventListener('shopify:section:load', initMegamenuSliders);
       return;
     }
 
-    fetch('/search/suggest.json?q=' + encodeURIComponent(query) + '&resources[type]=product&resources[limit]=8', {
+    fetch('/search/suggest.json?q=' + encodeURIComponent(query) + '&resources[type]=product,collection,page,article&resources[limit]=8&resources[options][fields]=title,product_type,tag,vendor', {
       signal: controller.signal
     })
     .then(function(r) { return r.json(); })
     .then(function(data) {
-      var products = data.resources && data.resources.results && data.resources.results.products || [];
-      if (!products.length) {
+      var res = data.resources && data.resources.results || {};
+      var products = res.products || [];
+      var collections = res.collections || [];
+      var pages = res.pages || [];
+      var articles = res.articles || [];
+
+      if (!products.length && !collections.length && !pages.length && !articles.length) {
         resultsEl.innerHTML = '<div class="pp-search__empty">No se encontraron resultados para "' + query + '"</div>';
+        var bHide = document.querySelector('[data-search-banner]');
+        if (bHide) bHide.classList.remove('is-visible');
         return;
       }
 
-      var html = '';
-
-      /* Show promo banner if configured */
+      /* Show promo banner */
       var bannerEl = document.querySelector('[data-search-banner]');
       if (bannerEl) bannerEl.classList.add('is-visible');
 
-      products.forEach(function(p) {
-        var img = p.image ? p.image.replace(/(\.\w+)$/, '_400x$1') : '';
-        var price = p.price ? formatMoney(parseFloat(p.price) * 100) : '';
-        html += '<a href="' + p.url + '" class="pp-search__item">';
-        if (img) html += '<div class="pp-search__item-image"><img src="' + img + '" alt="' + (p.title || '').replace(/"/g, '') + '" loading="lazy"></div>';
-        html += '<span class="pp-search__item-title">' + p.title + '</span>';
-        if (price) html += '<span class="pp-search__item-price">' + price + '</span>';
-        html += '</a>';
-      });
+      var html = '';
 
-      html += '<div class="pp-search__view-all"><a href="/search?q=' + encodeURIComponent(query) + '&type=product">Ver todos los resultados</a></div>';
+      /* Collections */
+      if (collections.length) {
+        html += '<div class="pp-search__section">';
+        html += '<span class="pp-search__section-title">Colecciones</span>';
+        html += '<div class="pp-search__section-links">';
+        collections.forEach(function(c) {
+          html += '<a href="' + c.url + '" class="pp-search__tag">' + c.title + '</a>';
+        });
+        html += '</div></div>';
+      }
+
+      /* Pages */
+      if (pages.length) {
+        html += '<div class="pp-search__section">';
+        html += '<span class="pp-search__section-title">Páginas</span>';
+        html += '<div class="pp-search__section-links">';
+        pages.forEach(function(p) {
+          html += '<a href="' + p.url + '" class="pp-search__tag">' + p.title + '</a>';
+        });
+        html += '</div></div>';
+      }
+
+      /* Articles */
+      if (articles.length) {
+        html += '<div class="pp-search__section">';
+        html += '<span class="pp-search__section-title">Blog</span>';
+        html += '<div class="pp-search__section-links">';
+        articles.forEach(function(a) {
+          html += '<a href="' + a.url + '" class="pp-search__tag">' + a.title + '</a>';
+        });
+        html += '</div></div>';
+      }
+
+      /* Products grid */
+      if (products.length) {
+        html += '<div class="pp-search__section">';
+        html += '<span class="pp-search__section-title">Productos</span>';
+        html += '<div class="pp-search__products-grid">';
+        products.forEach(function(p) {
+          var img = p.image ? p.image.replace(/(\.\w+)$/, '_400x$1') : '';
+          var price = p.price ? formatMoney(parseFloat(p.price) * 100) : '';
+          html += '<a href="' + p.url + '" class="pp-search__item">';
+          if (img) html += '<div class="pp-search__item-image"><img src="' + img + '" alt="' + (p.title || '').replace(/"/g, '') + '" loading="lazy"></div>';
+          html += '<span class="pp-search__item-title">' + p.title + '</span>';
+          if (price) html += '<span class="pp-search__item-price">' + price + '</span>';
+          html += '</a>';
+        });
+        html += '</div></div>';
+      }
+
+      html += '<div class="pp-search__view-all"><a href="/search?q=' + encodeURIComponent(query) + '">Ver todos los resultados</a></div>';
       resultsEl.innerHTML = html;
     })
     .catch(function(e) {
