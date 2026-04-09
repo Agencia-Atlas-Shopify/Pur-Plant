@@ -76,10 +76,17 @@
 
         {%- comment -%} Cart notes → pushed to cart.note {%- endcomment -%}
         {%- if settings.pp_cart_notes_enabled -%}
-          <div class="pp-cart-drawer__notes">
-            <label class="pp-cart-drawer__notes-label" for="pp-cart-note">
-              {{ settings.pp_cart_notes_label | default: 'Añade una nota a tu pedido' }}
-            </label>
+          <details class="pp-cart-drawer__notes"{% if cart.note != blank %} open{% endif %}>
+            <summary class="pp-cart-drawer__notes-summary">
+              <span class="pp-cart-drawer__notes-label">
+                {{ settings.pp_cart_notes_label | default: 'Añade una nota a tu pedido' }}
+              </span>
+              <span class="pp-cart-drawer__notes-toggle" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </span>
+            </summary>
             <textarea
               id="pp-cart-note"
               class="pp-cart-drawer__notes-input"
@@ -88,7 +95,7 @@
               placeholder="{{ settings.pp_cart_notes_placeholder | default: 'Instrucciones de entrega, regalo, etc.' }}"
               data-pp-cart-note
             >{{ cart.note }}</textarea>
-          </div>
+          </details>
           <script>
             (function () {
               const ta = document.getElementById('pp-cart-note');
@@ -439,14 +446,25 @@
     flex-shrink: 0;
   }
 
-  /* Cart notes */
+  /* Cart notes — collapsible via <details> */
   .pp-cart-drawer__notes {
-    padding: 16px 32px;
+    padding: 14px 32px;
     border-top: 1px solid rgba(35, 55, 44, 0.08);
     flex-shrink: 0;
+  }
+
+  .pp-cart-drawer__notes-summary {
+    list-style: none;
     display: flex;
-    flex-direction: column;
-    gap: 8px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .pp-cart-drawer__notes-summary::-webkit-details-marker {
+    display: none;
   }
 
   .pp-cart-drawer__notes-label {
@@ -456,13 +474,35 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: #23372c;
-    opacity: 0.65;
+    opacity: 0.75;
+  }
+
+  .pp-cart-drawer__notes-toggle {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #23372c;
+    color: #e4ffd3;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease, opacity 0.15s;
+  }
+
+  .pp-cart-drawer__notes-summary:hover .pp-cart-drawer__notes-toggle {
+    opacity: 0.9;
+  }
+
+  .pp-cart-drawer__notes[open] .pp-cart-drawer__notes-toggle {
+    transform: rotate(45deg);
   }
 
   .pp-cart-drawer__notes-input {
     width: 100%;
     resize: vertical;
     min-height: 56px;
+    margin-top: 10px;
     padding: 10px 12px;
     font-family: 'Inter', sans-serif;
     font-size: 13px;
