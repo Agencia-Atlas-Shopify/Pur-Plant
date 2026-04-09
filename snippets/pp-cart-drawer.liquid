@@ -1,30 +1,13 @@
 {%- comment -%}
-  RC Cart Drawer - GNG-style cart drawer
+  PP Cart Drawer — Pur Plant cart drawer
+
   Features:
-  - Free shipping progress bar with animated logo (per-currency threshold)
-  - Line items with color swatches and quantity controls
-  - Complementary products via Search & Discovery
+  - Configurable free shipping progress bar with logo SVG (settings-driven)
+  - Line items with remove/quantity controls
+  - Shopify-related or collection-based recommendations
+  - Cart notes textarea synced to order notes
 {%- endcomment -%}
 
-{%- liquid
-  # Get currency-specific free shipping threshold
-  assign current_currency = cart.currency.iso_code | upcase
-  assign free_shipping_threshold = settings.rc_free_shipping_threshold_default | default: 50
-
-  case current_currency
-    when 'EUR'
-      assign free_shipping_threshold = settings.rc_free_shipping_threshold_eur | default: 50
-    when 'USD'
-      assign free_shipping_threshold = settings.rc_free_shipping_threshold_usd | default: 50
-    when 'GBP'
-      assign free_shipping_threshold = settings.rc_free_shipping_threshold_gbp | default: 45
-  endcase
-
-  # Convert to cents for comparison with cart.total_price
-  assign free_shipping_threshold_cents = free_shipping_threshold | times: 100
--%}
-
-{{ 'pp-cart-drawer.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'cart-drawer.js' | asset_url }}" type="module" fetchpriority="low"></script>
 
 <cart-drawer-component
@@ -56,9 +39,9 @@
       </div>
 
       {%- comment -%} Free Shipping Bar {%- endcomment -%}
-      {%- if settings.rc_free_shipping_bar_enabled -%}
+      {%- if settings.pp_cart_free_ship_enabled and settings.pp_cart_free_ship_threshold > 0 -%}
         <div class="pp-cart-drawer__shipping-bar">
-          {% render 'rc-free-shipping-bar', threshold: free_shipping_threshold_cents %}
+          {% render 'pp-free-shipping-bar' %}
         </div>
       {%- endif -%}
 
@@ -84,85 +67,44 @@
       </div>
 
       {%- unless cart.empty? -%}
-        {%- comment -%} Complementary Products via Search & Discovery {%- endcomment -%}
-        {%- if settings.rc_cart_complementary_enabled -%}
-          {%- assign complementary_title = settings.rc_cart_complementary_title | default: 'COMPLETE THE LOOK' -%}
-          {%- assign complementary_limit = settings.rc_cart_complementary_limit | default: 3 -%}
-          {%- assign first_cart_product = cart.items.first.product -%}
-          <div
-            class="pp-cart-drawer__complementary"
-            id="rc-cart-complementary"
-            data-product-id="{{ first_cart_product.id }}"
-            data-limit="{{ complementary_limit }}"
-            data-title="{{ complementary_title }}"
-          >
-            {%- comment -%} Will be populated via JavaScript using Product Recommendations API {%- endcomment -%}
-            <p class="pp-cart-drawer__complementary-title">{{ complementary_title }}</p>
-            <div class="pp-cart-drawer__complementary-list" data-complementary-products>
-              {%- comment -%} Loading placeholder {%- endcomment -%}
-              <div class="pp-cart-drawer__complementary-loading">
-                <span class="visually-hidden">{{ 'accessibility.loading_product_recommendations' | t }}</span>
-              </div>
-            </div>
+        {%- comment -%} Recommendations (Shopify related or custom collection) {%- endcomment -%}
+        {%- if settings.pp_cart_reco_enabled -%}
+          <div class="pp-cart-drawer__reco">
+            {% render 'pp-cart-recommendations' %}
           </div>
+        {%- endif -%}
 
+        {%- comment -%} Cart notes → pushed to cart.note {%- endcomment -%}
+        {%- if settings.pp_cart_notes_enabled -%}
+          <div class="pp-cart-drawer__notes">
+            <label class="pp-cart-drawer__notes-label" for="pp-cart-note">
+              {{ settings.pp_cart_notes_label | default: 'Añade una nota a tu pedido' }}
+            </label>
+            <textarea
+              id="pp-cart-note"
+              class="pp-cart-drawer__notes-input"
+              name="note"
+              rows="2"
+              placeholder="{{ settings.pp_cart_notes_placeholder | default: 'Instrucciones de entrega, regalo, etc.' }}"
+              data-pp-cart-note
+            >{{ cart.note }}</textarea>
+          </div>
           <script>
-            (function() {
-              const container = document.getElementById('rc-cart-complementary');
-              if (!container) return;
-
-              const productId = container.dataset.productId;
-              const limit = parseInt(container.dataset.limit, 10) || 3;
-              const title = container.dataset.title;
-              const listEl = container.querySelector('[data-complementary-products]');
-
-              if (!productId || !listEl) return;
-
-              // Fetch complementary products from Shopify Product Recommendations API
-              const url = `/recommendations/products.json?product_id=${productId}&limit=${limit}&intent=complementary`;
-
-              fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                  if (data.products && data.products.length > 0) {
-                    listEl.innerHTML = data.products.map(product => {
-                      const variant = product.variants[0];
-                      const price = Shopify.formatMoney(variant.price);
-                      const comparePrice = variant.compare_at_price ? Shopify.formatMoney(variant.compare_at_price) : null;
-                      const imageUrl = product.featured_image ? product.featured_image.replace(/(\.[^.]+)$/, '_200x$1') : '';
-
-                      return `
-                        <div class="rc-horizontal-card">
-                          <a href="${product.url}" class="rc-horizontal-card__figure">
-                            ${imageUrl ? `<img src="${imageUrl}" alt="${product.title}" loading="lazy">` : ''}
-                          </a>
-                          <div class="rc-horizontal-card__info">
-                            <div class="rc-horizontal-card__details">
-                              <a href="${product.url}" class="rc-horizontal-card__title">${product.title}</a>
-                              <div class="rc-horizontal-card__price">
-                                ${comparePrice ? `<span class="rc-horizontal-card__price--sale">${price}</span><span class="rc-horizontal-card__price--compare">${comparePrice}</span>` : `<span>${price}</span>`}
-                              </div>
-                            </div>
-                            ${product.variants.length === 1 && variant.available ?
-                              `<form action="/cart/add" method="post" class="rc-horizontal-card__form">
-                                <input type="hidden" name="id" value="${variant.id}">
-                                <input type="hidden" name="quantity" value="1">
-                                <button type="submit" class="rc-horizontal-card__add-btn">{{ 'cart.add_to_cart' | t | default: 'Add' }}</button>
-                              </form>` :
-                              `<a href="${product.url}" class="rc-horizontal-card__add-btn">{{ 'products.product.choose_options' | t | default: 'View' }}</a>`
-                            }
-                          </div>
-                        </div>
-                      `;
-                    }).join('');
-                  } else {
-                    // Hide section if no recommendations
-                    container.style.display = 'none';
-                  }
-                })
-                .catch(() => {
-                  container.style.display = 'none';
-                });
+            (function () {
+              const ta = document.getElementById('pp-cart-note');
+              if (!ta) return;
+              let t;
+              ta.addEventListener('input', () => {
+                clearTimeout(t);
+                t = setTimeout(() => {
+                  fetch('/cart/update.js', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({ note: ta.value }),
+                  }).catch(() => { /* noop */ });
+                }, 400);
+              });
             })();
           </script>
         {%- endif -%}
@@ -490,14 +432,24 @@
     margin: 0;
   }
 
-  /* Complementary products */
-  .pp-cart-drawer__complementary {
-    padding: 20px 32px;
+  /* Recommendations wrapper (inside drawer) */
+  .pp-cart-drawer__reco {
+    padding: 16px 32px;
     border-top: 1px solid rgba(35, 55, 44, 0.08);
     flex-shrink: 0;
   }
 
-  .pp-cart-drawer__complementary-title {
+  /* Cart notes */
+  .pp-cart-drawer__notes {
+    padding: 16px 32px;
+    border-top: 1px solid rgba(35, 55, 44, 0.08);
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .pp-cart-drawer__notes-label {
     font-family: 'Inter', sans-serif;
     font-size: 11px;
     font-weight: 500;
@@ -505,13 +457,31 @@
     text-transform: uppercase;
     color: #23372c;
     opacity: 0.65;
-    margin: 0 0 12px;
   }
 
-  .pp-cart-drawer__complementary-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+  .pp-cart-drawer__notes-input {
+    width: 100%;
+    resize: vertical;
+    min-height: 56px;
+    padding: 10px 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: #23372c;
+    background: #ffffff;
+    border: 1px solid rgba(35, 55, 44, 0.2);
+    border-radius: 8px;
+    outline: none;
+    box-shadow: none;
+    transition: border-color 0.15s;
+  }
+
+  .pp-cart-drawer__notes-input:focus {
+    border-color: #23372c;
+  }
+
+  .pp-cart-drawer__notes-input::placeholder {
+    color: #23372c;
+    opacity: 0.4;
   }
 
   /* Footer */

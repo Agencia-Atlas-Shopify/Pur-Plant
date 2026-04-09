@@ -1819,6 +1819,112 @@
         "step": 1,
         "unit": "px",
         "default": 0
+      },
+      {
+        "type": "header",
+        "content": "Pur Plant — Barra de envío gratis"
+      },
+      {
+        "type": "checkbox",
+        "id": "pp_cart_free_ship_enabled",
+        "label": "Mostrar barra de envío gratis",
+        "default": true
+      },
+      {
+        "type": "number",
+        "id": "pp_cart_free_ship_threshold",
+        "label": "Umbral (en €)",
+        "default": 49
+      },
+      {
+        "type": "text",
+        "id": "pp_cart_free_ship_unreached",
+        "label": "Mensaje — pedido por debajo del umbral",
+        "default": "¡Gasta {{ remaining_amount }} más y consigue envío gratis!",
+        "info": "Usa {{ remaining_amount }} para mostrar lo que falta"
+      },
+      {
+        "type": "text",
+        "id": "pp_cart_free_ship_reached",
+        "label": "Mensaje — pedido con envío gratis",
+        "default": "Tu pedido cumple los requisitos de envío gratuito."
+      },
+      {
+        "type": "color",
+        "id": "pp_cart_free_ship_bar_bg",
+        "label": "Color fondo de la barra",
+        "default": "#f3f0e6"
+      },
+      {
+        "type": "color",
+        "id": "pp_cart_free_ship_bar_fill",
+        "label": "Color relleno/progreso",
+        "default": "#23372c"
+      },
+      {
+        "type": "color",
+        "id": "pp_cart_free_ship_bar_text",
+        "label": "Color texto",
+        "default": "#23372c"
+      },
+      {
+        "type": "html",
+        "id": "pp_cart_free_ship_logo_svg",
+        "label": "Logo SVG (icono sobre la barra)",
+        "info": "Pega el <svg>…</svg>. Usa fill=\"currentColor\" para heredar el color de progreso."
+      },
+      {
+        "type": "header",
+        "content": "Pur Plant — Notas del pedido"
+      },
+      {
+        "type": "checkbox",
+        "id": "pp_cart_notes_enabled",
+        "label": "Mostrar cuadro de notas en el cart drawer",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "pp_cart_notes_label",
+        "label": "Etiqueta",
+        "default": "Añade una nota a tu pedido"
+      },
+      {
+        "type": "text",
+        "id": "pp_cart_notes_placeholder",
+        "label": "Placeholder",
+        "default": "Instrucciones de entrega, regalo, etc."
+      },
+      {
+        "type": "header",
+        "content": "Pur Plant — Productos recomendados en el drawer"
+      },
+      {
+        "type": "checkbox",
+        "id": "pp_cart_reco_enabled",
+        "label": "Mostrar productos recomendados",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "pp_cart_reco_title",
+        "label": "Título",
+        "default": "Completa tu pedido"
+      },
+      {
+        "type": "range",
+        "id": "pp_cart_reco_limit",
+        "label": "Número máximo de productos",
+        "min": 3,
+        "max": 16,
+        "step": 1,
+        "default": 8
+      },
+      {
+        "type": "collection",
+        "id": "pp_cart_reco_collection",
+        "label": "Colección (opcional)",
+        "info": "Si se deja vacío, se usan los productos relacionados de Shopify. Si eliges una colección, siempre se mostrarán esos productos."
       }
     ]
   },
