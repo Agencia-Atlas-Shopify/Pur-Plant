@@ -20,37 +20,39 @@
     aria-labelledby="pp-cart-drawer-heading"
     scroll-lock
   >
-    <div class="pp-cart-drawer__inner">
-      {%- comment -%} Header {%- endcomment -%}
-      <div class="pp-cart-drawer__header">
-        <h2 class="pp-cart-drawer__title" id="pp-cart-drawer-heading">
-          {{ 'content.cart_title' | t | upcase }} [{{ cart.item_count }}]
-        </h2>
-        <button
-          ref="closeButton"
-          on:click="cart-drawer-component/close"
-          class="pp-cart-drawer__close"
-          aria-label="{{ 'actions.close_dialog' | t }}"
-        >
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-            <path d="M1 1L13 13M1 13L13 1" stroke="currentColor" stroke-width="1"/>
-          </svg>
-        </button>
-      </div>
-
-      {%- comment -%} Free Shipping Bar {%- endcomment -%}
-      {%- if settings.pp_cart_free_ship_enabled and settings.pp_cart_free_ship_threshold > 0 -%}
-        <div class="pp-cart-drawer__shipping-bar">
-          {% render 'pp-free-shipping-bar' %}
+    <div class="pp-cart-drawer__inner" data-hydration-key="pp-cart-drawer-inner">
+      <cart-items-component
+        class="pp-cart-drawer__cart-items"
+        data-drawer
+        data-section-id="{{ section.id }}"
+      >
+        {%- comment -%} Header {%- endcomment -%}
+        <div class="pp-cart-drawer__header">
+          <h2 class="pp-cart-drawer__title" id="pp-cart-drawer-heading">
+            {{ 'content.cart_title' | t | upcase }}
+            <span ref="cartItemCount" aria-hidden="true">[{{ cart.item_count }}]</span>
+          </h2>
+          <button
+            ref="closeButton"
+            on:click="cart-drawer-component/close"
+            class="pp-cart-drawer__close"
+            aria-label="{{ 'actions.close_dialog' | t }}"
+          >
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M1 1L13 13M1 13L13 1" stroke="currentColor" stroke-width="1"/>
+            </svg>
+          </button>
         </div>
-      {%- endif -%}
 
-      {%- comment -%} Cart Items {%- endcomment -%}
-      <div class="pp-cart-drawer__content">
-        <cart-items-component
-          class="pp-cart-drawer__items"
-          data-section-id="{{ section.id }}"
-        >
+        {%- comment -%} Free Shipping Bar {%- endcomment -%}
+        {%- if settings.pp_cart_free_ship_enabled and settings.pp_cart_free_ship_threshold > 0 -%}
+          <div class="pp-cart-drawer__shipping-bar">
+            {% render 'pp-free-shipping-bar' %}
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} Cart Items {%- endcomment -%}
+        <div class="pp-cart-drawer__content">
           {%- if cart.empty? -%}
             <div class="pp-cart-drawer__empty">
               <p>{{ 'content.your_cart_is_empty' | t }}</p>
@@ -59,75 +61,79 @@
               </a>
             </div>
           {%- else -%}
-            {%- for item in cart.items -%}
-              {% render 'pp-cart-line-item', item: item %}
-            {%- endfor -%}
+            <div class="pp-cart-drawer__items">
+              {%- for item in cart.items -%}
+                {% render 'pp-cart-line-item', item: item %}
+              {%- endfor -%}
+            </div>
           {%- endif -%}
-        </cart-items-component>
-      </div>
-
-      {%- unless cart.empty? -%}
-        {%- comment -%} Recommendations (Shopify related or custom collection) {%- endcomment -%}
-        {%- if settings.pp_cart_reco_enabled -%}
-          <div class="pp-cart-drawer__reco">
-            {% render 'pp-cart-recommendations' %}
-          </div>
-        {%- endif -%}
-
-        {%- comment -%} Cart notes → pushed to cart.note {%- endcomment -%}
-        {%- if settings.pp_cart_notes_enabled -%}
-          <details class="pp-cart-drawer__notes"{% if cart.note != blank %} open{% endif %}>
-            <summary class="pp-cart-drawer__notes-summary">
-              <span class="pp-cart-drawer__notes-label">
-                {{ settings.pp_cart_notes_label | default: 'Añade una nota a tu pedido' }}
-              </span>
-              <span class="pp-cart-drawer__notes-toggle" aria-hidden="true">
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                  <path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                </svg>
-              </span>
-            </summary>
-            <textarea
-              id="pp-cart-note"
-              class="pp-cart-drawer__notes-input"
-              name="note"
-              rows="2"
-              placeholder="{{ settings.pp_cart_notes_placeholder | default: 'Instrucciones de entrega, regalo, etc.' }}"
-              data-pp-cart-note
-            >{{ cart.note }}</textarea>
-          </details>
-          <script>
-            (function () {
-              const ta = document.getElementById('pp-cart-note');
-              if (!ta) return;
-              let t;
-              ta.addEventListener('input', () => {
-                clearTimeout(t);
-                t = setTimeout(() => {
-                  fetch('/cart/update.js', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-                    credentials: 'same-origin',
-                    body: JSON.stringify({ note: ta.value }),
-                  }).catch(() => { /* noop */ });
-                }, 400);
-              });
-            })();
-          </script>
-        {%- endif -%}
-
-        {%- comment -%} Footer / Summary {%- endcomment -%}
-        <div class="pp-cart-drawer__footer">
-          <div class="pp-cart-drawer__totals">
-            <span class="pp-cart-drawer__subtotal-label">{{ 'content.cart_subtotal' | t | upcase }}</span>
-            <span class="pp-cart-drawer__subtotal-value">{{ cart.total_price | money }}</span>
-          </div>
-          <p class="pp-cart-drawer__shipping-note">{{ 'content.shipping_policy' | t }}</p>
-          <a href="{{ routes.checkout_url }}" class="pp-cart-drawer__checkout-btn">
-            {{ 'content.checkout' | t | upcase }}
-          </a>
         </div>
-      {%- endunless -%}
+
+        {%- unless cart.empty? -%}
+          {%- comment -%} Recommendations (Shopify related or custom collection) {%- endcomment -%}
+          {%- if settings.pp_cart_reco_enabled -%}
+            <div class="pp-cart-drawer__reco">
+              {% render 'pp-cart-recommendations' %}
+            </div>
+          {%- endif -%}
+
+          {%- comment -%} Cart notes → pushed to cart.note {%- endcomment -%}
+          {%- if settings.pp_cart_notes_enabled -%}
+            <details class="pp-cart-drawer__notes"{% if cart.note != blank %} open{% endif %}>
+              <summary class="pp-cart-drawer__notes-summary">
+                <span class="pp-cart-drawer__notes-label">
+                  {{ settings.pp_cart_notes_label | default: 'Añade una nota a tu pedido' }}
+                </span>
+                <span class="pp-cart-drawer__notes-toggle" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                </span>
+              </summary>
+              <textarea
+                id="pp-cart-note"
+                class="pp-cart-drawer__notes-input"
+                name="note"
+                rows="2"
+                placeholder="{{ settings.pp_cart_notes_placeholder | default: 'Instrucciones de entrega, regalo, etc.' }}"
+                data-pp-cart-note
+              >{{ cart.note }}</textarea>
+            </details>
+            <script>
+              (function () {
+                const ta = document.getElementById('pp-cart-note');
+                if (!ta) return;
+                let t;
+                ta.addEventListener('input', () => {
+                  clearTimeout(t);
+                  t = setTimeout(() => {
+                    fetch('/cart/update.js', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                      credentials: 'same-origin',
+                      body: JSON.stringify({ note: ta.value }),
+                    }).catch(() => { /* noop */ });
+                  }, 400);
+                });
+              })();
+            </script>
+          {%- endif -%}
+
+          {%- comment -%} Footer / Summary {%- endcomment -%}
+          <div class="pp-cart-drawer__footer">
+            <div class="pp-cart-drawer__totals">
+              <span class="pp-cart-drawer__subtotal-label">{{ 'content.cart_subtotal' | t | upcase }}</span>
+              <span class="pp-cart-drawer__subtotal-value">
+                <text-component value="{{ cart.total_price | money | strip_html }}" ref="cartTotal">{{ cart.total_price | money }}</text-component>
+              </span>
+            </div>
+            <p class="pp-cart-drawer__shipping-note">{{ 'content.shipping_policy' | t }}</p>
+            <a href="{{ routes.checkout_url }}" class="pp-cart-drawer__checkout-btn">
+              {{ 'content.checkout' | t | upcase }}
+            </a>
+          </div>
+        {%- endunless -%}
+      </cart-items-component>
     </div>
   </dialog>
 </cart-drawer-component>
