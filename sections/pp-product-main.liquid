@@ -615,12 +615,93 @@
   {%- comment -%} SEO text removed — description shown in accordion {%- endcomment -%}
 </section>
 
+{%- comment -%} Mobile floating add-to-cart bar {%- endcomment -%}
+<div class="pp-pdp__floating-atc" data-pp-floating-atc aria-hidden="true">
+  <div class="pp-pdp__floating-atc-info">
+    {%- if featured_image -%}
+      <img
+        src="{{ featured_image | image_url: width: 120 }}"
+        width="40"
+        height="40"
+        alt=""
+        class="pp-pdp__floating-atc-img"
+        loading="lazy"
+      >
+    {%- endif -%}
+    <span class="pp-pdp__floating-atc-price" data-pp-floating-price>
+      {{ current_variant.price | money }}
+    </span>
+  </div>
+  <button
+    type="button"
+    class="pp-pdp__floating-atc-btn"
+    data-pp-floating-atc-btn
+    {% unless current_variant.available %}disabled{% endunless %}
+  >
+    {%- if current_variant.available -%}
+      Añadir
+    {%- else -%}
+      Agotado
+    {%- endif -%}
+  </button>
+</div>
+
 <script>
   window.ppProductVariants = {{ product.variants | json }};
   window.ppProductOptions = {{ product.options_with_values | json }};
   window.ppCurrentVariantId = {{ current_variant.id }};
 </script>
 <script src="{{ 'pp-product-main.js' | asset_url }}" type="module" defer></script>
+
+<script>
+  /* Mobile floating ATC — show when the main buy button leaves the viewport */
+  (function () {
+    const floating = document.querySelector('[data-pp-floating-atc]');
+    const mainBtn = document.querySelector('[data-pp-add-to-cart]');
+    const floatingBtn = document.querySelector('[data-pp-floating-atc-btn]');
+    if (!floating || !mainBtn || !floatingBtn) return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          // Visible when the main button is OUT of view
+          floating.classList.toggle('is-visible', !entry.isIntersecting);
+          floating.setAttribute('aria-hidden', entry.isIntersecting ? 'true' : 'false');
+        }
+      },
+      { rootMargin: '0px 0px -20% 0px', threshold: 0 }
+    );
+    io.observe(mainBtn);
+
+    // Delegate the click — fires the same flow as the main ATC button
+    floatingBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      mainBtn.click();
+    });
+
+    // Mirror the price + disabled state of the main button
+    function syncFromMain() {
+      const priceSrc = document.querySelector('[data-pp-total-price]');
+      const priceDst = document.querySelector('[data-pp-floating-price]');
+      if (priceSrc && priceDst) priceDst.textContent = priceSrc.textContent;
+      floatingBtn.disabled = mainBtn.disabled;
+      floatingBtn.textContent = mainBtn.disabled ? 'Agotado' : 'Añadir';
+    }
+    syncFromMain();
+    new MutationObserver(syncFromMain).observe(mainBtn, {
+      attributes: true,
+      attributeFilter: ['disabled'],
+    });
+    const priceSrc = document.querySelector('[data-pp-total-price]');
+    if (priceSrc) {
+      new MutationObserver(syncFromMain).observe(priceSrc, {
+        characterData: true,
+        childList: true,
+        subtree: true,
+      });
+    }
+  })();
+</script>
 
 <script>
 (function() {

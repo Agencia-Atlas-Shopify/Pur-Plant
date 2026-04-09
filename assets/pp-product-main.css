@@ -1193,3 +1193,96 @@
 .pp-pdp__main-image img {
   cursor: zoom-in;
 }
+
+/* ==========================================================================
+   Mobile floating add-to-cart bar
+   ========================================================================== */
+.pp-pdp__floating-atc {
+  display: none;
+}
+
+@media screen and (max-width: 749px) {
+  .pp-pdp__floating-atc {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 8px 8px 12px;
+    background: #ffffff;
+    border-radius: 999px;
+    box-shadow: 0 8px 24px rgba(35, 55, 44, 0.18), 0 1px 3px rgba(35, 55, 44, 0.08);
+    transform: translateY(calc(100% + 24px));
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.3s ease, opacity 0.25s ease;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .pp-pdp__floating-atc.is-visible {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .pp-pdp__floating-atc-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .pp-pdp__floating-atc-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .pp-pdp__floating-atc-price {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #23372c;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .pp-pdp__floating-atc-btn {
+    flex-shrink: 0;
+    border: none;
+    background: #23372c;
+    color: #e4ffd3;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 12px 22px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+
+  .pp-pdp__floating-atc-btn:hover {
+    opacity: 0.9;
+  }
+
+  .pp-pdp__floating-atc-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* Lift the floating bar above the bottom system UI on iOS */
+  @supports (padding: max(0px)) {
+    .pp-pdp__floating-atc {
+      bottom: max(12px, env(safe-area-inset-bottom));
+    }
+  }
+}
