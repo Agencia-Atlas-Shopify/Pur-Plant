@@ -1020,36 +1020,46 @@
   }
 
   .pp-pdp__main-images {
+    display: flex;
     flex-direction: row;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     gap: 0;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    /* Don't stretch slides to tallest — let each slide keep its own height */
     align-items: flex-start;
-    /* Smooth height changes when JS updates the container to match the active slide */
-    transition: height 0.25s ease;
   }
 
   .pp-pdp__main-images::-webkit-scrollbar {
     display: none;
   }
 
+  /* Each slide is exactly the visible width of its parent grid cell, with a fixed
+     4/5 aspect ratio so the image inside is bounded regardless of its native size. */
   .pp-pdp__main-image {
-    flex: 0 0 100%;
-    width: 100%;
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    max-width: 100%;
+    height: auto;
     aspect-ratio: 4 / 5;
     scroll-snap-align: start;
     border-radius: var(--pp-radius-sm);
+    overflow: hidden;
+    position: relative;
   }
 
   .pp-pdp__main-image img,
   .pp-pdp__main-image video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: cover !important;
+    display: block;
   }
 
   /* Product info columns: no longer sticky on mobile */
