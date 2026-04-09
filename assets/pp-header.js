@@ -442,7 +442,7 @@ if (document.readyState === 'loading') {
 // Listen for cart updates (cart:update event from theme)
 document.addEventListener('cart:update', (e) => {
   const itemCount = e.detail?.data?.itemCount;
-  if (typeof itemCount === 'number') {
+  if (Number.isFinite(itemCount)) {
     updateCartCount(itemCount);
   } else {
     // Fetch current cart count
@@ -454,6 +454,7 @@ document.addEventListener('cart:update', (e) => {
 });
 
 function updateCartCount(count) {
+  if (!Number.isFinite(count)) return;
   const countElements = document.querySelectorAll('.pp-header__cart-count, [data-cart-count]');
   countElements.forEach(el => {
     el.textContent = count;

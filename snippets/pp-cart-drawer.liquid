@@ -33,7 +33,9 @@
         <div class="pp-cart-drawer__header">
           <h2 class="pp-cart-drawer__title" id="pp-cart-drawer-heading">
             {{ 'content.cart_title' | t | upcase }}
-            <span ref="cartItemCount" aria-hidden="true">[{{ cart.item_count }}]</span>
+            <span class="pp-cart-drawer__title-count">
+              [<span ref="cartItemCount">{{ cart.item_count }}</span>]
+            </span>
           </h2>
           <button
             ref="closeButton"
