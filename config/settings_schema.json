@@ -1833,8 +1833,9 @@
       {
         "type": "number",
         "id": "pp_cart_free_ship_threshold",
-        "label": "Umbral (en €)",
-        "default": 49
+        "label": "Importe mínimo para envío gratis (€)",
+        "default": 49,
+        "info": "A partir de qué subtotal se considera envío gratis"
       },
       {
         "type": "text",
@@ -1868,10 +1869,20 @@
         "default": "#23372c"
       },
       {
-        "type": "html",
+        "type": "textarea",
         "id": "pp_cart_free_ship_logo_svg",
         "label": "Logo SVG (icono sobre la barra)",
-        "info": "Pega el <svg>…</svg>. Usa fill=\"currentColor\" para heredar el color de progreso."
+        "info": "Pega el código <svg>…</svg>. El tamaño del SVG original no importa: se fuerza al ancho que elijas abajo. Usa fill=\"currentColor\" para heredar el color de progreso."
+      },
+      {
+        "type": "range",
+        "id": "pp_cart_free_ship_logo_width",
+        "label": "Ancho del logo (px)",
+        "min": 20,
+        "max": 120,
+        "step": 2,
+        "unit": "px",
+        "default": 48
       },
       {
         "type": "header",
