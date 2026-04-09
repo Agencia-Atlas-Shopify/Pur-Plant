@@ -1,0 +1,94 @@
+{%- comment -%}
+  PP Cart Line Item — used inside pp-cart-drawer for each cart.items entry.
+
+  @param {object} item — a cart line item
+{%- endcomment -%}
+<div
+  class="pp-cart-line"
+  ref="cartItemRows[]"
+  data-key="{{ item.key }}"
+  data-parent-key="{{ item.parent_relationship.parent.key }}"
+>
+  {%- if item.image -%}
+    <a href="{{ item.url }}" class="pp-cart-line__media">
+      {{ item.image | image_url: width: 200 | image_tag: loading: 'lazy', class: 'pp-cart-line__img', alt: item.title }}
+    </a>
+  {%- endif -%}
+
+  <div class="pp-cart-line__body">
+    <div class="pp-cart-line__head">
+      <a href="{{ item.url }}" class="pp-cart-line__title">
+        {{- item.product.title -}}
+      </a>
+      <button
+        class="pp-cart-line__remove"
+        type="button"
+        aria-label="{{ 'accessibility.remove_item' | t: title: item.title | escape }}"
+        on:click="/onLineItemRemove/{{ item.index | plus: 1 }}"
+      >
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M1 1L13 13M1 13L13 1" stroke="currentColor" stroke-width="1"/>
+        </svg>
+      </button>
+    </div>
+
+    {%- if item.product.has_only_default_variant == false -%}
+      <p class="pp-cart-line__variant">
+        {%- for option in item.options_with_values -%}
+          {{- option.value -}}{%- unless forloop.last %}, {% endunless -%}
+        {%- endfor -%}
+      </p>
+    {%- endif -%}
+
+    {%- if item.selling_plan_allocation -%}
+      <p class="pp-cart-line__variant">{{ item.selling_plan_allocation.selling_plan.name }}</p>
+    {%- endif -%}
+
+    {%- assign has_visible_properties = false -%}
+    {%- for property in item.properties -%}
+      {%- assign property_first_char = property.first | slice: 0 -%}
+      {%- if property.last != blank and property_first_char != '_' -%}
+        {%- assign has_visible_properties = true -%}
+        {%- break -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- if has_visible_properties -%}
+      <dl class="pp-cart-line__properties">
+        {%- for property in item.properties -%}
+          {%- assign property_first_char = property.first | slice: 0 -%}
+          {%- if property.last != blank and property_first_char != '_' -%}
+            <div><dt>{{ property.first }}:</dt> <dd>{{ property.last }}</dd></div>
+          {%- endif -%}
+        {%- endfor -%}
+      </dl>
+    {%- endif -%}
+
+    <div class="pp-cart-line__foot">
+      {% assign can_update_quantity = item.instructions.can_update_quantity | default: true, allow_false: true %}
+      {% render 'quantity-selector',
+        product: item.product,
+        variant: item.variant,
+        in_cart_quantity: item.quantity,
+        line_index: item.index,
+        can_update_quantity: can_update_quantity
+      %}
+
+      <div class="pp-cart-line__price">
+        {%- if item.original_line_price != item.final_line_price -%}
+          <span class="pp-cart-line__price--sale">{{ item.final_line_price | money }}</span>
+          <s class="pp-cart-line__price--compare">{{ item.original_line_price | money }}</s>
+        {%- else -%}
+          {{ item.final_line_price | money }}
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- if item.line_level_discount_allocations.size > 0 -%}
+      <ul class="pp-cart-line__discounts">
+        {%- for discount in item.line_level_discount_allocations -%}
+          <li>{{ discount.discount_application.title | escape }}</li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</div>

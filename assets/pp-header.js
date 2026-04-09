@@ -416,10 +416,14 @@ function initCartDrawerTrigger() {
   const cartTrigger = document.querySelector('[data-cart-drawer-trigger]');
   if (!cartTrigger) return;
 
-  cartTrigger.addEventListener('click', () => {
+  cartTrigger.addEventListener('click', (e) => {
     const cartDrawer = document.querySelector('cart-drawer-component');
-    if (cartDrawer && typeof cartDrawer.open === 'function') {
+    if (!cartDrawer) return; // fallback: let the /cart link navigate
+    e.preventDefault();
+    if (typeof cartDrawer.open === 'function') {
       cartDrawer.open();
+    } else if (typeof cartDrawer.showDialog === 'function') {
+      cartDrawer.showDialog();
     }
   });
 }
