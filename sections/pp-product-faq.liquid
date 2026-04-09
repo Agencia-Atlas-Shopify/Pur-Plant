@@ -6,12 +6,58 @@
   }
 </style>
 
+{%- liquid
+  # Map product.type → FAQ category. Pipe-separated lists wrapped in
+  # pipes so `contains` matches the whole type, not a substring.
+  assign type_needle = '|' | append: product.type | append: '|'
+
+  assign plantas_types = '|Plantas|Plantas Interior|Plantas Exterior|Plantas Minis|Plantas Hidropónicas|Cactus|Alocasias|Calatheas|Begonias|Anthurium|Ficus|Hoya|Peperomias|Helecho|Monstera|Philodendron|Palmera|Adansonii|Croton|Marantas|Deliciosa|Fittonia|Caladium|Dracaena|Kalanchoe|Euphorbia|Cyclamen|Hypoestes|Ceropegia|Espatifilo|Areca|Dieffenbachia|Adenium|Cóleo|Aglaonema|Orquídeas|Chamaedorea|Bromelia|Crassula Ovata|Suculentas y Crasas|Bambú|Leuconeura|carnosa|Aloe Vera|Oxalis|Hoya Kerrii Variegada|Carnívora|Pet Friendly|Árboles|Árboles Frutales|Arce Japonés|Bonsái|Acebo|Jazmin|Hibiscus|Calluna|Crisantemo|Hortensia|Euonymus|Kokedamas|Kits Kokedamas|Lavanda|Guindilla|Aromáticas|Coníferas|'
+  assign flores_types = '|Flores|Flores Secas Naturales|Flores Preservadas|Jarrones con Flores|'
+  assign macetas_types = '|Macetas|Macetas Originales|Cubremacetas|Macetas Barro|Macetas Barro Esmaltadas|Macetas M|Jardineras|Jarrones|Kokedamas|'
+  assign autorriegos_types = '|Autorriego|'
+  assign terrarios_types = '|Terrarios de Cristal|Jardín Eterno|'
+  assign musgo_types = '|Musgos|'
+  assign sustratos_types = '|Sustratos|Compost|Germinación|'
+  assign fertilizantes_types = '|Fertilizantes|Abonos orgánicos Líquidos|Abono orgánico pellets|Fitosanitarios|'
+  assign marimo_types = '|Marimo|'
+
+  assign faq_category = 'generico'
+  if marimo_types contains type_needle
+    assign faq_category = 'marimo'
+  elsif terrarios_types contains type_needle
+    assign faq_category = 'terrarios'
+  elsif autorriegos_types contains type_needle
+    assign faq_category = 'autorriegos'
+  elsif musgo_types contains type_needle
+    assign faq_category = 'musgo'
+  elsif sustratos_types contains type_needle
+    assign faq_category = 'sustratos'
+  elsif fertilizantes_types contains type_needle
+    assign faq_category = 'fertilizantes'
+  elsif flores_types contains type_needle
+    assign faq_category = 'flores'
+  elsif macetas_types contains type_needle
+    assign faq_category = 'macetas'
+  elsif plantas_types contains type_needle
+    assign faq_category = 'plantas'
+  endif
+
+  # Optional customizer override — forces a specific category regardless of product.type
+  if section.settings.faq_category_override != blank and section.settings.faq_category_override != 'auto'
+    assign faq_category = section.settings.faq_category_override
+  endif
+-%}
+
 <section class="pp-faq">
   {%- if section.settings.heading != blank -%}
     <h2 class="pp-faq__heading">{{ section.settings.heading }}</h2>
   {%- endif -%}
 
   <div class="pp-faq__list">
+    {%- comment -%} Auto FAQs by product type (or override) {%- endcomment -%}
+    {% render 'pp-faq-data', category: faq_category %}
+
+    {%- comment -%} Extra manual items added via theme editor {%- endcomment -%}
     {%- for block in section.blocks -%}
       <details class="pp-faq__item" {{ block.shopify_attributes }}>
         <summary class="pp-faq__question">
@@ -37,6 +83,26 @@
       "id": "heading",
       "label": "Heading",
       "default": "LO QUE SUELEN PREGUNTARNOS"
+    },
+    {
+      "type": "select",
+      "id": "faq_category_override",
+      "label": "Categoría FAQ",
+      "info": "Por defecto detecta automáticamente por product.type. Elige una categoría para forzar un set concreto.",
+      "options": [
+        { "value": "auto", "label": "Automático (por product type)" },
+        { "value": "generico", "label": "Genérico" },
+        { "value": "plantas", "label": "Plantas" },
+        { "value": "flores", "label": "Flores" },
+        { "value": "macetas", "label": "Macetas" },
+        { "value": "autorriegos", "label": "Autorriegos" },
+        { "value": "terrarios", "label": "Terrarios / Jardín eterno" },
+        { "value": "musgo", "label": "Musgo" },
+        { "value": "sustratos", "label": "Sustratos" },
+        { "value": "fertilizantes", "label": "Fertilizantes / Abonos" },
+        { "value": "marimo", "label": "Marimo" }
+      ],
+      "default": "auto"
     },
     {
       "type": "range",
