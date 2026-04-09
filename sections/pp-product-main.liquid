@@ -52,10 +52,6 @@
                     else
                       assign mf_value = 'No'
                     endif
-                  else
-                    assign should_show = true
-                    assign mf_value = 'Sí'
-                    assign is_pet_true = true
                   endif
                 when 'purificadora'
                   if product.metafields.custom.purificadora != blank
@@ -65,65 +61,41 @@
                     else
                       assign mf_value = 'No'
                     endif
-                  else
-                    assign should_show = true
-                    assign mf_value = 'Sí'
                   endif
                 when 'luz'
                   if product.metafields.custom.luz.value != blank
                     assign should_show = true
                     assign mf_value = product.metafields.custom.luz.value | join: ', '
-                  else
-                    assign should_show = true
-                    assign mf_value = 'Luz indirecta'
                   endif
                 when 'riego'
                   if product.metafields.custom.riego.value != blank
                     assign should_show = true
                     assign mf_value = product.metafields.custom.riego.value | join: ', '
-                  else
-                    assign should_show = true
-                    assign mf_value = 'Moderado'
                   endif
                 when 'dificultad'
                   if product.metafields.custom.dificultad != blank
                     assign should_show = true
                     assign mf_value = product.metafields.custom.dificultad
-                  else
-                    assign should_show = true
-                    assign mf_value = 'Fácil'
                   endif
                 when 'ubicacion'
                   if product.metafields.custom.ubicacion != blank
                     assign should_show = true
                     assign mf_value = product.metafields.custom.ubicacion
-                  else
-                    assign should_show = true
-                    assign mf_value = 'Interior'
                   endif
                 when 'temperatura'
                   if product.metafields.custom.temperatura != blank
                     assign should_show = true
                     assign mf_value = product.metafields.custom.temperatura
-                  else
-                    assign should_show = true
-                    assign mf_value = '15-25°C'
                   endif
                 when 'humedad'
                   if product.metafields.custom.humedad != blank
                     assign should_show = true
                     assign mf_value = product.metafields.custom.humedad
-                  else
-                    assign should_show = true
-                    assign mf_value = 'Media'
                   endif
                 when 'crecimiento'
                   if product.metafields.custom.crecimiento != blank
                     assign should_show = true
                     assign mf_value = product.metafields.custom.crecimiento
-                  else
-                    assign should_show = true
-                    assign mf_value = 'Medio'
                   endif
               endcase
             -%}
