@@ -984,15 +984,27 @@
     font-size: 11px;
   }
 
-  /* Single column layout — order: gallery, left-info, right-info */
+  /* Single column layout — order: gallery, right-info, left-info */
   .pp-pdp__grid {
     grid-template-columns: 1fr;
     gap: 24px;
   }
 
   .pp-pdp__gallery { order: 1; }
-  .pp-pdp__info-left { order: 2; position: static; }
-  .pp-pdp__info-right { order: 3; position: static; }
+  /* Right column (price + buy button + shipping) goes RIGHT below the gallery */
+  .pp-pdp__info-right {
+    order: 2;
+    position: static;
+    display: flex;
+    max-height: none;
+    overflow: visible;
+    max-width: 100%;
+    padding: 0;
+  }
+  .pp-pdp__info-left {
+    order: 3;
+    position: static;
+  }
 
   /* Gallery: horizontal swipe, no thumbnails */
   .pp-pdp__gallery {
@@ -1015,6 +1027,10 @@
     gap: 0;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    /* Don't stretch slides to tallest — let each slide keep its own height */
+    align-items: flex-start;
+    /* Smooth height changes when JS updates the container to match the active slide */
+    transition: height 0.25s ease;
   }
 
   .pp-pdp__main-images::-webkit-scrollbar {
@@ -1025,6 +1041,14 @@
     flex: 0 0 100%;
     scroll-snap-align: start;
     border-radius: var(--pp-radius-sm);
+  }
+
+  .pp-pdp__main-image img,
+  .pp-pdp__main-image video {
+    width: 100%;
+    height: auto;
+    max-height: none;
+    object-fit: contain;
   }
 
   /* Product info columns: no longer sticky on mobile */
