@@ -1039,6 +1039,8 @@
 
   .pp-pdp__main-image {
     flex: 0 0 100%;
+    width: 100%;
+    aspect-ratio: 4 / 5;
     scroll-snap-align: start;
     border-radius: var(--pp-radius-sm);
   }
@@ -1046,9 +1048,8 @@
   .pp-pdp__main-image img,
   .pp-pdp__main-image video {
     width: 100%;
-    height: auto;
-    max-height: none;
-    object-fit: contain;
+    height: 100%;
+    object-fit: cover;
   }
 
   /* Product info columns: no longer sticky on mobile */
@@ -1092,6 +1093,61 @@
   .pp-pdp__section-heading {
     font-size: 24px;
     margin-bottom: 18px;
+  }
+
+  /* Right info column — keep within viewport on mobile */
+  .pp-pdp__info-right {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Total row — center, no fixed widths */
+  .pp-pdp__total {
+    justify-content: space-between;
+    padding: 12px 0;
+    width: 100%;
+  }
+
+  .pp-pdp__total-label {
+    font-size: 18px;
+  }
+
+  .pp-pdp__total-price {
+    font-size: 18px;
+  }
+
+  /* Buy row: qty + add to cart, full width, smaller button */
+  .pp-pdp__buy-wrap {
+    width: 100%;
+    box-sizing: border-box;
+    flex-wrap: nowrap;
+    gap: 8px;
+  }
+
+  .pp-pdp__qty {
+    flex-shrink: 0;
+  }
+
+  .pp-pdp__add-to-cart-btn {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 14px 16px;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  /* Routine slider — let cards size naturally on mobile */
+  .pp-pdp__routine-slider {
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .pp-pdp__routine-item,
+  .pp-pdp__routine-item:first-child {
+    flex: 0 0 auto;
+    width: 80px;
+    padding-left: 0;
+    padding-right: 0;
   }
 }
 
