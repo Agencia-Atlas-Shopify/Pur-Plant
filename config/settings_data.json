@@ -61,6 +61,7 @@
     "cart_price_font": "secondary",
     "show_cart_note": false,
     "show_add_discount_code": true,
+    "pp_cart_free_ship_logo_svg": "<!--?xml version=\"1.0\" encoding=\"UTF-8\"?-->\n<svg id=\"Layer_1\" data-name=\"Layer 1\" xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 77.94 123.25\">\n  <defs>\n    <style>\n      .cls-1 {\n        fill: #e4ffd3;\n        fill-rule: evenodd;\n      }\n    </style>\n  </defs>\n  <g id=\"LOGO-VECTOR-VERDE-OSCURO\">\n    <path class=\"cls-1\" d=\"M.39,93.14c-.9-15.61.06-83.76.06-83.76C.45,9.38-.06-1.01,12.18.08s26.36-3.12,30.63,10.97c0,0,4.61,30.84-.77,38.7-5.37,7.85-12.84,9.65-17.62,9.65s-7.17.05-9.85,2.71-1.79,22.07,2.09,24.16,8.66,3.68,11.05,5.77,12.24,10.15,16.03,13.93c3.78,3.78,8.65,6.2,13.43,6.47,6.42.36,10.65-1.51,14.58-2.27,3.56-.69,8.14,1.68,5.33,7.47-2.54,5.23-23.66,7.31-30.97,4.04-8.76-3.91-23.67-18.89-27.35-20.58-3.68-1.69-9.56-2.69-12.94-2.69s-5.28-2.76-5.42-5.28ZM18.65,12.32c-3.63,1.08-3.78,1.67-4.78,3.43-1.24,2.19-1.15,24.96.45,27.77,2.15,3.79,5.68,4.51,12.84,2.54,0,0,4.48-1.64,4.78-6.87s.15-20.16-1.49-22.84-9.15-4.82-11.79-4.03Z\"></path>\n  </g>\n</svg>",
     "drawer_drop_shadow": true,
     "icon_stroke": "default",
     "input_border_width": 1,
@@ -90,6 +91,12 @@
     "swym_advanced_collections_wishlist_icon_color": "#000000",
     "swym_advanced_collections_wishlist_icon_width": 1.7,
     "swym_header_icon_enabled": true,
+    "swym_header_icon_show_count": true,
+    "swym_header_icon_custom_html": "",
+    "swym_header_icon_count_bubble_html": "",
+    "swym_header_icon_custom_css": "",
+    "swym_header_icon_selector_desktop": ".pp-header__wishlist-link",
+    "swym_header_icon_selector_mobile": ".pp-header__wishlist-link",
     "content_for_index": [],
     "blocks": {
       "14060646107696862457": {
@@ -101,6 +108,7 @@
         "type": "shopify://apps/swym-relay/blocks/wishlist-app-embed/80c3b1fc-3a8f-407e-8367-ffdeebb8b612",
         "disabled": false,
         "settings": {
+          "show_ui": true,
           "storefront_layout_enabled": false,
           "storefront_layout_primary_bg_color": "#000000",
           "storefront_layout_primary_text_color": "#ffffff",
@@ -110,8 +118,7 @@
           "storefront_layout_notification_position": "left",
           "storefront_layout_action_popup_position": "left",
           "storefront_layout_drawer_position": "left",
-          "storefront_layout_as_section_page": "",
-          "show_ui": true
+          "storefront_layout_as_section_page": ""
         }
       },
       "17755593662753636064": {
@@ -555,13 +562,7 @@
           "selected_variant_hover_border_color": "#2e4d38"
         }
       }
-    },
-    "swym_header_icon_show_count": true,
-    "swym_header_icon_custom_html": "",
-    "swym_header_icon_count_bubble_html": "",
-    "swym_header_icon_custom_css": "",
-    "swym_header_icon_selector_desktop": ".pp-header__cart-link",
-    "swym_header_icon_selector_mobile": ".pp-header__cart-link"
+    }
   },
   "presets": {
     "Horizon": {
