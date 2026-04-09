@@ -986,8 +986,13 @@
 
   /* Single column layout — order: gallery, right-info, left-info */
   .pp-pdp__grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 24px;
+  }
+
+  /* Allow grid children to shrink below their content size (default min-width: auto)  */
+  .pp-pdp__grid > * {
+    min-width: 0;
   }
 
   .pp-pdp__gallery { order: 1; }
@@ -1008,11 +1013,15 @@
 
   /* Gallery: horizontal swipe, no thumbnails */
   .pp-pdp__gallery {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
     height: auto;
     margin-top: 0;
-    overflow-y: visible;
+    overflow: hidden;
     position: relative;
-    flex-direction: row;
+    box-sizing: border-box;
   }
 
   .pp-pdp__thumbnails {
