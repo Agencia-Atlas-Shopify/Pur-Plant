@@ -53,7 +53,7 @@
   </div>
 </div>
 
-{%- comment -%} Client-side loader for the default (Shopify related products) mode {%- endcomment -%}
+{%- comment -%} Client-side loader + add-to-cart delegated to the theme {%- endcomment -%}
 <script>
   (function () {
     const root = document.currentScript.previousElementSibling;
@@ -65,8 +65,6 @@
     const productId = root.dataset.productId;
     const limit = parseInt(root.dataset.limit, 10) || 8;
 
-    // If a collection was configured, the products are already SSR-rendered.
-    // Only fetch from the recommendations API when there's no collection.
     if (!hasCollection) {
       if (!productId) {
         root.style.display = 'none';
@@ -104,61 +102,75 @@
               `;
             })
             .join('');
-          bindAddButtons();
         })
         .catch(() => {
           root.style.display = 'none';
         });
-    } else {
-      bindAddButtons();
     }
 
-    function bindAddButtons() {
-      list.querySelectorAll('[data-cart-reco-add]').forEach((btn) => {
-        btn.addEventListener('click', async (ev) => {
-          ev.preventDefault();
-          const variantId = btn.dataset.variantId;
-          if (!variantId) return;
-          btn.disabled = true;
-          btn.style.opacity = '0.5';
-          try {
-            await fetch('/cart/add.js', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-              body: JSON.stringify({ id: variantId, quantity: 1 }),
-              credentials: 'same-origin',
-            });
-            // Refresh cart drawer by dispatching theme's cart:update event
-            const cartRes = await fetch('/cart.js', { credentials: 'same-origin' });
-            const cart = await cartRes.json();
-            document.dispatchEvent(new CustomEvent('cart:update', { detail: { data: cart } }));
-            // Try to refresh the visible cart drawer items via a fresh fetch of the section
-            const drawer = document.querySelector('cart-drawer-component');
-            if (drawer && typeof drawer.refresh === 'function') {
-              drawer.refresh();
-            } else {
-              // Fallback: reload the drawer markup from the section rendering API
-              try {
-                const r = await fetch(`${window.location.pathname}?section_id=pp-header`);
-                if (r.ok) {
-                  const html = await r.text();
-                  const tmp = document.createElement('div');
-                  tmp.innerHTML = html;
-                  const newDrawer = tmp.querySelector('cart-drawer-component');
-                  const curDrawer = document.querySelector('cart-drawer-component');
-                  if (newDrawer && curDrawer) {
-                    curDrawer.innerHTML = newDrawer.innerHTML;
-                  }
-                }
-              } catch (_) { /* noop */ }
-            }
-          } finally {
-            btn.disabled = false;
-            btn.style.opacity = '';
-          }
+    // Event delegation — handles both SSR'd collection cards and async-loaded ones
+    root.addEventListener('click', async (ev) => {
+      const btn = ev.target.closest('[data-cart-reco-add]');
+      if (!btn) return;
+      ev.preventDefault();
+      const variantId = btn.dataset.variantId;
+      if (!variantId) return;
+
+      btn.disabled = true;
+      btn.style.opacity = '0.5';
+
+      try {
+        // Collect sections to re-render so cart-items-component can morph them
+        const sectionIds = new Set();
+        document.querySelectorAll('cart-items-component[data-section-id]').forEach((el) => {
+          const id = el.getAttribute('data-section-id');
+          if (id) sectionIds.add(id);
         });
-      });
-    }
+        const sections = Array.from(sectionIds).join(',');
+
+        const body = JSON.stringify({
+          items: [{ id: variantId, quantity: 1 }],
+          sections,
+          sections_url: window.location.pathname,
+        });
+
+        const res = await fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          credentials: 'same-origin',
+          body,
+        });
+        const data = await res.json();
+
+        // Fire the events the theme listens to. CartAddEvent is what the cart drawer
+        // uses to (a) auto-open (already open, no-op) and (b) trigger cart-items-component
+        // to morph its section from data.sections.
+        const EventCls = window.Theme && window.Theme.CartAddEvent ? window.Theme.CartAddEvent : null;
+        // Fall back to dispatching the same shape manually — cart-items-component reads
+        // event.detail.data.sections[sectionId] and event.target to ignore self-updates.
+        const evt = new CustomEvent('cart:update', {
+          bubbles: true,
+          detail: { data, source: 'pp-cart-reco', sections: data.sections },
+        });
+        document.dispatchEvent(evt);
+
+        // Also fire cart:add for listeners (free-shipping bar etc)
+        document.dispatchEvent(new CustomEvent('cart:add', { detail: { data } }));
+
+        // Refresh the free shipping bar with the new total_price from /cart.js
+        try {
+          const cartRes = await fetch('/cart.js', { credentials: 'same-origin' });
+          const cart = await cartRes.json();
+          document.querySelectorAll('pp-free-shipping-bar').forEach((el) => {
+            el.dataset.totalPrice = String(cart.total_price);
+            if (typeof el._render === 'function') el._render();
+          });
+        } catch (_) { /* noop */ }
+      } finally {
+        btn.disabled = false;
+        btn.style.opacity = '';
+      }
+    });
   })();
 </script>
 
