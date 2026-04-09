@@ -45,7 +45,7 @@
               aria-label="{{ 'actions.add_to_cart' | t }}"
             >+</button>
           {%- else -%}
-            <a href="{{ product.url }}" class="pp-cart-reco__add" aria-label="{{ 'actions.view' | t | default: 'Ver' }}">→</a>
+            <a href="{{ product.url }}" class="pp-cart-reco__add" aria-label="Ver">→</a>
           {%- endif -%}
         </div>
       {%- endfor -%}
@@ -200,7 +200,7 @@
 
   .pp-cart-reco__card {
     scroll-snap-align: start;
-    flex: 0 0 calc(33.333% - 6px);
+    flex: 0 0 calc(23.333% - 6px);
     position: relative;
   }
 
