@@ -1019,6 +1019,7 @@
     min-width: 0;
     height: auto;
     margin-top: 0;
+    padding-top: 20px;
     overflow: hidden;
     position: relative;
     box-sizing: border-box;
