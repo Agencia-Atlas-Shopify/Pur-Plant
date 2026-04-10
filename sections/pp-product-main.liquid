@@ -708,11 +708,16 @@
   var thumbs = document.querySelectorAll('[data-pp-thumb]');
   var images = document.querySelectorAll('[data-pp-image]');
   var mainContainer = document.querySelector('[data-pp-main-images]');
-  if (!thumbs.length || !images.length || !mainContainer) return;
+  var dots = document.querySelectorAll('[data-pp-dots] .pp-pdp__dot');
+  if (!thumbs.length && !dots.length) return;
+  if (!images.length || !mainContainer) return;
 
   function activateThumb(index) {
     thumbs.forEach(function(t, i) {
       t.classList.toggle('is-active', i === index);
+    });
+    dots.forEach(function(d, i) {
+      d.classList.toggle('is-active', i === index);
     });
   }
 
@@ -723,6 +728,18 @@
       var target = images[idx];
       if (target) {
         target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        activateThumb(idx);
+      }
+    });
+  });
+
+  /* Click dot → scroll to image */
+  dots.forEach(function(dot) {
+    dot.addEventListener('click', function() {
+      var idx = parseInt(dot.dataset.index);
+      var target = images[idx];
+      if (target) {
+        mainContainer.scrollTo({ left: target.offsetLeft, behavior: 'smooth' });
         activateThumb(idx);
       }
     });

@@ -1191,11 +1191,13 @@
    MOBILE GALLERY DOTS (pagination indicators)
    ========================================================================== */
 
+.pp-pdp__dots,
 .pp-pdp__gallery-dots {
   display: none;
 }
 
 @media screen and (max-width: 749px) {
+  .pp-pdp__dots,
   .pp-pdp__gallery-dots {
     display: flex;
     justify-content: center;
@@ -1204,6 +1206,7 @@
     padding-top: 12px;
   }
 
+  .pp-pdp__dot,
   .pp-pdp__gallery-dot {
     width: 7px;
     height: 7px;
@@ -1215,6 +1218,7 @@
     transition: background-color var(--pp-transition), transform var(--pp-transition);
   }
 
+  .pp-pdp__dot.is-active,
   .pp-pdp__gallery-dot.is-active {
     background-color: var(--pp-dark-green);
     transform: scale(1.25);
