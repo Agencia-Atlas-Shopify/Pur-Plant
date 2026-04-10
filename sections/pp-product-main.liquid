@@ -459,6 +459,43 @@
         {%- endif -%}
       {%- endfor -%}
 
+      {%- comment -%} Volume Discount cards {%- endcomment -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'volume_discount' -%}
+          {%- liquid
+            assign base = current_variant.price
+            assign t1_pct = block.settings.tier1_pct | plus: 0
+            assign t2_pct = block.settings.tier2_pct | plus: 0
+            assign t3_pct = block.settings.tier3_pct | plus: 0
+            assign t1_disc = base | times: t1_pct | divided_by: 100
+            assign t1_unit = base | minus: t1_disc
+            assign t2_disc = base | times: t2_pct | divided_by: 100
+            assign t2_unit = base | minus: t2_disc
+            assign t3_disc = base | times: t3_pct | divided_by: 100
+            assign t3_unit = base | minus: t3_disc
+          -%}
+          <div class="pp-vol" {{ block.shopify_attributes }}>
+            <div class="pp-vol__grid">
+              <div class="pp-vol__card">
+                <span class="pp-vol__range">{{ block.settings.tier1_range }} Ud</span>
+                <span class="pp-vol__unit-price">{{ t1_unit | money }}/unidad</span>
+                <span class="pp-vol__badge">AHORRA {{ t1_pct }}%</span>
+              </div>
+              <div class="pp-vol__card{% if block.settings.tier2_highlight %} pp-vol__card--highlighted{% endif %}">
+                <span class="pp-vol__range">{{ block.settings.tier2_range }} Ud</span>
+                <span class="pp-vol__unit-price">{{ t2_unit | money }}/unidad</span>
+                <span class="pp-vol__badge">AHORRA {{ t2_pct }}%</span>
+              </div>
+              <div class="pp-vol__card">
+                <span class="pp-vol__range">{{ block.settings.tier3_range }} Ud</span>
+                <span class="pp-vol__unit-price">{{ t3_unit | money }}/unidad</span>
+                <span class="pp-vol__badge">AHORRA {{ t3_pct }}%</span>
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+
       {%- comment -%} Recommended products (macetas que combinan) {%- endcomment -%}
       {%- if product.metafields.custom.encuentra_una_maceta_que_combine != blank -%}
         <div class="pp-pdp__recommended">
@@ -1070,6 +1107,55 @@
           "type": "image_picker",
           "id": "image",
           "label": "Image"
+        }
+      ]
+    },
+    {
+      "type": "volume_discount",
+      "name": "Volume Discount",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "tier1_range",
+          "label": "Tier 1 range",
+          "default": "3-4"
+        },
+        {
+          "type": "number",
+          "id": "tier1_pct",
+          "label": "Tier 1 discount %",
+          "default": 10
+        },
+        {
+          "type": "text",
+          "id": "tier2_range",
+          "label": "Tier 2 range",
+          "default": "5-9"
+        },
+        {
+          "type": "number",
+          "id": "tier2_pct",
+          "label": "Tier 2 discount %",
+          "default": 15
+        },
+        {
+          "type": "checkbox",
+          "id": "tier2_highlight",
+          "label": "Tier 2 highlighted",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "tier3_range",
+          "label": "Tier 3 range",
+          "default": "10-100"
+        },
+        {
+          "type": "number",
+          "id": "tier3_pct",
+          "label": "Tier 3 discount %",
+          "default": 20
         }
       ]
     },
