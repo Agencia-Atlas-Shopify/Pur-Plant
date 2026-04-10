@@ -748,7 +748,6 @@
     }
 
     // Thumbnails are now CSS sticky — no JS positioning needed
-  }
 
     // Image zoom lightbox
     if (mainImages) {
@@ -794,6 +793,7 @@
   }
 
   // Run when DOM is ready
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {

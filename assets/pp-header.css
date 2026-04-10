@@ -1389,10 +1389,10 @@ button.pp-header__nav-link,
     justify-self: start !important;
   }
 
-  /* Logo right-aligned in center column */
+  /* Logo centered */
   .pp-header__logo {
     grid-column: 2 !important;
-    justify-self: flex-end !important;
+    justify-self: center !important;
   }
 
   /* Icons right — gap 0 */
