@@ -456,6 +456,15 @@
         {%- endif -%}
       {%- endfor -%}
 
+      {%- comment -%} App blocks (Planet Discounts, Judge.me, etc.) {%- endcomment -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == '@app' -%}
+          <div class="pp-pdp__app-block" {{ block.shopify_attributes }}>
+            {% render block %}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+
       {%- comment -%} Recommended products (macetas que combinan) {%- endcomment -%}
       {%- if product.metafields.custom.encuentra_una_maceta_que_combine != blank -%}
         <div class="pp-pdp__recommended">
