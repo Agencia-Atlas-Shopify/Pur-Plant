@@ -235,6 +235,7 @@
     opacity: 1;
     pointer-events: auto;
     overflow-y: auto;
+    margin-top: -48px;
   }
 
   .pp-mega__inner {
