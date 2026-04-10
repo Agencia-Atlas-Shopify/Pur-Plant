@@ -388,6 +388,12 @@
   padding: 14px 0;
 }
 
+.pp-pdp__care-icons:empty {
+  display: none;
+  margin: 0;
+  padding: 0;
+}
+
 .pp-pdp__care-icon {
   display: flex;
   flex-direction: column;
