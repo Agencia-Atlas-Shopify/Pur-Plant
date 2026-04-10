@@ -259,13 +259,27 @@
         {%- if product.collections.size > 0 -%}
           {%- liquid
             assign best_coll = nil
+            assign fallback_coll = nil
+
             for c in product.collections
               assign coll_handle_lower = c.handle | downcase
-              unless coll_handle_lower contains 'iva' or coll_handle_lower contains 'nuevas-plantas'
+              if coll_handle_lower contains 'iva' or coll_handle_lower contains 'nuevas-plantas'
+                continue
+              endif
+
+              if fallback_coll == nil
+                assign fallback_coll = c
+              endif
+
+              if c.metafields.custom.coleccion_padre.value != blank
                 assign best_coll = c
                 break
-              endunless
+              endif
             endfor
+
+            if best_coll == nil
+              assign best_coll = fallback_coll
+            endif
             if best_coll == nil
               assign best_coll = product.collections.first
             endif
@@ -525,21 +539,7 @@
                 return new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Madrid' }));
               }
 
-              /* Compute the delivery range from the CURRENT time (called each tick) */
-              function getDeliveryRange() {
-                var sp = getSpainNow();
-                var dow = sp.getDay();
-                var hour = sp.getHours();
-                var base = new Date(sp);
-
-                /* If outside business hours (after 18h, weekends) → next business day */
-                if (hour >= 18 || dow === 0 || dow === 6) {
-                  /* Advance to next Mon–Fri */
-                  do {
-                    base.setDate(base.getDate() + 1);
-                  } while (base.getDay() === 0 || base.getDay() === 6);
-                }
-
+              function formatRange(base) {
                 var min = addBusinessDays(base, shippingDays);
                 var max = addBusinessDays(base, shippingDays + 1);
                 return DAYS[min.getDay()] + ' ' + min.getDate() + ' - ' + DAYS[max.getDay()] + ' ' + max.getDate() + ' ' + MONTHS[max.getMonth()];
@@ -548,17 +548,34 @@
               var el = document.getElementById('pp-shipping-full-{{ section.id }}');
               if (!el) return;
 
-              function update() {
-                var sp = getSpainNow();
-                var dow = sp.getDay();
-                var hour = sp.getHours();
-                var deliveryDate = getDeliveryRange();
+              /* Compute dates ONCE at load — only re-compute if the cutoff crosses */
+              var sp = getSpainNow();
+              var dow = sp.getDay();
+              var hour = sp.getHours();
+              var canShipToday = (dow >= 1 && dow <= 5 && hour < 18);
 
-                /* Show countdown only Mon–Fri before 18h */
-                if (dow >= 1 && dow <= 5 && hour < 18) {
-                  var target = new Date(sp);
+              /* base = the day the order ships */
+              var baseToday = new Date(sp);     /* if order placed before 18h today */
+              var baseTomorrow = new Date(sp);   /* if order placed after 18h / weekend */
+              do {
+                baseTomorrow.setDate(baseTomorrow.getDate() + 1);
+              } while (baseTomorrow.getDay() === 0 || baseTomorrow.getDay() === 6);
+
+              var rangeToday = formatRange(baseToday);
+              var rangeTomorrow = formatRange(baseTomorrow);
+              var switchedToTomorrow = false;
+
+              function update() {
+                var now = getSpainNow();
+                var nowDow = now.getDay();
+                var nowHour = now.getHours();
+                var inBusinessHours = (nowDow >= 1 && nowDow <= 5 && nowHour < 18);
+
+                if (inBusinessHours && !switchedToTomorrow) {
+                  /* Show countdown + today's range */
+                  var target = new Date(now);
                   target.setHours(18, 0, 0, 0);
-                  var diff = target - sp;
+                  var diff = target - now;
                   if (diff > 0) {
                     var h = Math.floor(diff / 3600000);
                     var m = Math.floor((diff % 3600000) / 60000);
@@ -567,12 +584,17 @@
                     if (h > 0) parts.push(h + (h === 1 ? ' hora' : ' horas'));
                     if (m > 0) parts.push(m + (m === 1 ? ' minuto' : ' minutos'));
                     parts.push(s + (s === 1 ? ' segundo' : ' segundos'));
-                    el.innerHTML = 'Compra antes de <strong>' + parts.join(' ') + '</strong> y recíbelo el <strong>' + deliveryDate + '</strong>';
+                    el.innerHTML = 'Compra antes de <strong>' + parts.join(' ') + '</strong> y recíbelo el <strong>' + rangeToday + '</strong>';
                     return;
                   }
+                  /* Just crossed 18h — switch permanently */
+                  switchedToTomorrow = true;
                 }
-                el.innerHTML = 'Compra ahora y recíbelo el <strong>' + deliveryDate + '</strong>';
+
+                /* Outside business hours or already switched */
+                el.innerHTML = 'Compra ahora y recíbelo el <strong>' + rangeTomorrow + '</strong>';
               }
+
               update();
               setInterval(update, 1000);
             })();
