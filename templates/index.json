@@ -522,7 +522,7 @@
       "type": "divider",
       "name": "t:names.divider_section",
       "settings": {
-        "color_scheme": "",
+        "color_scheme": "scheme-6",
         "section_width": "page-width",
         "thickness": 0.5,
         "corner_radius": "square",
