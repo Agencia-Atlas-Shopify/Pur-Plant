@@ -1204,6 +1204,7 @@
     align-items: center;
     gap: 6px;
     padding-top: 12px;
+    padding-bottom: 3px;
   }
 
   .pp-pdp__dot,
