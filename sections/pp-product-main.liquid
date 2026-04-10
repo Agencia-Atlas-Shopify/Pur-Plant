@@ -263,7 +263,7 @@
 
             for c in product.collections
               assign coll_handle_lower = c.handle | downcase
-              if coll_handle_lower contains 'iva' or coll_handle_lower contains 'nuevas-plantas'
+              if coll_handle_lower contains 'iva' or coll_handle_lower contains 'plantas-nuevas'
                 continue
               endif
 
@@ -518,7 +518,7 @@
               <img src="{{ block.settings.icon | image_url: width: 40 }}" width="20" height="20" alt="">
             {%- endif -%}
             <span class="pp-pdp__shipping-dot"></span>
-            <span data-pp-shipping-full id="pp-shipping-full-{{ section.id }}"></span>
+            <span data-pp-shipping-full id="pp-shipping-full-{{ section.id }}-{{ block.id }}"></span>
           </div>
           <script>
             (function() {
@@ -545,7 +545,7 @@
                 return DAYS[min.getDay()] + ' ' + min.getDate() + ' - ' + DAYS[max.getDay()] + ' ' + max.getDate() + ' ' + MONTHS[max.getMonth()];
               }
 
-              var el = document.getElementById('pp-shipping-full-{{ section.id }}');
+              var el = document.getElementById('pp-shipping-full-{{ section.id }}-{{ block.id }}');
               if (!el) return;
 
               /* Compute dates ONCE at load — only re-compute if the cutoff crosses */
