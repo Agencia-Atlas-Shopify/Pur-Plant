@@ -257,26 +257,20 @@
       <nav class="pp-pdp__breadcrumb pp-pdp__breadcrumb--right">
         <a href="{{ routes.root_url }}">Pur Plant</a>
         <span>/</span>
-        {%- if product.collections.size > 0 -%}
+        {%- liquid
+          comment
+            Priority 1: product metafield custom.coleccion_principal
+          endcomment
+          assign best_coll = product.metafields.custom.coleccion_principal.value
+        -%}
+        {%- if best_coll == blank and product.collections.size > 0 -%}
           {%- liquid
             assign best_coll = nil
             assign fallback_coll = nil
 
-            comment
-              Excluded handles: IVA collections, nuevas plantas, and
-              estancia/room collections that don't belong in the breadcrumb.
-            endcomment
-            assign excluded_handles = '|iva-|plantas-nuevas|plantas-bano|plantas-cocina|plantas-dormitorio|plantas-oficina|plantas-salon|plantas-terraza|plantas-escritorio|plantas-estanteria|'
-
             for c in product.collections
               assign coll_handle_lower = c.handle | downcase
-              assign handle_needle = '|' | append: coll_handle_lower | append: '|'
-
-              comment
-                Skip if the handle is literally in the excluded list OR
-                starts with iva (catches iva-10, iva-10-no-borrar, etc.)
-              endcomment
-              if excluded_handles contains handle_needle or coll_handle_lower contains 'iva'
+              if coll_handle_lower contains 'iva' or coll_handle_lower contains 'plantas-nuevas' or coll_handle_lower contains 'plantas-bano' or coll_handle_lower contains 'plantas-cocina' or coll_handle_lower contains 'plantas-dormitorio' or coll_handle_lower contains 'plantas-oficina' or coll_handle_lower contains 'plantas-salon'
                 continue
               endif
 
