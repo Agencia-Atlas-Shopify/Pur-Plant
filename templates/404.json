@@ -92,7 +92,7 @@
           "type": "button",
           "name": "t:names.button",
           "settings": {
-            "label": "Continuar comprando",
+            "label": "Volver a la tierra",
             "link": "shopify://collections/top-ventas",
             "open_in_new_tab": false,
             "style_class": "button",
