@@ -1322,6 +1322,120 @@
 }
 
 /* ==========================================================================
+   Planet Discounts Volume Widget — Override to horizontal cards
+   ========================================================================== */
+.pp-pdp__app-block .planet-volume-rfl {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.pp-pdp__app-block .planet-volume-3hz {
+  padding: 14px 12px !important;
+  border-radius: 14px !important;
+  border: 1.5px solid #d1d5db !important;
+  background: #fff !important;
+  text-align: center;
+  align-items: center !important;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.pp-pdp__app-block .planet-volume-3hz.ope-ziq,
+.pp-pdp__app-block .planet-volume-3hz:has(input:checked) {
+  border-color: #23372c !important;
+  background: #f0fbe8 !important;
+}
+
+.pp-pdp__app-block .content-fby {
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 6px !important;
+  text-align: center;
+}
+
+.pp-pdp__app-block .info-j78 {
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 4px !important;
+}
+
+/* Hide radio buttons — the whole card is clickable */
+.pp-pdp__app-block .info-j78 input[type="radio"] {
+  display: none !important;
+}
+
+.pp-pdp__app-block .tag-94x {
+  justify-content: center !important;
+}
+
+.pp-pdp__app-block .label-xq5 {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #23372c !important;
+  text-align: center !important;
+  line-height: 1.4 !important;
+}
+
+.pp-pdp__app-block .planet-volume-w4r {
+  align-items: center !important;
+  gap: 2px !important;
+}
+
+.pp-pdp__app-block .planet-volume-s8w {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: #23372c !important;
+  text-align: center !important;
+}
+
+.pp-pdp__app-block .planet-volume-fhq {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 400 !important;
+  color: #999 !important;
+  text-align: center !important;
+}
+
+/* Discount badge (if the app renders one) */
+.pp-pdp__app-block .planet-volume-3hz .discount-badge,
+.pp-pdp__app-block .planet-volume-3hz [class*="badge"],
+.pp-pdp__app-block .planet-volume-3hz [class*="save"] {
+  display: inline-block;
+  background: #e4ffd3;
+  color: #23372c;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-top: 4px;
+  text-transform: uppercase;
+}
+
+@media screen and (max-width: 480px) {
+  .pp-pdp__app-block .planet-volume-rfl {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .pp-pdp__app-block .content-fby {
+    flex-direction: row !important;
+    justify-content: space-between !important;
+  }
+
+  .pp-pdp__app-block .info-j78 {
+    flex-direction: row !important;
+  }
+
+  .pp-pdp__app-block .planet-volume-w4r {
+    flex-direction: row !important;
+    gap: 6px !important;
+  }
+}
+
+/* ==========================================================================
    Mobile floating add-to-cart bar
    ========================================================================== */
 .pp-pdp__floating-atc {
