@@ -784,9 +784,9 @@
 
 /* ---------- Routine / Recommended Products ---------- */
 .pp-pdp__routine {
-  margin-top: 20px;
+  margin-top: 0;
   padding-top: 16px;
-  border-top: 1px solid #000;
+  border-top: 0;
 }
 
 .pp-pdp__routine-title {
@@ -1341,8 +1341,8 @@
   align-items: center;
   justify-content: center;
   gap: 4px;
-  padding: 16px 10px;
-  border: 2px solid #23372c;
+  padding: 5px 0;
+  border: 1px solid #23372c;
   border-radius: 16px;
   background: #fff;
   text-align: center;
@@ -1372,7 +1372,7 @@
 .pp-vol__badge {
   display: inline-block;
   margin-top: 4px;
-  padding: 4px 14px;
+  padding: 4px 9px;
   background: #e4ffd3;
   border-radius: 20px;
   font-family: 'Inter', sans-serif;
