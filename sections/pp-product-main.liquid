@@ -261,7 +261,7 @@
             assign best_coll = nil
             for c in product.collections
               assign coll_handle_lower = c.handle | downcase
-              unless coll_handle_lower contains 'iva'
+              unless coll_handle_lower contains 'iva' or coll_handle_lower contains 'nuevas-plantas'
                 assign best_coll = c
                 break
               endunless
