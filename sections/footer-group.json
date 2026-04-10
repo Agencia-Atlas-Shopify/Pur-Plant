@@ -16,7 +16,7 @@
       "name": "PP Footer",
       "settings": {
         "logo": "shopify://shop_images/PUR_PLANT_BOTANIC_-_PLANT_BASED-_RESTYLING_1_1.png",
-        "legal_menu": "",
+        "legal_menu": "footer",
         "instagram_url": "https://www.instagram.com/pur_plant/",
         "tiktok_url": "https://www.tiktok.com/@pur_plant#",
         "pinterest_url": "https://www.pinterest.es/purplant/",
