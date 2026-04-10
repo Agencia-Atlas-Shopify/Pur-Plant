@@ -552,7 +552,7 @@
           "type": "video",
           "name": "t:names.video",
           "settings": {
-            "source": "url",
+            "source": "uploaded",
             "video": "shopify://files/videos/UGC-plantas-dormitorio.mp4",
             "video_autoplay": false,
             "video_loop": true,
@@ -575,7 +575,8 @@
           "type": "video",
           "name": "t:names.video",
           "settings": {
-            "source": "url",
+            "source": "uploaded",
+            "video": "shopify://files/videos/unboxing pur plant.mp4",
             "video_autoplay": false,
             "video_loop": true,
             "alt": "",
