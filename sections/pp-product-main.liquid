@@ -5,6 +5,7 @@
 {%- endcomment -%}
 
 {{ 'pp-product-main.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'pp-shipping-countdown.js' | asset_url }}" defer></script>
 
 {%- liquid
   assign product = product
@@ -524,94 +525,25 @@
         </div>
       {%- endif -%}
 
-      {%- comment -%} Shipping date (skip weekends) — above total {%- endcomment -%}
-      {%- for block in section.blocks -%}
-        {%- if block.type == 'shipping_info' -%}
-          <div class="pp-pdp__shipping-info" style="padding-top: {{ block.settings.padding_top | default: 10 }}px; padding-bottom: {{ block.settings.padding_bottom | default: 10 }}px;" {{ block.shopify_attributes }}>
-            {%- if block.settings.icon != blank -%}
-              <img src="{{ block.settings.icon | image_url: width: 40 }}" width="20" height="20" alt="">
-            {%- endif -%}
-            <span class="pp-pdp__shipping-dot"></span>
-            <span data-pp-shipping-full id="pp-shipping-full-{{ section.id }}-{{ block.id }}"></span>
-          </div>
-          <script data-pp-shipping-init="{{ section.id }}-{{ block.id }}">
-            (function() {
-              /* Guard: only run once per block even if the script re-executes after morph */
-              var scriptTag = document.querySelector('script[data-pp-shipping-init="{{ section.id }}-{{ block.id }}"]');
-              if (!scriptTag) return;
-              if (scriptTag.dataset.ppDone) return;
-              scriptTag.dataset.ppDone = '1';
-
-              var DAYS = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
-              var MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-              var shippingDays = {{ block.settings.shipping_days | default: 2 }};
-
-              function addBusinessDays(date, n) {
-                var d = new Date(date);
-                while (n > 0) {
-                  d.setDate(d.getDate() + 1);
-                  if (d.getDay() !== 0 && d.getDay() !== 6) n--;
-                }
-                return d;
-              }
-
-              function getSpainNow() {
-                return new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Madrid' }));
-              }
-
-              function formatRange(base) {
-                var min = addBusinessDays(base, shippingDays);
-                var max = addBusinessDays(base, shippingDays + 1);
-                return DAYS[min.getDay()] + ' ' + min.getDate() + ' - ' + DAYS[max.getDay()] + ' ' + max.getDate() + ' ' + MONTHS[max.getMonth()];
-              }
-
-              var el = document.getElementById('pp-shipping-full-{{ section.id }}-{{ block.id }}');
-              if (!el) return;
-
-              var sp = getSpainNow();
-              var baseToday = new Date(sp);
-              var baseTomorrow = new Date(sp);
-              do {
-                baseTomorrow.setDate(baseTomorrow.getDate() + 1);
-              } while (baseTomorrow.getDay() === 0 || baseTomorrow.getDay() === 6);
-
-              var rangeToday = formatRange(baseToday);
-              var rangeTomorrow = formatRange(baseTomorrow);
-              var switchedToTomorrow = false;
-
-              function update() {
-                var now = getSpainNow();
-                var nowDow = now.getDay();
-                var nowHour = now.getHours();
-                var inBusinessHours = (nowDow >= 1 && nowDow <= 5 && nowHour < 18);
-
-                if (inBusinessHours && !switchedToTomorrow) {
-                  var target = new Date(now);
-                  target.setHours(18, 0, 0, 0);
-                  var diff = target - now;
-                  if (diff > 0) {
-                    var h = Math.floor(diff / 3600000);
-                    var m = Math.floor((diff % 3600000) / 60000);
-                    var s = Math.floor((diff % 60000) / 1000);
-                    var parts = [];
-                    if (h > 0) parts.push(h + (h === 1 ? ' hora' : ' horas'));
-                    if (m > 0) parts.push(m + (m === 1 ? ' minuto' : ' minutos'));
-                    parts.push(s + (s === 1 ? ' segundo' : ' segundos'));
-                    el.innerHTML = 'Compra antes de <strong>' + parts.join(' ') + '</strong> y recíbelo el <strong>' + rangeToday + '</strong>';
-                    return;
-                  }
-                  switchedToTomorrow = true;
-                }
-
-                el.innerHTML = 'Recíbelo el <strong>' + rangeTomorrow + '</strong>';
-              }
-
-              update();
-              setInterval(update, 1000);
-            })();
-          </script>
-        {%- endif -%}
-      {%- endfor -%}
+      {%- comment -%} Shipping countdown — single instance, not inside the blocks loop {%- endcomment -%}
+      {%- liquid
+        assign shipping_block = nil
+        for b in section.blocks
+          if b.type == 'shipping_info'
+            assign shipping_block = b
+            break
+          endif
+        endfor
+      -%}
+      {%- if shipping_block -%}
+        <div class="pp-pdp__shipping-info" style="padding-top: {{ shipping_block.settings.padding_top | default: 10 }}px; padding-bottom: {{ shipping_block.settings.padding_bottom | default: 10 }}px;" {{ shipping_block.shopify_attributes }}>
+          {%- if shipping_block.settings.icon != blank -%}
+            <img src="{{ shipping_block.settings.icon | image_url: width: 40 }}" width="20" height="20" alt="">
+          {%- endif -%}
+          <span class="pp-pdp__shipping-dot"></span>
+          <span id="pp-shipping-countdown"></span>
+        </div>
+      {%- endif -%}
 
       {%- comment -%} Total {%- endcomment -%}
       <div class="pp-pdp__total" data-pp-total>
