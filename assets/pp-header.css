@@ -1377,10 +1377,10 @@ button.pp-header__nav-link,
 
   .pp-header__inner {
     display: grid !important;
-    grid-template-columns: auto 1fr auto !important;
+    grid-template-columns: 1fr auto 1fr !important;
     align-items: center !important;
     padding: 8px 15px !important;
-    gap: 0.5rem !important;
+    gap: 0 !important;
   }
 
   /* Burger left */
@@ -1389,7 +1389,7 @@ button.pp-header__nav-link,
     justify-self: start !important;
   }
 
-  /* Logo centered */
+  /* Logo truly centered (middle column is auto = logo width) */
   .pp-header__logo {
     grid-column: 2 !important;
     justify-self: center !important;

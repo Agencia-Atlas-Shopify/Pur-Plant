@@ -626,29 +626,31 @@
       setButtonLoading(false);
       showButtonSuccess();
 
-      // Use the sections HTML from the add response (guaranteed fresh)
-      if (data.sections && data.sections[sectionId]) {
-        var tmp = document.createElement('div');
-        tmp.innerHTML = data.sections[sectionId];
+      // Dispatch cart:update so cart-items-component morphs the drawer
+      // and cart-drawer-component auto-opens via its CartAddEvent listener.
+      var evt = new CustomEvent('cart:update', {
+        bubbles: true,
+        detail: {
+          resource: data,
+          sourceId: 'pp-product-main',
+          data: {
+            source: 'pp-product-main',
+            sections: data.sections || {},
+          },
+        },
+      });
+      document.dispatchEvent(evt);
 
-        var newInner = qs('[data-hydration-key="pp-cart-drawer-inner"]', tmp);
-        var oldInner = qs('[data-hydration-key="pp-cart-drawer-inner"]');
-        if (newInner && oldInner) {
-          oldInner.innerHTML = newInner.innerHTML;
-        }
+      // Update cart count from /cart.js as backup
+      fetch('/cart.js', { credentials: 'same-origin' })
+        .then(function (r) { return r.json(); })
+        .then(function (cart) {
+          var countEls = qsa('.pp-header__cart-count, [data-cart-count]');
+          countEls.forEach(function (el) { el.textContent = cart.item_count; });
+        })
+        .catch(function () {});
 
-        // Update cart count badges
-        var newBadges = qsa('.pp-header__cart-count, [data-cart-count]', tmp);
-        var oldBadges = qsa('.pp-header__cart-count, [data-cart-count]');
-        oldBadges.forEach(function (badge, i) {
-          if (newBadges[i]) badge.textContent = newBadges[i].textContent;
-        });
-      } else {
-        // Fallback to separate fetch
-        return refreshCartDrawer();
-      }
-    })
-    .then(function () {
+      // Open the drawer if it didn't auto-open
       openCartDrawer();
     })
     .catch(function (err) {
