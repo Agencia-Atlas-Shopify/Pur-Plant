@@ -257,7 +257,19 @@
         <a href="{{ routes.root_url }}">Pur Plant</a>
         <span>/</span>
         {%- if product.collections.size > 0 -%}
-          {%- assign best_coll = product.collections.first -%}
+          {%- liquid
+            assign best_coll = nil
+            for c in product.collections
+              assign coll_handle_lower = c.handle | downcase
+              unless coll_handle_lower contains 'iva'
+                assign best_coll = c
+                break
+              endunless
+            endfor
+            if best_coll == nil
+              assign best_coll = product.collections.first
+            endif
+          -%}
           {%- assign walk_coll = best_coll -%}
           {%- assign breadcrumb_chain = '' -%}
           {%- assign breadcrumb_urls = '' -%}
@@ -496,55 +508,73 @@
           </div>
           <script>
             (function() {
-              var days = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
-              var months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-              var monthsFull = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+              var DAYS = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+              var MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
               var shippingDays = {{ block.settings.shipping_days | default: 2 }};
+
               function addBusinessDays(date, n) {
                 var d = new Date(date);
-                while (n > 0) { d.setDate(d.getDate() + 1); if (d.getDay() !== 0 && d.getDay() !== 6) n--; }
+                while (n > 0) {
+                  d.setDate(d.getDate() + 1);
+                  if (d.getDay() !== 0 && d.getDay() !== 6) n--;
+                }
                 return d;
               }
+
+              function getSpainNow() {
+                return new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Madrid' }));
+              }
+
+              /* Compute the delivery range from the CURRENT time (called each tick) */
               function getDeliveryRange() {
-                var now = new Date();
-                var sp = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Madrid' }));
-                var dow = sp.getDay(); var hour = sp.getHours(); var base = new Date(sp);
-                if (dow === 0 || dow === 6 || hour >= 18) {
-                  if (dow === 5 && hour >= 18) { base.setDate(base.getDate() + 3); }
-                  else if (dow === 6) { base.setDate(base.getDate() + 2); }
-                  else if (dow === 0) { base.setDate(base.getDate() + 1); }
-                  else { base.setDate(base.getDate() + 1); }
+                var sp = getSpainNow();
+                var dow = sp.getDay();
+                var hour = sp.getHours();
+                var base = new Date(sp);
+
+                /* If outside business hours (after 18h, weekends) → next business day */
+                if (hour >= 18 || dow === 0 || dow === 6) {
+                  /* Advance to next Mon–Fri */
+                  do {
+                    base.setDate(base.getDate() + 1);
+                  } while (base.getDay() === 0 || base.getDay() === 6);
                 }
+
                 var min = addBusinessDays(base, shippingDays);
                 var max = addBusinessDays(base, shippingDays + 1);
-                if (min.getMonth() === max.getMonth()) {
-                  return days[min.getDay()] + ' ' + min.getDate() + ' - ' + days[max.getDay()] + ' ' + max.getDate() + ' ' + monthsFull[min.getMonth()];
-                }
-                return days[min.getDay()] + ' ' + min.getDate() + ' ' + months[min.getMonth()] + ' - ' + days[max.getDay()] + ' ' + max.getDate() + ' ' + months[max.getMonth()];
+                return DAYS[min.getDay()] + ' ' + min.getDate() + ' - ' + DAYS[max.getDay()] + ' ' + max.getDate() + ' ' + MONTHS[max.getMonth()];
               }
+
               var el = document.getElementById('pp-shipping-full-{{ section.id }}');
               if (!el) return;
-              var deliveryDate = getDeliveryRange();
+
               function update() {
-                var now = new Date();
-                var sp = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Madrid' }));
-                var dow = sp.getDay(); var hour = sp.getHours();
-                if (dow >= 1 && dow <= 4 && hour < 18) {
-                  var target = new Date(sp); target.setHours(18,0,0,0);
+                var sp = getSpainNow();
+                var dow = sp.getDay();
+                var hour = sp.getHours();
+                var deliveryDate = getDeliveryRange();
+
+                /* Show countdown only Mon–Fri before 18h */
+                if (dow >= 1 && dow <= 5 && hour < 18) {
+                  var target = new Date(sp);
+                  target.setHours(18, 0, 0, 0);
                   var diff = target - sp;
                   if (diff > 0) {
-                    var h = Math.floor(diff/3600000); var m = Math.floor((diff%3600000)/60000); var s = Math.floor((diff%60000)/1000);
+                    var h = Math.floor(diff / 3600000);
+                    var m = Math.floor((diff % 3600000) / 60000);
+                    var s = Math.floor((diff % 60000) / 1000);
                     var parts = [];
-                    if (h > 0) parts.push(h + (h===1?' hora':' horas'));
-                    if (m > 0) parts.push(m + (m===1?' minuto':' minutos'));
-                    parts.push(s + (s===1?' segundo':' segundos'));
+                    if (h > 0) parts.push(h + (h === 1 ? ' hora' : ' horas'));
+                    if (m > 0) parts.push(m + (m === 1 ? ' minuto' : ' minutos'));
+                    parts.push(s + (s === 1 ? ' segundo' : ' segundos'));
                     el.innerHTML = 'Compra antes de <strong>' + parts.join(' ') + '</strong> y recíbelo el <strong>' + deliveryDate + '</strong>';
                     return;
                   }
                 }
                 el.innerHTML = 'Compra ahora y recíbelo el <strong>' + deliveryDate + '</strong>';
               }
-              update(); setInterval(update, 1000);
+              update();
+              setInterval(update, 1000);
             })();
           </script>
         {%- endif -%}
