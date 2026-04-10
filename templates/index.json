@@ -420,6 +420,7 @@
           "settings": {
             "source": "uploaded",
             "video": "shopify://files/videos/packing pedido pur plant.mp4",
+            "video_url": "",
             "video_autoplay": false,
             "video_loop": true,
             "alt": "",
@@ -443,6 +444,7 @@
           "settings": {
             "source": "uploaded",
             "video": "shopify://files/videos/UGC-plantas-dormitorio.mp4",
+            "video_url": "",
             "video_autoplay": false,
             "video_loop": true,
             "alt": "",
@@ -466,6 +468,7 @@
           "settings": {
             "source": "uploaded",
             "video": "shopify://files/videos/unboxing pur plant.mp4",
+            "video_url": "",
             "video_autoplay": false,
             "video_loop": true,
             "alt": "",
@@ -524,7 +527,7 @@
         "button_3DbGYc": {
           "type": "button",
           "settings": {
-            "label": "Comprar ahora",
+            "label": "Opiniones",
             "link": "shopify://pages/dia-de-la-madre",
             "open_in_new_tab": false,
             "style_class": "button",
@@ -629,7 +632,7 @@
         "button_WdkjBK": {
           "type": "button",
           "settings": {
-            "label": "Comprar ahora",
+            "label": "Descubrir Regalos",
             "link": "shopify://pages/dia-de-la-madre",
             "open_in_new_tab": false,
             "style_class": "button",
