@@ -540,7 +540,7 @@
           "settings": {
             "size": "pixel",
             "percent_size": 100,
-            "pixel_size": 116,
+            "pixel_size": 60,
             "custom_mobile_size": false,
             "size_mobile": "percent",
             "percent_size_mobile": 100,
@@ -610,7 +610,7 @@
         "marquee_nJidBH",
         "button_WdkjBK"
       ],
-      "name": "t:names.hero_marquee",
+      "name": "HEADER-FOOTER-CAMPAÑAS",
       "settings": {
         "media_type_1": "image",
         "image_1": "shopify://shop_images/dia_de_la_madre_header.jpg",
