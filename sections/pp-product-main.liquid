@@ -261,9 +261,21 @@
             assign best_coll = nil
             assign fallback_coll = nil
 
+            comment
+              Excluded handles: IVA collections, nuevas plantas, and
+              estancia/room collections that don't belong in the breadcrumb.
+            endcomment
+            assign excluded_handles = '|iva-|plantas-nuevas|plantas-bano|plantas-cocina|plantas-dormitorio|plantas-oficina|plantas-salon|plantas-terraza|plantas-escritorio|plantas-estanteria|'
+
             for c in product.collections
               assign coll_handle_lower = c.handle | downcase
-              if coll_handle_lower contains 'iva' or coll_handle_lower contains 'plantas-nuevas'
+              assign handle_needle = '|' | append: coll_handle_lower | append: '|'
+
+              comment
+                Skip if the handle is literally in the excluded list OR
+                starts with iva (catches iva-10, iva-10-no-borrar, etc.)
+              endcomment
+              if excluded_handles contains handle_needle or coll_handle_lower contains 'iva'
                 continue
               endif
 
@@ -280,38 +292,40 @@
             if best_coll == nil
               assign best_coll = fallback_coll
             endif
-            if best_coll == nil
-              assign best_coll = product.collections.first
-            endif
           -%}
-          {%- assign walk_coll = best_coll -%}
-          {%- assign breadcrumb_chain = '' -%}
-          {%- assign breadcrumb_urls = '' -%}
-          {%- for i in (1..5) -%}
-            {%- assign parent_ref = walk_coll.metafields.custom.coleccion_padre.value -%}
-            {%- if parent_ref != blank -%}
-              {%- if breadcrumb_chain == '' -%}
-                {%- assign breadcrumb_chain = parent_ref.title -%}
-                {%- assign breadcrumb_urls = parent_ref.url -%}
+          {%- if best_coll -%}
+            {%- assign walk_coll = best_coll -%}
+            {%- assign breadcrumb_chain = '' -%}
+            {%- assign breadcrumb_urls = '' -%}
+            {%- for i in (1..5) -%}
+              {%- assign parent_ref = walk_coll.metafields.custom.coleccion_padre.value -%}
+              {%- if parent_ref != blank -%}
+                {%- if breadcrumb_chain == '' -%}
+                  {%- assign breadcrumb_chain = parent_ref.title -%}
+                  {%- assign breadcrumb_urls = parent_ref.url -%}
+                {%- else -%}
+                  {%- assign breadcrumb_chain = parent_ref.title | append: '|||' | append: breadcrumb_chain -%}
+                  {%- assign breadcrumb_urls = parent_ref.url | append: '|||' | append: breadcrumb_urls -%}
+                {%- endif -%}
+                {%- assign walk_coll = parent_ref -%}
               {%- else -%}
-                {%- assign breadcrumb_chain = parent_ref.title | append: '|||' | append: breadcrumb_chain -%}
-                {%- assign breadcrumb_urls = parent_ref.url | append: '|||' | append: breadcrumb_urls -%}
+                {%- break -%}
               {%- endif -%}
-              {%- assign walk_coll = parent_ref -%}
-            {%- else -%}
-              {%- break -%}
-            {%- endif -%}
-          {%- endfor -%}
-          {%- if breadcrumb_chain != '' -%}
-            {%- assign crumb_titles = breadcrumb_chain | split: '|||' -%}
-            {%- assign crumb_urls = breadcrumb_urls | split: '|||' -%}
-            {%- for crumb_title in crumb_titles -%}
-              <a href="{{ crumb_urls[forloop.index0] }}">{{ crumb_title }}</a>
-              <span>/</span>
             {%- endfor -%}
+            {%- if breadcrumb_chain != '' -%}
+              {%- assign crumb_titles = breadcrumb_chain | split: '|||' -%}
+              {%- assign crumb_urls = breadcrumb_urls | split: '|||' -%}
+              {%- for crumb_title in crumb_titles -%}
+                <a href="{{ crumb_urls[forloop.index0] }}">{{ crumb_title }}</a>
+                <span>/</span>
+              {%- endfor -%}
+            {%- endif -%}
+            <a href="{{ best_coll.url }}">{{ best_coll.title }}</a>
+            <span>/</span>
+          {%- elsif product.type != blank -%}
+            <span>{{ product.type }}</span>
+            <span>/</span>
           {%- endif -%}
-          <a href="{{ best_coll.url }}">{{ best_coll.title }}</a>
-          <span>/</span>
         {%- endif -%}
         <span>{{ product.title }}</span>
       </nav>
@@ -572,7 +586,6 @@
                 var inBusinessHours = (nowDow >= 1 && nowDow <= 5 && nowHour < 18);
 
                 if (inBusinessHours && !switchedToTomorrow) {
-                  /* Show countdown + today's range */
                   var target = new Date(now);
                   target.setHours(18, 0, 0, 0);
                   var diff = target - now;
@@ -587,12 +600,11 @@
                     el.innerHTML = 'Compra antes de <strong>' + parts.join(' ') + '</strong> y recíbelo el <strong>' + rangeToday + '</strong>';
                     return;
                   }
-                  /* Just crossed 18h — switch permanently */
                   switchedToTomorrow = true;
                 }
 
-                /* Outside business hours or already switched */
-                el.innerHTML = 'Compra ahora y recíbelo el <strong>' + rangeTomorrow + '</strong>';
+                /* Outside business hours — just show the delivery date, no countdown */
+                el.innerHTML = 'Recíbelo el <strong>' + rangeTomorrow + '</strong>';
               }
 
               update();
