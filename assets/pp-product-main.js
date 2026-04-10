@@ -517,45 +517,39 @@
   }
 
   function refreshCartDrawer() {
-    return fetch('/?sections=cart-drawer,header', {
+    // The pp-cart-drawer snippet is rendered inside the pp-header section.
+    // Find the section ID from the header element in the DOM.
+    var headerEl = qs('[data-section-id]', qs('.pp-header') || document);
+    var sectionId = headerEl ? headerEl.dataset.sectionId : 'pp-header';
+
+    return fetch(window.location.pathname + '?sections=' + sectionId, {
       method: 'GET',
       headers: { 'Accept': 'application/json' }
     })
     .then(function (res) { return res.json(); })
     .then(function (sections) {
-      // Update cart drawer contents
-      if (sections['cart-drawer']) {
-        var drawerEl = qs('cart-drawer-component') ||
-                       qs('[data-section-id="cart-drawer"]') ||
-                       qs('.cart-drawer');
-        if (drawerEl) {
-          var tmp = document.createElement('div');
-          tmp.innerHTML = sections['cart-drawer'];
-          var newDrawerContent = qs('cart-drawer-component', tmp) ||
-                                qs('[data-section-id="cart-drawer"]', tmp) ||
-                                qs('.cart-drawer', tmp);
-          if (newDrawerContent) {
-            drawerEl.innerHTML = newDrawerContent.innerHTML;
-          }
-        }
+      var html = sections[sectionId];
+      if (!html) return;
+
+      var tmp = document.createElement('div');
+      tmp.innerHTML = html;
+
+      // Update the cart drawer inner contents (keyed hydration target)
+      var newInner = qs('[data-hydration-key="pp-cart-drawer-inner"]', tmp);
+      var oldInner = qs('[data-hydration-key="pp-cart-drawer-inner"]');
+      if (newInner && oldInner) {
+        oldInner.innerHTML = newInner.innerHTML;
       }
 
-      // Update header (cart count badges)
-      if (sections['header']) {
-        var tmp2 = document.createElement('div');
-        tmp2.innerHTML = sections['header'];
-
-        // Update all cart count badges
-        var newBadges = qsa('.cart-count-badge, [data-cart-count]', tmp2);
-        var oldBadges = qsa('.cart-count-badge, [data-cart-count]');
-        if (newBadges.length && oldBadges.length) {
-          oldBadges.forEach(function (badge, i) {
-            if (newBadges[i]) {
-              badge.textContent = newBadges[i].textContent;
-              badge.hidden = newBadges[i].hidden;
-            }
-          });
-        }
+      // Update cart count badges from the refreshed header
+      var newBadges = qsa('.pp-header__cart-count, [data-cart-count]', tmp);
+      var oldBadges = qsa('.pp-header__cart-count, [data-cart-count]');
+      if (newBadges.length && oldBadges.length) {
+        oldBadges.forEach(function (badge, i) {
+          if (newBadges[i]) {
+            badge.textContent = newBadges[i].textContent;
+          }
+        });
       }
     })
     .catch(function (err) {
