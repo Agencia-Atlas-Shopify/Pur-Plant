@@ -111,6 +111,18 @@
             "style": "pills"
           }
         },
+        "planet_discounts_upsells_bogo_widget_LfKrtK": {
+          "type": "shopify://apps/planet-discounts-upsells/blocks/bogo-widget/7760a1dc-aa67-41be-af44-a96da1e75b18",
+          "settings": {
+            "volume_widget_css": ""
+          }
+        },
+        "planet_discounts_upsells_banner_p6in4d": {
+          "type": "shopify://apps/planet-discounts-upsells/blocks/banner/7760a1dc-aa67-41be-af44-a96da1e75b18",
+          "settings": {
+            "volume_widget_css": ""
+          }
+        },
         "planet_discounts_upsells_product_discount_widget_M469KP": {
           "type": "shopify://apps/planet-discounts-upsells/blocks/product-discount-widget/7760a1dc-aa67-41be-af44-a96da1e75b18",
           "settings": {
@@ -160,6 +172,8 @@
         "accordion_about",
         "accordion_envios",
         "variants",
+        "planet_discounts_upsells_bogo_widget_LfKrtK",
+        "planet_discounts_upsells_banner_p6in4d",
         "planet_discounts_upsells_product_discount_widget_M469KP",
         "planet_discounts_upsells_planet_volume_discount_product_selector_CNJGqw",
         "judge_me_reviews_preview_badge_YK9xYN",
