@@ -111,6 +111,12 @@
             "style": "pills"
           }
         },
+        "planet_discounts_upsells_product_discount_widget_M469KP": {
+          "type": "shopify://apps/planet-discounts-upsells/blocks/product-discount-widget/7760a1dc-aa67-41be-af44-a96da1e75b18",
+          "settings": {
+            "product_discount_widget_css": ""
+          }
+        },
         "judge_me_reviews_preview_badge_YK9xYN": {
           "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
           "settings": {}
@@ -148,6 +154,7 @@
         "accordion_about",
         "accordion_envios",
         "variants",
+        "planet_discounts_upsells_product_discount_widget_M469KP",
         "judge_me_reviews_preview_badge_YK9xYN",
         "shipping",
         "total",
@@ -255,8 +262,6 @@
     },
     "faq": {
       "type": "pp-product-faq",
-      "blocks": {},
-      "block_order": [],
       "settings": {
         "heading": "LO QUE SUELEN PREGUNTARNOS",
         "faq_category_override": "auto",
