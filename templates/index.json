@@ -397,6 +397,20 @@
         "padding-block-end": 24
       }
     },
+    "divider_gtAkNT": {
+      "type": "divider",
+      "name": "t:names.divider_section",
+      "settings": {
+        "color_scheme": "",
+        "section_width": "full-width",
+        "thickness": 0.5,
+        "corner_radius": "square",
+        "width_percent": 100,
+        "alignment_horizontal": "center",
+        "padding-block-start": 62,
+        "padding-block-end": 60
+      }
+    },
     "hero_nNAq77": {
       "type": "hero",
       "blocks": {
@@ -493,7 +507,7 @@
         "align_baseline": false,
         "horizontal_alignment_flex_direction_column": "center",
         "vertical_alignment_flex_direction_column": "space-between",
-        "gap": 32,
+        "gap": 45,
         "section_width": "page-width",
         "section_height": "large",
         "section_height_custom": 50,
@@ -516,6 +530,7 @@
     "pp_featured_grid_eWihzK",
     "brand_banner_pp",
     "collection_list_PHzjPC",
+    "divider_gtAkNT",
     "hero_nNAq77"
   ]
 }
