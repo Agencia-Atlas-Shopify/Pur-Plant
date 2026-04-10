@@ -534,8 +534,14 @@
             <span class="pp-pdp__shipping-dot"></span>
             <span data-pp-shipping-full id="pp-shipping-full-{{ section.id }}-{{ block.id }}"></span>
           </div>
-          <script>
+          <script data-pp-shipping-init="{{ section.id }}-{{ block.id }}">
             (function() {
+              /* Guard: only run once per block even if the script re-executes after morph */
+              var scriptTag = document.querySelector('script[data-pp-shipping-init="{{ section.id }}-{{ block.id }}"]');
+              if (!scriptTag) return;
+              if (scriptTag.dataset.ppDone) return;
+              scriptTag.dataset.ppDone = '1';
+
               var DAYS = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
               var MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
               var shippingDays = {{ block.settings.shipping_days | default: 2 }};
@@ -562,15 +568,9 @@
               var el = document.getElementById('pp-shipping-full-{{ section.id }}-{{ block.id }}');
               if (!el) return;
 
-              /* Compute dates ONCE at load — only re-compute if the cutoff crosses */
               var sp = getSpainNow();
-              var dow = sp.getDay();
-              var hour = sp.getHours();
-              var canShipToday = (dow >= 1 && dow <= 5 && hour < 18);
-
-              /* base = the day the order ships */
-              var baseToday = new Date(sp);     /* if order placed before 18h today */
-              var baseTomorrow = new Date(sp);   /* if order placed after 18h / weekend */
+              var baseToday = new Date(sp);
+              var baseTomorrow = new Date(sp);
               do {
                 baseTomorrow.setDate(baseTomorrow.getDate() + 1);
               } while (baseTomorrow.getDay() === 0 || baseTomorrow.getDay() === 6);
@@ -603,7 +603,6 @@
                   switchedToTomorrow = true;
                 }
 
-                /* Outside business hours — just show the delivery date, no countdown */
                 el.innerHTML = 'Recíbelo el <strong>' + rangeTomorrow + '</strong>';
               }
 
