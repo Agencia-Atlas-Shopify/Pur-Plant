@@ -622,6 +622,10 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
 }
 
 @media screen and (max-width: 749px) {
+  .pp-recommendations__inner {
+    padding: 0 var(--page-margin, 16px);
+  }
+
   .pp-recommendations__grid {
     grid-template-columns: repeat(2, 1fr);
   }
