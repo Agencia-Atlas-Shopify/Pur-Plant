@@ -371,12 +371,12 @@
       },
       "settings": {
         "collection_list": [
-          "accesorios",
-          "plantas-adenium",
-          "alocasias",
-          "plantas-aloe-vera",
-          "plantas-anturio",
-          "plantas-arce"
+          "plantas-poca-luz",
+          "plantas-pet-friendly",
+          "plantas-facil-cuidados",
+          "plantas-monstera",
+          "plantas-raras",
+          "plantas-arboles-frutales"
         ],
         "layout_type": "carousel",
         "carousel_on_mobile": false,
