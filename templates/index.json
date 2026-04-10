@@ -143,8 +143,9 @@
           "plantas-minis",
           "terrarios",
           "cuidados",
-          "auto-riego-tubos",
-          "originales"
+          "macetas-artesanales",
+          "auto-riego",
+          "auto-riego-tubos"
         ],
         "layout_type": "carousel",
         "carousel_on_mobile": false,
