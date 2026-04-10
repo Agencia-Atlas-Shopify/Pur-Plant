@@ -133,7 +133,7 @@
               </span>
             </div>
             <p class="pp-cart-drawer__shipping-note">{{ 'content.shipping_policy' | t }}</p>
-            <a href="{{ routes.checkout_url }}" class="pp-cart-drawer__checkout-btn">
+            <a href="{{ routes.checkout_url | default: '/checkout' }}" class="pp-cart-drawer__checkout-btn">
               {{ 'content.checkout' | t | upcase }}
             </a>
           </div>
