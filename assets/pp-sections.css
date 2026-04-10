@@ -480,11 +480,18 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
 @media screen and (max-width: 749px) {
   .pp-brand-wrap {
     --pp-brand-overflow: 0px;
+    padding: 0 var(--page-margin, 40px);
+  }
+
+  .pp-brand__bg-strip {
+    display: none;
   }
 
   .pp-brand__inner {
     grid-template-columns: 1fr;
     border-radius: var(--pp-brand-radius);
+    background-color: var(--pp-brand-bg);
+    overflow: hidden;
   }
 
   .pp-brand__inner--reverse .pp-brand__text {
@@ -502,12 +509,13 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
 
   .pp-brand__text {
     padding: 32px 24px;
+    margin-left: 0;
   }
 
   .pp-brand__media {
     margin-block: 0;
     margin-inline: 0;
-    border-radius: 0 0 var(--pp-brand-radius) var(--pp-brand-radius);
+    border-radius: 0;
     max-width: 100%;
     justify-self: center;
   }
