@@ -132,6 +132,36 @@
         "type": "shopify://apps/klaviyo-email-marketing-sms/blocks/klaviyo-onsite-embed/2632fe16-c075-4321-a88b-50b567f42507",
         "disabled": false,
         "settings": {}
+      },
+      "9652119864611087242": {
+        "type": "shopify://apps/planet-discounts-upsells/blocks/widgets/7760a1dc-aa67-41be-af44-a96da1e75b18",
+        "disabled": false,
+        "settings": {
+          "formSelector": "form:has([name='id']):has(button[type='submit'])",
+          "buttonSelector": "button[type='submit']",
+          "freeGiftVersion": "v1",
+          "modalHeaderText": "Select an alternative",
+          "modalButtonText": "Select",
+          "upsellPopupEnabled": false,
+          "upsellPopupKeepOpenedInEditor": false,
+          "upsellPopupFormSelector": "form[action*=\"/cart/add\"]:has(button)",
+          "upsellPopupTitle": "Complete your order",
+          "upsellPopupSkipText": "Open cart",
+          "upsellPopupAddText": "Add to cart",
+          "upsellPopupAddedMessageSingular": "Product added to the cart",
+          "upsellPopupAddedMessagePlural": "{quantity} Products added to the cart",
+          "upsellPopupDiscountLabelText": "Save {discount}",
+          "upsellPopupMaxProducts": 10,
+          "upsellPopupCompareAtPrice": "ORIGINAL",
+          "upsellPopupHideProductsInCart": true,
+          "upsellPopupPreventSameProductMultipleTimes": false,
+          "upsellPopupButtonCorners": 6,
+          "upsellPopupImageCorners": 6,
+          "upsellPopupTextsColor": "#000000",
+          "upsellPopupButtonsTextColor": "#FFFFFF",
+          "upsellPopupButtonsBackgroundColor": "#000000",
+          "upsellPopupDiscountedPriceColor": "#DE242B"
+        }
       }
     },
     "color_schemes": {
