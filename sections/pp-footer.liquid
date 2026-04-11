@@ -164,13 +164,15 @@
       </nav>
     {%- endif -%}
 
-    {%- if shop.enabled_payment_types.size > 0 -%}
-      <div class="pp-footer__payments">
-        {%- for type in shop.enabled_payment_types -%}
-          {{ type | payment_type_svg_tag: class: 'pp-footer__payment-icon' }}
-        {%- endfor -%}
-      </div>
-    {%- endif -%}
+    <div class="pp-footer__payments">
+      {%- for type in shop.enabled_payment_types -%}
+        {{ type | payment_type_svg_tag: class: 'pp-footer__payment-icon' }}
+      {%- endfor -%}
+      <svg class="pp-footer__payment-icon" viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bizum">
+        <rect width="38" height="24" rx="3" fill="#fff"/>
+        <text x="19" y="15.5" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" font-weight="700" fill="#05C3DD" letter-spacing="0.3">BIZUM</text>
+      </svg>
+    </div>
 
     <span class="pp-footer__copyright">Pur Plant &copy; {{ 'now' | date: '%Y' }}</span>
   </div>
