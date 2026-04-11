@@ -76,6 +76,25 @@
     opacity: 1;
   }
 
+  .pp-footer__payments {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .pp-footer__payment-icon {
+    height: 24px;
+    width: auto;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+
+  .pp-footer__payment-icon:hover {
+    opacity: 1;
+  }
+
   .pp-footer__copyright {
     font-family: 'Inter', sans-serif;
     font-size: 12px;
@@ -143,6 +162,14 @@
           <a href="{{ link.url }}">{{ link.title }}</a>
         {%- endfor -%}
       </nav>
+    {%- endif -%}
+
+    {%- if shop.enabled_payment_types.size > 0 -%}
+      <div class="pp-footer__payments">
+        {%- for type in shop.enabled_payment_types -%}
+          {{ type | payment_type_svg_tag: class: 'pp-footer__payment-icon' }}
+        {%- endfor -%}
+      </div>
     {%- endif -%}
 
     <span class="pp-footer__copyright">Pur Plant &copy; {{ 'now' | date: '%Y' }}</span>
