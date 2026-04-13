@@ -321,12 +321,21 @@
         "padding-block-start": 0,
         "padding-block-end": 0
       }
+    },
+    "pp_recently_viewed_nYDbpx": {
+      "type": "pp-recently-viewed",
+      "name": "PP Recently Viewed",
+      "settings": {
+        "heading": "VISTOS RECIENTEMENTE",
+        "limit": 6
+      }
     }
   },
   "order": [
     "main",
     "related_products",
     "pp_featured_grid_k6Aeqt",
+    "pp_recently_viewed_nYDbpx",
     "brand_banner",
     "trust_badges",
     "faq",
