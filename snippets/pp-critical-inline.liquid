@@ -12,10 +12,17 @@
     --pp-dark-green: #23372c;
     --pp-light-green: #DAFFD3;
     --pp-bg: #f6f4ed;
-    --pp-font-body: "Inter", sans-serif;
+    --pp-font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     --pp-font-heading: "Tenor Sans", Georgia, serif;
     --pp-header-height: 80px;
   }
+
+  /* Force font-display: swap on any Google / Shopify fonts loaded via
+     third-party CSS so text paints immediately with the fallback instead
+     of waiting for the network font (FOIT → FOFT) */
+  @font-face { font-family: "Inter"; font-display: swap; src: local("Inter"); }
+  @font-face { font-family: "Poppins"; font-display: swap; src: local("Poppins"); }
+  @font-face { font-family: "Tenor Sans"; font-display: swap; src: local("Tenor Sans"); }
 
   /* === Body base === */
   body {

@@ -6,6 +6,12 @@
   lang="{{ request.locale.iso_code }}"
 >
   <head>
+    {%- comment -%} Preconnect to third-party font / asset hosts early so the TLS handshake is done before their CSS parses {%- endcomment -%}
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://static.klaviyo.com">
+    <link rel="dns-prefetch" href="https://freecdn.swymrelay.com">
+
     {%- if settings.favicon != blank -%}
       <link
         rel="icon"

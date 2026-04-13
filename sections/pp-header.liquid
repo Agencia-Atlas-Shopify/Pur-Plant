@@ -3,7 +3,9 @@
   Based on GNG.la header design
 {%- endcomment -%}
 
-{{ 'pp-header.css' | asset_url | stylesheet_tag }}
+{%- comment -%} Load header CSS async — critical header rules are already inlined in theme.liquid {%- endcomment -%}
+<link rel="preload" href="{{ 'pp-header.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript>{{ 'pp-header.css' | asset_url | stylesheet_tag }}</noscript>
 <script src="{{ 'pp-header.js' | asset_url }}" type="module" defer></script>
 
 {%- liquid
