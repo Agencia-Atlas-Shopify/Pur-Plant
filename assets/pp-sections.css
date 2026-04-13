@@ -1250,3 +1250,75 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
 .pp-card__title-row .swym-advanced-wishlist-collections-social-count {
   display: none !important;
 }
+
+/* ═══════════════════════════════════════════
+   Blog post content (article body from rich text)
+   Normalises the legacy WP markup so images stay
+   responsive regardless of inline width hints.
+   ═══════════════════════════════════════════ */
+.blog-post-content img,
+.rte img,
+.article-content img,
+[class*="blog-post"] img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 16px auto;
+  border-radius: 8px;
+}
+
+.blog-post-content figure,
+.rte figure,
+.article-content figure,
+[class*="blog-post"] figure {
+  margin: 24px auto;
+  max-width: 100%;
+}
+
+.blog-post-content figure img,
+.rte figure img,
+.article-content figure img,
+[class*="blog-post"] figure img {
+  margin: 0 auto;
+}
+
+.blog-post-content figcaption,
+.rte figcaption {
+  text-align: center;
+  font-size: 13px;
+  color: rgba(35, 55, 44, 0.65);
+  margin-top: 8px;
+  font-style: italic;
+}
+
+.blog-post-content p,
+.rte p {
+  margin: 0 0 16px;
+  line-height: 1.7;
+}
+
+.blog-post-content h2,
+.rte h2 {
+  margin: 32px 0 16px;
+  scroll-margin-top: 100px;
+}
+
+.blog-post-content h3,
+.rte h3 {
+  margin: 24px 0 12px;
+  scroll-margin-top: 100px;
+}
+
+.blog-post-content ul,
+.blog-post-content ol,
+.rte ul,
+.rte ol {
+  margin: 0 0 16px;
+  padding-left: 24px;
+}
+
+.blog-post-content li,
+.rte li {
+  margin-bottom: 6px;
+  line-height: 1.6;
+}
