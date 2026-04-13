@@ -1,6 +1,439 @@
+{% doc %}
+  @prompt
+    tres columnas con tres tarjetas y tres titulos que lleven a tres paginas. Lista de paginas
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-page-cards-container-{{ ai_gen_id }} {
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    display: block;
+  }
+
+  .ai-page-cards-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: {{ block.settings.gap }}px;
+  }
+
+  .ai-page-card-{{ ai_gen_id }} {
+    background-color: {{ block.settings.card_background }};
+    border-radius: {{ block.settings.border_radius }}px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: {{ block.settings.border_width }}px solid {{ block.settings.border_color }};
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ai-page-card-{{ ai_gen_id }}:hover {
+    transform: translateY(-{{ block.settings.hover_lift }}px);
+    box-shadow: 0 {{ block.settings.hover_lift | times: 2 }}px {{ block.settings.hover_lift | times: 4 }}px rgba(0, 0, 0, 0.1);
+  }
+
+  .ai-page-card-link-{{ ai_gen_id }} {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .ai-page-card-image-wrapper-{{ ai_gen_id }} {
+    width: 100%;
+    aspect-ratio: {{ block.settings.image_aspect_ratio }};
+    overflow: hidden;
+    background-color: #f4f4f4;
+  }
+
+  .ai-page-card-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-page-card-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f4f4f4;
+  }
+
+  .ai-page-card-image-placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.3;
+  }
+
+  .ai-page-card-content-{{ ai_gen_id }} {
+    padding: {{ block.settings.card_padding }}px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ai-page-card-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.title_color }};
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .ai-page-card-description-{{ ai_gen_id }} {
+    font-size: {{ block.settings.description_size }}px;
+    color: {{ block.settings.description_color }};
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+
+  @media screen and (max-width: 989px) {
+    .ai-page-cards-grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat({{ block.settings.columns_tablet }}, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-page-cards-grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat({{ block.settings.columns_mobile }}, 1fr);
+      gap: {{ block.settings.gap | times: 0.75 }}px;
+    }
+
+    .ai-page-card-content-{{ ai_gen_id }} {
+      padding: {{ block.settings.card_padding | times: 0.75 }}px;
+    }
+  }
+{% endstyle %}
+
+<page-cards-{{ ai_gen_id }}
+  class="ai-page-cards-container-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-page-cards-grid-{{ ai_gen_id }}">
+    {% for i in (1..3) %}
+      {% liquid
+        assign page_key = 'page_' | append: i
+        assign title_key = 'title_' | append: i
+        assign description_key = 'description_' | append: i
+        assign image_key = 'image_' | append: i
+
+        assign page = block.settings[page_key]
+        assign title = block.settings[title_key]
+        assign description = block.settings[description_key]
+        assign image = block.settings[image_key]
+      %}
+
+      <div class="ai-page-card-{{ ai_gen_id }}">
+        {% if page %}
+          <a href="{{ page.url }}" class="ai-page-card-link-{{ ai_gen_id }}">
+            <div class="ai-page-card-image-wrapper-{{ ai_gen_id }}">
+              {% if image %}
+                <img
+                  src="{{ image | image_url: width: 800 }}"
+                  alt="{{ image.alt | escape }}"
+                  loading="lazy"
+                  width="{{ image.width }}"
+                  height="{{ image.height }}"
+                  class="ai-page-card-image-{{ ai_gen_id }}"
+                >
+              {% else %}
+                <div class="ai-page-card-image-placeholder-{{ ai_gen_id }}">
+                  {{ 'image' | placeholder_svg_tag }}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="ai-page-card-content-{{ ai_gen_id }}">
+              {% if title != blank %}
+                <h3 class="ai-page-card-title-{{ ai_gen_id }}">{{ title }}</h3>
+              {% else %}
+                <h3 class="ai-page-card-title-{{ ai_gen_id }}">{{ page.title }}</h3>
+              {% endif %}
+
+              {% if description != blank %}
+                <div class="ai-page-card-description-{{ ai_gen_id }}">{{ description }}</div>
+              {% endif %}
+            </div>
+          </a>
+        {% else %}
+          <div class="ai-page-card-link-{{ ai_gen_id }}">
+            <div class="ai-page-card-image-wrapper-{{ ai_gen_id }}">
+              <div class="ai-page-card-image-placeholder-{{ ai_gen_id }}">
+                {{ 'image' | placeholder_svg_tag }}
+              </div>
+            </div>
+
+            <div class="ai-page-card-content-{{ ai_gen_id }}">
+              {% if title != blank %}
+                <h3 class="ai-page-card-title-{{ ai_gen_id }}">{{ title }}</h3>
+              {% else %}
+                <h3 class="ai-page-card-title-{{ ai_gen_id }}">Selecciona una página</h3>
+              {% endif %}
+
+              {% if description != blank %}
+                <div class="ai-page-card-description-{{ ai_gen_id }}">{{ description }}</div>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</page-cards-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class PageCards{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.style.display = 'block';
+      }
+    }
+
+    customElements.define('page-cards-{{ ai_gen_id }}', PageCards{{ ai_gen_id }});
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Tarjetas de páginas",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Tarjeta 1"
+    },
+    {
+      "type": "page",
+      "id": "page_1",
+      "label": "Página"
+    },
+    {
+      "type": "text",
+      "id": "title_1",
+      "label": "Título personalizado"
+    },
+    {
+      "type": "textarea",
+      "id": "description_1",
+      "label": "Descripción"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Imagen"
+    },
+    {
+      "type": "header",
+      "content": "Tarjeta 2"
+    },
+    {
+      "type": "page",
+      "id": "page_2",
+      "label": "Página"
+    },
+    {
+      "type": "text",
+      "id": "title_2",
+      "label": "Título personalizado"
+    },
+    {
+      "type": "textarea",
+      "id": "description_2",
+      "label": "Descripción"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Imagen"
+    },
+    {
+      "type": "header",
+      "content": "Tarjeta 3"
+    },
+    {
+      "type": "page",
+      "id": "page_3",
+      "label": "Página"
+    },
+    {
+      "type": "text",
+      "id": "title_3",
+      "label": "Título personalizado"
+    },
+    {
+      "type": "textarea",
+      "id": "description_3",
+      "label": "Descripción"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Imagen"
+    },
+    {
+      "type": "header",
+      "content": "Diseño"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Ancho en escritorio",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Espacio entre tarjetas",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "select",
+      "id": "columns_tablet",
+      "label": "Columnas en tablet",
+      "options": [
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" }
+      ],
+      "default": "3"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columnas en móvil",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "header",
+      "content": "Estilo de tarjeta"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Fondo",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Radio de borde",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "label": "Grosor de borde",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Color de borde",
+      "default": "#e6e6e6"
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "label": "Relleno interno",
+      "min": 8,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "hover_lift",
+      "label": "Elevación al pasar el cursor",
+      "min": 0,
+      "max": 16,
+      "step": 2,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Imagen"
+    },
+    {
+      "type": "select",
+      "id": "image_aspect_ratio",
+      "label": "Proporción de imagen",
+      "options": [
+        { "value": "1/1", "label": "Cuadrada (1:1)" },
+        { "value": "4/3", "label": "Horizontal (4:3)" },
+        { "value": "16/9", "label": "Panorámica (16:9)" },
+        { "value": "3/4", "label": "Vertical (3:4)" }
+      ],
+      "default": "4/3"
+    },
+    {
+      "type": "header",
+      "content": "Tipografía"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Tamaño del título",
+      "min": 14,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Color del título",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "description_size",
+      "label": "Tamaño de descripción",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Color de descripción",
+      "default": "#666666"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Tarjetas de páginas"
+    }
+  ]
+}
 {% endschema %}
