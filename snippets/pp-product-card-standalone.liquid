@@ -213,6 +213,24 @@
         {%- comment -%} Swym wishlist button is injected here automatically {%- endcomment -%}
       </div>
 
+      {%- liquid
+        assign rating_mf = product.metafields.reviews.rating
+        assign rating_count_mf = product.metafields.reviews.rating_count
+      -%}
+      {%- if rating_mf != blank and rating_count_mf != blank and rating_count_mf.value != 0 -%}
+        {%- assign rating_val = rating_mf.value.rating | round: 1 -%}
+        <div class="pp-card__stars" aria-label="{{ rating_val }} de 5 estrellas">
+          {%- for i in (1..5) -%}
+            {%- if i <= rating_val -%}
+              <svg class="pp-card__star pp-card__star--full" width="11" height="11" viewBox="0 0 24 24" fill="#23372c" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            {%- else -%}
+              <svg class="pp-card__star" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#23372c" stroke-width="1.5" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            {%- endif -%}
+          {%- endfor -%}
+          <span class="pp-card__stars-count">({{ rating_count_mf }})</span>
+        </div>
+      {%- endif -%}
+
       <div class="pp-card__price">
         {%- if variant.compare_at_price > variant.price -%}
           <span class="pp-card__price-sale">{{ variant.price | money }}</span>
@@ -541,6 +559,25 @@
     flex-direction: column;
     gap: 0.25rem;
     padding: 0.25rem 0;
+  }
+
+  .pp-card__stars {
+    display: inline-flex;
+    align-items: center;
+    gap: 1px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    color: #23372c;
+    line-height: 1;
+  }
+
+  .pp-card__stars-count {
+    margin-left: 4px;
+    opacity: 0.7;
+  }
+
+  .pp-card__star {
+    flex-shrink: 0;
   }
 
   .pp-product-card-standalone .pp-card__title {

@@ -53,6 +53,8 @@
     <h2 class="pp-faq__heading">{{ section.settings.heading }}</h2>
   {%- endif -%}
 
+  {% render 'pp-faq-jsonld', category: faq_category %}
+
   <div class="pp-faq__list">
     {%- comment -%} Auto FAQs by product type (or override) {%- endcomment -%}
     {% render 'pp-faq-data', category: faq_category %}

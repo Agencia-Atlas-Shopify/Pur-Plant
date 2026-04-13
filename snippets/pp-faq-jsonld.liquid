@@ -1,0 +1,64 @@
+{%- comment -%}
+  PP FAQ JSON-LD — outputs FAQPage structured data for the given category.
+  Uses a hidden <div> with the same auto FAQs as the visible snippet, then
+  extracts question/answer text via Liquid inside the JSON.
+
+  @param {string} category — same as pp-faq-data
+  @param {array} [extra_blocks] — section.blocks for manual FAQs
+{%- endcomment -%}
+
+{%- capture faq_json -%}
+  {%- comment -%} Render the FAQ data into a capture so we can parse it {%- endcomment -%}
+  {%- assign data_html = null -%}
+{%- endcapture -%}
+
+{%- comment -%}
+  We mirror the case mapping here because Liquid can't easily parse
+  rendered HTML back into structured data.
+{%- endcomment -%}
+
+{%- case category -%}
+  {%- when 'generico' -%}
+    {%- assign qa_pairs = 'Llegará bien mi pedido|||Cuidamos cada parte del proceso para que recibas tu pedido en las mejores condiciones, garantizado. Envolvemos con papeles reciclados y compostables en un packaging 100% libre de plásticos y emisiones.^^^Cuándo recibiré mi pedido|||Los pedidos se entregan en un plazo de 24 a 48 horas una vez que recibes el correo de confirmación de envío.^^^Qué ocurre si llega mal|||Si tras recibir tu pedido consideras que ha sufrido durante el transporte, escríbenos a info@purplant.es con fotos. Disfruta de 15 días de garantía.' -%}
+  {%- when 'plantas' -%}
+    {%- assign qa_pairs = 'Llegarán bien las plantas|||Cuidamos cada parte del proceso para que recibas tus plantas sanas y felices, garantizado. Packaging 100% libre de plásticos.^^^Cuándo recibiré mi pedido|||Entre 24 y 48 horas tras el correo de confirmación de envío.^^^Qué ocurre si llega mal|||Escríbenos a info@purplant.es con fotos. 15 días de garantía.^^^Qué hacer con mi planta tras recibirla|||Tras recibir tu pedido, es el momento de cuidarlas. Nada de trasplantes hasta pasados mínimo 15 días.^^^Qué maceta elegir|||En el vídeo te orientamos según tamaño y tipo de planta.' -%}
+  {%- when 'flores' -%}
+    {%- assign qa_pairs = 'Llegará bien mi pedido|||Packaging 100% libre de plásticos y emisiones.^^^Qué ocurre si llega mal|||Escríbenos a info@purplant.es con fotos. 15 días de garantía.^^^Qué jarrón elegir|||Nuestros jarrones son artesanales. Elige según las medidas de tu ramo.' -%}
+  {%- when 'macetas' -%}
+    {%- assign qa_pairs = 'Llegarán bien las macetas|||Packaging 100% libre de plásticos.^^^Cuándo recibiré mi pedido|||24-48h tras el correo de confirmación.^^^Qué ocurre si llega mal|||Escríbenos a info@purplant.es con fotos. 15 días de garantía.^^^Qué maceta elegir|||En el vídeo te damos orientación para elegir la maceta correcta.' -%}
+  {%- when 'autorriegos' -%}
+    {%- assign qa_pairs = 'Cómo funcionan los autorriegos|||Te lo explicamos en nuestro vídeo tutorial.^^^Qué autorriego elegir|||Según el diámetro de tu maceta. Burbujas para interior, ollas para exterior, tubos para todas.^^^Llegará bien mi pedido|||Packaging 100% libre de plásticos.^^^Cuándo recibiré mi pedido|||24-48h tras el correo de confirmación.^^^Qué ocurre si llega mal|||Escríbenos a info@purplant.es con fotos. 15 días de garantía.' -%}
+  {%- when 'terrarios' -%}
+    {%- assign qa_pairs = 'Cómo funcionan los Terrarios|||Los jardines eternos apenas necesitan riegos ni cuidados gracias al ciclo del agua cerrado.^^^Cómo cuidar un terrario|||Ubicación en luz indirecta, 1-2 riegos al año, poda ligera si crecen, ventilar si hay exceso de humedad.^^^Qué terrario elegir|||En el vídeo te ayudamos a elegir el que mejor se adapte a ti.^^^Cómo hacer un terrario|||Te lo contamos paso a paso en nuestra guía y vídeo.^^^Cómo hacer un mini terrario|||Vídeo tutorial paso a paso.^^^Cómo hacer un terrario en botella|||Vídeo tutorial disponible.^^^Qué hacer si recibo mal mi pedido de terrario|||Escríbenos a info@purplant.es con fotos.' -%}
+  {%- when 'musgo' -%}
+    {%- assign qa_pairs = 'El musgo llega fresco|||Los preservados no necesitan riego. Los naturales pueden llegar secos y necesitar humedecerse.^^^Es necesario hidratarlo antes de usarlo|||Si recibes musgo natural algo seco, pulverízalo con agua y déjalo reposar unas horas.^^^Cómo se conserva una vez recibido|||Evita la exposición directa al sol. El musgo natural puede rehidratarse si se seca.^^^Puedo usarlo en terrarios y decoraciones|||Sí, es perfecto para terrarios, centros vegetales, maquetas o cobertura decorativa.' -%}
+  {%- when 'sustratos' -%}
+    {%- assign qa_pairs = 'Cómo conservar el sustrato|||Guárdalo en un lugar seco y ventilado, lejos de la luz directa.^^^Qué sustrato elegir|||Fundamental imitar el hábitat natural de cada planta. Tenemos guía en vídeo.^^^Puedo hacer mi propia receta de sustrato|||Sí, tenemos todos los ingredientes necesarios y guía paso a paso.' -%}
+  {%- when 'fertilizantes' -%}
+    {%- assign qa_pairs = 'Llegará bien mi pedido|||Packaging 100% libre de plásticos.^^^Cuándo recibiré mi pedido|||24-48h tras el correo de confirmación.^^^Qué ocurre si llega mal|||Escríbenos a info@purplant.es con fotos. 15 días de garantía.^^^Qué abono elegir|||Todos nuestros fertilizantes son naturales y ecológicos, aptos para todo tipo de plantas.^^^Qué rutina de cuidados recomiendas|||SUPER RUTINA: aminoácidos cada 15 días + plant food cada 15 días alternando, siempre con agua filtrada.^^^Quieres plantas fuertes y gigantes|||Aminoácidos + plant food alternados cada 15 días en riego.' -%}
+  {%- when 'marimo' -%}
+    {%- assign qa_pairs = 'Qué tipo de agua necesita un marimo|||Agua dulce y limpia sin cloro. Cámbiala cada 1-2 semanas.^^^A qué temperatura debe estar el agua|||Fresca o a temperatura ambiente. Evita lugares muy cálidos.^^^Cómo cuidar un Marimo|||Cambia el agua cada 10-14 días, luz indirecta, gíralo suavemente al cambiar el agua.^^^Qué significan los Marimo en Japón|||Simbolizan buena suerte, nuevos comienzos, calma y amor eterno.^^^Cuántos años puede vivir un Marimo|||Décadas en casa con cuidados básicos. En la naturaleza se han encontrado con más de 100 años.^^^Puedo tener más de un Marimo en un mismo terrario|||Sí, puedes crear un mini ecosistema con varios juntos.' -%}
+{%- endcase -%}
+
+{%- if qa_pairs != blank -%}
+  {%- assign qa_list = qa_pairs | split: '^^^' -%}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {%- for qa in qa_list -%}
+        {%- assign parts = qa | split: '|||' -%}
+        {
+          "@type": "Question",
+          "name": {{ parts[0] | strip | json }},
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": {{ parts[1] | strip | json }}
+          }
+        }{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ]
+  }
+  </script>
+{%- endif -%}

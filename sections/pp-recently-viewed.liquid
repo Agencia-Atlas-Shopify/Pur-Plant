@@ -1,0 +1,140 @@
+{%- comment -%}
+  PP Recently Viewed — scroller horizontal con los últimos productos vistos.
+  - Registra el producto actual en localStorage (si estamos en una PDP)
+  - Fetch de los productos por handle via /products/<handle>.js
+  - Oculta el producto actual de la lista
+  - Si no hay productos vistos previos, la sección no se muestra
+{%- endcomment -%}
+
+<section
+  class="pp-recent"
+  data-pp-recent
+  {% if template.name == 'product' %}data-current-handle="{{ product.handle }}"{% endif %}
+  data-limit="{{ section.settings.limit | default: 6 }}"
+>
+  <h2 class="pp-recent__heading">{{ section.settings.heading | default: 'VISTOS RECIENTEMENTE' }}</h2>
+  <div class="pp-recent__track" data-pp-recent-list></div>
+</section>
+
+<script src="{{ 'pp-recently-viewed.js' | asset_url }}" defer></script>
+
+{% stylesheet %}
+  .pp-recent {
+    padding: 40px var(--page-margin, 40px);
+    max-width: var(--page-content-width, 120rem);
+    margin: 0 auto;
+  }
+
+  .pp-recent:empty,
+  .pp-recent[hidden] {
+    display: none;
+  }
+
+  .pp-recent__heading {
+    font-family: 'Aileron', sans-serif;
+    font-size: 31.6px;
+    font-weight: 700;
+    color: #23372c;
+    letter-spacing: -0.05em;
+    line-height: 0.8;
+    margin: 0 0 24px;
+  }
+
+  .pp-recent__track {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  @media screen and (max-width: 999px) {
+    .pp-recent__track {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .pp-recent {
+      padding: 32px var(--page-margin, 20px);
+    }
+
+    .pp-recent__heading {
+      font-size: 22px;
+      margin-bottom: 16px;
+    }
+
+    .pp-recent__track {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+  }
+
+  .pp-recent__card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-decoration: none;
+    color: #23372c;
+  }
+
+  .pp-recent__media {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: 8px;
+    background: #f5f5f5;
+  }
+
+  .pp-recent__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .pp-recent__title {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: #1a1a1a;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .pp-recent__price {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #23372c;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "PP Recently Viewed",
+  "tag": "section",
+  "class": "pp-recent-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "VISTOS RECIENTEMENTE"
+    },
+    {
+      "type": "range",
+      "id": "limit",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "label": "Max products",
+      "default": 6
+    }
+  ],
+  "presets": [
+    {
+      "name": "PP Recently Viewed",
+      "category": "Pur Plant"
+    }
+  ]
+}
+{% endschema %}
