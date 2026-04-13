@@ -1260,11 +1260,20 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
 .rte img,
 .article-content img,
 [class*="blog-post"] img {
-  max-width: 100%;
+  max-width: 50%;
   height: auto;
   display: block;
   margin: 16px auto;
   border-radius: 8px;
+}
+
+@media screen and (max-width: 749px) {
+  .blog-post-content img,
+  .rte img,
+  .article-content img,
+  [class*="blog-post"] img {
+    max-width: 100%;
+  }
 }
 
 .blog-post-content figure,
