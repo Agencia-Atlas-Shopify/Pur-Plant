@@ -46,8 +46,13 @@
     {% render 'pp-organization-jsonld' %}
     {%- render 'theme-styles-variables' -%}
     {%- render 'color-schemes' -%}
-    {{ 'pp-sections.css' | asset_url | stylesheet_tag }}
-    {{ 'aileron-font.css' | asset_url | stylesheet_tag }}
+    {%- comment -%} Non-critical CSS: load async via preload+onload trick to stop blocking FCP/LCP {%- endcomment -%}
+    <link rel="preload" href="{{ 'pp-sections.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="{{ 'aileron-font.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+      {{ 'pp-sections.css' | asset_url | stylesheet_tag }}
+      {{ 'aileron-font.css' | asset_url | stylesheet_tag }}
+    </noscript>
     <style>
       product-card.pp-product-card-standalone h3.pp-card__title,
       product-card.pp-product-card-standalone h3.pp-card__title a,
