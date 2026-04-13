@@ -28,6 +28,22 @@
     {%- render 'stylesheets' -%}
     {%- render 'fonts' -%}
     {%- render 'scripts' -%}
+
+    {%- comment -%} Preload critical assets for LCP {%- endcomment -%}
+    <link rel="preload" as="image" href="{{ 'logo_pur_plant_isotipo.png' | asset_url }}" fetchpriority="high">
+    {%- if template.name == 'product' and product.featured_image -%}
+      <link
+        rel="preload"
+        as="image"
+        href="{{ product.featured_image | image_url: width: 1200 }}"
+        imagesrcset="{{ product.featured_image | image_url: width: 600 }} 600w, {{ product.featured_image | image_url: width: 900 }} 900w, {{ product.featured_image | image_url: width: 1200 }} 1200w"
+        imagesizes="(min-width: 750px) 60vw, 100vw"
+        fetchpriority="high"
+      >
+    {%- endif -%}
+
+    {%- comment -%} Organization schema.org (site-wide) {%- endcomment -%}
+    {% render 'pp-organization-jsonld' %}
     {%- render 'theme-styles-variables' -%}
     {%- render 'color-schemes' -%}
     {{ 'pp-sections.css' | asset_url | stylesheet_tag }}

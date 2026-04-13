@@ -1,0 +1,127 @@
+{%- comment -%}
+  PP Blog TOC — auto-generates a Table of Contents from h2/h3 in the
+  article body. Only shown if the article has at least 3 headings.
+  JS slugifies each heading, assigns it as id, and builds the list.
+{%- endcomment -%}
+
+<nav class="pp-blog-toc" data-pp-blog-toc hidden aria-label="Tabla de contenidos">
+  <p class="pp-blog-toc__title">En este artículo</p>
+  <ol class="pp-blog-toc__list" data-pp-blog-toc-list></ol>
+</nav>
+
+<script>
+  (function () {
+    if (window.__ppBlogTocInit) return;
+    window.__ppBlogTocInit = true;
+
+    function slugify(str) {
+      return String(str)
+        .toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9\s-]/g, '')
+        .trim()
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-');
+    }
+
+    function init() {
+      var toc = document.querySelector('[data-pp-blog-toc]');
+      if (!toc) return;
+      var list = toc.querySelector('[data-pp-blog-toc-list]');
+      if (!list) return;
+
+      var article = document.querySelector('.article-content, .rte, [class*="blog-post"]');
+      if (!article) article = document.querySelector('main');
+      if (!article) return;
+
+      var headings = article.querySelectorAll('h2, h3');
+      if (headings.length < 3) return;
+
+      var usedSlugs = {};
+      var frag = document.createDocumentFragment();
+      headings.forEach(function (h) {
+        var slug = slugify(h.textContent);
+        if (!slug) return;
+        if (usedSlugs[slug]) {
+          usedSlugs[slug]++;
+          slug = slug + '-' + usedSlugs[slug];
+        } else {
+          usedSlugs[slug] = 1;
+        }
+        if (!h.id) h.id = slug;
+
+        var li = document.createElement('li');
+        li.className = 'pp-blog-toc__item pp-blog-toc__item--' + h.tagName.toLowerCase();
+        var a = document.createElement('a');
+        a.href = '#' + h.id;
+        a.textContent = h.textContent;
+        a.className = 'pp-blog-toc__link';
+        li.appendChild(a);
+        frag.appendChild(li);
+      });
+
+      if (!frag.childNodes.length) return;
+      list.appendChild(frag);
+      toc.hidden = false;
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+</script>
+
+{% stylesheet %}
+  .pp-blog-toc {
+    background: #f6f4ed;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 32px 0;
+    max-width: 720px;
+  }
+
+  .pp-blog-toc__title {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #23372c;
+    margin: 0 0 12px;
+  }
+
+  .pp-blog-toc__list {
+    list-style: decimal;
+    padding-left: 18px;
+    margin: 0;
+  }
+
+  .pp-blog-toc__item {
+    margin-bottom: 6px;
+  }
+
+  .pp-blog-toc__item--h3 {
+    margin-left: 12px;
+    list-style: none;
+  }
+
+  .pp-blog-toc__item--h3::before {
+    content: "— ";
+    color: rgba(35, 55, 44, 0.5);
+  }
+
+  .pp-blog-toc__link {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #23372c;
+    text-decoration: none;
+    transition: opacity 0.15s;
+  }
+
+  .pp-blog-toc__link:hover {
+    opacity: 0.7;
+    text-decoration: underline;
+  }
+{% endstylesheet %}

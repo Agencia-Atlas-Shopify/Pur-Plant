@@ -1,0 +1,30 @@
+{%- comment -%}
+  Pur Plant Organization schema.org JSON-LD.
+  Output once in the <head> via theme.liquid.
+{%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Pur Plant",
+  "url": {{ shop.url | json }},
+  "logo": {{ 'logo_pur_plant_isotipo.png' | asset_url | prepend: 'https:' | json }},
+  "email": "info@purplant.es",
+  "telephone": "+34 667 279 907",
+  "sameAs": [
+    "https://www.instagram.com/purplant.es/",
+    "https://www.tiktok.com/@purplant.es",
+    "https://www.pinterest.com/purplantes/",
+    "https://www.facebook.com/purplant.es",
+    "https://www.youtube.com/@purplant"
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+34 667 279 907",
+    "contactType": "customer service",
+    "email": "info@purplant.es",
+    "areaServed": ["ES", "PT"],
+    "availableLanguage": ["Spanish", "Portuguese"]
+  }
+}
+</script>

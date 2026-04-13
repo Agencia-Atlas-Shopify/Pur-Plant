@@ -1,0 +1,187 @@
+{%- comment -%}
+  PP Blog Related Articles — picks up to 3 from the same blog, prioritizing
+  by shared tags, then same author, then just "most recent in this blog".
+  Excludes the current article.
+
+  @param {object} article — the current article
+  @param {object} blog    — the current blog
+{%- endcomment -%}
+
+{%- liquid
+  assign max = 3
+  assign pool = blog.articles
+  assign current_tags = article.tags
+  assign current_author_id = article.metafields.custom.autor.value.id
+  assign related = ''
+  assign count = 0
+
+  comment
+    Pass 1: articles that share at least one tag
+  endcomment
+  for a in pool
+    if a.id == article.id
+      continue
+    endif
+    if count >= max
+      break
+    endif
+    assign shared = false
+    for t in a.tags
+      if current_tags contains t
+        assign shared = true
+        break
+      endif
+    endfor
+    if shared
+      assign related = related | append: a.id | append: ','
+      assign count = count | plus: 1
+    endif
+  endfor
+
+  comment
+    Pass 2: same author (if not already included)
+  endcomment
+  if count < max and current_author_id != blank
+    for a in pool
+      if a.id == article.id
+        continue
+      endif
+      if count >= max
+        break
+      endif
+      assign a_author_id = a.metafields.custom.autor.value.id
+      if a_author_id == current_author_id
+        assign id_token = ',' | append: a.id | append: ','
+        assign related_token = ',' | append: related
+        unless related_token contains id_token
+          assign related = related | append: a.id | append: ','
+          assign count = count | plus: 1
+        endunless
+      endif
+    endfor
+  endif
+
+  comment
+    Pass 3: fallback — latest articles in blog
+  endcomment
+  if count < max
+    for a in pool
+      if a.id == article.id
+        continue
+      endif
+      if count >= max
+        break
+      endif
+      assign id_token = ',' | append: a.id | append: ','
+      assign related_token = ',' | append: related
+      unless related_token contains id_token
+        assign related = related | append: a.id | append: ','
+        assign count = count | plus: 1
+      endunless
+    endfor
+  endif
+
+  assign related_ids = related | split: ','
+-%}
+
+{%- if count > 0 -%}
+  <section class="pp-blog-related">
+    <h2 class="pp-blog-related__title">Seguir leyendo</h2>
+    <div class="pp-blog-related__grid">
+      {%- for id_str in related_ids -%}
+        {%- if id_str == blank -%}{%- continue -%}{%- endif -%}
+        {%- assign target_id = id_str | plus: 0 -%}
+        {%- for a in blog.articles -%}
+          {%- if a.id == target_id -%}
+            <a href="{{ a.url }}" class="pp-blog-related__card">
+              {%- if a.image -%}
+                <div class="pp-blog-related__media">
+                  {{ a.image | image_url: width: 500 | image_tag: loading: 'lazy', class: 'pp-blog-related__img', alt: a.title | escape }}
+                </div>
+              {%- endif -%}
+              <div class="pp-blog-related__body">
+                <h3 class="pp-blog-related__h">{{ a.title }}</h3>
+                <time class="pp-blog-related__date" datetime="{{ a.published_at | date: '%Y-%m-%d' }}">
+                  {{ a.published_at | date: '%d %B %Y' }}
+                </time>
+              </div>
+            </a>
+            {%- break -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endfor -%}
+    </div>
+  </section>
+{%- endif -%}
+
+{% stylesheet %}
+  .pp-blog-related {
+    margin: 48px 0 32px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(35, 55, 44, 0.15);
+  }
+
+  .pp-blog-related__title {
+    font-family: 'Aileron', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #23372c;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin: 0 0 20px;
+  }
+
+  .pp-blog-related__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .pp-blog-related__grid {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+  }
+
+  .pp-blog-related__card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-decoration: none;
+    color: #23372c;
+    transition: opacity 0.2s;
+  }
+
+  .pp-blog-related__card:hover {
+    opacity: 0.85;
+  }
+
+  .pp-blog-related__media {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border-radius: 8px;
+    background: #f5f5f5;
+  }
+
+  .pp-blog-related__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .pp-blog-related__h {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.3;
+    margin: 0;
+  }
+
+  .pp-blog-related__date {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: rgba(35, 55, 44, 0.6);
+  }
+{% endstylesheet %}

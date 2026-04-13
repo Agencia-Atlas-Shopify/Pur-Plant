@@ -251,7 +251,7 @@
         {%- unless found_promo -%}
           {%- if section.settings.mega_plantas_image != blank -%}
             <a href="{{ section.settings.mega_plantas_image_link | default: '/collections/plantas' }}">
-              <img src="{{ section.settings.mega_plantas_image | image_url: width: 600 }}" alt="" width="200" height="250" loading="lazy">
+              <img src="{{ section.settings.mega_plantas_image | image_url: width: 600 }}" alt="{{ section.settings.mega_plantas_image.alt | default: 'Descubre todas las plantas' | escape }}" width="200" height="250" loading="lazy">
             </a>
           {%- endif -%}
         {%- endunless -%}
@@ -296,7 +296,7 @@
       <div class="pp-mega__image">
         {%- if section.settings.mega_regalos_image != blank -%}
           <a href="{{ section.settings.mega_regalos_image_link | default: '/collections/regalos' }}">
-            <img src="{{ section.settings.mega_regalos_image | image_url: width: 600 }}" alt="" width="200" height="250" loading="lazy">
+            <img src="{{ section.settings.mega_regalos_image | image_url: width: 600 }}" alt="{{ section.settings.mega_regalos_image.alt | default: 'Ideas de regalo' | escape }}" width="200" height="250" loading="lazy">
           </a>
         {%- endif -%}
       </div>
@@ -329,7 +329,7 @@
       <div class="pp-mega__image">
         {%- if section.settings.mega_sobre_image != blank -%}
           <a href="{{ section.settings.mega_sobre_image_link | default: '/pages/conocenos' }}">
-            <img src="{{ section.settings.mega_sobre_image | image_url: width: 600 }}" alt="" width="200" height="250" loading="lazy">
+            <img src="{{ section.settings.mega_sobre_image | image_url: width: 600 }}" alt="{{ section.settings.mega_sobre_image.alt | default: 'Sobre Pur Plant' | escape }}" width="200" height="250" loading="lazy">
           </a>
         {%- endif -%}
       </div>

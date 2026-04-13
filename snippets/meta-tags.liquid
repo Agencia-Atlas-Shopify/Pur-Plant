@@ -108,9 +108,16 @@
   {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
 </title>
 
+{%- liquid
+  comment
+    canonical_url already strips ?variant=X. We also split on '?' to remove
+    any stray tracking params (fbclid, gclid, utm_*, etc.) before output.
+  endcomment
+  assign clean_canonical = canonical_url | split: '?' | first
+-%}
 <link
   rel="canonical"
-  href="{{ canonical_url }}"
+  href="{{ clean_canonical }}"
 >
 
 {% if page_description %}

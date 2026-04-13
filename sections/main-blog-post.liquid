@@ -56,6 +56,10 @@
         {% render 'blog-comment-form', article: article, section_id: section.id %}
       </div>
     {% endif %}
+    {%- comment -%} Auto TOC + Related articles {%- endcomment -%}
+    {% render 'pp-blog-toc', article: article %}
+    {% render 'pp-blog-related', article: article, blog: blog %}
+
     {%- comment -%} Author box {%- endcomment -%}
     {%- assign autor = article.metafields.custom.autor.value -%}
     {%- if autor -%}

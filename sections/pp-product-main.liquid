@@ -13,7 +13,7 @@
   assign featured_image = current_variant.featured_image | default: product.featured_image
 -%}
 
-<script type="application/ld+json">{{ product | structured_data }}</script>
+{% render 'pp-product-jsonld' %}
 
 <section
   id="pp-pdp-{{ section.id }}"
@@ -184,7 +184,7 @@
       {%- for block in section.blocks -%}
         {%- if block.type == 'left_image' and block.settings.image != blank -%}
           <div class="pp-pdp__left-image" {{ block.shopify_attributes }}>
-            <img src="{{ block.settings.image | image_url: width: 400 }}" alt="" width="200" loading="lazy">
+            <img src="{{ block.settings.image | image_url: width: 400 }}" alt="{{ block.settings.image.alt | default: product.title | escape }}" width="200" loading="lazy">
           </div>
         {%- endif -%}
       {%- endfor -%}
@@ -659,7 +659,7 @@
         src="{{ featured_image | image_url: width: 120 }}"
         width="40"
         height="40"
-        alt=""
+        alt="{{ product.title | escape }}"
         class="pp-pdp__floating-atc-img"
         loading="lazy"
       >
