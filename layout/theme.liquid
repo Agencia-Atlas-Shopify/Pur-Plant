@@ -29,6 +29,9 @@
     {%- render 'fonts' -%}
     {%- render 'scripts' -%}
 
+    {%- comment -%} Defer Klaviyo, Swym, Judge.me etc until first interaction {%- endcomment -%}
+    <script src="{{ 'pp-defer-3p.js' | asset_url }}"></script>
+
     {%- comment -%} Preload critical assets for LCP {%- endcomment -%}
     <link rel="preload" as="image" href="{{ 'logo_pur_plant_isotipo.png' | asset_url }}" fetchpriority="high">
     {%- if template.name == 'product' and product.featured_image -%}
