@@ -1,0 +1,122 @@
+{%- comment -%}
+  Pur Plant critical above-the-fold CSS — inlined in <head> so the
+  header + hero render immediately, without waiting for external CSS
+  to download. The full CSS (pp-header.css, pp-hero-slider.css,
+  pp-sections.css) still loads after for the complete styling.
+
+  Keep this under 5KB. Only rules required for the first paint.
+{%- endcomment -%}
+<style>
+  /* === Root tokens === */
+  :root {
+    --pp-dark-green: #23372c;
+    --pp-light-green: #DAFFD3;
+    --pp-bg: #f6f4ed;
+    --pp-font-body: "Inter", sans-serif;
+    --pp-font-heading: "Tenor Sans", Georgia, serif;
+    --pp-header-height: 80px;
+  }
+
+  /* === Body base === */
+  body {
+    margin: 0;
+    font-family: var(--pp-font-body);
+    color: var(--pp-dark-green);
+    background: #fff;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* === Header === */
+  .pp-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    max-width: calc(100% - 60px);
+    margin: 0 auto;
+    background: transparent;
+    color: rgb(218 255 211);
+  }
+
+  .pp-header--sticky {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+  }
+
+  .pp-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 30px;
+    background-color: #23372c;
+    border-radius: 0 0 20px 20px;
+    overflow: hidden;
+  }
+
+  .pp-header__logo img { display: block; }
+
+  /* === Hero slider — prevent CLS === */
+  .pp-hero-slider {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: #000;
+  }
+
+  @media screen and (max-width: 749px) {
+    .pp-hero-slider { aspect-ratio: 4 / 5; }
+    .pp-header { max-width: calc(100% - 30px); }
+    .pp-header__inner { padding: 8px 15px; }
+  }
+
+  .pp-hero-slider__slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity .6s ease;
+  }
+
+  .pp-hero-slider__slide.is-active { opacity: 1; }
+
+  .pp-hero-slider__media,
+  .pp-hero-slider__media video,
+  .pp-hero-slider__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* === Grid containers (first paint) === */
+  .image-block,
+  .image-block__image {
+    width: 100%;
+    display: block;
+  }
+
+  .image-block__image {
+    height: auto;
+    object-fit: cover;
+  }
+
+  /* === Hide flash of unstyled content === */
+  pp-header-height-observer,
+  cart-drawer-component,
+  pp-header-component {
+    display: block;
+  }
+
+  /* Content-visibility on below-the-fold blocks improves initial render */
+  footer,
+  .pp-faq,
+  .pp-brand,
+  .pp-trust-badges,
+  .pp-recommendations {
+    content-visibility: auto;
+    contain-intrinsic-size: 500px;
+  }
+</style>

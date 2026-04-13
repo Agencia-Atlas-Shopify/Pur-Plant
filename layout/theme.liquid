@@ -29,8 +29,11 @@
     {%- render 'fonts' -%}
     {%- render 'scripts' -%}
 
-    {%- comment -%} Defer Klaviyo, Swym, Judge.me etc until first interaction {%- endcomment -%}
-    <script src="{{ 'pp-defer-3p.js' | asset_url }}"></script>
+    {%- comment -%} Defer Klaviyo, Swym, Judge.me etc until first interaction (inline for zero-RTT, minified) {%- endcomment -%}
+    <script>{% render 'pp-defer-3p-inline' %}</script>
+
+    {%- comment -%} Inlined critical CSS so above-the-fold renders without waiting for external CSS {%- endcomment -%}
+    {% render 'pp-critical-inline' %}
 
     {%- comment -%} Preload critical assets for LCP {%- endcomment -%}
     <link rel="preload" as="image" href="{{ 'logo_pur_plant_isotipo.png' | asset_url }}" fetchpriority="high">
@@ -43,6 +46,23 @@
         imagesizes="(min-width: 750px) 60vw, 100vw"
         fetchpriority="high"
       >
+    {%- endif -%}
+    {%- comment -%} Home: preload first 4 featured collections' images as LCP candidate {%- endcomment -%}
+    {%- if template.name == 'index' -%}
+      {%- assign preload_count = 0 -%}
+      {%- for collection in collections -%}
+        {%- if preload_count < 4 and collection.image -%}
+          <link
+            rel="preload"
+            as="image"
+            href="{{ collection.image | image_url: width: 480 }}"
+            imagesrcset="{{ collection.image | image_url: width: 240 }} 240w, {{ collection.image | image_url: width: 360 }} 360w, {{ collection.image | image_url: width: 480 }} 480w, {{ collection.image | image_url: width: 600 }} 600w"
+            imagesizes="(min-width: 750px) 25vw, 50vw"
+            fetchpriority="high"
+          >
+          {%- assign preload_count = preload_count | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
     {%- endif -%}
 
     {%- comment -%} Organization schema.org (site-wide) {%- endcomment -%}

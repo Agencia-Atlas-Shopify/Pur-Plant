@@ -149,10 +149,16 @@
       {% render 'overlay', settings: block_settings %}
     {%- endif -%}
 
+    {%- liquid
+      assign fetch_priority = 'auto'
+      if loading == 'eager'
+        assign fetch_priority = 'high'
+      endif
+    -%}
     {{
       image_resource
       | image_url: width: 1600
-      | image_tag: widths: widths, class: 'image-block__image', sizes: sizes, loading: loading
+      | image_tag: widths: widths, class: 'image-block__image', sizes: sizes, loading: loading, fetchpriority: fetch_priority
     }}
   </div>
 {% else %}
