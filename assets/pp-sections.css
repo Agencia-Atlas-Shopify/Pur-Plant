@@ -1257,9 +1257,7 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
    responsive regardless of inline width hints.
    ═══════════════════════════════════════════ */
 .blog-post-content img,
-.rte img,
-.article-content img,
-[class*="blog-post"] img {
+.rte img {
   max-width: 50%;
   height: auto;
   display: block;
@@ -1269,25 +1267,19 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
 
 @media screen and (max-width: 749px) {
   .blog-post-content img,
-  .rte img,
-  .article-content img,
-  [class*="blog-post"] img {
+  .rte img {
     max-width: 100%;
   }
 }
 
 .blog-post-content figure,
-.rte figure,
-.article-content figure,
-[class*="blog-post"] figure {
+.rte figure {
   margin: 24px auto;
   max-width: 100%;
 }
 
 .blog-post-content figure img,
-.rte figure img,
-.article-content figure img,
-[class*="blog-post"] figure img {
+.rte figure img {
   margin: 0 auto;
 }
 
