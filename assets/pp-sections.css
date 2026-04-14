@@ -608,9 +608,9 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
    PP Product Recommendations
    ═══════════════════════════════════════════ */
 .pp-recommendations__inner {
-  max-width: var(--page-content-width, 120rem);
+  max-width: 100%;
   margin: 0 auto;
-  padding: 0;
+  padding: 0 var(--page-margin, 40px);
 }
 
 .pp-recommendations__heading {
