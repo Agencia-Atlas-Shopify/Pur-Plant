@@ -459,44 +459,6 @@
         {%- endif -%}
       {%- endfor -%}
 
-      {%- comment -%} Volume Discount cards {%- endcomment -%}
-      {%- for block in section.blocks -%}
-        {%- if block.type == 'volume_discount' -%}
-          {%- liquid
-            assign base = current_variant.price
-            assign t1_pct = block.settings.tier1_pct | plus: 0
-            assign t2_pct = block.settings.tier2_pct | plus: 0
-            assign t3_pct = block.settings.tier3_pct | plus: 0
-            assign t1_disc = base | times: t1_pct | divided_by: 100
-            assign t1_unit = base | minus: t1_disc
-            assign t2_disc = base | times: t2_pct | divided_by: 100
-            assign t2_unit = base | minus: t2_disc
-            assign t3_disc = base | times: t3_pct | divided_by: 100
-            assign t3_unit = base | minus: t3_disc
-          -%}
-          <div class="pp-vol" {{ block.shopify_attributes }}>
-            <p class="pp-pdp__routine-title">PACK AHORRO</p>
-            <div class="pp-vol__grid">
-              <div class="pp-vol__card">
-                <span class="pp-vol__range">{{ block.settings.tier1_range }} Ud</span>
-                <span class="pp-vol__unit-price">{{ t1_unit | money }}/unidad</span>
-                <span class="pp-vol__badge">AHORRA {{ t1_pct }}%</span>
-              </div>
-              <div class="pp-vol__card{% if block.settings.tier2_highlight %} pp-vol__card--highlighted{% endif %}">
-                <span class="pp-vol__range">{{ block.settings.tier2_range }} Ud</span>
-                <span class="pp-vol__unit-price">{{ t2_unit | money }}/unidad</span>
-                <span class="pp-vol__badge">AHORRA {{ t2_pct }}%</span>
-              </div>
-              <div class="pp-vol__card">
-                <span class="pp-vol__range">{{ block.settings.tier3_range }} Ud</span>
-                <span class="pp-vol__unit-price">{{ t3_unit | money }}/unidad</span>
-                <span class="pp-vol__badge">AHORRA {{ t3_pct }}%</span>
-              </div>
-            </div>
-          </div>
-        {%- endif -%}
-      {%- endfor -%}
-
       {%- comment -%} Recommended products (macetas que combinan) {%- endcomment -%}
       {%- if product.metafields.custom.encuentra_una_maceta_que_combine != blank -%}
         <div class="pp-pdp__recommended">
@@ -622,6 +584,44 @@
                 {{ form | payment_button }}
               {%- endform -%}
             {%- endif -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- comment -%} Volume Discount cards (debajo del add to cart) {%- endcomment -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'volume_discount' -%}
+          {%- liquid
+            assign base = current_variant.price
+            assign t1_pct = block.settings.tier1_pct | plus: 0
+            assign t2_pct = block.settings.tier2_pct | plus: 0
+            assign t3_pct = block.settings.tier3_pct | plus: 0
+            assign t1_disc = base | times: t1_pct | divided_by: 100
+            assign t1_unit = base | minus: t1_disc
+            assign t2_disc = base | times: t2_pct | divided_by: 100
+            assign t2_unit = base | minus: t2_disc
+            assign t3_disc = base | times: t3_pct | divided_by: 100
+            assign t3_unit = base | minus: t3_disc
+          -%}
+          <div class="pp-vol" {{ block.shopify_attributes }}>
+            <p class="pp-pdp__routine-title">PACK AHORRO</p>
+            <div class="pp-vol__grid">
+              <div class="pp-vol__card">
+                <span class="pp-vol__range">{{ block.settings.tier1_range }} Ud</span>
+                <span class="pp-vol__unit-price">{{ t1_unit | money }}/unidad</span>
+                <span class="pp-vol__badge">AHORRA {{ t1_pct }}%</span>
+              </div>
+              <div class="pp-vol__card">
+                <span class="pp-vol__range">{{ block.settings.tier2_range }} Ud</span>
+                <span class="pp-vol__unit-price">{{ t2_unit | money }}/unidad</span>
+                <span class="pp-vol__badge">AHORRA {{ t2_pct }}%</span>
+              </div>
+              <div class="pp-vol__card">
+                <span class="pp-vol__range">{{ block.settings.tier3_range }} Ud</span>
+                <span class="pp-vol__unit-price">{{ t3_unit | money }}/unidad</span>
+                <span class="pp-vol__badge">AHORRA {{ t3_pct }}%</span>
+              </div>
+            </div>
           </div>
         {%- endif -%}
       {%- endfor -%}
