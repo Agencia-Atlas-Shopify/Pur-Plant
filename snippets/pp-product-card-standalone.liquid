@@ -84,39 +84,65 @@
         </div>
       {%- endif -%}
 
-      {%- comment -%} Badges - RC Product Card Style {%- endcomment -%}
-      {%- assign has_badge = false -%}
-      {%- assign badge_text = '' -%}
-      {%- assign badge_class = '' -%}
+      {%- comment -%} Badges — build a list of all applicable labels {%- endcomment -%}
+      {%- liquid
+        assign badges = ''
 
-      {%- comment -%} Check for inventory badges {%- endcomment -%}
-      {%- if product.available == false -%}
-        {%- assign has_badge = true -%}
-        {%- assign badge_text = 'Agotado' -%}
-        {%- assign badge_class = 'pp-badge--sold-out' -%}
-      {%- elsif product.variants.first.inventory_quantity <= 5 and product.variants.first.inventory_quantity > 0 -%}
-        {%- assign has_badge = true -%}
-        {%- assign badge_text = 'Últimas unidades' -%}
-        {%- assign badge_class = 'pp-badge--last-units' -%}
-      {%- endif -%}
+        comment
+          Plantas-only badges (Pet Friendly, Purificadora, Fácil cuidado).
+          Plantas = any product.type in this whitelist.
+        endcomment
+        assign type_needle = '|' | append: product.type | append: '|'
+        assign plantas_types = '|Plantas|Plantas Interior|Plantas Exterior|Plantas Minis|Plantas Hidropónicas|Cactus|Alocasias|Calatheas|Begonias|Anthurium|Ficus|Hoya|Peperomias|Helecho|Monstera|Philodendron|Palmera|Adansonii|Croton|Marantas|Deliciosa|Fittonia|Caladium|Dracaena|Kalanchoe|Euphorbia|Cyclamen|Hypoestes|Ceropegia|Espatifilo|Areca|Dieffenbachia|Adenium|Cóleo|Aglaonema|Orquídeas|Chamaedorea|Bromelia|Crassula Ovata|Suculentas y Crasas|Bambú|Leuconeura|carnosa|Aloe Vera|Oxalis|Hoya Kerrii Variegada|Carnívora|Pet Friendly|Árboles|Árboles Frutales|Arce Japonés|Bonsái|Acebo|Jazmin|Hibiscus|Calluna|Crisantemo|Hortensia|Euonymus|Kokedamas|Kits Kokedamas|Lavanda|Guindilla|Aromáticas|Coníferas|'
+        assign is_planta = false
+        if plantas_types contains type_needle
+          assign is_planta = true
+        endif
 
-      {%- comment -%} Check for sale badge {%- endcomment -%}
-      {%- if product.compare_at_price > product.price and has_badge == false -%}
-        {%- assign has_badge = true -%}
-        {%- assign badge_text = 'Oferta' -%}
-        {%- assign badge_class = 'pp-badge--sale' -%}
-      {%- endif -%}
+        if is_planta
+          if product.metafields.custom.pet_friendly == true
+            assign badges = badges | append: 'pet|'
+          endif
+          if product.metafields.custom.purificadora == true
+            assign badges = badges | append: 'pur|'
+          endif
+          assign dif = product.metafields.custom.dificultad | downcase
+          if dif contains 'fácil' or dif contains 'facil'
+            assign badges = badges | append: 'facil|'
+          endif
+        endif
 
-      {%- comment -%} Check for custom badge via metafield {%- endcomment -%}
-      {%- if product.metafields.custom.badge and has_badge == false -%}
-        {%- assign has_badge = true -%}
-        {%- assign badge_text = product.metafields.custom.badge -%}
-        {%- assign badge_class = 'pp-badge--custom' -%}
-      {%- endif -%}
+        comment
+          Ventas / urgencia — todo el catálogo
+        endcomment
+        if product.available == false
+          assign badges = badges | append: 'pronto|'
+        elsif product.variants.first.inventory_quantity <= 5 and product.variants.first.inventory_quantity > 0
+          assign badges = badges | append: 'last|'
+        endif
 
-      {%- if has_badge -%}
+        if product.compare_at_price > product.price
+          assign badges = badges | append: 'oferta|'
+        endif
+
+        if product.tags contains 'Top Ventas' or product.tags contains 'Best Sellers' or product.tags contains 'top ventas'
+          assign badges = badges | append: 'top|'
+        endif
+        if product.tags contains 'New In' or product.tags contains 'new in' or product.tags contains 'Novedades' or product.tags contains 'Novedad'
+          assign badges = badges | append: 'nuevo|'
+        endif
+      -%}
+
+      {%- if badges != '' -%}
         <div class="pp-badge-list">
-          <span class="pp-badge {{ badge_class }}">{{ badge_text | upcase }}</span>
+          {%- if badges contains 'pet|' -%}<span class="pp-badge pp-badge--pet">PET FRIENDLY</span>{%- endif -%}
+          {%- if badges contains 'pur|' -%}<span class="pp-badge pp-badge--pur">PURIFICADORA</span>{%- endif -%}
+          {%- if badges contains 'facil|' -%}<span class="pp-badge pp-badge--facil">FÁCIL CUIDADO</span>{%- endif -%}
+          {%- if badges contains 'oferta|' -%}<span class="pp-badge pp-badge--sale">OFERTA</span>{%- endif -%}
+          {%- if badges contains 'last|' -%}<span class="pp-badge pp-badge--last-units">ÚLTIMAS UNIDADES</span>{%- endif -%}
+          {%- if badges contains 'top|' -%}<span class="pp-badge pp-badge--top">TOP VENTAS</span>{%- endif -%}
+          {%- if badges contains 'nuevo|' -%}<span class="pp-badge pp-badge--new">NOVEDAD</span>{%- endif -%}
+          {%- if badges contains 'pronto|' -%}<span class="pp-badge pp-badge--sold-out">VUELVE PRONTO</span>{%- endif -%}
         </div>
       {%- endif -%}
 
