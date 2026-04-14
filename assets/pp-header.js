@@ -823,7 +823,6 @@ document.addEventListener('shopify:section:load', initMegamenuSliders);
         html += '</div></div>';
       }
 
-      html += '<div class="pp-search__view-all"><a href="/search?q=' + encodeURIComponent(query) + '">Ver todos los resultados</a></div>';
       resultsEl.innerHTML = html;
     })
     .catch(function(e) {

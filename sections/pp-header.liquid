@@ -135,7 +135,7 @@
     {%- comment -%} Search Panel — Predictive search {%- endcomment -%}
     <div id="pp-search-panel" class="pp-search" aria-hidden="true">
       <div class="pp-search__inner">
-        <form action="{{ routes.search_url }}" method="GET" class="pp-search__form" role="search">
+        <form class="pp-search__form" role="search" onsubmit="return false;">
           <input type="hidden" name="type" value="product">
           <div class="pp-search__input-wrap">
             <svg class="pp-search__icon" width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="9" cy="9" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M13 13L17 17" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
