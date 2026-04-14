@@ -668,6 +668,17 @@
   </div>
 
   {%- comment -%} Amazon title + SEO description below the fold {%- endcomment -%}
+  {%- liquid
+    assign type_needle = '|' | append: product.type | append: '|'
+    assign plantas_types = '|Plantas|Plantas Interior|Plantas Exterior|Plantas Minis|Plantas Hidropónicas|Cactus|Alocasias|Calatheas|Begonias|Anthurium|Ficus|Hoya|Peperomias|Helecho|Monstera|Philodendron|Palmera|Adansonii|Croton|Marantas|Deliciosa|Fittonia|Caladium|Dracaena|Kalanchoe|Euphorbia|Cyclamen|Hypoestes|Ceropegia|Espatifilo|Areca|Dieffenbachia|Adenium|Cóleo|Aglaonema|Orquídeas|Chamaedorea|Bromelia|Crassula Ovata|Suculentas y Crasas|Bambú|Leuconeura|carnosa|Aloe Vera|Oxalis|Hoya Kerrii Variegada|Carnívora|Pet Friendly|Árboles|Árboles Frutales|Arce Japonés|Bonsái|Acebo|Jazmin|Hibiscus|Calluna|Crisantemo|Hortensia|Euonymus|Kokedamas|Kits Kokedamas|Lavanda|Guindilla|Aromáticas|Coníferas|'
+    assign is_planta = false
+    if plantas_types contains type_needle
+      assign is_planta = true
+    endif
+  -%}
+  {%- if is_planta -%}
+    <p class="pp-pdp__plant-disclaimer"><em>Estas imágenes corresponden a un ejemplar y son inspiracionales. Como todo ser vivo, las plantas están en continua transformación y cambio. Todas las plantas incluyen maceta de plástico original.</em></p>
+  {%- endif -%}
   {%- if product.metafields.custom.titulo_amazon != blank -%}
     <h2 class="pp-pdp__amazon-title">{{ product.metafields.custom.titulo_amazon }}</h2>
   {%- endif -%}
