@@ -172,6 +172,29 @@
                         {%- endif -%}
                       </ul>
                   {%- endcase -%}
+
+                  {%- comment -%} Optional embedded YouTube / Vimeo video {%- endcomment -%}
+                  {%- if block.settings.video_url != blank -%}
+                    {%- assign vu = block.settings.video_url -%}
+                    {%- assign yt_id = '' -%}
+                    {%- if vu contains 'youtu.be/' -%}
+                      {%- assign yt_id = vu | split: 'youtu.be/' | last | split: '?' | first | split: '&' | first -%}
+                    {%- elsif vu contains 'youtube.com/watch' -%}
+                      {%- assign yt_id = vu | split: 'v=' | last | split: '&' | first -%}
+                    {%- elsif vu contains 'youtube.com/embed/' -%}
+                      {%- assign yt_id = vu | split: 'youtube.com/embed/' | last | split: '?' | first -%}
+                    {%- endif -%}
+                    {%- if yt_id != '' -%}
+                      <div class="pp-pdp__accordion-video">
+                        <iframe src="https://www.youtube.com/embed/{{ yt_id }}" title="{{ block.settings.heading | escape }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                      </div>
+                    {%- elsif vu contains 'vimeo.com/' -%}
+                      {%- assign vm_id = vu | split: 'vimeo.com/' | last | split: '?' | first | split: '/' | first -%}
+                      <div class="pp-pdp__accordion-video">
+                        <iframe src="https://player.vimeo.com/video/{{ vm_id }}" title="{{ block.settings.heading | escape }}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                      </div>
+                    {%- endif -%}
+                  {%- endif -%}
                 </div>
               </details>
         {%- endcase -%}
@@ -1001,6 +1024,12 @@
           "id": "metafield_key",
           "label": "Metafield key (namespace: custom)",
           "info": "Key of the product metafield under custom namespace"
+        },
+        {
+          "type": "url",
+          "id": "video_url",
+          "label": "Video URL (YouTube / Vimeo)",
+          "info": "Opcional — iframe después del contenido"
         },
         {
           "type": "checkbox",
