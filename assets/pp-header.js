@@ -733,6 +733,13 @@ document.addEventListener('shopify:section:load', initMegamenuSliders);
     if (e.key === 'Escape' && panel.getAttribute('aria-hidden') === 'false') closeSearch();
   });
 
+  /* Block Enter and form submit — keep user inside the search panel */
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') { e.preventDefault(); e.stopPropagation(); return false; }
+  });
+  var searchForm = input.closest('form');
+  if (searchForm) searchForm.addEventListener('submit', function(e) { e.preventDefault(); e.stopPropagation(); return false; });
+
   function formatMoney(cents) {
     return (cents / 100).toFixed(2).replace('.', ',') + ' €';
   }
