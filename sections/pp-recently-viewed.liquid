@@ -10,7 +10,7 @@
   class="pp-recent"
   data-pp-recent
   {% if template.name == 'product' %}data-current-handle="{{ product.handle }}"{% endif %}
-  data-limit="{{ section.settings.limit | default: 6 }}"
+  data-limit="{{ section.settings.limit | default: 4 }}"
 >
   <h2 class="pp-recent__heading">{{ section.settings.heading | default: 'VISTOS RECIENTEMENTE' }}</h2>
   <div class="pp-recent__track" data-pp-recent-list></div>
@@ -124,10 +124,10 @@
       "type": "range",
       "id": "limit",
       "min": 2,
-      "max": 8,
+      "max": 4,
       "step": 1,
       "label": "Max products",
-      "default": 6
+      "default": 4
     }
   ],
   "presets": [
