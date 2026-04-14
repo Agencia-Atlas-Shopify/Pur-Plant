@@ -564,7 +564,7 @@
         "mobile_columns": 2,
         "columns_gap": 16,
         "rows_gap": 16,
-        "gap": 0,
+        "gap": 20,
         "image_ratio": "4 / 5",
         "section_width": "page-width",
         "color_scheme": "",
