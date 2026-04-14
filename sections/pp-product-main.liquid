@@ -283,67 +283,63 @@
         {%- liquid
           comment
             Priority 1: product metafield custom.coleccion_principal
+            Priority 2: first product.collection that has a coleccion_padre set
+            Priority 3: any non-generic product.collection
           endcomment
           assign best_coll = product.metafields.custom.coleccion_principal.value
-        -%}
-        {%- if best_coll == blank and product.collections.size > 0 -%}
-          {%- liquid
-            assign best_coll = nil
-            assign fallback_coll = nil
 
+          if best_coll == blank and product.collections.size > 0
+            assign fallback_coll = nil
             for c in product.collections
               assign coll_handle_lower = c.handle | downcase
               if coll_handle_lower contains 'iva' or coll_handle_lower contains 'plantas-nuevas' or coll_handle_lower contains 'plantas-bano' or coll_handle_lower contains 'plantas-cocina' or coll_handle_lower contains 'plantas-dormitorio' or coll_handle_lower contains 'plantas-oficina' or coll_handle_lower contains 'plantas-salon'
                 continue
               endif
-
               if fallback_coll == nil
                 assign fallback_coll = c
               endif
-
               if c.metafields.custom.coleccion_padre.value != blank
                 assign best_coll = c
                 break
               endif
             endfor
-
-            if best_coll == nil
+            if best_coll == blank
               assign best_coll = fallback_coll
             endif
-          -%}
-          {%- if best_coll -%}
-            {%- assign walk_coll = best_coll -%}
-            {%- assign breadcrumb_chain = '' -%}
-            {%- assign breadcrumb_urls = '' -%}
-            {%- for i in (1..5) -%}
-              {%- assign parent_ref = walk_coll.metafields.custom.coleccion_padre.value -%}
-              {%- if parent_ref != blank -%}
-                {%- if breadcrumb_chain == '' -%}
-                  {%- assign breadcrumb_chain = parent_ref.title -%}
-                  {%- assign breadcrumb_urls = parent_ref.url -%}
-                {%- else -%}
-                  {%- assign breadcrumb_chain = parent_ref.title | append: '|||' | append: breadcrumb_chain -%}
-                  {%- assign breadcrumb_urls = parent_ref.url | append: '|||' | append: breadcrumb_urls -%}
-                {%- endif -%}
-                {%- assign walk_coll = parent_ref -%}
+          endif
+        -%}
+        {%- if best_coll != blank -%}
+          {%- assign walk_coll = best_coll -%}
+          {%- assign breadcrumb_chain = '' -%}
+          {%- assign breadcrumb_urls = '' -%}
+          {%- for i in (1..5) -%}
+            {%- assign parent_ref = walk_coll.metafields.custom.coleccion_padre.value -%}
+            {%- if parent_ref != blank -%}
+              {%- if breadcrumb_chain == '' -%}
+                {%- assign breadcrumb_chain = parent_ref.title -%}
+                {%- assign breadcrumb_urls = parent_ref.url -%}
               {%- else -%}
-                {%- break -%}
+                {%- assign breadcrumb_chain = parent_ref.title | append: '|||' | append: breadcrumb_chain -%}
+                {%- assign breadcrumb_urls = parent_ref.url | append: '|||' | append: breadcrumb_urls -%}
               {%- endif -%}
-            {%- endfor -%}
-            {%- if breadcrumb_chain != '' -%}
-              {%- assign crumb_titles = breadcrumb_chain | split: '|||' -%}
-              {%- assign crumb_urls = breadcrumb_urls | split: '|||' -%}
-              {%- for crumb_title in crumb_titles -%}
-                <a href="{{ crumb_urls[forloop.index0] }}">{{ crumb_title }}</a>
-                <span>/</span>
-              {%- endfor -%}
+              {%- assign walk_coll = parent_ref -%}
+            {%- else -%}
+              {%- break -%}
             {%- endif -%}
-            <a href="{{ best_coll.url }}">{{ best_coll.title }}</a>
-            <span>/</span>
-          {%- elsif product.type != blank -%}
-            <span>{{ product.type }}</span>
-            <span>/</span>
+          {%- endfor -%}
+          {%- if breadcrumb_chain != '' -%}
+            {%- assign crumb_titles = breadcrumb_chain | split: '|||' -%}
+            {%- assign crumb_urls = breadcrumb_urls | split: '|||' -%}
+            {%- for crumb_title in crumb_titles -%}
+              <a href="{{ crumb_urls[forloop.index0] }}">{{ crumb_title }}</a>
+              <span>/</span>
+            {%- endfor -%}
           {%- endif -%}
+          <a href="{{ best_coll.url }}">{{ best_coll.title }}</a>
+          <span>/</span>
+        {%- elsif product.type != blank -%}
+          <span>{{ product.type }}</span>
+          <span>/</span>
         {%- endif -%}
         <span>{{ product.title }}</span>
       </nav>
