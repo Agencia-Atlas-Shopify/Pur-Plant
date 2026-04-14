@@ -52,6 +52,7 @@
             "content_source": "descripcion_corta",
             "custom_content": "",
             "metafield_key": "",
+            "video_url": "",
             "open_by_default": true
           }
         },
@@ -62,6 +63,7 @@
             "content_source": "description",
             "custom_content": "",
             "metafield_key": "",
+            "video_url": "",
             "open_by_default": false
           }
         },
@@ -72,6 +74,7 @@
             "content_source": "metafield",
             "custom_content": "",
             "metafield_key": "cuidados",
+            "video_url": "",
             "open_by_default": false
           }
         },
@@ -82,6 +85,7 @@
             "content_source": "medidas",
             "custom_content": "",
             "metafield_key": "",
+            "video_url": "",
             "open_by_default": false
           }
         },
@@ -92,6 +96,7 @@
             "content_source": "custom",
             "custom_content": "",
             "metafield_key": "",
+            "video_url": "",
             "open_by_default": false
           }
         },
@@ -100,8 +105,9 @@
           "settings": {
             "heading": "ENVÍOS",
             "content_source": "custom",
-            "custom_content": "",
+            "custom_content": "<p>Pídelo hoy, recíbelo en 24–48h laborales</p><p>Envío cuidado al detalle: seguro, sostenible y pensado para que llegue perfecto (y a prueba de repartidores)</p><p>👉 Haz tu pedido hoy y lo tendrás en casa antes de lo que esperas.</p><p></p>",
             "metafield_key": "",
+            "video_url": "https://youtu.be/P9bTqV43Qz4?si=TfX_cJk2ePr6Ff0l",
             "open_by_default": false
           }
         },
