@@ -68,6 +68,16 @@
   min-width: 0;
 }
 
+/* Link wrapper (contains the video-wrappers) must occupy the full
+   grid cell so the videos inside fill the slide height */
+.pp-hero-slider__slide > .pp-hero-slider__link {
+  grid-area: 1 / 1 / -1 / -1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
 @media screen and (min-width: 700px) {
   .pp-hero-slider__slide {
     height: var(--rc-slide-height-desktop, 100vh);

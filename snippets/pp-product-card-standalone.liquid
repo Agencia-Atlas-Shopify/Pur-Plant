@@ -498,21 +498,29 @@
   }
 
   .pp-card__quick-add-single {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
-    padding: 0.625rem 1rem;
-    background: rgb(0 0 0);
-    color: rgb(255 255 255);
-    border: none;
-    font-size: var(--text-xs, 0.6875rem);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    padding: 10px 16px;
+    background-color: #e4ffd3;
+    color: #23372c;
+    border: 1px solid #23372c;
+    border-radius: 100px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+    line-height: 1;
     cursor: pointer;
-    transition: background 0.2s ease;
+    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
   }
 
   .pp-card__quick-add-single:hover {
-    background: rgb(40 40 40);
+    background-color: #23372c;
+    color: #e4ffd3;
+    border-color: #23372c;
   }
 
   .pp-card__quick-add-variants {
