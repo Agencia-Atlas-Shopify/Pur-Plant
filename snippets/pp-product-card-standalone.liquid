@@ -92,18 +92,18 @@
       {%- comment -%} Check for inventory badges {%- endcomment -%}
       {%- if product.available == false -%}
         {%- assign has_badge = true -%}
-        {%- assign badge_text = 'Sold Out' -%}
+        {%- assign badge_text = 'Agotado' -%}
         {%- assign badge_class = 'pp-badge--sold-out' -%}
       {%- elsif product.variants.first.inventory_quantity <= 5 and product.variants.first.inventory_quantity > 0 -%}
         {%- assign has_badge = true -%}
-        {%- assign badge_text = 'Last Units' -%}
+        {%- assign badge_text = 'Últimas unidades' -%}
         {%- assign badge_class = 'pp-badge--last-units' -%}
       {%- endif -%}
 
       {%- comment -%} Check for sale badge {%- endcomment -%}
       {%- if product.compare_at_price > product.price and has_badge == false -%}
         {%- assign has_badge = true -%}
-        {%- assign badge_text = 'Sale' -%}
+        {%- assign badge_text = 'Oferta' -%}
         {%- assign badge_class = 'pp-badge--sale' -%}
       {%- endif -%}
 
