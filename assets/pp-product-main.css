@@ -564,7 +564,8 @@
   text-decoration: none;
 }
 
-.pp-pdp__add-to-cart:hover {
+.pp-pdp__add-to-cart:hover,
+.pp-pdp__add-to-cart-btn:hover {
   background-color: #23372c;
   color: #e4ffd3;
   border-color: #23372c;

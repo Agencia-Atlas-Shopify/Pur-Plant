@@ -53,7 +53,7 @@
         "enable_transparent_header": false,
         "full_height_mobile": false,
         "height_mobile": 500,
-        "full_height_desktop": false,
+        "full_height_desktop": true,
         "height_desktop": 750,
         "autoplay": false,
         "autoplay_speed": 5,
