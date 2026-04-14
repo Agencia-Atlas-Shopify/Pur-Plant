@@ -65,17 +65,15 @@
 
   .pp-header__logo img { display: block; }
 
-  /* === Hero slider — prevent CLS === */
+  /* === Hero slider — minimal hints (real sizing in pp-hero-slider.css) === */
   .pp-hero-slider {
     position: relative;
     width: 100%;
-    aspect-ratio: 16 / 9;
     overflow: hidden;
     background: #000;
   }
 
   @media screen and (max-width: 749px) {
-    .pp-hero-slider { aspect-ratio: 4 / 5; }
     .pp-header { max-width: calc(100% - 30px); }
     .pp-header__inner { padding: 8px 15px; }
   }
