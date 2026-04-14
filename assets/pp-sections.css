@@ -1252,6 +1252,17 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
   display: none !important;
 }
 
+/* Force Swym wishlist heart to brand green (stroke is hardcoded #000 inline) */
+.swym-advanced-wishlist-collections {
+  color: #22372c !important;
+}
+.swym-advanced-wishlist-collections svg path {
+  stroke: #22372c !important;
+}
+.swym-advanced-wishlist-collections[aria-pressed="true"] svg path {
+  fill: #22372c !important;
+}
+
 /* ═══════════════════════════════════════════
    Blog post content (article body from rich text)
    Normalises the legacy WP markup so images stay
