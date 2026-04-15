@@ -2,18 +2,16 @@
   .pp-footer {
     background: #23372c;
     color: #e4ffd3;
-    padding: 80px var(--page-margin, 40px) 40px;
+    padding: 60px var(--page-margin, 40px) 32px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 0;
-    min-height: 400px;
-    justify-content: space-between;
+    gap: 48px;
   }
 
-  .pp-footer__logo {
-    align-self: flex-start;
-    margin-bottom: auto;
+  .pp-footer__top {
+    display: flex;
+    align-items: flex-start;
+    gap: 48px;
   }
 
   .pp-footer__logo img {
@@ -23,25 +21,75 @@
     display: block;
   }
 
+  .pp-footer__cols {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 32px 24px;
+  }
+
+  .pp-footer__col-heading {
+    font-family: 'Tenor Sans', Georgia, serif;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #e4ffd3;
+    margin: 0 0 14px;
+    line-height: 1.3;
+  }
+
+  .pp-footer__col ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .pp-footer__col a,
+  .pp-footer__col p {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #e4ffd3;
+    text-decoration: none;
+    opacity: 0.85;
+    margin: 0;
+    line-height: 1.5;
+    transition: opacity 0.2s;
+  }
+
+  .pp-footer__col a:hover {
+    opacity: 1;
+  }
+
+  .pp-footer__contact-text {
+    white-space: pre-line;
+  }
+
   .pp-footer__bottom {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 28px;
+    gap: 24px;
     width: 100%;
+    border-top: 1px solid rgba(228, 255, 211, 0.15);
+    padding-top: 28px;
   }
 
   .pp-footer__social {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 32px;
+    gap: 28px;
     flex-wrap: wrap;
   }
 
   .pp-footer__social a {
     font-family: 'Tenor Sans', Georgia, serif;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 400;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -50,33 +98,28 @@
     transition: opacity 0.2s;
   }
 
-  .pp-footer__social a:hover {
-    opacity: 0.6;
-  }
+  .pp-footer__social a:hover { opacity: 0.6; }
 
   .pp-footer__legal {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 28px;
+    gap: 24px;
     flex-wrap: wrap;
   }
 
   .pp-footer__legal a {
     font-family: 'Inter', sans-serif;
-    font-size: 15px;
-    font-weight: 400;
+    font-size: 13px;
     color: #e4ffd3;
     text-decoration: none;
-    opacity: 0.8;
+    opacity: 0.75;
     transition: opacity 0.2s;
   }
 
-  .pp-footer__legal a:hover {
-    opacity: 1;
-  }
+  .pp-footer__legal a:hover { opacity: 1; }
 
-  .pp-footer__contact {
+  .pp-footer__contact-bar {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -84,8 +127,8 @@
   }
 
   .pp-footer__contact-logo {
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
     display: block;
   }
@@ -102,9 +145,7 @@
     transition: opacity 0.2s;
   }
 
-  .pp-footer__whatsapp:hover {
-    opacity: 0.7;
-  }
+  .pp-footer__whatsapp:hover { opacity: 0.7; }
 
   .pp-footer__payments {
     display: flex;
@@ -115,75 +156,80 @@
   }
 
   .pp-footer__payment-icon {
-    height: 24px;
+    height: 22px;
     width: auto;
     opacity: 0.7;
     transition: opacity 0.2s;
   }
 
-  .pp-footer__payment-icon:hover {
-    opacity: 1;
-  }
+  .pp-footer__payment-icon:hover { opacity: 1; }
 
   .pp-footer__copyright {
     font-family: 'Inter', sans-serif;
     font-size: 12px;
-    font-weight: 400;
     color: #e4ffd3;
     opacity: 0.6;
     letter-spacing: 0.05em;
   }
 
+  @media screen and (max-width: 999px) {
+    .pp-footer__top { flex-direction: column; gap: 32px; }
+  }
+
   @media screen and (max-width: 749px) {
-    .pp-footer {
-      padding: 60px 20px 30px;
-      min-height: 320px;
-    }
-
-    .pp-footer__social {
-      gap: 20px;
-    }
-
-    .pp-footer__social a {
-      font-size: 12px;
-    }
-
-    .pp-footer__legal {
-      gap: 16px;
-    }
-
-    .pp-footer__legal a {
-      font-size: 12px;
-    }
+    .pp-footer { padding: 48px 20px 24px; gap: 36px; }
+    .pp-footer__cols { grid-template-columns: repeat(2, 1fr); gap: 28px 16px; }
+    .pp-footer__col-heading { font-size: 12px; margin-bottom: 10px; }
+    .pp-footer__col a, .pp-footer__col p { font-size: 13px; }
+    .pp-footer__social { gap: 18px; }
+    .pp-footer__social a { font-size: 12px; }
+    .pp-footer__legal { gap: 14px; }
+    .pp-footer__legal a { font-size: 12px; }
   }
 </style>
 
 <footer class="pp-footer">
-  <div class="pp-footer__logo">
-    {%- if section.settings.logo != blank -%}
-      <img src="{{ section.settings.logo | image_url: width: 120 }}" alt="Pur Plant" width="60" height="60">
-    {%- else -%}
-      <img src="{{ 'logo_pur_plant_isotipo.png' | asset_url }}" alt="Pur Plant" width="60" height="60">
-    {%- endif -%}
+  <div class="pp-footer__top">
+    <div class="pp-footer__logo">
+      {%- if section.settings.logo != blank -%}
+        <img src="{{ section.settings.logo | image_url: width: 120 }}" alt="Pur Plant" width="60" height="60">
+      {%- else -%}
+        <img src="{{ 'logo_pur_plant_isotipo.png' | asset_url }}" alt="Pur Plant" width="60" height="60">
+      {%- endif -%}
+    </div>
+
+    <div class="pp-footer__cols">
+      {%- for block in section.blocks -%}
+        <div class="pp-footer__col" {{ block.shopify_attributes }}>
+          {%- if block.settings.heading != blank -%}
+            <h3 class="pp-footer__col-heading">{{ block.settings.heading }}</h3>
+          {%- endif -%}
+          {%- case block.type -%}
+            {%- when 'links_column' -%}
+              {%- if block.settings.menu != blank -%}
+                <ul>
+                  {%- for link in block.settings.menu.links -%}
+                    <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+            {%- when 'contact_column' -%}
+              {%- if block.settings.content != blank -%}
+                <p class="pp-footer__contact-text">{{ block.settings.content }}</p>
+              {%- endif -%}
+          {%- endcase -%}
+        </div>
+      {%- endfor -%}
+    </div>
   </div>
 
   <div class="pp-footer__bottom">
     <nav class="pp-footer__social">
-      {%- if section.settings.instagram_url != blank -%}
-        <a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener">Instagram</a>
-      {%- endif -%}
-      {%- if section.settings.tiktok_url != blank -%}
-        <a href="{{ section.settings.tiktok_url }}" target="_blank" rel="noopener">Tik Tok</a>
-      {%- endif -%}
-      {%- if section.settings.pinterest_url != blank -%}
-        <a href="{{ section.settings.pinterest_url }}" target="_blank" rel="noopener">Pinterest</a>
-      {%- endif -%}
-      {%- if section.settings.facebook_url != blank -%}
-        <a href="{{ section.settings.facebook_url }}" target="_blank" rel="noopener">Facebook</a>
-      {%- endif -%}
-      {%- if section.settings.youtube_url != blank -%}
-        <a href="{{ section.settings.youtube_url }}" target="_blank" rel="noopener">YouTube</a>
-      {%- endif -%}
+      {%- if section.settings.instagram_url != blank -%}<a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener">Instagram</a>{%- endif -%}
+      {%- if section.settings.tiktok_url != blank -%}<a href="{{ section.settings.tiktok_url }}" target="_blank" rel="noopener">Tik Tok</a>{%- endif -%}
+      {%- if section.settings.pinterest_url != blank -%}<a href="{{ section.settings.pinterest_url }}" target="_blank" rel="noopener">Pinterest</a>{%- endif -%}
+      {%- if section.settings.facebook_url != blank -%}<a href="{{ section.settings.facebook_url }}" target="_blank" rel="noopener">Facebook</a>{%- endif -%}
+      {%- if section.settings.youtube_url != blank -%}<a href="{{ section.settings.youtube_url }}" target="_blank" rel="noopener">YouTube</a>{%- endif -%}
     </nav>
 
     {%- if section.settings.legal_menu != blank -%}
@@ -204,11 +250,11 @@
       </svg>
     </div>
 
-    <div class="pp-footer__contact">
+    <div class="pp-footer__contact-bar">
       {%- if section.settings.logo != blank -%}
-        <img src="{{ section.settings.logo | image_url: width: 48 }}" alt="Pur Plant" width="24" height="24" class="pp-footer__contact-logo" loading="lazy">
+        <img src="{{ section.settings.logo | image_url: width: 48 }}" alt="Pur Plant" width="22" height="22" class="pp-footer__contact-logo" loading="lazy">
       {%- else -%}
-        <img src="{{ 'logo_pur_plant_isotipo.png' | asset_url }}" alt="Pur Plant" width="24" height="24" class="pp-footer__contact-logo" loading="lazy">
+        <img src="{{ 'logo_pur_plant_isotipo.png' | asset_url }}" alt="Pur Plant" width="22" height="22" class="pp-footer__contact-logo" loading="lazy">
       {%- endif -%}
       <a href="https://wa.me/34667279907" target="_blank" rel="noopener" class="pp-footer__whatsapp" aria-label="WhatsApp">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -227,51 +273,49 @@
   "name": "PP Footer",
   "tag": "section",
   "class": "pp-footer-section",
+  "max_blocks": 8,
   "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo (isotipo)" },
+    { "type": "link_list", "id": "legal_menu", "label": "Legal menu" },
+    { "type": "header", "content": "Social links" },
+    { "type": "url", "id": "instagram_url", "label": "Instagram" },
+    { "type": "url", "id": "tiktok_url", "label": "TikTok" },
+    { "type": "url", "id": "pinterest_url", "label": "Pinterest" },
+    { "type": "url", "id": "facebook_url", "label": "Facebook" },
+    { "type": "url", "id": "youtube_url", "label": "YouTube" }
+  ],
+  "blocks": [
     {
-      "type": "image_picker",
-      "id": "logo",
-      "label": "Logo (isotipo)"
+      "type": "links_column",
+      "name": "Columna de enlaces",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Columna" },
+        { "type": "link_list", "id": "menu", "label": "Menú" }
+      ]
     },
     {
-      "type": "link_list",
-      "id": "legal_menu",
-      "label": "Legal menu"
-    },
-    {
-      "type": "header",
-      "content": "Social links"
-    },
-    {
-      "type": "url",
-      "id": "instagram_url",
-      "label": "Instagram"
-    },
-    {
-      "type": "url",
-      "id": "tiktok_url",
-      "label": "TikTok"
-    },
-    {
-      "type": "url",
-      "id": "pinterest_url",
-      "label": "Pinterest"
-    },
-    {
-      "type": "url",
-      "id": "facebook_url",
-      "label": "Facebook"
-    },
-    {
-      "type": "url",
-      "id": "youtube_url",
-      "label": "YouTube"
+      "type": "contact_column",
+      "name": "Columna de contacto / texto",
+      "limit": 2,
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "CONTÁCTANOS" },
+        { "type": "textarea", "id": "content", "label": "Contenido", "default": "info@purplant.es\n667 279 907\nL-V 8:00 - 17:00" }
+      ]
     }
   ],
   "presets": [
     {
       "name": "PP Footer",
-      "category": "Pur Plant"
+      "category": "Pur Plant",
+      "blocks": [
+        { "type": "links_column", "settings": { "heading": "¿DÓNDE ESTÁ MI PEDIDO?" } },
+        { "type": "links_column", "settings": { "heading": "PLANTAS QUE ENGANCHAN" } },
+        { "type": "contact_column", "settings": { "heading": "CONTÁCTANOS", "content": "info@purplant.es\n667 279 907\nL-V 8:00 - 17:00" } },
+        { "type": "links_column", "settings": { "heading": "SOBRE NOSOTRXS" } },
+        { "type": "links_column", "settings": { "heading": "PLANTAS A DOMICILIO" } },
+        { "type": "links_column", "settings": { "heading": "ÁRBOLES A DOMICILIO" } },
+        { "type": "links_column", "settings": { "heading": "FLORES" } }
+      ]
     }
   ]
 }
