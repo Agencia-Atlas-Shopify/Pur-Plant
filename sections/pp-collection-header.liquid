@@ -454,7 +454,7 @@
               {%- for value in filter.values -%}
                 {%- if value.count > 0 or value.active -%}
                   <li>
-                    <a href="{{ value.url }}" class="pp-ch__filter-option{% if value.active %} is-active{% endif %}">
+                    <a href="{% if value.active %}{{ value.url_to_remove }}{% else %}{{ value.url_to_add }}{% endif %}" class="pp-ch__filter-option{% if value.active %} is-active{% endif %}">
                       <span class="pp-ch__filter-checkbox">
                         {%- if value.active -%}
                           <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
