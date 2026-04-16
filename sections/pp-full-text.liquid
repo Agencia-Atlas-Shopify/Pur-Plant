@@ -1,0 +1,184 @@
+<div class="pp-full-text" style="
+  background: {{ section.settings.bg_color }};
+  padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+">
+  <p class="pp-full-text__line" data-pp-full-text>{{ section.settings.text }}</p>
+</div>
+
+<style>
+.pp-full-text {
+  overflow: hidden;
+  width: 100%;
+}
+
+.pp-full-text__line {
+  display: block;
+  width: 100%;
+  white-space: nowrap;
+  font-family: 'Tenor Sans', Georgia, serif;
+  font-weight: {{ section.settings.font_weight }};
+  color: {{ section.settings.text_color }};
+  text-transform: {{ section.settings.text_transform }};
+  letter-spacing: {{ section.settings.letter_spacing | divided_by: 1000.0 }}em;
+  line-height: 1;
+  margin: 0;
+  padding: 0;
+  /* font-size set by JS */
+  font-size: 10vw;
+}
+</style>
+
+<script>
+(function() {
+  function fitText(el) {
+    if (!el) return;
+    var parent = el.parentElement;
+    var target = parent.clientWidth;
+    if (!target) return;
+
+    // Binary search for the right font-size
+    var lo = 8, hi = 600, mid;
+    el.style.fontSize = hi + 'px';
+
+    for (var i = 0; i < 30; i++) {
+      mid = (lo + hi) / 2;
+      el.style.fontSize = mid + 'px';
+      if (el.scrollWidth < target) {
+        lo = mid;
+      } else {
+        hi = mid;
+      }
+    }
+    el.style.fontSize = lo + 'px';
+  }
+
+  function init() {
+    document.querySelectorAll('[data-pp-full-text]').forEach(fitText);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  // Re-fit on resize
+  var ro = window.ResizeObserver
+    ? new ResizeObserver(function() { document.querySelectorAll('[data-pp-full-text]').forEach(fitText); })
+    : null;
+
+  document.querySelectorAll('[data-pp-full-text]').forEach(function(el) {
+    if (ro) ro.observe(el.parentElement);
+  });
+
+  // Shopify theme editor re-render
+  document.addEventListener('shopify:section:load', function(e) {
+    var el = e.target.querySelector('[data-pp-full-text]');
+    if (el) fitText(el);
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "PP Full Text",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Text",
+      "default": "VOLVER A LA TIERRA"
+    },
+    {
+      "type": "range",
+      "id": "letter_spacing",
+      "label": "Letter spacing (Figma tracking)",
+      "info": "1000 = 1em. E.g. 445 = 0.445em",
+      "min": 0,
+      "max": 1000,
+      "step": 5,
+      "default": 445
+    },
+    {
+      "type": "select",
+      "id": "text_transform",
+      "label": "Case",
+      "options": [
+        { "value": "uppercase", "label": "UPPERCASE" },
+        { "value": "none", "label": "As written" },
+        { "value": "capitalize", "label": "Capitalize" }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "select",
+      "id": "font_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "400", "label": "Regular 400" },
+        { "value": "700", "label": "Bold 700" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#23372c"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    }
+  ],
+  "presets": [
+    {
+      "name": "PP Full Text",
+      "category": "Pur Plant",
+      "settings": {
+        "text": "VOLVER A LA TIERRA",
+        "letter_spacing": 445,
+        "text_transform": "uppercase",
+        "font_weight": "400",
+        "bg_color": "#ffffff",
+        "text_color": "#23372c",
+        "padding_top": 24,
+        "padding_bottom": 24
+      }
+    }
+  ]
+}
+{% endschema %}
