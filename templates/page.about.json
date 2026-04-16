@@ -207,6 +207,47 @@
         "padding_top": 48,
         "padding_bottom": 48
       }
+    },
+    "pp_trust_badges_i9j4mq": {
+      "type": "pp-trust-badges",
+      "blocks": {
+        "badge_dDcpQJ": {
+          "type": "badge",
+          "settings": {
+            "icon": "shopify://shop_images/width_800-1.webp",
+            "title": "más que plantas",
+            "description": "Creemos que las plantas no son solo decoración, sino una forma de transformar cómo vivimos. Queremos que formen parte de tu día a día y te ayuden a volver al  presente, porque lo mágico ocurre cuando entiendes su poder y lo integras en \ntu vida."
+          }
+        },
+        "badge_Tj73xX": {
+          "type": "badge",
+          "settings": {
+            "icon": "shopify://shop_images/width_800-2.webp",
+            "title": "SIEMPRE CONTIGO",
+            "description": "Detrás de Pur Plant hay un equipo de Plant Lovers que te acompaña, siempre aprendiendo y con una mirada consciente. Colaboramos con artesanxs locales y cultivadores de toda Europa para ofrecerte calidad cuidada, con alma \ny accesible."
+          }
+        },
+        "badge_iG4ywW": {
+          "type": "badge",
+          "settings": {
+            "icon": "shopify://shop_images/width_800-3.webp",
+            "title": "PACKAGING SEGURO",
+            "description": "Cuidamos cada detalle para que tu pedido llegue en perfectas condiciones. Utilizamos un packaging seguro y libre de plásticos, pensado para resistir el trayecto, y apostamos por materiales sostenibles en todo el proceso."
+          }
+        }
+      },
+      "block_order": [
+        "badge_dDcpQJ",
+        "badge_Tj73xX",
+        "badge_iG4ywW"
+      ],
+      "name": "PP Trust Badges",
+      "settings": {
+        "heading": "POR QUÉ COMPRAR EN PUR PLANT",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "icon_size": 80
+      }
     }
   },
   "order": [
@@ -216,6 +257,7 @@
     "pp_full_text_WqDxdT",
     "pp_richtext_about",
     "pp_image_full_k7zLaB",
-    "pp_brand_banner_7LXEHL"
+    "pp_brand_banner_7LXEHL",
+    "pp_trust_badges_i9j4mq"
   ]
 }
