@@ -138,6 +138,25 @@
     display: block;
   }
 
+  .pp-content__video {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    margin: 0 0 24px;
+    border-radius: var(--pp-radius);
+    overflow: hidden;
+    background: #000;
+    max-width: 800px;
+  }
+
+  .pp-content__video iframe,
+  .pp-content__video video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
   /* --- Section with image+text side by side --- */
   .pp-problemas__section {
     margin-bottom: 15px;
