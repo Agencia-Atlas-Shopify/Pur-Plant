@@ -169,20 +169,6 @@
         "padding_bottom": 48,
         "padding_inline": 24
       }
-    },
-    "pp_image_full_about": {
-      "type": "pp-image-full",
-      "name": "PP Image Full",
-      "settings": {
-        "focal_point": "center center",
-        "max_width_pct": 100,
-        "align": "center",
-        "height": 500,
-        "height_mobile": 300,
-        "bg_color": "#ffffff",
-        "padding_top": 0,
-        "padding_bottom": 0
-      }
     }
   },
   "order": [
@@ -190,7 +176,6 @@
     "pp_hero_slider_9CcLiK",
     "pp_about_split_GApnwF",
     "pp_full_text_WqDxdT",
-    "pp_richtext_about",
-    "pp_image_full_about"
+    "pp_richtext_about"
   ]
 }
