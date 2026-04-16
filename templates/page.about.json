@@ -158,10 +158,10 @@
       "name": "PP Rich Text",
       "settings": {
         "content": "<p>Volver a la tierra no es solo nuestro claim, es una declaración de principios. Somos una marca real y auténtica, profundamente conectada con lo orgánico, con el origen de todo: la semilla, el suelo, la naturaleza viva.</p><p>Creemos en el poder transformador de las plantas, en su belleza, en su capacidad de generar bienestar y alegría en cualquier espacio.</p><p>En Pur Plant queremos llenar de verde cada rincón, inspirar a las personas a reconectar con la naturaleza, a crear su propia jungla urbana y a encontrar felicidad en lo esencial: cuidar de lo vivo.</p><p>Amamos la botánica y la compartimos con pasión. Somos una tribu creativa, curiosa y un poco salvaje. Nos mueve la libertad, la innovación y la calidad, pero también el detalle, el diseño y la armonía.</p><p>Nuestro estilo combina lo orgánico con lo actual: nos gusta explorar nuevas formas, romper moldes y sorprender.</p><p>Somos pioneros en diseñar productos de cuidados para Plant Lovers y contamos con uno de los mejores catálogos de plantas naturales, pero con el alma bien arraigada en la tierra.</p><p>Pur Plant es mucho más que una tienda online de plantas: es un estilo de vida, una comunidad botánica con voz propia. Enseñamos a cuidar las plantas, pero también a disfrutar del proceso. A través de nuestra propuesta, acercamos lo verde a la vida cotidiana, combinando tecnología, tendencias, buen gusto y mucho corazón.</p><p>En nuestra selva todxs son bienvenidxs. Aquí brota la buena vibra.</p>",
-        "font_size": 17,
+        "font_size": 25,
         "font_weight": "400",
         "line_height": 16,
-        "text_align": "left",
+        "text_align": "center",
         "max_width": 860,
         "bg_color": "#ffffff",
         "text_color": "#23372c",
@@ -174,11 +174,11 @@
       "type": "pp-image-full",
       "name": "PP Image Full",
       "settings": {
+        "focal_point": "center center",
         "max_width_pct": 100,
         "align": "center",
         "height": 500,
         "height_mobile": 300,
-        "focal_point": "center center",
         "bg_color": "#ffffff",
         "padding_top": 0,
         "padding_bottom": 0
