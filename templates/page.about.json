@@ -116,31 +116,17 @@
         "button_text_color": "0 0 0"
       }
     },
-    "pp_brand_banner_Fqg7DL": {
-      "type": "pp-brand-banner",
-      "name": "PP Brand Banner",
-      "settings": {
-        "heading": "pur plant es la marca que \ncree en el poder de las plantas.",
-        "subheading": "",
-        "button_label": "Más sobre Nosotrxs",
-        "button_link": "",
-        "video_url": "",
-        "image": "shopify://shop_images/width_533.webp",
-        "image_position": "right",
-        "image_overflow": 48,
-        "video_max_width": 400,
-        "bg_color": "#ffffff",
-        "text_color": "#23372c",
-        "padding_top": 48,
-        "padding_bottom": 48
-      }
-    },
     "pp_about_split_GApnwF": {
       "type": "pp-about-split",
       "name": "PP About Split",
       "settings": {
         "heading": "PUR PLANT ES LA MARCA QUE CREE EN EL PODER DE LAS PLANTAS.",
+        "heading_weight": "600",
         "body": "SOMOS LOS BOTÁNICOS DEL SXXI QUE OFRECEMOS BIENESTAR A TRAVÉS DE LA RE-CONEXIÓN CON LA NATURALEZA.",
+        "body_weight": "500",
+        "text_align": "left",
+        "vertical_align": "start",
+        "text_width": 70,
         "button_label": "",
         "button_link": "",
         "image": "shopify://shop_images/width_533.webp",
@@ -156,7 +142,6 @@
   "order": [
     "main",
     "pp_hero_slider_9CcLiK",
-    "pp_brand_banner_Fqg7DL",
     "pp_about_split_GApnwF"
   ]
 }
