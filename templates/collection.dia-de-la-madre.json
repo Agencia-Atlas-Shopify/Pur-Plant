@@ -175,7 +175,7 @@
           "settings": {
             "source": "uploaded",
             "video": "shopify://files/videos/unboxing pur plant.mp4",
-            "video_autoplay": false,
+            "video_autoplay": true,
             "video_loop": true,
             "alt": "",
             "custom_width": 100,
