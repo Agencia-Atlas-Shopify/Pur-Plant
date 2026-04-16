@@ -14,7 +14,7 @@
 
   var DAYS = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
   var MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-  var SHIP_DAYS = 2;
+  var SHIP_DAYS = 1;
 
   function addBizDays(date, n) {
     var d = new Date(date);
