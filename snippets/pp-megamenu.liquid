@@ -351,17 +351,31 @@
   function positionMega() {
     var header = document.querySelector('.pp-header');
     if (!header) return;
-    /* When scrolled, announcement bar is hidden (CSS) so .pp-header.bottom = nav only.
-       When not scrolled, .pp-header.bottom includes announcement bar — correct. */
-    var rect = header.getBoundingClientRect();
-    var top;
-    if (rect.top >= 0 && rect.bottom > 0 && rect.bottom < 500) {
-      top = rect.bottom;
+
+    var isScrolled = header.classList.contains('pp-header--scrolled');
+    var top, marginTop;
+
+    if (isScrolled) {
+      /* Scrolled: announcement bar hidden. Anchor to inner nav bottom,
+         let CSS margin-top eat the border-radius. */
+      var inner = header.querySelector('.pp-header__inner') || header;
+      var rect = inner.getBoundingClientRect();
+      top = (rect.top >= 0 && rect.bottom > 0 && rect.bottom < 500)
+        ? rect.bottom
+        : (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--pp-header-height')) || 80);
+      marginTop = 'calc(-1 * var(--pp-header-border-radius, 16px))';
     } else {
-      var h = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--pp-header-height')) || 80;
-      top = h;
+      /* Not scrolled: announcement bar visible. Anchor to full header bottom.
+         No border-radius compensation — announcement bar has no rounded corners. */
+      var rect2 = header.getBoundingClientRect();
+      top = (rect2.top >= 0 && rect2.bottom > 0 && rect2.bottom < 500)
+        ? rect2.bottom
+        : (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--pp-header-height')) || 80);
+      marginTop = '0px';
     }
+
     mega.style.setProperty('--pp-mega-top', top + 'px');
+    mega.style.marginTop = marginTop;
   }
   positionMega();
   window.addEventListener('scroll', positionMega);
