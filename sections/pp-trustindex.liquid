@@ -1,6 +1,20 @@
-<div class="pp-trustindex" style="padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;">
+<div class="pp-trustindex" style="padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px; text-align: center;">
+  {%- if section.settings.heading != blank -%}
+    <p class="pp-trustindex__heading">{{ section.settings.heading }}</p>
+  {%- endif -%}
   <script async src="https://cdn.trustindex.io/loader.js?{{ section.settings.widget_id }}"></script>
 </div>
+
+<style>
+.pp-trustindex__heading {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  font-weight: 400;
+  color: #23372c;
+  margin: 0 auto {{ section.settings.heading_gap }}px;
+  max-width: 680px;
+}
+</style>
 
 {% schema %}
 {
@@ -11,6 +25,21 @@
       "id": "widget_id",
       "label": "Widget ID",
       "default": "6b1680714ea4723b58863bbcb6f"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "esto solo se consigue dando lo mejor"
+    },
+    {
+      "type": "range",
+      "id": "heading_gap",
+      "label": "Heading bottom gap",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "default": 32
     },
     {
       "type": "range",
