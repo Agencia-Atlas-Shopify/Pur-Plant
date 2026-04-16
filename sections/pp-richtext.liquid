@@ -1,0 +1,178 @@
+<section class="pp-richtext" style="
+  background: {{ section.settings.bg_color }};
+  padding: {{ section.settings.padding_top }}px {{ section.settings.padding_inline }}px {{ section.settings.padding_bottom }}px;
+">
+  <div class="pp-richtext__inner" style="max-width: {{ section.settings.max_width }}px; text-align: {{ section.settings.text_align }};">
+    {{ section.settings.content }}
+  </div>
+</section>
+
+<style>
+.pp-richtext__inner {
+  margin: 0 auto;
+}
+
+.pp-richtext__inner p,
+.pp-richtext__inner li {
+  font-family: 'Tenor Sans', Georgia, serif;
+  font-size: {{ section.settings.font_size }}px;
+  font-weight: {{ section.settings.font_weight }};
+  color: {{ section.settings.text_color }};
+  line-height: {{ section.settings.line_height | divided_by: 10.0 }};
+  margin: 0 0 1.2em;
+}
+
+.pp-richtext__inner p:last-child {
+  margin-bottom: 0;
+}
+
+.pp-richtext__inner strong {
+  font-weight: 700;
+}
+
+.pp-richtext__inner em {
+  font-style: italic;
+}
+
+.pp-richtext__inner a {
+  color: {{ section.settings.text_color }};
+  text-decoration: underline;
+}
+
+@media screen and (max-width: 749px) {
+  .pp-richtext__inner p,
+  .pp-richtext__inner li {
+    font-size: calc({{ section.settings.font_size }}px * 0.9);
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "PP Rich Text",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content",
+      "default": "<p>Escribe aquí el contenido.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Font size (px)",
+      "min": 10,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 17
+    },
+    {
+      "type": "select",
+      "id": "font_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "300", "label": "Light 300" },
+        { "value": "400", "label": "Regular 400" },
+        { "value": "500", "label": "Medium 500" },
+        { "value": "700", "label": "Bold 700" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "range",
+      "id": "line_height",
+      "label": "Line height",
+      "min": 10,
+      "max": 25,
+      "step": 1,
+      "default": 16,
+      "info": "Divided by 10. E.g. 16 = 1.6"
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Max width (px)",
+      "min": 400,
+      "max": 1400,
+      "step": 20,
+      "unit": "px",
+      "default": 860
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#23372c"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_inline",
+      "label": "Padding lateral",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    }
+  ],
+  "presets": [
+    {
+      "name": "PP Rich Text",
+      "category": "Pur Plant"
+    }
+  ]
+}
+{% endschema %}
