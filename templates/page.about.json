@@ -143,7 +143,7 @@
       "type": "pp-full-text",
       "name": "PP Full Text",
       "settings": {
-        "text": "VOLVER A LA TIERRA",
+        "text": "Volver a la tierra",
         "letter_spacing": 450,
         "text_transform": "uppercase",
         "font_weight": "400",
@@ -162,7 +162,7 @@
         "font_weight": "400",
         "line_height": 16,
         "text_align": "center",
-        "max_width": 860,
+        "max_width": 880,
         "bg_color": "#ffffff",
         "text_color": "#23372c",
         "padding_top": 48,
@@ -249,7 +249,7 @@
         "heading": "POR QUÉ COMPRAR EN PUR PLANT",
         "padding_top": 40,
         "padding_bottom": 40,
-        "icon_size": 80
+        "icon_size": 350
       }
     }
   },
