@@ -16,7 +16,7 @@
   opacity: 0;
   pointer-events: none;
   border-radius: 0 0 var(--pp-header-border-radius, 16px) var(--pp-header-border-radius, 16px);
-  margin-top: -20px;
+  margin-top: -51px;
 }
 
 .pp-mega[aria-hidden="false"] {
