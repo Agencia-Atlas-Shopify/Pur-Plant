@@ -184,6 +184,25 @@
         "padding_top": 0,
         "padding_bottom": 0
       }
+    },
+    "pp_brand_banner_7LXEHL": {
+      "type": "pp-brand-banner",
+      "name": "PP Brand Banner",
+      "settings": {
+        "heading": "nuestra historia",
+        "subheading": "",
+        "button_label": "",
+        "button_link": "",
+        "video": "shopify://files/videos/AQOYR48pAnCzNSJNqSnEF1YV7AQeL3FpyeUXK5KePf-Rcvq0eghIzLiJwQ-QtUmibBTOfxZntikszfPpB3BiJgALVvi7X8eCgDk8MVY.mp4",
+        "video_url": "",
+        "image_position": "right",
+        "image_overflow": 48,
+        "video_max_width": 400,
+        "bg_color": "#23372c",
+        "text_color": "#daffd3",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
     }
   },
   "order": [
@@ -192,6 +211,7 @@
     "pp_about_split_GApnwF",
     "pp_full_text_WqDxdT",
     "pp_richtext_about",
-    "pp_image_full_k7zLaB"
+    "pp_image_full_k7zLaB",
+    "pp_brand_banner_7LXEHL"
   ]
 }
