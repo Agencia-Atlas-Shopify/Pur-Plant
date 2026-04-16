@@ -115,10 +115,30 @@
         "button_background": "255 255 255",
         "button_text_color": "0 0 0"
       }
+    },
+    "pp_brand_banner_Fqg7DL": {
+      "type": "pp-brand-banner",
+      "name": "PP Brand Banner",
+      "settings": {
+        "heading": "pur plant es la marca que \ncree en el poder de las plantas.",
+        "subheading": "",
+        "button_label": "Más sobre Nosotrxs",
+        "button_link": "",
+        "video_url": "",
+        "image": "shopify://shop_images/width_533.webp",
+        "image_position": "right",
+        "image_overflow": 48,
+        "video_max_width": 400,
+        "bg_color": "#ffffff",
+        "text_color": "#23372c",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
     }
   },
   "order": [
     "main",
-    "pp_hero_slider_9CcLiK"
+    "pp_hero_slider_9CcLiK",
+    "pp_brand_banner_Fqg7DL"
   ]
 }
