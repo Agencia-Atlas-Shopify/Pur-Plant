@@ -351,10 +351,9 @@
   function positionMega() {
     var header = document.querySelector('.pp-header');
     if (!header) return;
-    /* Use .pp-header__inner (nav bar only) so the announcement bar below it
-       never inflates the top value — works correctly whether sticky or not. */
-    var anchor = header.querySelector('.pp-header__inner') || header;
-    var rect = anchor.getBoundingClientRect();
+    /* When scrolled, announcement bar is hidden (CSS) so .pp-header.bottom = nav only.
+       When not scrolled, .pp-header.bottom includes announcement bar — correct. */
+    var rect = header.getBoundingClientRect();
     var top;
     if (rect.top >= 0 && rect.bottom > 0 && rect.bottom < 500) {
       top = rect.bottom;
