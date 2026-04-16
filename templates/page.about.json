@@ -187,6 +187,10 @@
     },
     "pp_brand_banner_7LXEHL": {
       "type": "pp-brand-banner",
+      "custom_css": [
+        "@media (min-width: 990px) {p.pp-brand__copy {line-height: normal; font-size: 60px; font-weight: 800; font-family: \"Aileron\"; padding-bottom: 70px; }}",
+        "@media (max-width: 990px) {p.pp-brand__copy {line-height: normal; font-size: 50px; font-weight: 800; font-family: \"Aileron\"; padding-bottom: 20px; }}"
+      ],
       "name": "PP Brand Banner",
       "settings": {
         "heading": "nuestra historia",
