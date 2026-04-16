@@ -26,7 +26,13 @@
       {%- endif -%}
     </div>
 
-    <div class="pp-about-split__media">
+    <div class="pp-about-split__media" style="
+      {%- if section.settings.image_position == 'right' -%}
+        padding-right: {{ section.settings.image_outer_margin }}px;
+      {%- else -%}
+        padding-left: {{ section.settings.image_outer_margin }}px;
+      {%- endif -%}
+    ">
       {%- if section.settings.image != blank -%}
         {{
           section.settings.image
@@ -267,6 +273,17 @@
         { "value": "left", "label": "Left" }
       ],
       "default": "right"
+    },
+    {
+      "type": "range",
+      "id": "image_outer_margin",
+      "label": "Image outer margin",
+      "info": "Space between image and edge of screen",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 0
     },
     {
       "type": "header",
