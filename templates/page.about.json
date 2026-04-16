@@ -134,11 +134,29 @@
         "padding_top": 48,
         "padding_bottom": 48
       }
+    },
+    "pp_about_split_GApnwF": {
+      "type": "pp-about-split",
+      "name": "PP About Split",
+      "settings": {
+        "heading": "PUR PLANT ES LA MARCA QUE CREE EN EL PODER DE LAS PLANTAS.",
+        "body": "SOMOS LOS BOTÁNICOS DEL SXXI QUE OFRECEMOS BIENESTAR A TRAVÉS DE LA RE-CONEXIÓN CON LA NATURALEZA.",
+        "button_label": "",
+        "button_link": "",
+        "image": "shopify://shop_images/width_533.webp",
+        "image_position": "right",
+        "bg_color": "#ffffff",
+        "text_color": "#23372c",
+        "accent_color": "#23372c",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
     }
   },
   "order": [
     "main",
     "pp_hero_slider_9CcLiK",
-    "pp_brand_banner_Fqg7DL"
+    "pp_brand_banner_Fqg7DL",
+    "pp_about_split_GApnwF"
   ]
 }
