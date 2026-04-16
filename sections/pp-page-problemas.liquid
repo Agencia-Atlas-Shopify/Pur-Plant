@@ -157,6 +157,27 @@
     border: 0;
   }
 
+  .pp-content__cta {
+    margin: 8px 0 24px;
+  }
+  .pp-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px;
+    border: 1px solid var(--pp-dark-green);
+    border-radius: 999px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--pp-dark-green);
+    text-decoration: none;
+    transition: background .2s, color .2s;
+  }
+  .pp-cta-btn:hover { background: var(--pp-dark-green); color: #fff; }
+
   .pp-content__products-inline {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -591,22 +612,24 @@
       html += '<div class="pp-problemas__section"><h2 class="pp-content__heading">' + w.value + '</h2></div>';
 
     } else if (w.type === 'image') {
-      /* Check if this is an image followed by text (standalone, not inside a heading section) */
       var nextText = widgets[i + 1];
+      var imgTag = '<img src="' + w.src + '" alt="' + (w.alt || '') + '" loading="lazy">';
+      var imgWrapped = w.link ? '<a href="' + w.link + '">' + imgTag + '</a>' : imgTag;
       if (nextText && nextText.type === 'text') {
-        /* Render as image-left + text-right card */
         html += '<div class="pp-problemas__section">';
         html += '<div class="pp-problemas__section-body pp-problemas__section-body--with-image">';
-        html += '<div class="pp-problemas__section-image"><img src="' + w.src + '" alt="' + (w.alt || '') + '" loading="lazy"></div>';
+        html += '<div class="pp-problemas__section-image">' + imgWrapped + '</div>';
         html += '<div class="pp-problemas__section-text">' + nextText.value + '</div>';
         html += '</div>';
         html += '</div>';
         widgets[i + 1] = { type: '_consumed' };
       } else {
-        html += '<div class="pp-content__image"><img src="' + w.src + '" alt="' + (w.alt || '') + '" loading="lazy"></div>';
+        html += '<div class="pp-content__image">' + imgWrapped + '</div>';
       }
     } else if (w.type === 'text') {
       html += '<div class="pp-content__text">' + w.value + '</div>';
+    } else if (w.type === 'cta') {
+      html += '<div class="pp-content__cta"><a class="pp-cta-btn" href="' + w.url + '">' + w.text + ' <span aria-hidden="true">→</span></a></div>';
     }
   });
 
