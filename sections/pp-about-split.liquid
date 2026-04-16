@@ -2,18 +2,21 @@
   background: {{ section.settings.bg_color }};
   padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
 ">
-  <div class="pp-about-split__inner {% if section.settings.image_position == 'left' %}pp-about-split__inner--reverse{% endif %}">
+  <div class="pp-about-split__inner {% if section.settings.image_position == 'left' %}pp-about-split__inner--reverse{% endif %}" style="
+    grid-template-columns: {{ section.settings.text_width }}fr {{ 100 | minus: section.settings.text_width }}fr;
+    align-items: {{ section.settings.vertical_align }};
+  ">
 
-    <div class="pp-about-split__text">
+    <div class="pp-about-split__text" style="text-align: {{ section.settings.text_align }};">
       {%- if section.settings.heading != blank -%}
-        <p class="pp-about-split__heading">{{ section.settings.heading }}</p>
+        <p class="pp-about-split__heading" style="font-weight: {{ section.settings.heading_weight }};">{{ section.settings.heading }}</p>
         <svg class="pp-about-split__underline" viewBox="0 0 480 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="none">
           <path d="M4 13 C60 4, 140 16, 240 9 S380 3, 476 11" stroke="{{ section.settings.accent_color }}" stroke-width="3.5" stroke-linecap="round" fill="none"/>
         </svg>
       {%- endif -%}
 
       {%- if section.settings.body != blank -%}
-        <p class="pp-about-split__body">{{ section.settings.body }}</p>
+        <p class="pp-about-split__body" style="font-weight: {{ section.settings.body_weight }};">{{ section.settings.body }}</p>
       {%- endif -%}
 
       {%- if section.settings.button_label != blank -%}
@@ -54,6 +57,7 @@
   max-width: 1400px;
   margin: 0 auto;
   align-items: center;
+  /* column ratio + vertical align overridden by inline style */
 }
 
 .pp-about-split__inner--reverse {
@@ -70,7 +74,6 @@
 .pp-about-split__heading {
   font-family: 'Aileron', var(--font-body--family), sans-serif;
   font-size: clamp(1.6rem, 3.2vw, 2.75rem);
-  font-weight: 900;
   color: {{ section.settings.text_color }};
   line-height: 1.1;
   letter-spacing: 0.02em;
@@ -89,7 +92,6 @@
 .pp-about-split__body {
   font-family: 'Aileron', var(--font-body--family), sans-serif;
   font-size: clamp(0.75rem, 1.1vw, 0.875rem);
-  font-weight: 500;
   color: {{ section.settings.text_color }};
   line-height: 1.7;
   letter-spacing: 0.08em;
@@ -172,10 +174,70 @@
       "default": "PUR PLANT ES LA MARCA QUE CREE EN EL PODER DE LAS PLANTAS."
     },
     {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading weight",
+      "options": [
+        { "value": "300", "label": "Light 300" },
+        { "value": "400", "label": "Regular 400" },
+        { "value": "500", "label": "Medium 500" },
+        { "value": "600", "label": "SemiBold 600" },
+        { "value": "700", "label": "Bold 700" },
+        { "value": "800", "label": "ExtraBold 800" },
+        { "value": "900", "label": "Black 900" }
+      ],
+      "default": "900"
+    },
+    {
       "type": "textarea",
       "id": "body",
       "label": "Body text",
       "default": "SOMOS LOS BOTÁNICOS DEL SXXI QUE OFRECEMOS BIENESTAR A TRAVÉS DE LA RE-CONEXIÓN CON LA NATURALEZA."
+    },
+    {
+      "type": "select",
+      "id": "body_weight",
+      "label": "Body weight",
+      "options": [
+        { "value": "300", "label": "Light 300" },
+        { "value": "400", "label": "Regular 400" },
+        { "value": "500", "label": "Medium 500" },
+        { "value": "600", "label": "SemiBold 600" },
+        { "value": "700", "label": "Bold 700" }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "vertical_align",
+      "label": "Vertical alignment",
+      "options": [
+        { "value": "start", "label": "Top" },
+        { "value": "center", "label": "Center" },
+        { "value": "end", "label": "Bottom" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "text_width",
+      "label": "Text column width (%)",
+      "info": "Image column takes the remaining width",
+      "min": 30,
+      "max": 70,
+      "step": 5,
+      "default": 50
     },
     {
       "type": "text",
@@ -259,7 +321,12 @@
       "category": "Pur Plant",
       "settings": {
         "heading": "PUR PLANT ES LA MARCA QUE CREE EN EL PODER DE LAS PLANTAS.",
+        "heading_weight": "900",
         "body": "SOMOS LOS BOTÁNICOS DEL SXXI QUE OFRECEMOS BIENESTAR A TRAVÉS DE LA RE-CONEXIÓN CON LA NATURALEZA.",
+        "body_weight": "500",
+        "text_align": "left",
+        "vertical_align": "center",
+        "text_width": 50,
         "image_position": "right",
         "bg_color": "#ffffff",
         "text_color": "#23372c",
