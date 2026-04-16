@@ -131,17 +131,33 @@
         "button_link": "",
         "image": "shopify://shop_images/width_533.webp",
         "image_position": "right",
+        "image_outer_margin": 0,
         "bg_color": "#ffffff",
         "text_color": "#23372c",
         "accent_color": "#23372c",
         "padding_top": 0,
         "padding_bottom": 0
       }
+    },
+    "pp_full_text_WqDxdT": {
+      "type": "pp-full-text",
+      "name": "PP Full Text",
+      "settings": {
+        "text": "VOLVER A LA TIERRA",
+        "letter_spacing": 450,
+        "text_transform": "uppercase",
+        "font_weight": "400",
+        "bg_color": "#ffffff",
+        "text_color": "#23372c",
+        "padding_top": 24,
+        "padding_bottom": 24
+      }
     }
   },
   "order": [
     "main",
     "pp_hero_slider_9CcLiK",
-    "pp_about_split_GApnwF"
+    "pp_about_split_GApnwF",
+    "pp_full_text_WqDxdT"
   ]
 }
