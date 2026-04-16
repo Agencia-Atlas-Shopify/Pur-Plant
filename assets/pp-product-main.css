@@ -1553,13 +1553,13 @@
 }
 
 /* ==========================================================================
-   Mobile floating add-to-cart bar
+   Floating add-to-cart bar (mobile + tablet — below 1000px)
    ========================================================================== */
 .pp-pdp__floating-atc {
   display: none;
 }
 
-@media screen and (max-width: 749px) {
+@media screen and (max-width: 999px) {
   .pp-pdp__floating-atc {
     position: fixed;
     left: 12px;
@@ -1641,6 +1641,19 @@
   @supports (padding: max(0px)) {
     .pp-pdp__floating-atc {
       bottom: max(12px, env(safe-area-inset-bottom));
+    }
+  }
+
+  /* On tablet (750-999px), widen the bar to page width */
+  @media screen and (min-width: 750px) {
+    .pp-pdp__floating-atc {
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%) translateY(calc(100% + 24px));
+      width: min(520px, calc(100% - 48px));
+    }
+    .pp-pdp__floating-atc.is-visible {
+      transform: translateX(-50%) translateY(0);
     }
   }
 }

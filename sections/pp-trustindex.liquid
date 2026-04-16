@@ -1,0 +1,40 @@
+<div class="pp-trustindex" style="padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;">
+  <script async src="https://cdn.trustindex.io/loader.js?{{ section.settings.widget_id }}"></script>
+</div>
+
+{% schema %}
+{
+  "name": "Trustindex Reviews",
+  "settings": [
+    {
+      "type": "text",
+      "id": "widget_id",
+      "label": "Widget ID",
+      "default": "6b1680714ea4723b58863bbcb6f"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trustindex Reviews"
+    }
+  ]
+}
+{% endschema %}
