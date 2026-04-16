@@ -236,25 +236,29 @@
         </div>
       </div>
 
-      {%- comment -%} Image right {%- endcomment -%}
-      <div class="pp-mega__image">
-        {%- assign found_promo = false -%}
-        {%- for block in section.blocks -%}
-          {%- if block.type == 'megamenu_promo' and block.settings.menu_handle == 'plantas' and block.settings.promo_image != blank -%}
-            <a href="{{ block.settings.promo_link | default: '/collections/plantas' }}" {{ block.shopify_attributes }}>
-              <img src="{{ block.settings.promo_image | image_url: width: 600 }}" alt="{{ block.settings.promo_title }}" width="200" height="250" loading="lazy">
-            </a>
-            {%- assign found_promo = true -%}
-            {%- break -%}
-          {%- endif -%}
-        {%- endfor -%}
-        {%- unless found_promo -%}
-          {%- if section.settings.mega_plantas_image != blank -%}
-            <a href="{{ section.settings.mega_plantas_image_link | default: '/collections/plantas' }}">
-              <img src="{{ section.settings.mega_plantas_image | image_url: width: 600 }}" alt="{{ section.settings.mega_plantas_image.alt | default: 'Descubre todas las plantas' | escape }}" width="200" height="250" loading="lazy">
-            </a>
-          {%- endif -%}
-        {%- endunless -%}
+      {%- comment -%} Image right — changes per active subtab {%- endcomment -%}
+      <div class="pp-mega__image pp-mega__image--dynamic">
+        <a href="/collections/plantas-interior" class="pp-mega__image-slot" data-mega-img="interior">
+          <img src="https://cdn.shopify.com/s/files/1/1041/0006/9708/files/download_1829b709-71a3-4bf9-b0a8-046553995bd9.jpg" alt="Plantas Interior" width="200" height="250" loading="lazy">
+        </a>
+        <a href="/collections/plantas-exterior" class="pp-mega__image-slot" data-mega-img="exterior">
+          <img src="https://cdn.shopify.com/s/files/1/1041/0006/9708/files/download_00d0dc6a-b082-4078-a253-f5aa22fa6cc1.jpg" alt="Plantas Exterior" width="200" height="250" loading="lazy">
+        </a>
+        <a href="/collections/macetas-artesanales" class="pp-mega__image-slot" data-mega-img="macetas">
+          <img src="https://cdn.shopify.com/s/files/1/1041/0006/9708/files/download_fb0446ef-a0af-4e5b-a381-569f77ca69ab.jpg" alt="Macetas" width="200" height="250" loading="lazy">
+        </a>
+        <a href="/collections/terrarios" class="pp-mega__image-slot" data-mega-img="terrarios">
+          <img src="https://cdn.shopify.com/s/files/1/1041/0006/9708/files/download_9afb032b-0dd8-49ec-8354-a73e8a2ebd79.jpg" alt="Terrarios" width="200" height="250" loading="lazy">
+        </a>
+        <a href="/collections/sustratos" class="pp-mega__image-slot" data-mega-img="cuidados">
+          <img src="https://cdn.shopify.com/s/files/1/1041/0006/9708/files/download_57c8c6b6-65ae-4869-944d-0456d24a8269.jpg" alt="Cuidados" width="200" height="250" loading="lazy">
+        </a>
+        <a href="/collections/auto-riego" class="pp-mega__image-slot" data-mega-img="autorriegos">
+          <img src="https://cdn.shopify.com/s/files/1/1041/0006/9708/files/download_6308d936-3b32-4108-b294-908e45b0c41c.jpg" alt="Autorriegos" width="200" height="250" loading="lazy">
+        </a>
+        <a href="/collections/ofertas-flash" class="pp-mega__image-slot" data-mega-img="ofertas">
+          <img src="https://cdn.shopify.com/s/files/1/1041/0006/9708/files/download_cbecec57-2d9a-41f9-878a-78f46e5ee271.jpg" alt="Ofertas" width="200" height="250" loading="lazy">
+        </a>
       </div>
     </div>
 
@@ -294,11 +298,9 @@
         </div>
       </div>
       <div class="pp-mega__image">
-        {%- if section.settings.mega_regalos_image != blank -%}
-          <a href="{{ section.settings.mega_regalos_image_link | default: '/collections/regalos' }}">
-            <img src="{{ section.settings.mega_regalos_image | image_url: width: 600 }}" alt="{{ section.settings.mega_regalos_image.alt | default: 'Ideas de regalo' | escape }}" width="200" height="250" loading="lazy">
-          </a>
-        {%- endif -%}
+        <a href="/collections/regalos-originales">
+          <img src="https://cdn.shopify.com/s/files/1/1041/0006/9708/files/download_c69ec930-4b70-45b0-b82a-3f90ca951bc0.jpg" alt="Regalos" width="200" height="250" loading="lazy">
+        </a>
       </div>
     </div>
 
@@ -327,11 +329,9 @@
         </div>
       </div>
       <div class="pp-mega__image">
-        {%- if section.settings.mega_sobre_image != blank -%}
-          <a href="{{ section.settings.mega_sobre_image_link | default: '/pages/conocenos' }}">
-            <img src="{{ section.settings.mega_sobre_image | image_url: width: 600 }}" alt="{{ section.settings.mega_sobre_image.alt | default: 'Sobre Pur Plant' | escape }}" width="200" height="250" loading="lazy">
-          </a>
-        {%- endif -%}
+        <a href="/pages/conocenos">
+          <img src="https://cdn.shopify.com/s/files/1/1041/0006/9708/files/download_acc34fc6-d957-4b20-a626-ec29620261a0.jpg" alt="Sobre Pur Plant" width="200" height="250" loading="lazy">
+        </a>
       </div>
     </div>
 
@@ -374,6 +374,14 @@
     panels.forEach(function(p) {
       p.classList.toggle('is-active', p.getAttribute('data-mega-panel') === panelId);
     });
+    /* Activate default sub-image for plantas panel */
+    if (panelId === 'plantas') {
+      var activeBtn = mega.querySelector('.pp-mega__tab.is-active[data-mega-sub]');
+      var defaultSub = activeBtn ? activeBtn.getAttribute('data-mega-sub') : 'interior';
+      /* Only activate if no sub is already active */
+      var hasActive = mega.querySelector('.pp-mega__image-slot.is-active');
+      if (!hasActive) activateSub(defaultSub);
+    }
   }
 
   function close() {
@@ -382,6 +390,8 @@
     /* Clear all sub-panel active states */
     sidebarBtns.forEach(function(b) { b.classList.remove('is-active'); });
     subPanels.forEach(function(p) { p.classList.remove('is-active'); });
+    /* Clear dynamic image slots */
+    mega.querySelectorAll('.pp-mega__image-slot').forEach(function(s) { s.classList.remove('is-active'); });
   }
 
   function activateSub(subId) {
@@ -390,6 +400,10 @@
     });
     subPanels.forEach(function(p) {
       p.classList.toggle('is-active', p.getAttribute('data-mega-subcontent') === subId);
+    });
+    /* Sync dynamic image */
+    mega.querySelectorAll('.pp-mega__image--dynamic .pp-mega__image-slot').forEach(function(slot) {
+      slot.classList.toggle('is-active', slot.getAttribute('data-mega-img') === subId);
     });
   }
 

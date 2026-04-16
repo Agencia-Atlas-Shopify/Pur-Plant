@@ -200,11 +200,20 @@
   height: auto;
   object-fit: cover;
   border-radius: 8px;
+  display: block;
 }
 
 .pp-mega__image:empty,
 .pp-mega__image img[src=""] {
   display: none;
+}
+
+/* Dynamic per-subtab images */
+.pp-mega__image--dynamic .pp-mega__image-slot {
+  display: none;
+}
+.pp-mega__image--dynamic .pp-mega__image-slot.is-active {
+  display: block;
 }
 
 /* ── Backdrop ── */
@@ -358,6 +367,8 @@
     grid-row: 1 / -1;
     align-self: start;
   }
+
+  /* Dynamic image: mobile inherits desktop rules (show only .is-active slot) */
 
   /* Mobile accordion expanded links */
   .pp-mega__mobile-sub-links {
