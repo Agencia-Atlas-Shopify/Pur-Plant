@@ -122,7 +122,20 @@
           {%- when 'accordion' -%}
             {%- liquid
               assign mf_key = block.settings.metafield_key
+              assign show_block = true
+              if block.settings.show_for_types != blank
+                assign allowed_types = block.settings.show_for_types | split: ','
+                assign show_block = false
+                for allowed in allowed_types
+                  assign allowed_trimmed = allowed | strip | downcase
+                  assign product_type_lower = product.type | downcase
+                  if product_type_lower == allowed_trimmed
+                    assign show_block = true
+                  endif
+                endfor
+              endif
             -%}
+            {%- if show_block -%}
               <details class="pp-pdp__accordion"{% if block.settings.open_by_default %} open{% endif %} {{ block.shopify_attributes }}>
                 <summary class="pp-pdp__accordion-header">
                   <span>{{ block.settings.heading }}</span>
@@ -197,6 +210,7 @@
                   {%- endif -%}
                 </div>
               </details>
+            {%- endif -%}
         {%- endcase -%}
       {%- endfor -%}
       {%- if care_icons_open -%}
@@ -1029,6 +1043,12 @@
           "id": "open_by_default",
           "label": "Open by default",
           "default": false
+        },
+        {
+          "type": "text",
+          "id": "show_for_types",
+          "label": "Mostrar solo para product.type (separados por coma)",
+          "info": "Ej: Planta,Maceta — vacío = mostrar siempre"
         }
       ]
     },
