@@ -386,7 +386,7 @@
         <div class="pp-pdp__variants-wrap">
           <div class="pp-pdp__variant-group">
             <div class="pp-pdp__variant-pills">
-              {%- assign sizes = 'XS,S,M,L,XL,XXL' | split: ',' -%}
+              {%- assign sizes = 'S,M,L,XL,XXL' | split: ',' -%}
               {%- assign current_size = product.metafields.custom.tamano -%}
               {%- assign related = product.metafields.custom.tamanos_relacionados.value -%}
               {%- for size in sizes -%}
