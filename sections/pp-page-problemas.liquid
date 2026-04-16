@@ -384,9 +384,9 @@
       {%- assign hk = 'page_heading_' | append: i -%}
       {%- assign tk = 'page_text_' | append: i -%}
       {%- assign ik = 'page_image_' | append: i -%}
-      {%- assign hv = page.metafields.custom[hk] -%}
-      {%- assign tv = page.metafields.custom[tk] -%}
-      {%- assign iv = page.metafields.custom[ik] -%}
+      {%- assign hv = page.metafields.custom[hk].value -%}
+      {%- assign tv = page.metafields.custom[tk].value -%}
+      {%- assign iv = page.metafields.custom[ik].value -%}
       {%- if hv != blank -%}
         {%- unless first -%},{%- endunless -%}
         {"type":"heading","value":{{ hv | json }}}
