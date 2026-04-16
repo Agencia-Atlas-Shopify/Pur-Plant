@@ -157,6 +157,37 @@
     border: 0;
   }
 
+  .pp-content__products-inline {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .pp-inline-product {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    transition: transform .2s;
+  }
+  .pp-inline-product:hover { transform: translateY(-2px); }
+  .pp-inline-product__img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+    background: #f5f5f5;
+  }
+  .pp-inline-product__title {
+    padding: 10px 12px;
+    font-size: 14px;
+    line-height: 1.4;
+    font-weight: 500;
+  }
+
   /* --- Section with image+text side by side --- */
   .pp-problemas__section {
     margin-bottom: 15px;
@@ -368,10 +399,15 @@
   {%- comment -%} -- 1. Hero Section (full-width, under header) -- {%- endcomment -%}
   {%- if section.settings.show_hero -%}
     {%- assign hero_image = page.metafields.custom.imagen_portada.value -%}
+    {%- assign hero_image_url = page.metafields.custom.imagen_portada_url.value -%}
     <div class="pp-problemas-hero">
       {%- if hero_image -%}
         <div class="pp-problemas-hero__bg">
           {{ hero_image | image_url: width: 1600 | image_tag: loading: 'eager', sizes: '100vw' }}
+        </div>
+      {%- elsif hero_image_url != blank -%}
+        <div class="pp-problemas-hero__bg">
+          <img src="{{ hero_image_url }}" alt="{{ page.title | escape }}" loading="eager">
         </div>
       {%- endif -%}
       <div class="pp-problemas-hero__gradient"></div>
