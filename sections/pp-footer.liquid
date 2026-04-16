@@ -28,6 +28,7 @@
     gap: 32px 24px;
   }
 
+  /* ── Column heading (shared desktop/mobile) ── */
   .pp-footer__col-heading {
     font-family: 'Tenor Sans', Georgia, serif;
     font-size: 13px;
@@ -37,6 +38,30 @@
     color: #e4ffd3;
     margin: 0 0 14px;
     line-height: 1.3;
+  }
+
+  /* On mobile the heading becomes a toggle button */
+  .pp-footer__col-toggle {
+    display: flex;
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: default;
+    text-align: left;
+    color: inherit;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .pp-footer__col-toggle-icon {
+    display: none;
+    font-size: 18px;
+    line-height: 1;
+    color: #e4ffd3;
+    opacity: 0.6;
+    transition: transform 0.2s;
+    flex-shrink: 0;
   }
 
   .pp-footer__col ul {
@@ -61,14 +86,29 @@
     transition: opacity 0.2s;
   }
 
-  .pp-footer__col a:hover {
-    opacity: 1;
+  .pp-footer__col a:hover { opacity: 1; }
+
+  /* Sub-links (2nd level menu) */
+  .pp-footer__sub-links {
+    list-style: none;
+    margin: 6px 0 0;
+    padding: 0 0 0 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border-left: 1px solid rgba(228,255,211,0.2);
+  }
+
+  .pp-footer__sub-links a {
+    font-size: 13px;
+    opacity: 0.65;
   }
 
   .pp-footer__contact-text {
     white-space: pre-line;
   }
 
+  /* ── Bottom bar ── */
   .pp-footer__bottom {
     display: flex;
     flex-direction: column;
@@ -172,15 +212,52 @@
     letter-spacing: 0.05em;
   }
 
+  /* ── Desktop ── */
   @media screen and (max-width: 999px) {
     .pp-footer__top { flex-direction: column; gap: 32px; }
   }
 
+  /* ── Mobile accordion ── */
   @media screen and (max-width: 749px) {
     .pp-footer { padding: 48px 20px 24px; gap: 36px; }
-    .pp-footer__cols { grid-template-columns: repeat(2, 1fr); gap: 28px 16px; }
-    .pp-footer__col-heading { font-size: 12px; margin-bottom: 10px; }
-    .pp-footer__col a, .pp-footer__col p { font-size: 13px; }
+
+    .pp-footer__cols {
+      grid-template-columns: 1fr;
+      gap: 0;
+      border-top: 1px solid rgba(228,255,211,0.15);
+    }
+
+    .pp-footer__col {
+      border-bottom: 1px solid rgba(228,255,211,0.15);
+    }
+
+    .pp-footer__col-heading {
+      margin: 0;
+    }
+
+    .pp-footer__col-toggle {
+      cursor: pointer;
+      padding: 14px 0;
+    }
+
+    .pp-footer__col-toggle-icon {
+      display: block;
+    }
+
+    .pp-footer__col.is-open .pp-footer__col-toggle-icon {
+      transform: rotate(45deg);
+      opacity: 1;
+    }
+
+    .pp-footer__col-content {
+      display: none;
+      padding-bottom: 16px;
+    }
+
+    .pp-footer__col.is-open .pp-footer__col-content {
+      display: block;
+    }
+
     .pp-footer__social { gap: 18px; }
     .pp-footer__social a { font-size: 12px; }
     .pp-footer__legal { gap: 14px; }
@@ -202,22 +279,37 @@
       {%- for block in section.blocks -%}
         <div class="pp-footer__col" {{ block.shopify_attributes }}>
           {%- if block.settings.heading != blank -%}
-            <h3 class="pp-footer__col-heading">{{ block.settings.heading }}</h3>
+            <button class="pp-footer__col-toggle" type="button" aria-expanded="false">
+              <h3 class="pp-footer__col-heading">{{ block.settings.heading }}</h3>
+              <span class="pp-footer__col-toggle-icon" aria-hidden="true">+</span>
+            </button>
           {%- endif -%}
-          {%- case block.type -%}
-            {%- when 'links_column' -%}
-              {%- if block.settings.menu != blank -%}
-                <ul>
-                  {%- for link in block.settings.menu.links -%}
-                    <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-                  {%- endfor -%}
-                </ul>
-              {%- endif -%}
-            {%- when 'contact_column' -%}
-              {%- if block.settings.content != blank -%}
-                <p class="pp-footer__contact-text">{{ block.settings.content }}</p>
-              {%- endif -%}
-          {%- endcase -%}
+
+          <div class="pp-footer__col-content">
+            {%- case block.type -%}
+              {%- when 'links_column' -%}
+                {%- if block.settings.menu != blank -%}
+                  <ul>
+                    {%- for link in block.settings.menu.links -%}
+                      <li>
+                        <a href="{{ link.url }}">{{ link.title }}</a>
+                        {%- if link.links.size > 0 -%}
+                          <ul class="pp-footer__sub-links">
+                            {%- for child in link.links -%}
+                              <li><a href="{{ child.url }}">{{ child.title }}</a></li>
+                            {%- endfor -%}
+                          </ul>
+                        {%- endif -%}
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                {%- endif -%}
+              {%- when 'contact_column' -%}
+                {%- if block.settings.content != blank -%}
+                  <p class="pp-footer__contact-text">{{ block.settings.content }}</p>
+                {%- endif -%}
+            {%- endcase -%}
+          </div>
         </div>
       {%- endfor -%}
     </div>
@@ -267,6 +359,29 @@
     <span class="pp-footer__copyright">Pur Plant &copy; {{ 'now' | date: '%Y' }}</span>
   </div>
 </footer>
+
+<script>
+(function() {
+  var isMobile = window.matchMedia('(max-width: 749px)');
+
+  function initAccordions() {
+    document.querySelectorAll('.pp-footer__col-toggle').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        if (!isMobile.matches) return;
+        var col = btn.closest('.pp-footer__col');
+        var open = col.classList.toggle('is-open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAccordions);
+  } else {
+    initAccordions();
+  }
+})();
+</script>
 
 {% schema %}
 {
