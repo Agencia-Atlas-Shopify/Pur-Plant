@@ -20,8 +20,11 @@
   /* --- Hero (full-width, overlaps header) --- */
   .pp-problemas-hero {
     position: relative;
+    left: 50%;
+    right: 50%;
     width: 100vw;
-    margin-left: calc(-1 * var(--page-margin, 40px));
+    margin-left: -50vw;
+    margin-right: -50vw;
     min-height: 450px;
     display: flex;
     align-items: flex-end;
@@ -370,9 +373,44 @@
     </nav>
   {%- endif -%}
 
-  {%- comment -%} -- 2. JSON data source for page_content -- {%- endcomment -%}
+  {%- comment -%} -- 2. JSON data source for page_content --
+       Build from page_heading_N / page_text_N / page_image_N metafields.
+       Fallback: existing page.metafields.custom.page_content (legacy).
+  {%- endcomment -%}
+  {%- capture widgets_json -%}
+    [
+    {%- assign first = true -%}
+    {%- for i in (1..50) -%}
+      {%- assign hk = 'page_heading_' | append: i -%}
+      {%- assign tk = 'page_text_' | append: i -%}
+      {%- assign ik = 'page_image_' | append: i -%}
+      {%- assign hv = page.metafields.custom[hk] -%}
+      {%- assign tv = page.metafields.custom[tk] -%}
+      {%- assign iv = page.metafields.custom[ik] -%}
+      {%- if hv != blank -%}
+        {%- unless first -%},{%- endunless -%}
+        {"type":"heading","value":{{ hv | json }}}
+        {%- assign first = false -%}
+      {%- endif -%}
+      {%- if iv != blank -%}
+        {%- unless first -%},{%- endunless -%}
+        {"type":"image","src":{{ iv | json }},"alt":""}
+        {%- assign first = false -%}
+      {%- endif -%}
+      {%- if tv != blank -%}
+        {%- unless first -%},{%- endunless -%}
+        {"type":"text","value":{{ tv | json }}}
+        {%- assign first = false -%}
+      {%- endif -%}
+    {%- endfor -%}
+    ]
+  {%- endcapture -%}
   <script type="application/json" data-page-content>
-    {{ page.metafields.custom.page_content | default: '[]' }}
+    {%- if widgets_json contains '"type"' -%}
+      {{ widgets_json }}
+    {%- else -%}
+      {{ page.metafields.custom.page_content | default: '[]' }}
+    {%- endif -%}
   </script>
 
   {%- comment -%} -- 3. Content container (JS-rendered) -- {%- endcomment -%}
