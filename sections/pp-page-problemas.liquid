@@ -405,9 +405,10 @@
     {%- endfor -%}
     ]
   {%- endcapture -%}
+  {%- assign page_content_mf = page.metafields.custom.page_content -%}
   <script type="application/json" data-page-content>
-    {%- if page.metafields.custom.page_content.value != blank -%}
-      {{ page.metafields.custom.page_content.value | json }}
+    {%- if page_content_mf != blank -%}
+      {{ page_content_mf | json }}
     {%- elsif widgets_json contains '"type"' -%}
       {{ widgets_json }}
     {%- else -%}
@@ -416,7 +417,10 @@
   </script>
 
   {%- comment -%} -- 3a. Main page body — only if no structured widgets exist -- {%- endcomment -%}
-  {%- if page.metafields.custom.page_content.value == blank and widgets_json contains '"type"' == false and page.content != blank -%}
+  {%- assign has_widgets = false -%}
+  {%- if page_content_mf != blank -%}{%- assign has_widgets = true -%}{%- endif -%}
+  {%- if widgets_json contains '"type"' -%}{%- assign has_widgets = true -%}{%- endif -%}
+  {%- if has_widgets == false and page.content != blank -%}
     <div class="pp-problemas__page-body rte">
       {{ page.content }}
     </div>
