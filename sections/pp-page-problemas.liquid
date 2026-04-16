@@ -522,41 +522,14 @@
       /* A heading marks a new section boundary */
       sectionCount++;
 
-      /* Check if we should insert a product grid BEFORE this heading */
+      /* Insert product grid every GRID_AFTER sections */
       if (sectionCount > 1 && ((sectionCount - 1) % GRID_AFTER === 0) && collectionIndex < 3) {
         collectionIndex++;
         var gridEl = document.querySelector('[data-product-grid="' + collectionIndex + '"]');
-        if (gridEl) {
-          html += gridEl.outerHTML.replace('style="display:none;"', '');
-        }
+        if (gridEl) html += gridEl.outerHTML.replace('style="display:none;"', '');
       }
 
-      /* Look ahead: is the next widget an image followed by text (or vice versa)? */
-      var nextW = widgets[i + 1];
-      var nextNextW = widgets[i + 2];
-      var hasImageTextPair = false;
-
-      if (nextW && nextNextW && nextW.type === 'image' && nextNextW.type === 'text') {
-        hasImageTextPair = true;
-        html += '<div class="pp-problemas__section" id="variety-' + sectionCount + '">';
-        html += '<div class="pp-problemas__section-body pp-problemas__section-body--with-image">';
-        html += '<div class="pp-problemas__section-image"><img src="' + nextW.src + '" alt="' + (nextW.alt || '') + '" loading="lazy"></div>';
-        html += '<div class="pp-problemas__section-text">';
-        html += '<p class="pp-problemas__section-text-title">' + w.value + '</p>';
-        html += '<a href="#" class="pp-problemas__section-text-btn">Descubrir</a>';
-        html += '</div>';
-        html += '</div>';
-        html += '</div>';
-        /* Mark these as consumed */
-        widgets[i + 1] = { type: '_consumed' };
-        widgets[i + 2] = { type: '_consumed' };
-      }
-
-      if (!hasImageTextPair) {
-        html += '<div class="pp-problemas__section"><h2 class="pp-content__heading">' + w.value + '</h2>';
-      }
-
-      html += '</div>';
+      html += '<div class="pp-problemas__section"><h2 class="pp-content__heading">' + w.value + '</h2></div>';
 
     } else if (w.type === 'image') {
       /* Check if this is an image followed by text (standalone, not inside a heading section) */
