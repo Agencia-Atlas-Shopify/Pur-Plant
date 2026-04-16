@@ -14,6 +14,66 @@
     "pp_footer_HaBGet": {
       "type": "pp-footer",
       "name": "PP Footer",
+      "blocks": {
+        "col_pedido": {
+          "type": "links_column",
+          "settings": {
+            "heading": "¿DÓNDE ESTÁ MI PEDIDO?",
+            "menu": "footer-pedido"
+          }
+        },
+        "col_plantas_enganchan": {
+          "type": "links_column",
+          "settings": {
+            "heading": "PLANTAS QUE ENGANCHAN",
+            "menu": "footer-plantas-enganchan"
+          }
+        },
+        "col_contacto": {
+          "type": "contact_column",
+          "settings": {
+            "heading": "CONTÁCTANOS",
+            "content": "info@purplant.es\nHorario Atención al Cliente\nL-V de 8:00h a 17:00h"
+          }
+        },
+        "col_sobre": {
+          "type": "links_column",
+          "settings": {
+            "heading": "SOBRE NOSOTRXS",
+            "menu": "footer-sobre-nosotros"
+          }
+        },
+        "col_plantas_domicilio": {
+          "type": "links_column",
+          "settings": {
+            "heading": "PLANTAS A DOMICILIO",
+            "menu": "footer-plantas-domicilio"
+          }
+        },
+        "col_arboles_domicilio": {
+          "type": "links_column",
+          "settings": {
+            "heading": "ÁRBOLES A DOMICILIO",
+            "menu": "footer-arboles-domicilio"
+          }
+        },
+        "col_flores": {
+          "type": "links_column",
+          "settings": {
+            "heading": "FLORES",
+            "menu": "footer-flores"
+          }
+        }
+      },
+      "block_order": [
+        "col_pedido",
+        "col_plantas_enganchan",
+        "col_contacto",
+        "col_sobre",
+        "col_plantas_domicilio",
+        "col_arboles_domicilio",
+        "col_flores"
+      ],
       "settings": {
         "logo": "shopify://shop_images/PUR_PLANT_BOTANIC_-_PLANT_BASED-_RESTYLING_1_1.png",
         "legal_menu": "footer",
