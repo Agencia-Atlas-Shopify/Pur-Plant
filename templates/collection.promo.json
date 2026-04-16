@@ -91,6 +91,7 @@
         "layout_type": "carousel",
         "carousel_on_mobile": false,
         "columns": 6,
+        "columns_laptop": 3,
         "mobile_columns": "2",
         "mobile_card_size": "44cqw",
         "columns_gap": 16,
@@ -114,7 +115,7 @@
           "settings": {
             "image_desktop": "shopify://shop_images/DEMASIADAS-GANAS.jpg",
             "subheading": "",
-            "heading": "DÍA DE LA<br> MADRE",
+            "heading": "{{ collection.title }}",
             "subtitle": "",
             "content_position": "bottom-left",
             "button_text": "",
@@ -168,7 +169,6 @@
     "pp_collection_grid": {
       "type": "pp-collection",
       "settings": {
-        "show_toolbar": true,
         "show_title": false,
         "show_description": false,
         "products_per_row_mobile": 2,
@@ -201,7 +201,6 @@
       "type": "pp-collection",
       "disabled": true,
       "settings": {
-        "show_toolbar": true,
         "show_title": true,
         "show_description": false,
         "products_per_row_mobile": 2,
