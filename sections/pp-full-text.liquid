@@ -36,17 +36,17 @@
     var target = parent.clientWidth;
     if (!target) return;
 
-    // Binary search for the right font-size
-    var lo = 8, hi = 600, mid;
-    el.style.fontSize = hi + 'px';
-
-    for (var i = 0; i < 30; i++) {
+    // Binary search: find largest font-size where scrollWidth <= container width.
+    // Note: el has width:100%, so scrollWidth === clientWidth when text is narrower,
+    // and scrollWidth > clientWidth when text overflows (white-space:nowrap).
+    var lo = 1, hi = 800, mid;
+    for (var i = 0; i < 40; i++) {
       mid = (lo + hi) / 2;
       el.style.fontSize = mid + 'px';
-      if (el.scrollWidth < target) {
-        lo = mid;
+      if (el.scrollWidth <= target) {
+        lo = mid; // text fits → try bigger
       } else {
-        hi = mid;
+        hi = mid; // text overflows → try smaller
       }
     }
     el.style.fontSize = lo + 'px';
@@ -56,25 +56,30 @@
     document.querySelectorAll('[data-pp-full-text]').forEach(fitText);
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
+  // Wait for fonts before measuring
+  var ready = document.fonts ? document.fonts.ready : Promise.resolve();
+  ready.then(function() {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  });
 
   // Re-fit on resize
-  var ro = window.ResizeObserver
-    ? new ResizeObserver(function() { document.querySelectorAll('[data-pp-full-text]').forEach(fitText); })
-    : null;
-
-  document.querySelectorAll('[data-pp-full-text]').forEach(function(el) {
-    if (ro) ro.observe(el.parentElement);
-  });
+  if (window.ResizeObserver) {
+    var ro = new ResizeObserver(function() {
+      document.querySelectorAll('[data-pp-full-text]').forEach(fitText);
+    });
+    document.querySelectorAll('[data-pp-full-text]').forEach(function(el) {
+      ro.observe(el.parentElement);
+    });
+  }
 
   // Shopify theme editor re-render
   document.addEventListener('shopify:section:load', function(e) {
     var el = e.target.querySelector('[data-pp-full-text]');
-    if (el) fitText(el);
+    if (el) document.fonts.ready.then(function() { fitText(el); });
   });
 })();
 </script>
