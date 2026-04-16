@@ -241,6 +241,9 @@
         "badge_Tj73xX",
         "badge_iG4ywW"
       ],
+      "custom_css": [
+        "p.pp-trust-badges__desc {text-align: left; color: black; font-size: 1.2rem; opacity: 1; padding-top: 20px;}"
+      ],
       "name": "PP Trust Badges",
       "settings": {
         "heading": "POR QUÉ COMPRAR EN PUR PLANT",
