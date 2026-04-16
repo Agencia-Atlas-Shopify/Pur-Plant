@@ -420,20 +420,6 @@
             </div>
           </div>
         </div>
-      {%- else -%}
-        {%- comment -%} Demo fallback: show all sizes {%- endcomment -%}
-        <div class="pp-pdp__variants-wrap">
-          <div class="pp-pdp__variant-group">
-            <div class="pp-pdp__variant-pills">
-              <span class="pp-pdp__variant-pill">XS</span>
-              <span class="pp-pdp__variant-pill">S</span>
-              <span class="pp-pdp__variant-pill is-active">M</span>
-              <span class="pp-pdp__variant-pill">L</span>
-              <span class="pp-pdp__variant-pill">XL</span>
-              <span class="pp-pdp__variant-pill">XXL</span>
-            </div>
-          </div>
-        </div>
       {%- endif -%}
 
       {%- comment -%} Variant picker (native Shopify variants) {%- endcomment -%}
@@ -1197,7 +1183,8 @@
       ]
     },
     {
-      "type": "@app"
+      "type": "@app",
+      "name": "App block"
     }
   ],
   "presets": [
