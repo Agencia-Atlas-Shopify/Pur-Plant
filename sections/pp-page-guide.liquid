@@ -35,8 +35,11 @@
   /* --- Hero (full-width, overlaps header) --- */
   .pp-guide-hero {
     position: relative;
+    left: 50%;
+    right: 50%;
     width: 100vw;
-    margin-left: calc(-1 * var(--page-margin, 40px));
+    margin-left: -50vw;
+    margin-right: -50vw;
     min-height: 450px;
     display: flex;
     align-items: flex-end;
