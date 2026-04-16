@@ -2,15 +2,18 @@
   background: {{ section.settings.bg_color }};
   padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
 ">
+  {%- assign margin_style = '' -%}
+  {%- case section.settings.align -%}
+    {%- when 'left' -%}{%- assign margin_style = 'margin: 0 auto 0 0;' -%}
+    {%- when 'center' -%}{%- assign margin_style = 'margin: 0 auto;' -%}
+    {%- when 'right' -%}{%- assign margin_style = 'margin: 0 0 0 auto;' -%}
+  {%- endcase -%}
+
   {%- if section.settings.image != blank -%}
-    <div class="pp-image-full__wrap" style="
+    <div class="pp-image-full__wrap{% if section.settings.auto_height %} pp-image-full__wrap--auto{% endif %}" style="
       width: {{ section.settings.max_width_pct }}%;
-      height: {{ section.settings.height }}px;
-      {%- case section.settings.align -%}
-        {%- when 'left' -%}margin: 0 auto 0 0;
-        {%- when 'center' -%}margin: 0 auto;
-        {%- when 'right' -%}margin: 0 0 0 auto;
-      {%- endcase -%}
+      {%- unless section.settings.auto_height -%}height: {{ section.settings.height }}px;{%- endunless -%}
+      {{ margin_style }}
     ">
       {{
         section.settings.image
@@ -19,19 +22,14 @@
           loading: 'lazy',
           widths: '600, 900, 1200, 1600, 1920',
           sizes: '100vw',
-          class: 'pp-image-full__img',
-          style: 'object-position: ' | append: section.settings.focal_point
+          class: 'pp-image-full__img'
       }}
     </div>
   {%- else -%}
     <div class="pp-image-full__placeholder" style="
       width: {{ section.settings.max_width_pct }}%;
       height: {{ section.settings.height }}px;
-      {%- case section.settings.align -%}
-        {%- when 'left' -%}margin: 0 auto 0 0;
-        {%- when 'center' -%}margin: 0 auto;
-        {%- when 'right' -%}margin: 0 0 0 auto;
-      {%- endcase -%}
+      {{ margin_style }}
     ">
       {{ 'lifestyle-1' | placeholder_svg_tag: 'pp-image-full__placeholder-svg' }}
     </div>
@@ -52,6 +50,11 @@
   display: block;
 }
 
+.pp-image-full__wrap--auto .pp-image-full__img {
+  height: auto;
+  object-fit: unset;
+}
+
 .pp-image-full__placeholder {
   background: #e8ede8;
 }
@@ -59,15 +62,17 @@
 .pp-image-full__placeholder-svg {
   width: 100%;
   height: 100%;
-  object-fit: cover;
 }
 
 @media screen and (max-width: 749px) {
+  .pp-image-full__wrap:not(.pp-image-full__wrap--auto),
+  .pp-image-full__placeholder {
+    height: {{ section.settings.height_mobile }}px !important;
+  }
   .pp-image-full__wrap,
   .pp-image-full__placeholder {
     width: 100% !important;
     margin: 0 !important;
-    height: {{ section.settings.height_mobile }}px !important;
   }
 }
 </style>
@@ -85,27 +90,14 @@
       "label": "Image"
     },
     {
-      "type": "select",
-      "id": "focal_point",
-      "label": "Focal point",
-      "options": [
-        { "value": "center center", "label": "Center" },
-        { "value": "top center", "label": "Top" },
-        { "value": "bottom center", "label": "Bottom" },
-        { "value": "center left", "label": "Left" },
-        { "value": "center right", "label": "Right" }
-      ],
-      "default": "center center"
-    },
-    {
       "type": "range",
       "id": "max_width_pct",
-      "label": "Width (%)",
+      "label": "Max width (%)",
       "min": 20,
       "max": 100,
       "step": 5,
       "unit": "%",
-      "default": 100
+      "default": 80
     },
     {
       "type": "select",
@@ -119,9 +111,16 @@
       "default": "center"
     },
     {
+      "type": "checkbox",
+      "id": "auto_height",
+      "label": "Auto height (natural ratio)",
+      "default": true
+    },
+    {
       "type": "range",
       "id": "height",
-      "label": "Height desktop (px)",
+      "label": "Fixed height desktop (px)",
+      "info": "Only used when Auto height is off",
       "min": 100,
       "max": 900,
       "step": 20,
@@ -131,7 +130,8 @@
     {
       "type": "range",
       "id": "height_mobile",
-      "label": "Height mobile (px)",
+      "label": "Fixed height mobile (px)",
+      "info": "Only used when Auto height is off",
       "min": 100,
       "max": 700,
       "step": 20,
@@ -174,8 +174,9 @@
       "name": "PP Image Full",
       "category": "Pur Plant",
       "settings": {
-        "max_width_pct": 100,
+        "max_width_pct": 80,
         "align": "center",
+        "auto_height": true,
         "height": 500,
         "height_mobile": 300,
         "padding_top": 0,
