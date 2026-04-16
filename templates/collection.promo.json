@@ -113,7 +113,7 @@
         "slide_UV3zqR": {
           "type": "slide",
           "settings": {
-            "image_desktop": "shopify://shop_images/DEMASIADAS-GANAS.jpg",
+            "image_desktop": "{{ collection.image }}",
             "subheading": "",
             "heading": "{{ collection.title }}",
             "subtitle": "",
