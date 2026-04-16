@@ -413,7 +413,14 @@
     {%- endif -%}
   </script>
 
-  {%- comment -%} -- 3. Content container (JS-rendered) -- {%- endcomment -%}
+  {%- comment -%} -- 3a. Main page body (if not empty) -- {%- endcomment -%}
+  {%- if page.content != blank -%}
+    <div class="pp-problemas__page-body rte">
+      {{ page.content }}
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} -- 3b. Content container (JS-rendered from metafields) -- {%- endcomment -%}
   <div data-content-container></div>
 
   {%- comment -%} -- 4. Product grid placeholders (JS inserts content sections between them) -- {%- endcomment -%}
