@@ -285,8 +285,13 @@
   {%- endif -%}
 
   {%- comment -%} -- JSON data source for page_content -- {%- endcomment -%}
+  {%- assign page_content_val = page.metafields.custom.page_content.value -%}
   <script type="application/json" data-page-content>
-    {{ page.metafields.custom.page_content | default: '[]' }}
+    {%- if page_content_val != blank -%}
+      {{ page_content_val | json }}
+    {%- else -%}
+      []
+    {%- endif -%}
   </script>
 
   {%- comment -%} -- Content container (JS-rendered) -- {%- endcomment -%}
