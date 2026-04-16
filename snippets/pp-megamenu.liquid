@@ -349,16 +349,16 @@
   var closeTimer = null;
 
   function positionMega() {
-    if (window.innerWidth < 750) return;
     var header = document.querySelector('.pp-header');
     if (!header) return;
-    var rect = header.getBoundingClientRect();
+    /* Use .pp-header__inner (nav bar only) so the announcement bar below it
+       never inflates the top value — works correctly whether sticky or not. */
+    var anchor = header.querySelector('.pp-header__inner') || header;
+    var rect = anchor.getBoundingClientRect();
     var top;
     if (rect.top >= 0 && rect.bottom > 0 && rect.bottom < 500) {
-      // Header visible near top of viewport (sticky/fixed or not yet scrolled past)
       top = rect.bottom;
     } else {
-      // Fallback to CSS variable (header height observer)
       var h = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--pp-header-height')) || 80;
       top = h;
     }
