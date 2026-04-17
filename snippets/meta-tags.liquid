@@ -72,12 +72,33 @@
 {%- endif -%}
 
 {%- if request.page_type == 'product' -%}
+  {%- assign og_brand = product.vendor | default: 'Pur Plant' -%}
   <meta
     property="og:price:amount"
     content="{{ product.price | money_without_currency | strip_html }}"
   >
   <meta
     property="og:price:currency"
+    content="{{ cart.currency.iso_code }}"
+  >
+  <meta
+    property="product:brand"
+    content="{{ og_brand | escape }}"
+  >
+  <meta
+    property="product:availability"
+    content="{% if product.available %}in stock{% else %}out of stock{% endif %}"
+  >
+  <meta
+    property="product:condition"
+    content="new"
+  >
+  <meta
+    property="product:price:amount"
+    content="{{ product.price | money_without_currency | strip_html }}"
+  >
+  <meta
+    property="product:price:currency"
     content="{{ cart.currency.iso_code }}"
   >
 {%- endif -%}

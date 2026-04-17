@@ -37,7 +37,7 @@
   data-product-id="{{ product.id }}"
 >
   <a
-    href="{{ variant.url }}"
+    href="{{ product.url }}"
     class="product-card__link pp-card__link"
     ref="productCardLink"
   >
@@ -235,7 +235,7 @@
     <div class="pp-card__info">
       <div class="pp-card__title-row">
         <h3 class="pp-card__title">
-          <a href="{{ variant.url }}">{{ product.title }}</a>
+          <a href="{{ product.url }}">{{ product.title }}</a>
         </h3>
         {%- comment -%} Swym wishlist button is injected here automatically {%- endcomment -%}
       </div>

@@ -1,6 +1,16 @@
 
 
-<div class="blog-post-content rte">
+<div class="blog-post-content rte" data-pp-article>
+  {%- if block.settings.show_toc -%}
+    <nav class="pp-toc" data-pp-toc aria-label="Tabla de contenidos" hidden>
+      <button type="button" class="pp-toc__header" data-pp-toc-toggle aria-expanded="true">
+        <span class="pp-toc__title">{{ block.settings.toc_title | default: 'Tabla de contenidos' }}</span>
+        <span class="pp-toc__chevron" aria-hidden="true">▾</span>
+      </button>
+      <ol class="pp-toc__list" data-pp-toc-list></ol>
+    </nav>
+  {%- endif -%}
+
   <rte-formatter>
     {{ article.content }}
   </rte-formatter>
@@ -12,12 +22,229 @@
     margin: 0 auto;
     width: 100%;
   }
+
+  /* ── Responsive embeds (YouTube, Vimeo, etc.) ── */
+  .blog-post-content iframe,
+  .blog-post-content video,
+  .blog-post-content embed,
+  .blog-post-content object {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .blog-post-content .pp-embed {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    margin: 20px 0;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #000;
+  }
+
+  .blog-post-content .pp-embed iframe,
+  .blog-post-content .pp-embed video,
+  .blog-post-content .pp-embed embed,
+  .blog-post-content .pp-embed object {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .blog-post-content img,
+  .blog-post-content table {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .blog-post-content {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+
+  /* ── Table of contents ── */
+  .pp-toc {
+    margin: 20px 0 32px;
+    padding: 16px 18px;
+    background: #f3f6f1;
+    border: 1px solid #e2e8de;
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .pp-toc__header {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    color: #23372c;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: left;
+  }
+
+  .pp-toc__chevron {
+    transition: transform 0.2s ease;
+    font-size: 14px;
+    opacity: 0.6;
+  }
+
+  .pp-toc[data-collapsed="true"] .pp-toc__chevron {
+    transform: rotate(-90deg);
+  }
+
+  .pp-toc[data-collapsed="true"] .pp-toc__list {
+    display: none;
+  }
+
+  .pp-toc__list {
+    list-style: none;
+    margin: 12px 0 0;
+    padding: 0;
+    counter-reset: toc;
+  }
+
+  .pp-toc__list li {
+    margin: 4px 0;
+    padding: 0;
+    line-height: 1.5;
+  }
+
+  .pp-toc__list li.is-h3 {
+    padding-left: 18px;
+  }
+
+  .pp-toc__list a {
+    color: #23372c;
+    text-decoration: none;
+    font-size: 14px;
+    opacity: 0.85;
+    transition: opacity 0.15s;
+  }
+
+  .pp-toc__list a:hover {
+    opacity: 1;
+    text-decoration: underline;
+  }
+
+  @media screen and (max-width: 749px) {
+    .pp-toc { padding: 14px 14px; }
+    .pp-toc__header { font-size: 14px; }
+    .pp-toc__list a { font-size: 13px; }
+  }
 {% endstylesheet %}
+
+<script>
+(function() {
+  if (window.__ppArticleEnhanceInit) return;
+  window.__ppArticleEnhanceInit = true;
+
+  function slugify(text) {
+    return (text || '')
+      .toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9\s-]/g, '')
+      .trim()
+      .replace(/\s+/g, '-')
+      .slice(0, 80);
+  }
+
+  function wrapEmbeds(container) {
+    var selectors = 'iframe[src*="youtube"], iframe[src*="youtu.be"], iframe[src*="vimeo"], iframe[src*="dailymotion"]';
+    container.querySelectorAll(selectors).forEach(function(iframe) {
+      if (iframe.closest('.pp-embed')) return;
+      var wrap = document.createElement('div');
+      wrap.className = 'pp-embed';
+      iframe.removeAttribute('width');
+      iframe.removeAttribute('height');
+      iframe.parentNode.insertBefore(wrap, iframe);
+      wrap.appendChild(iframe);
+    });
+  }
+
+  function buildTOC(container) {
+    var toc = container.querySelector('[data-pp-toc]');
+    if (!toc) return;
+    var list = toc.querySelector('[data-pp-toc-list]');
+    if (!list) return;
+
+    var headings = container.querySelectorAll('rte-formatter h2, rte-formatter h3');
+    var used = {};
+    var count = 0;
+
+    headings.forEach(function(h) {
+      var text = (h.textContent || '').trim();
+      if (!text) return;
+      var id = h.id || slugify(text);
+      if (!id) return;
+      if (used[id]) { id = id + '-' + (++used[id]); } else { used[id] = 1; }
+      h.id = id;
+
+      var li = document.createElement('li');
+      li.className = h.tagName === 'H3' ? 'is-h3' : 'is-h2';
+      var a = document.createElement('a');
+      a.href = '#' + id;
+      a.textContent = text;
+      li.appendChild(a);
+      list.appendChild(li);
+      count++;
+    });
+
+    if (count >= 2) {
+      toc.hidden = false;
+    }
+
+    var toggle = toc.querySelector('[data-pp-toc-toggle]');
+    if (toggle) {
+      toggle.addEventListener('click', function() {
+        var collapsed = toc.getAttribute('data-collapsed') === 'true';
+        toc.setAttribute('data-collapsed', collapsed ? 'false' : 'true');
+        toggle.setAttribute('aria-expanded', collapsed ? 'true' : 'false');
+      });
+    }
+  }
+
+  function init() {
+    document.querySelectorAll('[data-pp-article]').forEach(function(container) {
+      wrapEmbeds(container);
+      buildTOC(container);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
 
 {% schema %}
 {
   "name": "t:names.content",
-  "settings": [],
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_toc",
+      "label": "Mostrar tabla de contenidos",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "toc_title",
+      "label": "Título tabla de contenidos",
+      "default": "Tabla de contenidos"
+    }
+  ],
   "presets": [
     {
       "name": "t:names.content"
