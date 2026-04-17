@@ -14,24 +14,50 @@
 <script src="{{ 'component-quantity-selector.js' | asset_url }}" type="module" fetchpriority="low"></script>
 
 {%- liquid
-  assign has_arbol = false
+  comment
+    Detect Árboles XXL (palet shipping, 5–7 days).
+    Only XXL-sized árboles trigger the notice; smaller árboles ship 24/48h.
+  endcomment
+  assign has_arbol_xxl = false
   for li in cart.items
     assign li_title_lower = li.product.title | downcase
+    assign li_is_arbol = false
     if li_title_lower contains 'árbol' or li_title_lower contains 'arbol'
-      assign has_arbol = true
-      break
+      assign li_is_arbol = true
     endif
-    for tag in li.product.tags
-      assign tag_lower = tag | downcase
-      if tag_lower contains 'árbol' or tag_lower contains 'arbol'
-        assign has_arbol = true
+    unless li_is_arbol
+      for tag in li.product.tags
+        assign tag_lower = tag | downcase
+        if tag_lower contains 'árbol' or tag_lower contains 'arbol'
+          assign li_is_arbol = true
+          break
+        endif
+      endfor
+    endunless
+    if li_is_arbol
+      assign li_is_xxl = false
+      if li_title_lower contains 'xxl'
+        assign li_is_xxl = true
+      endif
+      if li.variant.title != blank
+        assign variant_upper = li.variant.title | upcase
+        if variant_upper contains 'XXL'
+          assign li_is_xxl = true
+        endif
+      endif
+      if li.product.metafields.custom.tamano != blank
+        assign size_mf = li.product.metafields.custom.tamano | upcase
+        if size_mf == 'XXL'
+          assign li_is_xxl = true
+        endif
+      endif
+      if li_is_xxl
+        assign has_arbol_xxl = true
         break
       endif
-    endfor
-    if has_arbol
-      break
     endif
   endfor
+  assign has_arbol = has_arbol_xxl
 -%}
 
 <cart-drawer-component
@@ -77,7 +103,7 @@
               <circle cx="12" cy="12" r="10"/>
               <path d="M12 6v6l4 2"/>
             </svg>
-            <span>Los árboles se envían en <strong>5-7 días laborables</strong>. El resto de artículos en 24-48h.</span>
+            <span>Los árboles XXL se envían en palet: <strong>5-7 días laborables</strong>. El resto de artículos en 24-48h.</span>
           </div>
         {%- endif -%}
 

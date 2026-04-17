@@ -747,13 +747,66 @@
         {%- endif -%}
       {%- endfor -%}
 
+      {%- comment -%}
+        Árboles XXL delivery notice (5–7 days, palet shipping).
+        Only applies to árboles XXL — smaller sizes keep 24/48h.
+      {%- endcomment -%}
+      {%- liquid
+        assign is_arbol = false
+        assign title_lower = product.title | downcase
+        if title_lower contains 'árbol' or title_lower contains 'arbol'
+          assign is_arbol = true
+        endif
+        unless is_arbol
+          for tag in product.tags
+            assign tag_lower = tag | downcase
+            if tag_lower contains 'árbol' or tag_lower contains 'arbol'
+              assign is_arbol = true
+              break
+            endif
+          endfor
+        endunless
+
+        assign is_xxl = false
+        if title_lower contains 'xxl'
+          assign is_xxl = true
+        endif
+        if product.metafields.custom.tamano != blank
+          assign size_mf = product.metafields.custom.tamano | upcase
+          if size_mf == 'XXL'
+            assign is_xxl = true
+          endif
+        endif
+
+        assign is_arbol = is_arbol
+        assign is_arbol_xxl = false
+        if is_arbol and is_xxl
+          assign is_arbol_xxl = true
+        endif
+      -%}
+      {%- if is_arbol_xxl -%}
+        <div class="pp-pdp__arbol-notice" role="status">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 6v6l4 2"/>
+          </svg>
+          <span>Plazo de envío: <strong>5-7 días laborables</strong> (árbol XXL en palet).</span>
+        </div>
+      {%- endif -%}
+
       {%- comment -%} Bottom shipping text {%- endcomment -%}
       <div class="pp-pdp__shipping-bottom">
         <div class="pp-pdp__shipping-bottom-row">
           {%- if section.settings.shipping_bottom_image1 != blank -%}
             <img src="{{ section.settings.shipping_bottom_image1 | image_url: width: 80 }}" width="28" height="28" alt="" class="pp-pdp__shipping-bottom-icon" loading="lazy">
           {%- endif -%}
-          <p>{{ section.settings.shipping_bottom_line1 | default: 'RECÍBE TU PEDIDO EN 24/48H' }}</p>
+          <p>
+            {%- if is_arbol_xxl -%}
+              ENVÍO EN 5-7 DÍAS LABORABLES
+            {%- else -%}
+              {{ section.settings.shipping_bottom_line1 | default: 'RECÍBE TU PEDIDO EN 24/48H' }}
+            {%- endif -%}
+          </p>
         </div>
         <div class="pp-pdp__shipping-bottom-row">
           {%- if section.settings.shipping_bottom_image2 != blank -%}
@@ -932,23 +985,6 @@
     });
   }
 })();
-</script>
-
-<script>
-  // PLANET UPDATE QUANTITY
-  /* document.addEventListener('planet:volume-discount-selector-widget-variants-change', function(e) {
-    var variants = e.detail?.data?.variants;
-    if (!variants || !variants.length) return;
-
-    var qty = variants.length;
-
-    var qtyInput = document.querySelector('[data-pp-qty-input]');
-    if (!qtyInput) return;
-
-    qtyInput.value = qty;
-    qtyInput.dispatchEvent(new Event('input', { bubbles: true }));
-    qtyInput.dispatchEvent(new Event('change', { bubbles: true }));
-  }); */
 </script>
 
 {% schema %}
