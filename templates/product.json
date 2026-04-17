@@ -222,7 +222,7 @@
       "name": "PP Recently Viewed",
       "settings": {
         "heading": "VISTOS RECIENTEMENTE",
-        "limit": 6
+        "max_products": 6
       }
     },
     "brand_banner": {
