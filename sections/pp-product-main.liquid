@@ -936,7 +936,7 @@
 
 <script>
   document.addEventListener('planet:volume-discount-selector-widget-variants-change', function(e) {
-    console.log(e);
+    console.log('planet event fired:', e.detail);
     var qty = e.detail?.quantity ?? e.detail?.qty ?? e.detail?.selectedQuantity;
     if (!qty) return;
 
