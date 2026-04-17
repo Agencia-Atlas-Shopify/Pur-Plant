@@ -771,6 +771,18 @@
     .catch(function(){ btn.removeAttribute('disabled'); });
   }, true);
 
+  // Close drawer on backdrop click (click outside the dialog content)
+  document.addEventListener('click', function(e){
+    var dialog = getDialog();
+    if (!dialog || !dialog.open) return;
+    // Native <dialog> backdrop click: target IS the dialog element, not its children
+    if (e.target === dialog) {
+      dialog.close();
+      var drawer = getDrawer();
+      if (drawer && typeof drawer.close === 'function') drawer.close();
+    }
+  });
+
   // Re-open dialog if still logically "open" after native morph (safety net)
   document.addEventListener('cart:update', function(){
     // Small delay so native morph settles first
