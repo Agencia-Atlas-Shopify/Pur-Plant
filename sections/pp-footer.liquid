@@ -13,6 +13,9 @@
     grid-template-columns: 1fr 1fr;
     align-items: start;
     gap: 64px;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
   }
 
   .pp-footer__brand {
@@ -107,19 +110,28 @@
   }
 
   .pp-footer__contact-block {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
     font-family: 'Inter', sans-serif;
     font-size: 14px;
-    line-height: 1.6;
+    line-height: 1.4;
     color: #e4ffd3;
     margin: 0;
   }
 
-  .pp-footer__contact-block a {
+  .pp-footer__contact-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     color: inherit;
     text-decoration: none;
+    transition: opacity 0.15s;
   }
 
-  .pp-footer__contact-block a:hover { text-decoration: underline; }
+  .pp-footer__contact-row:hover { opacity: 0.75; }
+
+  .pp-footer__contact-row svg { flex-shrink: 0; }
 
   /* Cols stacked vertically as accordions on all breakpoints */
   .pp-footer__cols {
@@ -233,6 +245,8 @@
     align-items: center;
     gap: 24px;
     width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
     border-top: 1px solid rgba(228, 255, 211, 0.15);
     padding-top: 28px;
   }
@@ -416,8 +430,26 @@
         <a class="pp-footer__cta pp-footer__cta--outline" href="{{ section.settings.cta2_link }}">{{ section.settings.cta2_label }}</a>
       {%- endif -%}
 
-      {%- if section.settings.contact_text != blank -%}
-        <p class="pp-footer__contact-block">{{ section.settings.contact_text }}</p>
+      {%- if section.settings.whatsapp_number != blank or section.settings.email != blank -%}
+        <div class="pp-footer__contact-block">
+          {%- if section.settings.whatsapp_number != blank -%}
+            <a class="pp-footer__contact-row" href="https://wa.me/{{ section.settings.whatsapp_number | replace: ' ', '' | replace: '+', '' }}" target="_blank" rel="noopener" aria-label="WhatsApp">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 20.885 3.488"/>
+              </svg>
+              <span>{{ section.settings.whatsapp_display | default: section.settings.whatsapp_number }}</span>
+            </a>
+          {%- endif -%}
+          {%- if section.settings.email != blank -%}
+            <a class="pp-footer__contact-row" href="mailto:{{ section.settings.email }}">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <rect x="3" y="5" width="18" height="14" rx="2"/>
+                <path d="M3 7l9 6 9-6"/>
+              </svg>
+              <span>{{ section.settings.email }}</span>
+            </a>
+          {%- endif -%}
+        </div>
       {%- endif -%}
     </div>
 
@@ -560,7 +592,9 @@
     { "type": "url", "id": "cta2_link", "label": "Botón 2 — enlace" },
 
     { "type": "header", "content": "Contacto" },
-    { "type": "richtext", "id": "contact_text", "label": "Texto contacto", "default": "<p>667 279 907<br>info@purplant.es</p>" },
+    { "type": "text", "id": "whatsapp_number", "label": "WhatsApp (sin espacios, con prefijo)", "default": "34667279907" },
+    { "type": "text", "id": "whatsapp_display", "label": "WhatsApp — texto mostrado", "default": "667 279 907" },
+    { "type": "text", "id": "email", "label": "Email", "default": "info@purplant.es" },
 
     { "type": "header", "content": "Social links" },
     { "type": "url", "id": "instagram_url", "label": "Instagram" },
