@@ -131,7 +131,6 @@
         },
         "planet_discounts_upsells_planet_volume_discount_product_selector_CNJGqw": {
           "type": "shopify://apps/planet-discounts-upsells/blocks/planet-volume-discount-product-selector/7760a1dc-aa67-41be-af44-a96da1e75b18",
-          "disabled": true,
           "settings": {
             "volume_widget_css": ""
           }
