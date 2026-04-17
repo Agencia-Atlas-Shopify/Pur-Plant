@@ -116,7 +116,7 @@
             "image_desktop": "{{ collection.image }}",
             "subheading": "",
             "heading": "{{ collection.title }}",
-            "subtitle": "",
+            "subtitle": "hasta 50%",
             "content_position": "bottom-left",
             "button_text": "",
             "button_link": "",
@@ -130,9 +130,9 @@
             "heading_size_mobile": 0,
             "heading_weight": "default",
             "heading_color": "",
-            "subheading_font": "default",
-            "subheading_size": 0,
-            "subheading_size_mobile": 0,
+            "subheading_font": "'Aileron', sans-serif",
+            "subheading_size": 36,
+            "subheading_size_mobile": 21,
             "subheading_weight": "default",
             "subheading_color": "",
             "btn_font": "default",
@@ -165,6 +165,11 @@
         "button_background": "255 255 255",
         "button_text_color": "0 0 0"
       }
+    },
+    "pp_collection_header_nQwnzb": {
+      "type": "pp-collection-header",
+      "name": "PP Collection Header",
+      "settings": {}
     },
     "pp_collection_grid": {
       "type": "pp-collection",
@@ -224,6 +229,7 @@
     "pp_collection_title",
     "collection_list_HeJ7Ch",
     "pp_hero_slider_UwEACy",
+    "pp_collection_header_nQwnzb",
     "pp_collection_grid",
     "pp_collection_desc",
     "main"
