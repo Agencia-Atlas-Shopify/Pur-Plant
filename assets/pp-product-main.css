@@ -1054,6 +1054,7 @@
     order: 2;
     position: static;
     display: flex;
+    flex-direction: column;
     max-height: none;
     overflow: visible;
     max-width: 100%;
@@ -1204,6 +1205,9 @@
   .pp-pdp__info-right > .pp-vol { order: 12; }
   .pp-pdp__info-right > .pp-pdp__recommended { order: 13; }
   .pp-pdp__info-right > .pp-pdp__routine { order: 14; }
+  .pp-pdp__info-right > .pp-pdp__app-block { order: 15; }
+  /* Fallback: any unordered direct child gets pushed to the end */
+  .pp-pdp__info-right > * { order: 20; }
 
   /* Mobile-only care icons inside info-right; hide the desktop version (info-left) */
   .pp-pdp__info-left > .pp-pdp__care-icons { display: none; }
