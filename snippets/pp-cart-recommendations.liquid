@@ -13,7 +13,27 @@
   assign title = settings.pp_cart_reco_title | default: 'Completa tu pedido'
   assign limit = settings.pp_cart_reco_limit | default: 8
   assign source_collection = settings.pp_cart_reco_collection
-  assign first_item_product_id = cart.items.first.product.id
+  assign first_item = cart.items.first
+  assign first_item_product = first_item.product
+  assign first_item_product_id = first_item_product.id
+
+  # Priority: configured collection > product metafield > metafield collection
+  assign reco_products = empty
+  assign reco_source = ''
+
+  if source_collection != blank
+    assign reco_products = source_collection.products
+    assign reco_source = 'collection-setting'
+  elsif first_item_product.metafields.custom.productos_recomendados != blank
+    assign reco_products = first_item_product.metafields.custom.productos_recomendados.value
+    assign reco_source = 'metafield-products'
+  elsif first_item_product.metafields.custom.explora_la_coleccion != blank
+    assign reco_collection = first_item_product.metafields.custom.explora_la_coleccion.value
+    if reco_collection.products.size > 0
+      assign reco_products = reco_collection.products
+      assign reco_source = 'metafield-collection'
+    endif
+  endif
 -%}
 
 <div
@@ -21,13 +41,16 @@
   data-cart-reco
   data-limit="{{ limit }}"
   data-product-id="{{ first_item_product_id }}"
+  data-reco-source="{{ reco_source }}"
   {%- if source_collection != blank %} data-collection-handle="{{ source_collection.handle }}"{%- endif -%}
 >
   <h4 class="pp-cart-reco__title">{{ title | upcase }}</h4>
   <div class="pp-cart-reco__track" data-cart-reco-list>
-    {%- if source_collection != blank -%}
-      {%- comment -%} SSR the collection products when a collection is configured {%- endcomment -%}
-      {%- for product in source_collection.products limit: limit -%}
+    {%- if reco_products != empty -%}
+      {%- assign rendered = 0 -%}
+      {%- for product in reco_products -%}
+        {%- if product.id == first_item_product_id -%}{%- continue -%}{%- endif -%}
+        {%- if rendered >= limit -%}{%- break -%}{%- endif -%}
         {%- assign reco_variant = product.selected_or_first_available_variant -%}
         <div class="pp-cart-reco__card">
           <a href="{{ product.url }}" class="pp-cart-reco__media">
@@ -48,6 +71,7 @@
             <a href="{{ product.url }}" class="pp-cart-reco__add" aria-label="Ver">→</a>
           {%- endif -%}
         </div>
+        {%- assign rendered = rendered | plus: 1 -%}
       {%- endfor -%}
     {%- endif -%}
   </div>

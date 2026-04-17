@@ -16,9 +16,19 @@
 {%- liquid
   assign has_arbol = false
   for li in cart.items
-    assign it_type = li.product.type | downcase
-    if it_type contains 'árbol' or it_type contains 'arbol'
+    assign li_title_lower = li.product.title | downcase
+    if li_title_lower contains 'árbol' or li_title_lower contains 'arbol'
       assign has_arbol = true
+      break
+    endif
+    for tag in li.product.tags
+      assign tag_lower = tag | downcase
+      if tag_lower contains 'árbol' or tag_lower contains 'arbol'
+        assign has_arbol = true
+        break
+      endif
+    endfor
+    if has_arbol
       break
     endif
   endfor
