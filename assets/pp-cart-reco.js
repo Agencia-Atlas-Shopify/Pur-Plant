@@ -75,13 +75,22 @@
   });
   observer.observe(document.body, { childList: true, subtree: true });
 
-  // Add-to-cart delegation (event bubbles to document)
+  // Add-to-cart delegation — capture phase so nothing can stop propagation first
   document.addEventListener('click', function (ev) {
     var btn = ev.target.closest('[data-cart-reco-add]');
     if (!btn) return;
+    console.log('[pp-cart-reco] click on +', btn.dataset.variantId);
     ev.preventDefault();
+    ev.stopPropagation();
     var variantId = btn.dataset.variantId;
-    if (!variantId || btn.disabled) return;
+    if (!variantId) {
+      console.warn('[pp-cart-reco] no variantId on button');
+      return;
+    }
+    if (btn.disabled) {
+      console.warn('[pp-cart-reco] button already disabled, skipping');
+      return;
+    }
 
     btn.disabled = true;
     btn.style.opacity = '0.5';
@@ -146,7 +155,7 @@
         btn.disabled = false;
         btn.style.opacity = '';
       });
-  });
+  }, true); // capture phase
 
   initAll();
 })();
