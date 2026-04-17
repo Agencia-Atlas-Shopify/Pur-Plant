@@ -743,34 +743,8 @@
     window.ppQuickAddInitialized = true;
 
     async function refreshCartDrawer() {
-      // Fetch the cart drawer section HTML using Shopify's section rendering API
-      try {
-        const response = await fetch('/?sections=cart-drawer,header');
-        if (!response.ok) return;
-
-        const sections = await response.json();
-
-        // Update cart drawer content
-        if (sections['cart-drawer']) {
-          const cartDrawer = document.querySelector('cart-drawer-component');
-          if (cartDrawer) {
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = sections['cart-drawer'];
-            const newContent = tempDiv.querySelector('cart-drawer-component');
-            if (newContent) {
-              // Replace inner content but keep the dialog open state
-              const dialog = cartDrawer.querySelector('dialog');
-              const wasOpen = dialog && dialog.open;
-              cartDrawer.innerHTML = newContent.innerHTML;
-              if (wasOpen) {
-                const newDialog = cartDrawer.querySelector('dialog');
-                if (newDialog) newDialog.showModal();
-              }
-            }
-          }
-        }
-      } catch (error) {
-        console.error('Error refreshing cart drawer:', error);
+      if (typeof window.ppRefreshCartDrawer === 'function') {
+        await window.ppRefreshCartDrawer({ open: true });
       }
     }
 

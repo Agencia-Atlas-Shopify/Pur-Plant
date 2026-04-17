@@ -626,8 +626,13 @@
       setButtonLoading(false);
       showButtonSuccess();
 
-      // Dispatch cart:update so cart-items-component morphs the drawer
-      // and cart-drawer-component auto-opens via its CartAddEvent listener.
+      // Preferred path: use the robust refresher exposed by pp-cart-drawer
+      if (typeof window.ppRefreshCartDrawer === 'function') {
+        window.ppRefreshCartDrawer({ open: true });
+        return;
+      }
+
+      // Fallback: dispatch cart:update + manual open
       var evt = new CustomEvent('cart:update', {
         bubbles: true,
         detail: {
@@ -641,7 +646,6 @@
       });
       document.dispatchEvent(evt);
 
-      // Update cart count from /cart.js as backup
       fetch('/cart.js', { credentials: 'same-origin' })
         .then(function (r) { return r.json(); })
         .then(function (cart) {
@@ -650,7 +654,6 @@
         })
         .catch(function () {});
 
-      // Open the drawer if it didn't auto-open
       openCartDrawer();
     })
     .catch(function (err) {

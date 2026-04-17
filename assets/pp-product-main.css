@@ -944,6 +944,22 @@
   50% { opacity: 0.3; transform: scale(0.8); }
 }
 
+.pp-pdp__arbol-notice {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  margin: 12px 0;
+  background: #fff3e0;
+  color: #8a4a00;
+  font-size: 13px;
+  line-height: 1.4;
+  border: 1px solid rgba(138, 74, 0, 0.2);
+  border-radius: 8px;
+}
+
+.pp-pdp__arbol-notice svg { flex-shrink: 0; }
+
 .pp-pdp__shipping-bottom {
   margin-top: 16px;
   text-align: left;
@@ -1201,6 +1217,7 @@
   .pp-pdp__info-right > .pp-pdp__total { order: 8; }
   .pp-pdp__info-right > .pp-pdp__buy-wrap { order: 9; }
   .pp-pdp__info-right > .pp-pdp__shipping-info { order: 10; }
+  .pp-pdp__info-right > .pp-pdp__arbol-notice { order: 10; }
   .pp-pdp__info-right > .pp-pdp__shipping-bottom { order: 11; }
   .pp-pdp__info-right > .pp-vol { order: 12; }
   .pp-pdp__info-right > .pp-pdp__recommended { order: 13; }

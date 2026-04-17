@@ -13,6 +13,17 @@
 <script src="{{ 'component-cart-quantity-selector.js' | asset_url }}" type="module" fetchpriority="low"></script>
 <script src="{{ 'component-quantity-selector.js' | asset_url }}" type="module" fetchpriority="low"></script>
 
+{%- liquid
+  assign has_arbol = false
+  for li in cart.items
+    assign it_type = li.product.type | downcase
+    if it_type contains 'árbol' or it_type contains 'arbol'
+      assign has_arbol = true
+      break
+    endif
+  endfor
+-%}
+
 <cart-drawer-component
   class="pp-cart-drawer"
   {% if settings.auto_open_cart_drawer %}auto-open{% endif %}
@@ -23,7 +34,7 @@
     aria-labelledby="pp-cart-drawer-heading"
     scroll-lock
   >
-    <div class="pp-cart-drawer__inner" data-hydration-key="pp-cart-drawer-inner">
+    <div class="pp-cart-drawer__inner" data-hydration-key="pp-cart-drawer-inner" data-has-arbol="{{ has_arbol }}">
       <cart-items-component
         class="pp-cart-drawer__cart-items"
         data-drawer
@@ -49,6 +60,17 @@
           </button>
         </div>
 
+        {%- comment -%} Árboles delivery notice (5–7 days) {%- endcomment -%}
+        {%- if has_arbol -%}
+          <div class="pp-cart-drawer__arbol-notice" role="status">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 6v6l4 2"/>
+            </svg>
+            <span>Los árboles se envían en <strong>5-7 días laborables</strong>. El resto de artículos en 24-48h.</span>
+          </div>
+        {%- endif -%}
+
         {%- comment -%} Free Shipping Bar {%- endcomment -%}
         {%- if settings.pp_cart_free_ship_enabled and settings.pp_cart_free_ship_threshold > 0 -%}
           <div class="pp-cart-drawer__shipping-bar">
@@ -61,7 +83,7 @@
           {%- if cart.empty? -%}
             <div class="pp-cart-drawer__empty">
               <p>{{ 'content.your_cart_is_empty' | t }}</p>
-              <a href="{{ routes.collections_url }}" class="pp-cart-drawer__continue-btn">
+              <a href="{{ routes.root_url }}" class="pp-cart-drawer__continue-btn">
                 {{ 'actions.continue_shopping' | t | upcase }}
               </a>
             </div>
@@ -228,6 +250,31 @@
 
   .pp-cart-drawer__close:hover {
     opacity: 1;
+  }
+
+  /* Árboles delivery notice */
+  .pp-cart-drawer__arbol-notice {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 32px;
+    background: #fff3e0;
+    color: #8a4a00;
+    font-size: 12px;
+    line-height: 1.4;
+    border-bottom: 1px solid rgba(138, 74, 0, 0.12);
+    flex-shrink: 0;
+  }
+
+  .pp-cart-drawer__arbol-notice svg {
+    flex-shrink: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .pp-cart-drawer__arbol-notice {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
   }
 
   /* Free shipping bar */
@@ -626,3 +673,108 @@
     }
   }
 {% endstylesheet %}
+
+<script>
+(function(){
+  if (window.__ppCartDrawerRefreshInit) return;
+  window.__ppCartDrawerRefreshInit = true;
+
+  var SECTION_ID = {{ section.id | json }};
+  var busy = false;
+
+  function qs(sel, root){ return (root||document).querySelector(sel); }
+
+  function getDrawer(){ return document.querySelector('cart-drawer-component'); }
+  function getDialog(){
+    var d = getDrawer();
+    return d ? d.querySelector('dialog') : null;
+  }
+
+  function openDialog(){
+    var dialog = getDialog();
+    if (!dialog) return;
+    if (dialog.open) return;
+    try { dialog.showModal(); }
+    catch(e){
+      var drawer = getDrawer();
+      if (drawer && typeof drawer.showDialog === 'function') drawer.showDialog();
+      else if (drawer && typeof drawer.open === 'function') drawer.open();
+    }
+  }
+
+  window.ppRefreshCartDrawer = function(options){
+    options = options || {};
+    var shouldOpen = options.open === true;
+    if (busy) return Promise.resolve();
+    busy = true;
+    return fetch(window.location.pathname + '?sections=' + SECTION_ID, {
+      headers: { 'Accept': 'application/json' },
+      credentials: 'same-origin'
+    })
+    .then(function(res){ return res.ok ? res.json() : null; })
+    .then(function(json){
+      if (!json) return;
+      var html = json[SECTION_ID];
+      if (!html) return;
+      var tmp = document.createElement('div');
+      tmp.innerHTML = html;
+      var newInner = qs('[data-hydration-key="pp-cart-drawer-inner"]', tmp);
+      var oldInner = qs('[data-hydration-key="pp-cart-drawer-inner"]');
+      if (newInner && oldInner) {
+        oldInner.innerHTML = newInner.innerHTML;
+        // Copy data attributes (e.g. data-has-arbol) so CSS/JS relying on them updates
+        Array.prototype.slice.call(newInner.attributes).forEach(function(attr){
+          if (attr.name.indexOf('data-') === 0) oldInner.setAttribute(attr.name, attr.value);
+        });
+      }
+      // Update cart count badges from the freshly rendered header
+      var newBadges = tmp.querySelectorAll('.pp-header__cart-count, [data-cart-count]');
+      var oldBadges = document.querySelectorAll('.pp-header__cart-count, [data-cart-count]');
+      if (newBadges.length && oldBadges.length) {
+        oldBadges.forEach(function(el, i){
+          if (newBadges[i]) el.textContent = newBadges[i].textContent;
+        });
+      }
+      if (shouldOpen) openDialog();
+    })
+    .catch(function(){ /* noop */ })
+    .finally(function(){ busy = false; });
+  };
+
+  // Intercept line-item remove clicks — refresh drawer without closing dialog
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('.pp-cart-line__remove');
+    if (!btn) return;
+    e.preventDefault();
+    e.stopPropagation();
+    var row = btn.closest('.pp-cart-line');
+    var key = row ? row.getAttribute('data-key') : null;
+    if (!key) return;
+    btn.setAttribute('disabled', 'true');
+    fetch('/cart/change.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify({ id: key, quantity: 0 })
+    })
+    .then(function(){ return window.ppRefreshCartDrawer({ open: true }); })
+    .catch(function(){ btn.removeAttribute('disabled'); });
+  }, true);
+
+  // Re-open dialog if still logically "open" after native morph (safety net)
+  document.addEventListener('cart:update', function(){
+    // Small delay so native morph settles first
+    setTimeout(function(){
+      // Only refresh-and-open if the drawer was meant to be open.
+      var dialog = getDialog();
+      if (!dialog) return;
+      // If header badge says 0 and drawer empty state already rendered, still fine
+      // We just ensure the drawer keeps showing, not that it auto-closes.
+      if (dialog.open) {
+        // Content may have morphed; refresh inner to guarantee consistency
+        window.ppRefreshCartDrawer({ open: true });
+      }
+    }, 100);
+  });
+})();
+</script>
