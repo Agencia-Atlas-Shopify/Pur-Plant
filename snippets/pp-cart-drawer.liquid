@@ -12,6 +12,8 @@
 <script src="{{ 'component-cart-items.js' | asset_url }}" type="module" fetchpriority="low"></script>
 <script src="{{ 'component-cart-quantity-selector.js' | asset_url }}" type="module" fetchpriority="low"></script>
 <script src="{{ 'component-quantity-selector.js' | asset_url }}" type="module" fetchpriority="low"></script>
+{%- comment -%} Preload reco script always so inline onclick handlers work after innerHTML refresh {%- endcomment -%}
+<script src="{{ 'pp-cart-reco.js' | asset_url }}" defer></script>
 
 {%- liquid
   comment
