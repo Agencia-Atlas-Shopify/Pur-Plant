@@ -10,7 +10,7 @@
 
   .pp-footer__top {
     display: grid;
-    grid-template-columns: minmax(260px, 360px) 1fr;
+    grid-template-columns: 1fr 1fr;
     align-items: start;
     gap: 64px;
   }
@@ -362,12 +362,29 @@
         {%- endif -%}
       </div>
 
-      {%- if section.settings.reviews_url != blank -%}
-        <a class="pp-footer__reviews" href="{{ section.settings.reviews_url }}" target="_blank" rel="noopener">
-          <span class="pp-footer__reviews-stars">★★★★★</span>
+      {%- comment -%} Reviews badge — auto from Judge.me, fallback to manual {%- endcomment -%}
+      {%- liquid
+        assign jdg_rating = shop.metafields.judgeme.all_reviews_rating
+        assign jdg_count = shop.metafields.judgeme.all_reviews_count
+        assign reviews_rating_val = section.settings.reviews_rating
+        assign reviews_count_val = section.settings.reviews_count
+        if jdg_rating != blank and jdg_rating != '0.00' and jdg_rating != '0'
+          assign reviews_rating_val = jdg_rating | times: 1.0 | round: 1
+        endif
+        if jdg_count != blank and jdg_count != '0'
+          assign reviews_count_val = jdg_count | append: ' reseñas'
+        endif
+        assign has_reviews = false
+        if reviews_rating_val != blank and reviews_count_val != blank
+          assign has_reviews = true
+        endif
+      -%}
+      {%- if has_reviews -%}
+        <a class="pp-footer__reviews" href="{{ section.settings.reviews_url | default: '#' }}"{% if section.settings.reviews_url != blank %} target="_blank" rel="noopener"{% endif %}>
+          <span class="pp-footer__reviews-stars" aria-hidden="true">★★★★★</span>
           <span class="pp-footer__reviews-text">
-            <strong>{{ section.settings.reviews_rating | default: '4.8' }}</strong>
-            {{ section.settings.reviews_count | default: '4361' }} reseñas
+            <strong>{{ reviews_rating_val }}</strong>
+            {{ reviews_count_val }}
           </span>
         </a>
       {%- endif -%}
@@ -528,10 +545,10 @@
     { "type": "image_picker", "id": "logo", "label": "Logo (isotipo)" },
     { "type": "link_list", "id": "legal_menu", "label": "Legal menu" },
 
-    { "type": "header", "content": "Reseñas (badge)" },
-    { "type": "url", "id": "reviews_url", "label": "URL reseñas" },
-    { "type": "text", "id": "reviews_rating", "label": "Nota", "default": "4.8" },
-    { "type": "text", "id": "reviews_count", "label": "Nº reseñas", "default": "4361 reseñas" },
+    { "type": "header", "content": "Reseñas (auto Judge.me)", "info": "Los valores se leen automáticamente de Judge.me. Los campos manuales solo se usan como fallback si Judge.me no está disponible." },
+    { "type": "url", "id": "reviews_url", "label": "URL reseñas (opcional, link del badge)" },
+    { "type": "text", "id": "reviews_rating", "label": "Fallback — nota" },
+    { "type": "text", "id": "reviews_count", "label": "Fallback — texto nº reseñas" },
 
     { "type": "header", "content": "Promo (tarjeta regalo, ofertas…)" },
     { "type": "image_picker", "id": "promo_image", "label": "Imagen promo" },
