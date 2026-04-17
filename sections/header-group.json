@@ -113,7 +113,7 @@
           "type": "menu_item",
           "settings": {
             "label": "Regalos",
-            "url": "/collections/regalos",
+            "url": "shopify://collections/regalos-originales",
             "superscript": "",
             "highlight": false,
             "submenu": ""
