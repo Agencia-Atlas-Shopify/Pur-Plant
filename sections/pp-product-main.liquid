@@ -610,6 +610,7 @@
           <div class="pp-pdp__routine-slider" data-pp-routine-slider>
             {%- for rec in rec_products limit: 8 -%}
               {%- if rec.id == product.id -%}{%- continue -%}{%- endif -%}
+              {%- unless rec.available -%}{%- continue -%}{%- endunless -%}
               {%- liquid
                 assign rec_variant = rec.selected_or_first_available_variant
                 assign rec_can_direct_add = false

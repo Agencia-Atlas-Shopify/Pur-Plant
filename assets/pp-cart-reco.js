@@ -75,25 +75,19 @@
   });
   observer.observe(document.body, { childList: true, subtree: true });
 
-  // Add-to-cart delegation — capture phase so nothing can stop propagation first
-  document.addEventListener('click', function (ev) {
-    var btn = ev.target.closest('[data-cart-reco-add]');
-    if (!btn) return;
-    console.log('[pp-cart-reco] click on +', btn.dataset.variantId);
-    ev.preventDefault();
-    ev.stopPropagation();
-    var variantId = btn.dataset.variantId;
-    if (!variantId) {
-      console.warn('[pp-cart-reco] no variantId on button');
-      return;
+  // Expose global function for inline onclick handlers on recommendation buttons.
+  // This bypasses any event-delegation issues with other scripts stopping propagation.
+  window.ppCartRecoAdd = function (btn, variantId) {
+    console.log('[pp-cart-reco] add via inline onclick', variantId);
+    if (!variantId || (btn && btn.disabled)) return;
+    if (btn) {
+      btn.disabled = true;
+      btn.style.opacity = '0.5';
     }
-    if (btn.disabled) {
-      console.warn('[pp-cart-reco] button already disabled, skipping');
-      return;
-    }
+    triggerAdd(btn, variantId);
+  };
 
-    btn.disabled = true;
-    btn.style.opacity = '0.5';
+  function triggerAdd(btn, variantId) {
 
     var sectionIds = [];
     document.querySelectorAll('cart-items-component[data-section-id]').forEach(function (el) {
@@ -152,10 +146,24 @@
       })
       .catch(function (err) { console.warn('[pp-cart-reco] add failed:', err); })
       .finally(function () {
-        btn.disabled = false;
-        btn.style.opacity = '';
+        if (btn) {
+          btn.disabled = false;
+          btn.style.opacity = '';
+        }
       });
-  }, true); // capture phase
+  }
+
+  // Bonus delegation fallback (for any button that was already rendered)
+  document.addEventListener('click', function (ev) {
+    var btn = ev.target.closest('[data-cart-reco-add]');
+    if (!btn || btn.disabled) return;
+    ev.preventDefault();
+    var variantId = btn.dataset.variantId;
+    if (!variantId) return;
+    btn.disabled = true;
+    btn.style.opacity = '0.5';
+    triggerAdd(btn, variantId);
+  }, true);
 
   initAll();
 })();
