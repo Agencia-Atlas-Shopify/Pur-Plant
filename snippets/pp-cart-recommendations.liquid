@@ -34,6 +34,16 @@
       assign reco_source = 'metafield-collection'
     endif
   endif
+
+  # Ultimate fallback: use top-ventas collection when nothing else matched
+  if reco_products == empty
+    assign fallback_handle = settings.pp_cart_reco_fallback_handle | default: 'top-ventas'
+    assign fallback_coll = collections[fallback_handle]
+    if fallback_coll != blank and fallback_coll.products.size > 0
+      assign reco_products = fallback_coll.products
+      assign reco_source = 'fallback-collection'
+    endif
+  endif
 -%}
 
 <div
