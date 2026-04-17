@@ -364,8 +364,14 @@
   positionMega();
   window.addEventListener('scroll', positionMega);
   window.addEventListener('resize', positionMega);
+  window.addEventListener('load', positionMega);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(positionMega);
+  }
 
   function open(panelId) {
+    positionMega();
+    requestAnimationFrame(positionMega);
     mega.setAttribute('aria-hidden', 'false');
     document.body.classList.add('pp-mega-open');
     panels.forEach(function(p) {
