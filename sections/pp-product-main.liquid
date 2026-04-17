@@ -381,14 +381,32 @@
         {%- endif -%}
       </div>
 
-      {%- comment -%} Size pills from tamano metafield + tamanos_relacionados {%- endcomment -%}
-      {%- if product.metafields.custom.tamano != blank or product.metafields.custom.tamanos_relacionados != blank -%}
+      {%- comment -%}
+        Size pills from tamano metafield + tamanos_relacionados.
+        Only render if product has 2+ available sizes (current + 1 related min).
+        XS is intentionally excluded.
+      {%- endcomment -%}
+      {%- liquid
+        assign sizes = 'S,M,L,XL,XXL' | split: ','
+        assign current_size = product.metafields.custom.tamano
+        assign related = product.metafields.custom.tamanos_relacionados.value
+        assign available_count = 0
+        if current_size != blank and current_size != 'XS'
+          assign available_count = available_count | plus: 1
+        endif
+        if related != blank
+          for rel in related
+            assign rel_size = rel.metafields.custom.tamano
+            if rel_size != blank and rel_size != 'XS' and rel_size != current_size
+              assign available_count = available_count | plus: 1
+            endif
+          endfor
+        endif
+      -%}
+      {%- if available_count >= 2 -%}
         <div class="pp-pdp__variants-wrap">
           <div class="pp-pdp__variant-group">
             <div class="pp-pdp__variant-pills">
-              {%- assign sizes = 'XS,S,M,L,XL,XXL' | split: ',' -%}
-              {%- assign current_size = product.metafields.custom.tamano -%}
-              {%- assign related = product.metafields.custom.tamanos_relacionados.value -%}
               {%- for size in sizes -%}
                 {%- liquid
                   assign is_current = false
@@ -413,24 +431,8 @@
                   {%- else -%}
                     <a href="{{ related_url }}" class="pp-pdp__variant-pill">{{ size }}</a>
                   {%- endif -%}
-                {%- else -%}
-                  <span class="pp-pdp__variant-pill is-unavailable" disabled>{{ size }}</span>
                 {%- endif -%}
               {%- endfor -%}
-            </div>
-          </div>
-        </div>
-      {%- else -%}
-        {%- comment -%} Demo fallback: show all sizes {%- endcomment -%}
-        <div class="pp-pdp__variants-wrap">
-          <div class="pp-pdp__variant-group">
-            <div class="pp-pdp__variant-pills">
-              <span class="pp-pdp__variant-pill">XS</span>
-              <span class="pp-pdp__variant-pill">S</span>
-              <span class="pp-pdp__variant-pill is-active">M</span>
-              <span class="pp-pdp__variant-pill">L</span>
-              <span class="pp-pdp__variant-pill">XL</span>
-              <span class="pp-pdp__variant-pill">XXL</span>
             </div>
           </div>
         </div>
