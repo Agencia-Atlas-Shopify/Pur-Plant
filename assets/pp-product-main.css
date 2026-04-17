@@ -288,7 +288,7 @@
   display: flex;
   align-items: baseline;
   gap: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 0;
   font-family: var(--pp-font-body);
 }
 
@@ -829,18 +829,18 @@
 /* ---------- Routine / Recommended Products ---------- */
 .pp-pdp__routine {
   margin-top: 0;
-  padding-top: 16px;
+  padding-top: 0;
   border-top: 0;
 }
 
 .pp-pdp__routine-title {
   font-family: 'Tenor Sans', Georgia, serif;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 0.255em;
+  letter-spacing: 0.22em;
   color: var(--pp-dark-green);
-  margin: 0 0 12px;
+  margin: 0 0 8px;
 }
 
 .pp-pdp__routine-slider {
@@ -851,8 +851,8 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
   border: 1px solid black;
-  padding: 10px 12px 8px 15px;
-  border-radius: 30px;
+  padding: 8px 10px 6px 12px;
+  border-radius: 24px;
   min-width: 0;
   max-width: 100%;
   width: 100%;
@@ -888,8 +888,8 @@
 
 .pp-pdp__routine-img {
   position: relative;
-  width: 80px;
-  height: 100px;
+  width: 64px;
+  height: 80px;
   overflow: hidden;
   border-radius: 6px;
   background: #f5f5f5;
@@ -920,7 +920,7 @@
 
 .pp-pdp__routine-price {
   font-family: 'Inter', sans-serif;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
 }
 
