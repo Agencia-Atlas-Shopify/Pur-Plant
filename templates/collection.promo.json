@@ -114,6 +114,7 @@
           "type": "slide",
           "settings": {
             "image_desktop": "{{ collection.image }}",
+            "image_mobile": "shopify://shop_images/fiesta_primavera_header_movile.jpg",
             "subheading": "",
             "heading": "{{ collection.title }}",
             "subtitle": "hasta 50%",
