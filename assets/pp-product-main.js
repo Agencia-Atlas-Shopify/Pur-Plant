@@ -558,36 +558,30 @@
   }
 
   function openCartDrawer() {
-    // Try common cart drawer open patterns
+    // Direct <dialog> open — most reliable path
+    var dialog = qs('cart-drawer-component dialog') || qs('.pp-cart-drawer__dialog');
+    if (dialog && !dialog.open) {
+      try { dialog.showModal(); return; } catch (e) { /* fallthrough */ }
+    }
+
+    // Component methods
     var drawer = qs('cart-drawer-component') || qs('.cart-drawer');
     if (drawer) {
-      // Custom element with open method
-      if (typeof drawer.open === 'function') {
-        drawer.open();
-        return;
-      }
-      // Try show method
-      if (typeof drawer.show === 'function') {
-        drawer.show();
-        return;
-      }
+      if (typeof drawer.showDialog === 'function') { try { drawer.showDialog(); return; } catch (e) {} }
+      if (typeof drawer.open === 'function')       { try { drawer.open();       return; } catch (e) {} }
+      if (typeof drawer.show === 'function')       { try { drawer.show();       return; } catch (e) {} }
     }
 
-    // Try toggling via details/summary pattern
+    // details/summary pattern
     var details = qs('details#cart-drawer, details.cart-drawer');
-    if (details) {
-      details.open = true;
-      return;
-    }
+    if (details) { details.open = true; return; }
 
-    // Try dispatching a custom event that the theme might listen for
+    // Dispatch custom event for theme listeners
     document.dispatchEvent(new CustomEvent('cart:open'));
 
-    // Try clicking the cart icon to trigger native drawer
-    var cartIcon = qs('[data-cart-toggle], .header__icon--cart, .cart-icon-bubble');
-    if (cartIcon) {
-      cartIcon.click();
-    }
+    // Click cart icon as last resort
+    var cartIcon = qs('[data-cart-toggle], [data-cart-drawer-trigger], .header__icon--cart, .cart-icon-bubble');
+    if (cartIcon) cartIcon.click();
   }
 
   function addToCart(variantId, quantity) {
@@ -626,13 +620,20 @@
       setButtonLoading(false);
       showButtonSuccess();
 
-      // Preferred path: use the robust refresher exposed by pp-cart-drawer
+      // 1. Open drawer immediately — don't wait on refresh
+      openCartDrawer();
+
+      // 2. Refresh content (async, non-blocking)
       if (typeof window.ppRefreshCartDrawer === 'function') {
-        window.ppRefreshCartDrawer({ open: true });
-        return;
+        try {
+          var p = window.ppRefreshCartDrawer({ open: true });
+          if (p && typeof p.catch === 'function') {
+            p.catch(function (err) { console.warn('[pp] refresh failed:', err); });
+          }
+        } catch (e) { console.warn('[pp] refresh threw:', e); }
       }
 
-      // Fallback: dispatch cart:update + manual open
+      // 3. Always dispatch cart:update for any other listener (count badges etc.)
       var evt = new CustomEvent('cart:update', {
         bubbles: true,
         detail: {
@@ -646,6 +647,7 @@
       });
       document.dispatchEvent(evt);
 
+      // 4. Update cart count badges from /cart.js as backup
       fetch('/cart.js', { credentials: 'same-origin' })
         .then(function (r) { return r.json(); })
         .then(function (cart) {
@@ -653,8 +655,6 @@
           countEls.forEach(function (el) { el.textContent = cart.item_count; });
         })
         .catch(function () {});
-
-      openCartDrawer();
     })
     .catch(function (err) {
       setButtonLoading(false);
