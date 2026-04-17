@@ -396,6 +396,9 @@
   padding: 14px 0;
 }
 
+/* Mobile duplicate is hidden on desktop; activated in mobile media query */
+.pp-pdp__care-icons--mobile { display: none; }
+
 .pp-pdp__care-icons:empty {
   display: none;
   margin: 0;
@@ -1186,20 +1189,30 @@
     min-width: 0;
   }
 
-  /* Reorder children in mobile: variants → buy → shipping bottom */
+  /* Reorder children in mobile: breadcrumb → title → sci → price → variants → care → total → buy → shipping → pack ahorro → routine */
   .pp-pdp__info-right > .pp-pdp__breadcrumb { order: 1; }
   .pp-pdp__info-right > .pp-pdp__stars { order: 2; }
   .pp-pdp__info-right > .pp-pdp__title { order: 3; }
   .pp-pdp__info-right > .pp-pdp__scientific-name { order: 4; }
   .pp-pdp__info-right > .pp-pdp__price { order: 5; }
   .pp-pdp__info-right > .pp-pdp__variants-wrap { order: 6; }
-  .pp-pdp__info-right > .pp-pdp__total { order: 7; }
-  .pp-pdp__info-right > .pp-pdp__buy-wrap { order: 8; }
-  .pp-pdp__info-right > .pp-pdp__shipping-bottom { order: 9; }
-  /* Move recommendations + routine + shipping-info AFTER the buy section */
-  .pp-pdp__info-right > .pp-pdp__recommended { order: 10; }
-  .pp-pdp__info-right > .pp-pdp__routine { order: 11; }
-  .pp-pdp__info-right > .pp-pdp__shipping-info { order: 12; }
+  .pp-pdp__info-right > .pp-pdp__care-icons--mobile { order: 7; }
+  .pp-pdp__info-right > .pp-pdp__total { order: 8; }
+  .pp-pdp__info-right > .pp-pdp__buy-wrap { order: 9; }
+  .pp-pdp__info-right > .pp-pdp__shipping-info { order: 10; }
+  .pp-pdp__info-right > .pp-pdp__shipping-bottom { order: 11; }
+  .pp-pdp__info-right > .pp-vol { order: 12; }
+  .pp-pdp__info-right > .pp-pdp__recommended { order: 13; }
+  .pp-pdp__info-right > .pp-pdp__routine { order: 14; }
+
+  /* Mobile-only care icons inside info-right; hide the desktop version (info-left) */
+  .pp-pdp__info-left > .pp-pdp__care-icons { display: none; }
+  .pp-pdp__care-icons--mobile {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 12px 0;
+  }
 
   /* Total row — center, no fixed widths */
   .pp-pdp__total {
