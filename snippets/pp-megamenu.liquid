@@ -474,18 +474,31 @@
     });
   });
 
-  function updateBodyScroll() {
-    if (window.innerWidth < 750 && mega.getAttribute('aria-hidden') === 'false') {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
+  function lockBodyScroll() {
+    if (window.innerWidth < 750) {
+      document.body.classList.add('pp-mega-scroll-lock');
     }
+  }
+  function unlockBodyScroll() {
+    document.body.classList.remove('pp-mega-scroll-lock');
+    document.body.style.overflow = '';
   }
 
   var origOpen = open;
-  open = function(panelId) { origOpen(panelId); updateBodyScroll(); };
+  open = function(panelId) { origOpen(panelId); lockBodyScroll(); };
   var origClose = close;
-  close = function() { origClose(); document.body.style.overflow = ''; };
+  close = function() { origClose(); unlockBodyScroll(); };
+
+  window.addEventListener('resize', function() {
+    if (window.innerWidth >= 750) unlockBodyScroll();
+  });
+
+  window.addEventListener('pageshow', unlockBodyScroll);
+
+  mega.addEventListener('click', function(e) {
+    var a = e.target.closest('a[href]');
+    if (a) unlockBodyScroll();
+  });
 
   mega.querySelectorAll('.pp-mega__mobile-item').forEach(function(btn) {
     btn.addEventListener('click', function() {

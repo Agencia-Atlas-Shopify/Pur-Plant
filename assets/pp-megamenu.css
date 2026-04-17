@@ -16,7 +16,7 @@
   opacity: 0;
   pointer-events: none;
   border-radius: 0 0 var(--pp-header-border-radius, 16px) var(--pp-header-border-radius, 16px);
-  margin-top: calc(-1 * var(--pp-header-border-radius, 16px));
+  margin-top: 0;
 }
 
 .pp-mega[aria-hidden="false"] {
@@ -238,6 +238,14 @@
 .pp-mega[aria-hidden="false"]::after {
   opacity: 1;
   pointer-events: auto;
+}
+
+/* ── Body scroll lock (mobile megamenu open) ── */
+@media screen and (max-width: 749px) {
+  body.pp-mega-scroll-lock {
+    overflow: hidden;
+    touch-action: none;
+  }
 }
 
 /* ══════════════════════════════════
