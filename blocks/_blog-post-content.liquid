@@ -37,11 +37,30 @@
   .blog-post-content .pp-embed {
     position: relative;
     width: 100%;
-    aspect-ratio: 16 / 9;
-    margin: 20px 0;
+    max-width: 720px;
+    aspect-ratio: var(--embed-ratio, 16 / 9);
+    margin: 24px auto;
     overflow: hidden;
     border-radius: 12px;
     background: #000;
+  }
+
+  .blog-post-content .pp-embed--vertical {
+    max-width: 360px;
+    border-radius: 16px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .blog-post-content .pp-embed {
+      max-width: 100%;
+      margin: 16px 0;
+      border-radius: 8px;
+    }
+    .blog-post-content .pp-embed--vertical {
+      max-width: 320px;
+      margin: 16px auto;
+      border-radius: 12px;
+    }
   }
 
   .blog-post-content .pp-embed iframe,
@@ -158,14 +177,35 @@
       .slice(0, 80);
   }
 
+  function isVertical(iframe) {
+    var src = (iframe.getAttribute('src') || '').toLowerCase();
+    if (src.indexOf('/shorts/') !== -1) return true;
+    if (src.indexOf('youtube.com/embed/') !== -1 && src.indexOf('shorts') !== -1) return true;
+    var w = parseFloat(iframe.getAttribute('width'));
+    var h = parseFloat(iframe.getAttribute('height'));
+    if (w > 0 && h > 0 && h > w) return true;
+    var sw = iframe.style.width;
+    var sh = iframe.style.height;
+    if (sw && sh) {
+      var nw = parseFloat(sw);
+      var nh = parseFloat(sh);
+      if (nw > 0 && nh > 0 && nh > nw) return true;
+    }
+    return false;
+  }
+
   function wrapEmbeds(container) {
-    var selectors = 'iframe[src*="youtube"], iframe[src*="youtu.be"], iframe[src*="vimeo"], iframe[src*="dailymotion"]';
+    var selectors = 'iframe[src*="youtube"], iframe[src*="youtu.be"], iframe[src*="vimeo"], iframe[src*="dailymotion"], iframe[src*="tiktok"], iframe[src*="instagram"]';
     container.querySelectorAll(selectors).forEach(function(iframe) {
       if (iframe.closest('.pp-embed')) return;
+      var vertical = isVertical(iframe);
       var wrap = document.createElement('div');
-      wrap.className = 'pp-embed';
+      wrap.className = 'pp-embed' + (vertical ? ' pp-embed--vertical' : '');
+      wrap.style.setProperty('--embed-ratio', vertical ? '9 / 16' : '16 / 9');
       iframe.removeAttribute('width');
       iframe.removeAttribute('height');
+      iframe.style.width = '';
+      iframe.style.height = '';
       iframe.parentNode.insertBefore(wrap, iframe);
       wrap.appendChild(iframe);
     });
