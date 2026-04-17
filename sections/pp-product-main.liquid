@@ -122,20 +122,7 @@
           {%- when 'accordion' -%}
             {%- liquid
               assign mf_key = block.settings.metafield_key
-              assign show_block = true
-              if block.settings.show_for_types != blank
-                assign allowed_types = block.settings.show_for_types | split: ','
-                assign show_block = false
-                for allowed in allowed_types
-                  assign allowed_trimmed = allowed | strip | downcase
-                  assign product_type_lower = product.type | downcase
-                  if product_type_lower == allowed_trimmed
-                    assign show_block = true
-                  endif
-                endfor
-              endif
             -%}
-            {%- if show_block -%}
               <details class="pp-pdp__accordion"{% if block.settings.open_by_default %} open{% endif %} {{ block.shopify_attributes }}>
                 <summary class="pp-pdp__accordion-header">
                   <span>{{ block.settings.heading }}</span>
@@ -210,7 +197,6 @@
                   {%- endif -%}
                 </div>
               </details>
-            {%- endif -%}
         {%- endcase -%}
       {%- endfor -%}
       {%- if care_icons_open -%}
@@ -400,7 +386,7 @@
         <div class="pp-pdp__variants-wrap">
           <div class="pp-pdp__variant-group">
             <div class="pp-pdp__variant-pills">
-              {%- assign sizes = 'S,M,L,XL,XXL' | split: ',' -%}
+              {%- assign sizes = 'XS,S,M,L,XL,XXL' | split: ',' -%}
               {%- assign current_size = product.metafields.custom.tamano -%}
               {%- assign related = product.metafields.custom.tamanos_relacionados.value -%}
               {%- for size in sizes -%}
@@ -431,6 +417,20 @@
                   <span class="pp-pdp__variant-pill is-unavailable" disabled>{{ size }}</span>
                 {%- endif -%}
               {%- endfor -%}
+            </div>
+          </div>
+        </div>
+      {%- else -%}
+        {%- comment -%} Demo fallback: show all sizes {%- endcomment -%}
+        <div class="pp-pdp__variants-wrap">
+          <div class="pp-pdp__variant-group">
+            <div class="pp-pdp__variant-pills">
+              <span class="pp-pdp__variant-pill">XS</span>
+              <span class="pp-pdp__variant-pill">S</span>
+              <span class="pp-pdp__variant-pill is-active">M</span>
+              <span class="pp-pdp__variant-pill">L</span>
+              <span class="pp-pdp__variant-pill">XL</span>
+              <span class="pp-pdp__variant-pill">XXL</span>
             </div>
           </div>
         </div>
@@ -961,6 +961,7 @@
     {
       "type": "care_icon",
       "name": "Care Icon",
+      "limit": 10,
       "settings": [
         {
           "type": "select",
@@ -1043,12 +1044,6 @@
           "id": "open_by_default",
           "label": "Open by default",
           "default": false
-        },
-        {
-          "type": "text",
-          "id": "show_for_types",
-          "label": "Mostrar solo para product.type (separados por coma)",
-          "info": "Ej: Planta,Maceta — vacío = mostrar siempre"
         }
       ]
     },
@@ -1203,8 +1198,7 @@
       ]
     },
     {
-      "type": "@app",
-      "name": "App block"
+      "type": "@app"
     }
   ],
   "presets": [
