@@ -936,7 +936,7 @@
 
 <script>
   // PLANET UPDATE QUANTITY
-  document.addEventListener('planet:volume-discount-selector-widget-variants-change', function(e) {
+  /* document.addEventListener('planet:volume-discount-selector-widget-variants-change', function(e) {
     var variants = e.detail?.data?.variants;
     if (!variants || !variants.length) return;
 
@@ -948,7 +948,7 @@
     qtyInput.value = qty;
     qtyInput.dispatchEvent(new Event('input', { bubbles: true }));
     qtyInput.dispatchEvent(new Event('change', { bubbles: true }));
-  });
+  }); */
 </script>
 
 {% schema %}
