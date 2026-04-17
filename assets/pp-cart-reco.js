@@ -104,12 +104,30 @@
     })
       .then(function (r) { return r.json(); })
       .then(function (data) {
+        // Visual feedback — swap "+" to check briefly
+        btn.classList.add('is-added');
+        btn.textContent = '✓';
+        setTimeout(function () {
+          btn.classList.remove('is-added');
+          btn.textContent = '+';
+        }, 1200);
+
+        // Refresh drawer content so quantities + line items update
+        if (typeof window.ppRefreshCartDrawer === 'function') {
+          try {
+            var p = window.ppRefreshCartDrawer({ open: true });
+            if (p && typeof p.catch === 'function') {
+              p.catch(function (err) { console.warn('[pp-cart-reco] refresh failed:', err); });
+            }
+          } catch (e) { console.warn('[pp-cart-reco] refresh threw:', e); }
+        }
+
         document.dispatchEvent(new CustomEvent('cart:update', {
           bubbles: true,
           detail: { data: data, source: 'pp-cart-reco', sections: data.sections },
         }));
 
-        // Update free shipping bar
+        // Update free shipping bar + count
         fetch('/cart.js', { credentials: 'same-origin' })
           .then(function (r) { return r.json(); })
           .then(function (cart) {
