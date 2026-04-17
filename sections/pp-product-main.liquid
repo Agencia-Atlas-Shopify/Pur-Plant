@@ -610,31 +610,51 @@
           <div class="pp-pdp__routine-slider" data-pp-routine-slider>
             {%- for rec in rec_products limit: 8 -%}
               {%- if rec.id == product.id -%}{%- continue -%}{%- endif -%}
-              <a href="{{ rec.url }}" class="pp-pdp__routine-item">
-                <div class="pp-pdp__routine-img">
-                  {%- if rec.featured_image != blank -%}
-                    <img src="{{ rec.featured_image | image_url: width: 200 }}" alt="{{ rec.title }}" width="80" height="100" loading="lazy">
-                  {%- endif -%}
-                  {%- liquid
-                    assign has_badge = false
-                    assign badge_text = ''
-                    if rec.compare_at_price > rec.price
-                      assign has_badge = true
-                      assign badge_text = 'Oferta'
-                    elsif rec.tags contains 'New In' or rec.tags contains 'new in' or rec.tags contains 'Novedades'
-                      assign has_badge = true
-                      assign badge_text = 'New In'
-                    elsif rec.tags contains 'Best Sellers' or rec.tags contains 'Top Ventas'
-                      assign has_badge = true
-                      assign badge_text = 'Top'
-                    endif
-                  -%}
-                  {%- if has_badge -%}
-                    <span class="pp-pdp__routine-badge">{{ badge_text }}</span>
+              {%- liquid
+                assign rec_variant = rec.selected_or_first_available_variant
+                assign rec_can_direct_add = false
+                if rec.has_only_default_variant and rec_variant.available
+                  assign rec_can_direct_add = true
+                endif
+
+                assign has_badge = false
+                assign badge_text = ''
+                if rec.compare_at_price > rec.price
+                  assign has_badge = true
+                  assign badge_text = 'Oferta'
+                elsif rec.tags contains 'New In' or rec.tags contains 'new in' or rec.tags contains 'Novedades'
+                  assign has_badge = true
+                  assign badge_text = 'New In'
+                elsif rec.tags contains 'Best Sellers' or rec.tags contains 'Top Ventas'
+                  assign has_badge = true
+                  assign badge_text = 'Top'
+                endif
+              -%}
+              <div class="pp-pdp__routine-item">
+                <a href="{{ rec.url }}" class="pp-pdp__routine-link" aria-label="{{ rec.title }}">
+                  <div class="pp-pdp__routine-img">
+                    {%- if rec.featured_image != blank -%}
+                      <img src="{{ rec.featured_image | image_url: width: 200 }}" alt="{{ rec.title }}" width="80" height="100" loading="lazy">
+                    {%- endif -%}
+                    {%- if has_badge -%}
+                      <span class="pp-pdp__routine-badge">{{ badge_text }}</span>
+                    {%- endif -%}
+                  </div>
+                </a>
+                <div class="pp-pdp__routine-footer">
+                  <span class="pp-pdp__routine-price">{{ rec.price | money }}</span>
+                  {%- if rec_can_direct_add -%}
+                    <button
+                      type="button"
+                      class="pp-pdp__routine-add"
+                      data-pp-add-to-cart
+                      data-variant-id="{{ rec_variant.id }}"
+                      aria-label="Añadir {{ rec.title | escape }}">+</button>
+                  {%- else -%}
+                    <a href="{{ rec.url }}" class="pp-pdp__routine-add" aria-label="Ver {{ rec.title | escape }}">→</a>
                   {%- endif -%}
                 </div>
-                <span class="pp-pdp__routine-price">{{ rec.price | money }}</span>
-              </a>
+              </div>
             {%- endfor -%}
           </div>
         </div>

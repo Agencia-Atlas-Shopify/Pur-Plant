@@ -924,6 +924,43 @@
   font-weight: 600;
 }
 
+.pp-pdp__routine-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.pp-pdp__routine-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  margin-top: 2px;
+}
+
+.pp-pdp__routine-add {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background: #23372c;
+  color: #e4ffd3;
+  border: none;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: opacity 0.15s;
+}
+
+.pp-pdp__routine-add:hover { opacity: 0.85; }
+.pp-pdp__routine-add.is-loading { opacity: 0.5; cursor: wait; }
+.pp-pdp__routine-add.is-added { background: #2d7a3d; }
+
 .pp-pdp__shipping-info {
   display: flex;
   align-items: center;

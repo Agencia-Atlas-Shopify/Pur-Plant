@@ -264,6 +264,51 @@
     background: rgb(var(--pp-product-text, 0 0 0));
     color: rgb(var(--pp-product-bg, 255 255 255));
   }
+  /* ── Swym wishlist modal/drawer — close button override ── */
+  #swym-wishlist-fly-cnt-wrapper .swym-close,
+  #swym-wishlist-fly-cnt-wrapper .swym-wishlist-close,
+  #swym-wishlist-fly-cnt-wrapper [class*="close"],
+  .swym-wishlist-overlay .swym-close,
+  .swym-popup .swym-close,
+  .swym-wishlist-modal .swym-close,
+  button.swym-close,
+  .swym-wishlist-fly-cnt-close {
+    all: unset;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #23372c;
+    color: #e4ffd3;
+    cursor: pointer;
+    z-index: 10;
+    transition: opacity 0.15s;
+    box-sizing: border-box;
+  }
+
+  #swym-wishlist-fly-cnt-wrapper .swym-close::before,
+  #swym-wishlist-fly-cnt-wrapper .swym-wishlist-close::before,
+  .swym-wishlist-overlay .swym-close::before,
+  button.swym-close::before,
+  .swym-wishlist-fly-cnt-close::before {
+    content: '';
+    width: 14px;
+    height: 14px;
+    background: currentColor;
+    -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><path fill="none" stroke="black" stroke-width="1.2" d="M1 1L13 13M1 13L13 1"/></svg>') center/contain no-repeat;
+    mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><path fill="none" stroke="black" stroke-width="1.2" d="M1 1L13 13M1 13L13 1"/></svg>') center/contain no-repeat;
+  }
+
+  #swym-wishlist-fly-cnt-wrapper .swym-close:hover,
+  button.swym-close:hover,
+  .swym-wishlist-fly-cnt-close:hover {
+    opacity: 0.85;
+  }
 {%- endstyle -%}
 
 {%- if type == 'icon' -%}

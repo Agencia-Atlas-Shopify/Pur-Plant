@@ -664,24 +664,43 @@
   }
 
   function initAddToCart() {
-    if (!pdp) return;
+    // Delegate on document (not pdp) so handler works even if pdp lookup failed
+    // or the DOM mutated after init. Guard with flag to prevent double-bind.
+    if (window.__ppPdpAddToCartBound) return;
+    window.__ppPdpAddToCartBound = true;
 
-    pdp.addEventListener('click', function (e) {
+    document.addEventListener('click', function (e) {
       var btn = e.target.closest('.pp-pdp__add-to-cart-btn');
       if (!btn) return;
       e.preventDefault();
+      e.stopPropagation();
 
-      if (btn.disabled || btn.classList.contains('is-loading')) return;
+      if (btn.classList.contains('is-loading')) return;
+
+      // Re-query refs in case init ran before DOM was ready
+      if (!addToCartBtn) {
+        addToCartBtn = btn;
+        addToCartText = qs('span', btn) || btn;
+      }
 
       var variantId = getSelectedVariantId();
+      // Last-resort fallback: button's data attribute always holds current_variant.id
+      if (!variantId && btn.dataset.variantId) {
+        variantId = parseInt(btn.dataset.variantId, 10);
+      }
       if (!variantId) {
         showButtonError('Selecciona una variante');
         return;
       }
 
+      // Force-reset disabled state if out of sync
+      if (btn.disabled && !btn.classList.contains('is-loading')) {
+        btn.disabled = false;
+      }
+
       var quantity = getQuantity();
       addToCart(variantId, quantity);
-    });
+    }, true); // capture phase — runs before any other handler that might stop propagation
   }
 
   /* ----------------------------------------------------------

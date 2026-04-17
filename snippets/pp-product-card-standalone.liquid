@@ -519,8 +519,23 @@
   }
 
   @media screen and (max-width: 749px) {
+    /* On mobile: always visible quick-add bar at bottom of media */
     .pp-card__quick-add {
-      display: none;
+      opacity: 1;
+      transform: translateY(0);
+      padding: 0.5rem;
+    }
+    .pp-card__quick-add-single {
+      padding: 8px 12px;
+      font-size: 12px;
+    }
+    .pp-card__quick-add-variants {
+      gap: 0.2rem;
+    }
+    .pp-card__variant-btn {
+      height: 28px;
+      font-size: 10px;
+      padding: 0 0.2rem;
     }
   }
 
