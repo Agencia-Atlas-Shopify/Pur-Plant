@@ -9,17 +9,117 @@
   }
 
   .pp-footer__top {
+    display: grid;
+    grid-template-columns: minmax(260px, 360px) 1fr;
+    align-items: start;
+    gap: 64px;
+  }
+
+  .pp-footer__brand {
     display: flex;
+    flex-direction: column;
     align-items: flex-start;
-    gap: 48px;
+    gap: 18px;
   }
 
   .pp-footer__logo img {
-    width: 60px;
-    height: 60px;
+    width: 90px;
+    height: 90px;
     border-radius: 50%;
     display: block;
   }
+
+  .pp-footer__reviews {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border: 1px solid rgba(228,255,211,0.25);
+    border-radius: 10px;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .pp-footer__reviews-stars {
+    color: #ffb400;
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+
+  .pp-footer__reviews-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    line-height: 1.3;
+    color: #e4ffd3;
+  }
+
+  .pp-footer__reviews-text strong {
+    font-size: 14px;
+    font-weight: 600;
+    display: block;
+  }
+
+  .pp-footer__promo {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .pp-footer__promo-img img {
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    border-radius: 10px;
+    display: block;
+  }
+
+  .pp-footer__promo-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #e4ffd3;
+    margin: 0;
+  }
+
+  .pp-footer__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    background: #e4ffd3;
+    color: #23372c;
+    border-radius: 999px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: opacity 0.15s;
+  }
+
+  .pp-footer__cta:hover { opacity: 0.85; }
+
+  .pp-footer__cta--outline {
+    background: transparent;
+    color: #e4ffd3;
+    border: 1px solid #e4ffd3;
+  }
+
+  .pp-footer__contact-block {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #e4ffd3;
+    margin: 0;
+  }
+
+  .pp-footer__contact-block a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .pp-footer__contact-block a:hover { text-decoration: underline; }
 
   /* Cols stacked vertically as accordions on all breakpoints */
   .pp-footer__cols {
@@ -230,15 +330,20 @@
     letter-spacing: 0.05em;
   }
 
-  /* ── Desktop ── */
+  /* ── Responsive ── */
   @media screen and (max-width: 999px) {
-    .pp-footer__top { flex-direction: column; gap: 32px; }
+    .pp-footer__top {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .pp-footer__brand { align-items: center; text-align: center; }
+    .pp-footer__promo-img img { margin: 0 auto; }
   }
 
-  /* ── Mobile adjustments ── */
   @media screen and (max-width: 749px) {
     .pp-footer { padding: 48px 20px 24px; gap: 36px; }
     .pp-footer__col-toggle { padding: 14px 0; }
+    .pp-footer__logo img { width: 70px; height: 70px; }
     .pp-footer__social { gap: 18px; }
     .pp-footer__social a { font-size: 12px; }
     .pp-footer__legal { gap: 14px; }
@@ -248,11 +353,54 @@
 
 <footer class="pp-footer">
   <div class="pp-footer__top">
-    <div class="pp-footer__logo">
-      {%- if section.settings.logo != blank -%}
-        <img src="{{ section.settings.logo | image_url: width: 120 }}" alt="Pur Plant" width="60" height="60">
-      {%- else -%}
-        <img src="{{ 'logo_pur_plant_isotipo.png' | asset_url }}" alt="Pur Plant" width="60" height="60">
+    <div class="pp-footer__brand">
+      <div class="pp-footer__logo">
+        {%- if section.settings.logo != blank -%}
+          <img src="{{ section.settings.logo | image_url: width: 180 }}" alt="Pur Plant" width="90" height="90">
+        {%- else -%}
+          <img src="{{ 'logo_pur_plant_isotipo.png' | asset_url }}" alt="Pur Plant" width="90" height="90">
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.reviews_url != blank -%}
+        <a class="pp-footer__reviews" href="{{ section.settings.reviews_url }}" target="_blank" rel="noopener">
+          <span class="pp-footer__reviews-stars">★★★★★</span>
+          <span class="pp-footer__reviews-text">
+            <strong>{{ section.settings.reviews_rating | default: '4.8' }}</strong>
+            {{ section.settings.reviews_count | default: '4361' }} reseñas
+          </span>
+        </a>
+      {%- endif -%}
+
+      {%- if section.settings.promo_image != blank or section.settings.promo_text != blank -%}
+        <div class="pp-footer__promo">
+          {%- if section.settings.promo_image != blank -%}
+            <div class="pp-footer__promo-img">
+              {%- if section.settings.promo_link != blank -%}
+                <a href="{{ section.settings.promo_link }}">
+                  <img src="{{ section.settings.promo_image | image_url: width: 560 }}" alt="{{ section.settings.promo_text | strip_html | escape }}" loading="lazy">
+                </a>
+              {%- else -%}
+                <img src="{{ section.settings.promo_image | image_url: width: 560 }}" alt="{{ section.settings.promo_text | strip_html | escape }}" loading="lazy">
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+          {%- if section.settings.promo_text != blank -%}
+            <p class="pp-footer__promo-text">{{ section.settings.promo_text }}</p>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.cta1_label != blank and section.settings.cta1_link != blank -%}
+        <a class="pp-footer__cta" href="{{ section.settings.cta1_link }}">{{ section.settings.cta1_label }}</a>
+      {%- endif -%}
+
+      {%- if section.settings.cta2_label != blank and section.settings.cta2_link != blank -%}
+        <a class="pp-footer__cta pp-footer__cta--outline" href="{{ section.settings.cta2_link }}">{{ section.settings.cta2_label }}</a>
+      {%- endif -%}
+
+      {%- if section.settings.contact_text != blank -%}
+        <p class="pp-footer__contact-block">{{ section.settings.contact_text }}</p>
       {%- endif -%}
     </div>
 
@@ -379,6 +527,24 @@
   "settings": [
     { "type": "image_picker", "id": "logo", "label": "Logo (isotipo)" },
     { "type": "link_list", "id": "legal_menu", "label": "Legal menu" },
+
+    { "type": "header", "content": "Reseñas (badge)" },
+    { "type": "url", "id": "reviews_url", "label": "URL reseñas" },
+    { "type": "text", "id": "reviews_rating", "label": "Nota", "default": "4.8" },
+    { "type": "text", "id": "reviews_count", "label": "Nº reseñas", "default": "4361 reseñas" },
+
+    { "type": "header", "content": "Promo (tarjeta regalo, ofertas…)" },
+    { "type": "image_picker", "id": "promo_image", "label": "Imagen promo" },
+    { "type": "url", "id": "promo_link", "label": "Enlace imagen" },
+    { "type": "textarea", "id": "promo_text", "label": "Texto promo", "default": "¿Te gustaría hacer un Regalo Verde a esa Persona Especial?" },
+    { "type": "text", "id": "cta1_label", "label": "Botón 1 — texto", "default": "TARJETA REGALO" },
+    { "type": "url", "id": "cta1_link", "label": "Botón 1 — enlace" },
+    { "type": "text", "id": "cta2_label", "label": "Botón 2 — texto", "default": "OFERTAS FLASH" },
+    { "type": "url", "id": "cta2_link", "label": "Botón 2 — enlace" },
+
+    { "type": "header", "content": "Contacto" },
+    { "type": "richtext", "id": "contact_text", "label": "Texto contacto", "default": "<p>667 279 907<br>info@purplant.es</p>" },
+
     { "type": "header", "content": "Social links" },
     { "type": "url", "id": "instagram_url", "label": "Instagram" },
     { "type": "url", "id": "tiktok_url", "label": "TikTok" },
