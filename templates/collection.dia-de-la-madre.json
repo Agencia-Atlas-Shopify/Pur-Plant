@@ -177,9 +177,9 @@
         "banner_mbgawb": {
           "type": "banner",
           "settings": {
-            "position": 3,
-            "width_mobile": 2,
-            "width_tablet": 2,
+            "position": 6,
+            "width_mobile": 1,
+            "width_tablet": 1,
             "width_desktop": 2,
             "height": "portrait",
             "video": "https://cdn.shopify.com/videos/c/o/v/f57520d971b544839719713d0fbb672c.mp4",
