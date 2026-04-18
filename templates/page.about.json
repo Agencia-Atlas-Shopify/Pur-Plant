@@ -134,7 +134,7 @@
         "image_outer_margin": 116,
         "bg_color": "#ffffff",
         "text_color": "#23372c",
-        "accent_color": "#23372c",
+        "accent_color": "#e4ffd3",
         "padding_top": 0,
         "padding_bottom": 0
       }
@@ -144,7 +144,7 @@
       "name": "PP Full Text",
       "settings": {
         "text": "Volver a la tierra",
-        "letter_spacing": 450,
+        "letter_spacing": 440,
         "text_transform": "uppercase",
         "font_weight": "400",
         "bg_color": "#ffffff",
