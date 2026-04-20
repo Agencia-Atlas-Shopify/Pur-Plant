@@ -139,20 +139,6 @@
         "padding_bottom": 0
       }
     },
-    "pp_full_text_WqDxdT": {
-      "type": "pp-full-text",
-      "name": "PP Full Text",
-      "settings": {
-        "text": "Volver a la tierra",
-        "letter_spacing": 440,
-        "text_transform": "uppercase",
-        "font_weight": "400",
-        "bg_color": "#ffffff",
-        "text_color": "#23372c",
-        "padding_top": 24,
-        "padding_bottom": 24
-      }
-    },
     "media_with_content_MzgKqp": {
       "type": "media-with-content",
       "blocks": {
@@ -286,7 +272,7 @@
         "media_position": "left",
         "media_width": "narrow",
         "media_height": "50svh",
-        "section_width": "full-width",
+        "section_width": "page-width",
         "extend_media": true,
         "color_scheme": "scheme-1",
         "padding-block-start": 0,
@@ -426,7 +412,7 @@
         "media_position": "left",
         "media_width": "narrow",
         "media_height": "50svh",
-        "section_width": "full-width",
+        "section_width": "page-width",
         "extend_media": true,
         "color_scheme": "scheme-1",
         "padding-block-start": 0,
@@ -565,8 +551,8 @@
       "settings": {
         "media_position": "left",
         "media_width": "narrow",
-        "media_height": "60svh",
-        "section_width": "full-width",
+        "media_height": "50svh",
+        "section_width": "page-width",
         "extend_media": true,
         "color_scheme": "scheme-1",
         "padding-block-start": 0,
@@ -705,8 +691,288 @@
       "settings": {
         "media_position": "left",
         "media_width": "narrow",
-        "media_height": "60svh",
-        "section_width": "full-width",
+        "media_height": "50svh",
+        "section_width": "page-width",
+        "extend_media": true,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "media_with_content_hcPPnX": {
+      "type": "media-with-content",
+      "blocks": {
+        "media": {
+          "type": "_media-without-appearance",
+          "static": true,
+          "settings": {
+            "media_type": "image",
+            "image": "shopify://shop_images/encuentros-comunidad-ilustracion-club.png",
+            "link": "",
+            "video_loop": true,
+            "video_autoplay": false,
+            "image_position": "contain",
+            "video_position": "cover"
+          },
+          "blocks": {}
+        },
+        "content": {
+          "type": "_content-without-appearance",
+          "static": true,
+          "settings": {
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "space-between",
+            "gap": 24
+          },
+          "blocks": {
+            "group_wVWajJ": {
+              "type": "group",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 12,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "text_qRfd6P": {
+                  "type": "text",
+                  "name": "t:names.heading",
+                  "settings": {
+                    "text": "<h5><strong>ENCUENTROS COMUNIDAD</strong></h5>",
+                    "width": "fit-content",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "h3",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "text_MUUz8n": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Te ofrecemos encuentros con la comunidad para poder compartir experiencias y consejos sobre el cuidado orgánico de nuestras selvas. Profundizaremos en temas botánicos con invitados especiales y hablaremos con un buen café entre plantas.<br/><br/></p>",
+                    "width": "fit-content",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_qRfd6P",
+                "text_MUUz8n"
+              ]
+            }
+          },
+          "block_order": [
+            "group_wVWajJ"
+          ]
+        }
+      },
+      "name": "PP- CLUB 1",
+      "settings": {
+        "media_position": "left",
+        "media_width": "narrow",
+        "media_height": "50svh",
+        "section_width": "page-width",
+        "extend_media": true,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "media_with_content_aTXGD3": {
+      "type": "media-with-content",
+      "blocks": {
+        "media": {
+          "type": "_media-without-appearance",
+          "static": true,
+          "settings": {
+            "media_type": "image",
+            "image": "shopify://shop_images/opininon-club-ilustracion.png",
+            "link": "",
+            "video_loop": true,
+            "video_autoplay": false,
+            "image_position": "contain",
+            "video_position": "cover"
+          },
+          "blocks": {}
+        },
+        "content": {
+          "type": "_content-without-appearance",
+          "static": true,
+          "settings": {
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "space-between",
+            "gap": 24
+          },
+          "blocks": {
+            "group_PDJr4M": {
+              "type": "group",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 12,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "text_cmymhT": {
+                  "type": "text",
+                  "name": "t:names.heading",
+                  "settings": {
+                    "text": "<h5><strong>TU OPINIÓN IMPORTA</strong></h5>",
+                    "width": "fit-content",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "h3",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "text_6HRctC": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Nos encantará crecer contigo, por lo que si tienes un sueño botánico que todavía no lo hayamos traído cuéntanos, seremos tu genio plantil.<br/><br/></p>",
+                    "width": "fit-content",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_cmymhT",
+                "text_6HRctC"
+              ]
+            }
+          },
+          "block_order": [
+            "group_PDJr4M"
+          ]
+        }
+      },
+      "name": "PP- CLUB 1",
+      "settings": {
+        "media_position": "left",
+        "media_width": "narrow",
+        "media_height": "50svh",
+        "section_width": "page-width",
         "extend_media": true,
         "color_scheme": "scheme-1",
         "padding-block-start": 0,
@@ -736,48 +1002,18 @@
         "padding_bottom": 48
       }
     },
-    "pp_trust_badges_i9j4mq": {
-      "type": "pp-trust-badges",
-      "blocks": {
-        "badge_dDcpQJ": {
-          "type": "badge",
-          "settings": {
-            "icon": "shopify://shop_images/width_800-1.webp",
-            "title": "más que plantas",
-            "description": "Creemos que las plantas no son solo decoración, sino una forma de transformar cómo vivimos. Queremos que formen parte de tu día a día y te ayuden a volver al  presente, porque lo mágico ocurre cuando entiendes su poder y lo integras en \ntu vida."
-          }
-        },
-        "badge_Tj73xX": {
-          "type": "badge",
-          "settings": {
-            "icon": "shopify://shop_images/width_800-2.webp",
-            "title": "SIEMPRE CONTIGO",
-            "description": "Detrás de Pur Plant hay un equipo de Plant Lovers que te acompaña, siempre aprendiendo y con una mirada consciente. Colaboramos con artesanxs locales y cultivadores de toda Europa para ofrecerte calidad cuidada, con alma \ny accesible."
-          }
-        },
-        "badge_iG4ywW": {
-          "type": "badge",
-          "settings": {
-            "icon": "shopify://shop_images/width_800-3.webp",
-            "title": "PACKAGING SEGURO",
-            "description": "Cuidamos cada detalle para que tu pedido llegue en perfectas condiciones. Utilizamos un packaging seguro y libre de plásticos, pensado para resistir el trayecto, y apostamos por materiales sostenibles en todo el proceso."
-          }
-        }
-      },
-      "block_order": [
-        "badge_dDcpQJ",
-        "badge_Tj73xX",
-        "badge_iG4ywW"
-      ],
-      "custom_css": [
-        "p.pp-trust-badges__desc {text-align: left; color: black; font-size: 1.2rem; opacity: 1; padding-top: 20px;}"
-      ],
-      "name": "PP Trust Badges",
+    "pp_full_text_WqDxdT": {
+      "type": "pp-full-text",
+      "name": "PP Full Text",
       "settings": {
-        "heading": "POR QUÉ COMPRAR EN PUR PLANT",
-        "padding_top": 40,
-        "padding_bottom": 40,
-        "icon_size": 350
+        "text": "Volver a la tierra",
+        "letter_spacing": 440,
+        "text_transform": "uppercase",
+        "font_weight": "400",
+        "bg_color": "#ffffff",
+        "text_color": "#23372c",
+        "padding_top": 24,
+        "padding_bottom": 24
       }
     }
   },
@@ -785,12 +1021,13 @@
     "main",
     "pp_hero_slider_9CcLiK",
     "pp_about_split_GApnwF",
-    "pp_full_text_WqDxdT",
     "media_with_content_MzgKqp",
     "media_with_content_T3dxP9",
     "media_with_content_ApytfA",
     "media_with_content_rbeKGb",
+    "media_with_content_hcPPnX",
+    "media_with_content_aTXGD3",
     "pp_brand_banner_7LXEHL",
-    "pp_trust_badges_i9j4mq"
+    "pp_full_text_WqDxdT"
   ]
 }
