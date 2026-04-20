@@ -16,10 +16,6 @@
         "padding_bottom": 16
       }
     },
-    "pp_collection_header": {
-      "type": "pp-collection-header",
-      "settings": {}
-    },
     "collection_list_HeJ7Ch": {
       "type": "collection-list",
       "blocks": {
@@ -222,32 +218,6 @@
     "collection_list_V8FVWE": {
       "type": "collection-list",
       "blocks": {
-        "text_rREK9b": {
-          "type": "text",
-          "name": "t:names.heading",
-          "settings": {
-            "text": "<h3><strong>Por estancias</strong></h3>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "rte",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
         "static-collection-card": {
           "type": "_collection-card",
           "name": "t:names.collection_card",
@@ -313,9 +283,6 @@
           ]
         }
       },
-      "block_order": [
-        "text_rREK9b"
-      ],
       "custom_css": [
         ".section-resource-list__content {padding-left: 0px; padding-bottom: 20px; color: #23372c;}"
       ],
@@ -607,7 +574,6 @@
   },
   "order": [
     "pp_collection_title",
-    "pp_collection_header",
     "collection_list_HeJ7Ch",
     "pp_collection_grid",
     "collection_list_ew3LaB",
