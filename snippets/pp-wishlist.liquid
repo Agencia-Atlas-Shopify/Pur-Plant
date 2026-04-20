@@ -264,6 +264,17 @@
     background: rgb(var(--pp-product-text, 0 0 0));
     color: rgb(var(--pp-product-bg, 255 255 255));
   }
+  /* ── Hide Swym "smart wishlist" popup — too insistent per client feedback ── */
+  #swym-smart-wishlist,
+  .swym-smart-wishlist-popup,
+  [id*="swym-popup"],
+  [class*="swym-cta-popup"],
+  [class*="SwymPopup"],
+  .swym-popup-container {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
   /* ── Swym wishlist modal/drawer — close button override ── */
   #swym-wishlist-fly-cnt-wrapper .swym-close,
   #swym-wishlist-fly-cnt-wrapper .swym-wishlist-close,

@@ -556,7 +556,7 @@
 
   /* Cart notes — collapsible via <details> */
   .pp-cart-drawer__notes {
-    padding: 10px 24px;
+    padding: 6px 24px;
     border-top: 1px solid rgba(35, 55, 44, 0.08);
     flex-shrink: 0;
   }
@@ -607,9 +607,10 @@
   }
 
   .pp-cart-drawer__notes-input {
+    /* Smaller default height — note is a secondary action */
     width: 100%;
     resize: vertical;
-    min-height: 56px;
+    min-height: 40px;
     margin-top: 10px;
     padding: 10px 12px;
     font-family: 'Inter', sans-serif;
@@ -718,7 +719,11 @@
   window.__ppCartDrawerRefreshInit = true;
 
   var SECTION_ID = {{ section.id | json }};
-  var busy = false;
+  // Schedule-latest pattern: if a refresh is in-flight, remember a pending one
+  // and run it immediately after. Prevents "lost refresh" when user clicks rapidly.
+  var refreshInFlight = false;
+  var refreshPending  = false;
+  var pendingOpts     = null;
 
   function qs(sel, root){ return (root||document).querySelector(sel); }
 
@@ -740,14 +745,13 @@
     }
   }
 
-  window.ppRefreshCartDrawer = function(options){
+  function doRefresh(options){
     options = options || {};
     var shouldOpen = options.open === true;
-    if (busy) return Promise.resolve();
-    busy = true;
-    return fetch(window.location.pathname + '?sections=' + SECTION_ID, {
-      headers: { 'Accept': 'application/json' },
-      credentials: 'same-origin'
+    return fetch(window.location.pathname + '?sections=' + SECTION_ID + '&_t=' + Date.now(), {
+      headers: { 'Accept': 'application/json', 'Cache-Control': 'no-cache' },
+      credentials: 'same-origin',
+      cache: 'no-store'
     })
     .then(function(res){ return res.ok ? res.json() : null; })
     .then(function(json){
@@ -760,12 +764,10 @@
       var oldInner = qs('[data-hydration-key="pp-cart-drawer-inner"]');
       if (newInner && oldInner) {
         oldInner.innerHTML = newInner.innerHTML;
-        // Copy data attributes (e.g. data-has-arbol) so CSS/JS relying on them updates
         Array.prototype.slice.call(newInner.attributes).forEach(function(attr){
           if (attr.name.indexOf('data-') === 0) oldInner.setAttribute(attr.name, attr.value);
         });
       }
-      // Update cart count badges from the freshly rendered header
       var newBadges = tmp.querySelectorAll('.pp-header__cart-count, [data-cart-count]');
       var oldBadges = document.querySelectorAll('.pp-header__cart-count, [data-cart-count]');
       if (newBadges.length && oldBadges.length) {
@@ -775,8 +777,31 @@
       }
       if (shouldOpen) openDialog();
     })
-    .catch(function(){ /* noop */ })
-    .finally(function(){ busy = false; });
+    .catch(function(){ /* noop */ });
+  }
+
+  window.ppRefreshCartDrawer = function(options){
+    options = options || {};
+    // If one is already in-flight, mark that we want another right after it.
+    // Merge "open" preference: if any caller wanted open, honour it.
+    if (refreshInFlight) {
+      refreshPending = true;
+      pendingOpts = {
+        open: (pendingOpts && pendingOpts.open) || options.open === true,
+      };
+      return Promise.resolve();
+    }
+    refreshInFlight = true;
+    return doRefresh(options).finally(function(){
+      refreshInFlight = false;
+      if (refreshPending) {
+        refreshPending = false;
+        var nextOpts = pendingOpts || {};
+        pendingOpts = null;
+        // Kick off the queued refresh; recursion will continue until quiescent.
+        window.ppRefreshCartDrawer(nextOpts);
+      }
+    });
   };
 
   // Intercept line-item remove clicks — refresh drawer without closing dialog
