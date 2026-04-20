@@ -83,7 +83,7 @@
         "contact_form_UwiCkQ": {
           "type": "contact-form",
           "settings": {
-            "width": "custom",
+            "width": "fit-content",
             "custom_width": 50,
             "width_mobile": "custom",
             "custom_width_mobile": 100,
@@ -211,7 +211,7 @@
             "accordion_row_phiL6F": {
               "type": "_accordion-row",
               "settings": {
-                "heading": "Fabricación",
+                "heading": "Pedido",
                 "open_by_default": false,
                 "icon": "none",
                 "width": 20
@@ -220,7 +220,7 @@
                 "text_cVxmL6": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Nuestros productos se fabrican tanto localmente como globalmente. Seleccionamos cuidadosamente a nuestros socios de fabricación para garantizar alta calidad y un precio justo.</p>",
+                    "text": "<p>¿Quieres consultar el estado de tu pedido? </p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
