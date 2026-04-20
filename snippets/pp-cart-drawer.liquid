@@ -725,6 +725,7 @@
   /* Discount input */
   .pp-cart-drawer__discount {
     display: flex;
+    flex-wrap: wrap;
     gap: 8px;
     margin: 0 0 12px;
   }
@@ -762,11 +763,19 @@
   }
   .pp-cart-drawer__discount-btn[disabled] { opacity: 0.5; cursor: wait; }
   .pp-cart-drawer__discount-feedback {
+    flex-basis: 100%;
     width: 100%;
-    margin: 6px 2px 0;
+    margin: 0 2px;
     font-size: 12px;
     color: #23372c;
+    min-height: 0;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  .pp-cart-drawer__discount-feedback.is-visible {
+    opacity: 1;
     min-height: 14px;
+    margin: 4px 2px 0;
   }
   .pp-cart-drawer__discount-feedback.is-error { color: #c0392b; }
   .pp-cart-drawer__discount-feedback.is-ok { color: #1d7a3c; }
@@ -953,7 +962,14 @@
     var code = (input && input.value || '').trim().toUpperCase();
     if (!code) return;
     if (btn) btn.setAttribute('disabled','true');
-    if (feedback) { feedback.textContent = 'Aplicando...'; feedback.className = 'pp-cart-drawer__discount-feedback'; }
+    function setFeedback(msg, kind){
+      if (!feedback) return;
+      feedback.textContent = msg;
+      feedback.className = 'pp-cart-drawer__discount-feedback is-visible' + (kind ? ' ' + kind : '');
+      if (feedback._t) clearTimeout(feedback._t);
+      feedback._t = setTimeout(function(){ feedback.className = 'pp-cart-drawer__discount-feedback'; feedback.textContent = ''; }, 10000);
+    }
+    setFeedback('Aplicando...', '');
 
     // Step 1: set discount cookie via /discount/CODE. Follow redirect to get cart state.
     fetch('/discount/' + encodeURIComponent(code), { credentials:'same-origin', redirect:'follow' })
@@ -965,11 +981,11 @@
         var applied = (cart && ((cart.cart_level_discount_applications || []).length > 0
                       || (cart.discount_codes || []).some(function(c){ return (c.code||'').toUpperCase() === code && c.applicable; })));
         if (!applied) {
-          if (feedback) { feedback.textContent = 'Código no válido o no aplicable'; feedback.className = 'pp-cart-drawer__discount-feedback is-error'; }
+          setFeedback('Código no válido o no aplicable', 'is-error');
           if (btn) btn.removeAttribute('disabled');
           return;
         }
-        if (feedback) { feedback.textContent = 'Aplicado ✓'; feedback.className = 'pp-cart-drawer__discount-feedback is-ok'; }
+        setFeedback('Aplicado ✓', 'is-ok');
         if (input) input.value = '';
         // Step 3: dispatch cart:update so Planet Upsell app evaluates discount rules and injects gifts
         document.dispatchEvent(new CustomEvent('cart:update', { detail: { source: 'pp-discount', cart: cart } }));
@@ -981,7 +997,7 @@
         }, 900);
       })
       .catch(function(){
-        if (feedback) { feedback.textContent = 'Error al aplicar el código'; feedback.className = 'pp-cart-drawer__discount-feedback is-error'; }
+        setFeedback('Error al aplicar el código', 'is-error');
         if (btn) btn.removeAttribute('disabled');
       });
   });
