@@ -172,6 +172,15 @@
           "upsellPopupButtonsBackgroundColor": "#000000",
           "upsellPopupDiscountedPriceColor": "#de242b"
         }
+      },
+      "3277273836769507369": {
+        "type": "shopify://apps/planet-discounts-upsells/blocks/smart-cart/7760a1dc-aa67-41be-af44-a96da1e75b18",
+        "disabled": false,
+        "settings": {
+          "smart_cart_css": "",
+          "form_action_buttons_selector": "form[action*='/cart/add']:has(button)",
+          "link_action_buttons_selector": "a[href$='/cart']"
+        }
       }
     },
     "color_schemes": {
