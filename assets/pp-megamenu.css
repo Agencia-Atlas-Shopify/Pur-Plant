@@ -144,16 +144,22 @@
 
 /* Split a long single column into 2 sub-columns to reduce vertical height */
 .pp-mega__col--split {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-auto-flow: column;
-  grid-template-rows: auto repeat(6, auto);
+  display: block;
+  column-count: 2;
   column-gap: 28px;
-  row-gap: 4px;
+  column-fill: balance;
+}
+
+.pp-mega__col--split > a,
+.pp-mega__col--split > span {
+  display: block;
+  break-inside: avoid;
+  margin-bottom: 4px;
 }
 
 .pp-mega__col--split .pp-mega__col-title {
-  grid-column: 1 / -1;
+  column-span: all;
+  margin-bottom: 8px;
 }
 
 .pp-mega__col-title {
