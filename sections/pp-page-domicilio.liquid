@@ -171,36 +171,42 @@
   .pp-domicilio .pp-content__text a { color: var(--pp-dark-green); text-decoration: underline; }
   .pp-domicilio .pp-content__text strong { font-weight: 600; }
 
+  /* Paired row: text 60% + image 40%, alternating left/right */
+  .pp-domicilio .pp-content__row {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 40px;
+    align-items: center;
+    margin: 40px 0;
+  }
+  .pp-domicilio .pp-content__row--reverse { grid-template-columns: 2fr 3fr; }
+  .pp-domicilio .pp-content__row--reverse .pp-content__row-text { order: 2; }
+  .pp-domicilio .pp-content__row--reverse .pp-content__row-image { order: 1; }
+  .pp-domicilio .pp-content__row-text > :first-child { margin-top: 0; }
+  .pp-domicilio .pp-content__row-text > :last-child { margin-bottom: 0; }
+
   .pp-domicilio .pp-content__image {
-    max-width: 40%;
-    margin: 8px 0 24px 32px;
-    float: right;
-    shape-outside: margin-box;
+    margin: 0;
   }
-
-  .pp-domicilio .pp-content__image:nth-of-type(even) {
-    float: left;
-    margin: 8px 32px 24px 0;
-  }
-
   .pp-domicilio .pp-content__image img {
     width: 100%;
     height: auto;
+    max-height: 420px;
+    object-fit: cover;
     border-radius: var(--pp-radius, 8px);
     display: block;
   }
 
-  /* Stop float from leaking into product grids */
-  .pp-domicilio__product-grid-wrapper,
-  .pp-domicilio__banner { clear: both; }
-
   @media screen and (max-width: 749px) {
-    .pp-domicilio .pp-content__image,
-    .pp-domicilio .pp-content__image:nth-of-type(even) {
-      max-width: 100%;
-      float: none;
-      margin: 16px 0;
+    .pp-domicilio .pp-content__row,
+    .pp-domicilio .pp-content__row--reverse {
+      grid-template-columns: 1fr;
+      gap: 20px;
+      margin: 28px 0;
     }
+    .pp-domicilio .pp-content__row--reverse .pp-content__row-text { order: 2; }
+    .pp-domicilio .pp-content__row--reverse .pp-content__row-image { order: 1; }
+    .pp-domicilio .pp-content__image img { max-height: 320px; }
   }
 
   /* --- Product grid --- */
@@ -484,16 +490,42 @@
     return;
   }
 
-  var html = '';
+  /* Group widgets into paired rows (text-block + image) so image can sit next to text.
+     An image consumes the nearest preceding heading+text block into a row; if there is no
+     preceding block, the image renders on its own full-width. */
+  var blocks = [];
+  var curText = null;
   widgets.forEach(function(w) {
     if (!w || !w.type) return;
-
-    if (w.type === 'heading') {
-      html += '<h2 class="pp-content__heading">' + w.value + '</h2>';
-    } else if (w.type === 'text') {
-      html += '<div class="pp-content__text">' + w.value + '</div>';
+    if (w.type === 'heading' || w.type === 'text') {
+      if (!curText) curText = { kind: 'block', html: '' };
+      curText.html += (w.type === 'heading')
+        ? ('<h2 class="pp-content__heading">' + w.value + '</h2>')
+        : ('<div class="pp-content__text">' + w.value + '</div>');
     } else if (w.type === 'image') {
-      html += '<div class="pp-content__image"><img src="' + w.src + '" alt="' + (w.alt || '') + '" loading="lazy"></div>';
+      var imgHtml = '<div class="pp-content__image"><img src="' + w.src + '" alt="' + (w.alt || '') + '" loading="lazy"></div>';
+      if (curText) {
+        blocks.push({ kind: 'row', text: curText.html, image: imgHtml });
+        curText = null;
+      } else {
+        blocks.push({ kind: 'image', html: imgHtml });
+      }
+    }
+  });
+  if (curText) blocks.push(curText);
+
+  var rowIdx = 0;
+  var html = '';
+  blocks.forEach(function(b) {
+    if (b.kind === 'row') {
+      var rev = (rowIdx % 2 === 1) ? ' pp-content__row--reverse' : '';
+      html += '<div class="pp-content__row' + rev + '">'
+            +   '<div class="pp-content__row-text">' + b.text + '</div>'
+            +   '<div class="pp-content__row-image">' + b.image + '</div>'
+            + '</div>';
+      rowIdx++;
+    } else {
+      html += b.html;
     }
   });
 
