@@ -6,6 +6,18 @@
 {%- enddoc -%}
 
 <div class="cart-totals">
+  {%- comment -%} Pur Plant: always show subtotal + shipping + count {%- endcomment -%}
+  <div class="pp-cart-breakdown cart-primary-typography">
+    <span class="cart-totals__item">
+      <span>Subtotal{% if cart.item_count > 0 %} ({{ cart.item_count }} {% if cart.item_count == 1 %}artículo{% else %}artículos{% endif %}){% endif %}</span>
+      <span class="cart-secondary-typography">{{ cart.items_subtotal_price | money }}</span>
+    </span>
+    <span class="cart-totals__item pp-cart-breakdown__shipping">
+      <span>Envío</span>
+      <span class="pp-cart-breakdown__muted">Calculado en el siguiente paso</span>
+    </span>
+  </div>
+
   {% # We need to keep this node in place to allow morphing to work properly # %}
   <div class="cart-totals__original-container cart-primary-typography">
     {%- if cart.cart_level_discount_applications.size > 0 -%}
@@ -281,7 +293,70 @@
   {% endif %}
 </div>
 
+{%- comment -%} Pur Plant: trust row {%- endcomment -%}
+<ul class="pp-cart-trust" role="list">
+  <li>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M7 8V6a5 5 0 0 1 10 0v2"/></svg>
+    <span>Pago 100% seguro</span>
+  </li>
+  <li>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h13v10H3z"/><path d="M16 10h3l2 3v4h-5"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>
+    <span>Envío en 24-72h · Gratis desde 49€</span>
+  </li>
+  <li>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+    <span>Devoluciones fáciles 14 días</span>
+  </li>
+  <li>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s7 3 7 10c0 4-3 7-7 8-4-1-7-4-7-8 0-7 7-10 7-10z"/><path d="M9.5 12.5l2 2 3.5-4"/></svg>
+    <span>Garantía plantas sanas</span>
+  </li>
+</ul>
+
 {% stylesheet %}
+  /* Pur Plant — summary breakdown + trust row */
+  .pp-cart-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-xs);
+    font-size: var(--cart-font-size--sm);
+    padding-bottom: var(--padding-md);
+    border-bottom: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+  }
+
+  .pp-cart-breakdown .cart-totals__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .pp-cart-breakdown__muted {
+    color: rgb(var(--color-foreground-rgb) / 0.6);
+    font-size: 0.9em;
+  }
+
+  .pp-cart-trust {
+    list-style: none;
+    padding: 0;
+    margin: var(--gap-lg) 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-sm);
+    font-size: var(--font-size--2xs);
+    color: rgb(var(--color-foreground-rgb) / 0.75);
+  }
+
+  .pp-cart-trust li {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-sm);
+  }
+
+  .pp-cart-trust svg {
+    flex-shrink: 0;
+    color: #23372C;
+  }
+
   .cart-actions {
     display: flex;
     flex-direction: column;
