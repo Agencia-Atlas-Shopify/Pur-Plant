@@ -86,7 +86,7 @@
       },
       "settings": {
         "collection_list": "{{ collection.metafields.custom.colecciones_relacionadas.value }}",
-        "layout_type": "grid",
+        "layout_type": "carousel",
         "carousel_on_mobile": false,
         "columns": 4,
         "columns_laptop": 3,
