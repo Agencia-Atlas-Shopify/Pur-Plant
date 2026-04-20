@@ -13,10 +13,13 @@
   assign products_per_row = section.settings.products_per_row | default: 4
   assign is_flores = false
   assign is_arboles = false
+  assign is_campaign = false
   if page_type == 'flores-domicilio'
     assign is_flores = true
   elsif page_type == 'arboles-domicilio'
     assign is_arboles = true
+  elsif page_type == 'campaign'
+    assign is_campaign = true
   endif
 -%}
 
@@ -337,12 +340,17 @@
       <span class="pp-guide__breadcrumb-sep">/</span>
       {%- if is_flores -%}
         <span>Flores a Domicilio</span>
+        <span class="pp-guide__breadcrumb-sep">/</span>
       {%- elsif is_arboles -%}
         <span>Árboles a Domicilio</span>
+        <span class="pp-guide__breadcrumb-sep">/</span>
+      {%- elsif is_campaign -%}
+        <a href="/collections/all">Ofertas</a>
+        <span class="pp-guide__breadcrumb-sep">/</span>
       {%- else -%}
         <span>Plantas a Domicilio</span>
+        <span class="pp-guide__breadcrumb-sep">/</span>
       {%- endif -%}
-      <span class="pp-guide__breadcrumb-sep">/</span>
       <span>{{ page.title }}</span>
     </nav>
   {%- endif -%}
@@ -355,6 +363,8 @@
           Envío de flores a domicilio
         {%- elsif is_arboles -%}
           Envío de árboles a domicilio
+        {%- elsif is_campaign -%}
+          Campaña Pur Plant
         {%- else -%}
           Envío de plantas a domicilio
         {%- endif -%}
