@@ -519,28 +519,35 @@
     filtered.push(w);
   }
 
-  /* Group widgets into paired rows (text-block + image) so image can sit next to text.
-     An image consumes the nearest preceding heading+text block into a row; if there is no
-     preceding block, the image renders on its own full-width. */
+  /* Group into semantic blocks (heading + text(s)) + optional image pair.
+     A new heading starts a new block. An image attaches to current block
+     and flushes it; a standalone image (no preceding text/heading) renders alone. */
   var blocks = [];
-  var curText = null;
+  var cur = null;
+  function renderHead(v){ return '<h2 class="pp-content__heading">' + v + '</h2>'; }
+  function renderText(v){ return '<div class="pp-content__text">' + v + '</div>'; }
+  function renderImage(w){ return '<div class="pp-content__image"><img src="' + w.src + '" alt="' + (w.alt || '') + '" loading="lazy"></div>'; }
+  function flushCur(){ if (cur) { blocks.push({ kind: 'block', html: cur.html }); cur = null; } }
+
   filtered.forEach(function(w) {
-    if (w.type === 'heading' || w.type === 'text') {
-      if (!curText) curText = { kind: 'block', html: '' };
-      curText.html += (w.type === 'heading')
-        ? ('<h2 class="pp-content__heading">' + w.value + '</h2>')
-        : ('<div class="pp-content__text">' + w.value + '</div>');
+    if (w.type === 'heading') {
+      // new heading → new block (flush previous if any)
+      flushCur();
+      cur = { html: renderHead(w.value) };
+    } else if (w.type === 'text') {
+      if (!cur) cur = { html: '' };
+      cur.html += renderText(w.value);
     } else if (w.type === 'image') {
-      var imgHtml = '<div class="pp-content__image"><img src="' + w.src + '" alt="' + (w.alt || '') + '" loading="lazy"></div>';
-      if (curText) {
-        blocks.push({ kind: 'row', text: curText.html, image: imgHtml });
-        curText = null;
+      var imgHtml = renderImage(w);
+      if (cur) {
+        blocks.push({ kind: 'row', text: cur.html, image: imgHtml });
+        cur = null;
       } else {
         blocks.push({ kind: 'image', html: imgHtml });
       }
     }
   });
-  if (curText) blocks.push(curText);
+  flushCur();
 
   var rowIdx = 0;
   var html = '';
