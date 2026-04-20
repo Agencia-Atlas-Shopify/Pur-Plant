@@ -1145,7 +1145,7 @@
               "type": "_accordion-row",
               "settings": {
                 "heading": "¿CÓMO FUNCIONA EL CLUB?",
-                "open_by_default": false,
+                "open_by_default": true,
                 "icon": "none",
                 "width": 20
               },
@@ -1192,7 +1192,7 @@
                 "text_KYUBwW": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Si has realizado 5 compras o más en nuestra tienda online ya perteneces al club ¡Así de fácil!<br/></p>",
+                    "text": "<p>Si has realizado 5 compras o más en nuestra tienda online ya perteneces al club ¡Así de fácil!</p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
@@ -1223,7 +1223,7 @@
               "type": "_accordion-row",
               "name": "t:names.accordion_row",
               "settings": {
-                "heading": "¿Cuándo recibiré mi pedido?",
+                "heading": "¿DÓNDE RECIBIRÉ COMUNICACIÓN?",
                 "open_by_default": false,
                 "icon": "none",
                 "width": 20
@@ -1233,8 +1233,8 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<p>Trabajaremos para enviar tu pedido lo antes posible. Cuando se envíe, recibirás un correo electrónico con más información. Los tiempos de entrega varían según tu ubicación.</p>",
-                    "width": "100%",
+                    "text": "<p>Recibirás todas las comunicaciones exclusivas principalmente en tu correo. Podrás revisar tus compras en el apartado de usuario.<br/><br/></p>",
+                    "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
                     "type_preset": "rte",
@@ -1259,96 +1259,12 @@
               "block_order": [
                 "text_cDexdH"
               ]
-            },
-            "accordion_row_g7L6DK": {
-              "type": "_accordion-row",
-              "name": "t:names.accordion_row",
-              "settings": {
-                "heading": "¿Dónde se fabrican tus productos?",
-                "open_by_default": false,
-                "icon": "none",
-                "width": 20
-              },
-              "blocks": {
-                "text_WapaTn": {
-                  "type": "text",
-                  "name": "t:names.text",
-                  "settings": {
-                    "text": "<p>Nuestros productos se fabrican tanto localmente como globalmente. Seleccionamos cuidadosamente a nuestros socios de fabricación para garantizar alta calidad y un precio justo.</p>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "text_WapaTn"
-              ]
-            },
-            "accordion_row_mTcF8p": {
-              "type": "_accordion-row",
-              "name": "t:names.accordion_row",
-              "settings": {
-                "heading": "¿Cuánto cuesta el envío?",
-                "open_by_default": false,
-                "icon": "none",
-                "width": 20
-              },
-              "blocks": {
-                "text_JCQJdM": {
-                  "type": "text",
-                  "name": "t:names.text",
-                  "settings": {
-                    "text": "<p>El envío se calcula según tu ubicación y los artículos de tu pedido. Siempre conocerás el precio del envío antes de realizar la compra.</p>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "text_JCQJdM"
-              ]
             }
           },
           "block_order": [
             "accordion_row_LCAQdx",
             "accordion_row_iKNWtr",
-            "accordion_row_7BYqVX",
-            "accordion_row_g7L6DK",
-            "accordion_row_mTcF8p"
+            "accordion_row_7BYqVX"
           ]
         }
       },
