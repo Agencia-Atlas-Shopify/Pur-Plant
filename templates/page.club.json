@@ -285,7 +285,7 @@
       "settings": {
         "media_position": "left",
         "media_width": "narrow",
-        "media_height": "60svh",
+        "media_height": "50svh",
         "section_width": "full-width",
         "extend_media": true,
         "color_scheme": "scheme-1",
@@ -425,7 +425,7 @@
       "settings": {
         "media_position": "left",
         "media_width": "narrow",
-        "media_height": "60svh",
+        "media_height": "50svh",
         "section_width": "full-width",
         "extend_media": true,
         "color_scheme": "scheme-1",
@@ -441,7 +441,7 @@
           "static": true,
           "settings": {
             "media_type": "image",
-            "image": "shopify://shop_images/furgo-ilustracion-envio-gratis.png",
+            "image": "shopify://shop_images/antes-que-nadie-ilustracion-club.png",
             "link": "",
             "video_loop": true,
             "video_autoplay": false,
@@ -502,7 +502,7 @@
                   "type": "text",
                   "name": "t:names.heading",
                   "settings": {
-                    "text": "<h5><strong>ENVÍO GRATIS</strong></h5>",
+                    "text": "<h5><strong>ANTES QUE NADIE</strong></h5>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -527,7 +527,7 @@
                 "text_6famQf": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Disfruta de tener SIEMPRE en todas tus compras ENVÍO GRATIS en pedidos mínimos de +9,99 €</p>",
+                    "text": "<p>Tanto si traemos nuevas plantas, diseñamos nuevos productos o hasta si queremos hacer una nueva campaña, te lo contaremos antes de que salga a la luz. Se parte de Pur Plant y conoce todo lo nuevo antes que nadie.<br/><br/></p>",
                     "width": "fit-content",
                     "max_width": "none",
                     "alignment": "left",
