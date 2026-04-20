@@ -321,9 +321,9 @@
       ],
       "settings": {
         "collection_list": "{{ collection.metafields.custom.por_estancias.value }}",
-        "layout_type": "carousel",
+        "layout_type": "grid",
         "carousel_on_mobile": false,
-        "columns": 5,
+        "columns": 3,
         "columns_laptop": 3,
         "mobile_columns": "2",
         "mobile_card_size": "44cqw",
