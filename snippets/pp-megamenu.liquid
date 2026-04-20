@@ -75,16 +75,29 @@
                 <div class="pp-mega__sub{% if forloop.first %} is-active{% endif %}" data-mega-subcontent="{{ sub_key }}">
                   <div class="pp-mega__columns pp-mega__columns--{{ col_count }}">
                     {%- assign col_open = false -%}
+                    {%- assign cur_idx = -1 -%}
                     {%- for it in sub.links -%}
                       {%- if it.title contains '── ' -%}
                         {%- if col_open -%}</div>{%- endif -%}
                         {%- assign col_title = it.title | replace: '── ', '' | replace: ' ──', '' | strip -%}
-                        <div class="pp-mega__col">
+                        {%- comment -%} Count items in this column (until next ── or end) {%- endcomment -%}
+                        {%- assign this_idx = forloop.index -%}
+                        {%- assign items_in_col = 0 -%}
+                        {%- for it2 in sub.links offset: this_idx -%}
+                          {%- if it2.title contains '── ' -%}{%- break -%}{%- endif -%}
+                          {%- assign items_in_col = items_in_col | plus: 1 -%}
+                        {%- endfor -%}
+                        {%- assign col_class = 'pp-mega__col' -%}
+                        {%- if items_in_col > 8 -%}{%- assign col_class = 'pp-mega__col pp-mega__col--split' -%}{%- endif -%}
+                        <div class="{{ col_class }}">
                           <span class="pp-mega__col-title">{{ col_title | upcase }}</span>
                         {%- assign col_open = true -%}
                       {%- else -%}
                         {%- unless col_open -%}
-                          <div class="pp-mega__col">
+                          {%- assign items_in_col = sub.links.size -%}
+                          {%- assign col_class = 'pp-mega__col' -%}
+                          {%- if items_in_col > 8 -%}{%- assign col_class = 'pp-mega__col pp-mega__col--split' -%}{%- endif -%}
+                          <div class="{{ col_class }}">
                             <span class="pp-mega__col-title">{{ sub.title | upcase }}</span>
                           {%- assign col_open = true -%}
                         {%- endunless -%}
@@ -142,7 +155,15 @@
                 {%- if it.title contains '── ' -%}
                   {%- if col_open -%}</div>{%- endif -%}
                   {%- assign col_title = it.title | replace: '── ', '' | replace: ' ──', '' | strip -%}
-                  <div class="pp-mega__col">
+                  {%- assign this_idx = forloop.index -%}
+                  {%- assign items_in_col = 0 -%}
+                  {%- for it2 in top.links offset: this_idx -%}
+                    {%- if it2.title contains '── ' -%}{%- break -%}{%- endif -%}
+                    {%- assign items_in_col = items_in_col | plus: 1 -%}
+                  {%- endfor -%}
+                  {%- assign col_class = 'pp-mega__col' -%}
+                  {%- if items_in_col > 8 -%}{%- assign col_class = 'pp-mega__col pp-mega__col--split' -%}{%- endif -%}
+                  <div class="{{ col_class }}">
                     <span class="pp-mega__col-title">{{ col_title | upcase }}</span>
                   {%- assign col_open = true -%}
                 {%- else -%}
