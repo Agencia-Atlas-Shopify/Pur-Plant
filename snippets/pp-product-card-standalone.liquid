@@ -529,41 +529,40 @@
     transform: translateY(0);
   }
 
-  /* Mobile floating "+" button on image (hidden on desktop) */
+  /* Floating "+" button on image — visible all breakpoints, bottom-right */
   .pp-card__mobile-add {
-    display: none;
+    display: flex;
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    z-index: 3;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #23372c;
+    color: #e4ffd3;
+    border: none;
+    font-size: 22px;
+    line-height: 1;
+    font-weight: 400;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,.2);
+    transition: background .15s, transform .15s;
+  }
+  .pp-card__mobile-add:hover {
+    background: #000;
+    transform: scale(1.08);
+  }
+  .pp-card__mobile-add.is-added {
+    background: #2d7a3d;
   }
 
-  @media screen and (max-width: 749px) {
-    /* Hide the desktop quick-add bar on mobile */
-    .pp-card__quick-add {
-      display: none;
-    }
-    /* Show floating "+" on image */
-    .pp-card__mobile-add {
-      display: flex;
-      position: absolute;
-      bottom: 8px;
-      right: 8px;
-      z-index: 3;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: #23372c;
-      color: #e4ffd3;
-      border: none;
-      font-size: 22px;
-      line-height: 1;
-      font-weight: 400;
-      padding: 0;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 2px 6px rgba(0,0,0,.18);
-    }
-    .pp-card__mobile-add.is-added {
-      background: #2d7a3d;
-    }
+  /* Hide the old quick-add bottom bar entirely — replaced by floating "+" */
+  .pp-card__quick-add {
+    display: none !important;
   }
 
   .pp-card__quick-add-single {
