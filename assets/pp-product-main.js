@@ -217,22 +217,42 @@
   }
 
   function updatePrice(variant) {
-    if (!priceEl) return;
-    if (!variant) {
-      priceEl.textContent = '';
-      if (comparePriceEl) comparePriceEl.textContent = '';
-      return;
-    }
-    priceEl.textContent = formatMoney(variant.price);
-    if (comparePriceEl) {
-      if (variant.compare_at_price && variant.compare_at_price > variant.price) {
-        comparePriceEl.textContent = formatMoney(variant.compare_at_price);
-        comparePriceEl.hidden = false;
+    if (!priceEl || !variant) return;
+    // Target inner elements — textContent on the wrapper would wipe children.
+    var currentEl = priceEl.querySelector('[data-pp-current-price]');
+    var compareEl = priceEl.querySelector('[data-pp-compare-price]');
+    var saveBadge = priceEl.querySelector('[data-pp-save-badge]');
+    if (currentEl) currentEl.textContent = formatMoney(variant.price);
+    var hasSale = variant.compare_at_price && variant.compare_at_price > variant.price;
+    if (compareEl) {
+      if (hasSale) {
+        compareEl.textContent = formatMoney(variant.compare_at_price);
+        compareEl.hidden = false;
+        compareEl.style.display = '';
+        if (currentEl) currentEl.classList.add('pp-pdp__price-current--sale');
       } else {
-        comparePriceEl.textContent = '';
-        comparePriceEl.hidden = true;
+        compareEl.textContent = '';
+        compareEl.hidden = true;
+        compareEl.style.display = 'none';
+        if (currentEl) currentEl.classList.remove('pp-pdp__price-current--sale');
       }
     }
+    if (saveBadge) {
+      if (hasSale) {
+        var pct = Math.round((variant.compare_at_price - variant.price) * 100 / variant.compare_at_price);
+        saveBadge.textContent = '-' + pct + '%';
+        saveBadge.hidden = false;
+        saveBadge.style.display = '';
+      } else {
+        saveBadge.hidden = true;
+        saveBadge.style.display = 'none';
+      }
+    }
+    // Total block (footer)
+    var totalEl = document.querySelector('[data-pp-total-price]');
+    if (totalEl) totalEl.textContent = formatMoney(variant.price);
+    // Update add-to-cart button variant id so addToCart picks current variant
+    if (addToCartBtn) addToCartBtn.dataset.variantId = String(variant.id);
   }
 
   function updateAddToCartButton(variant) {
