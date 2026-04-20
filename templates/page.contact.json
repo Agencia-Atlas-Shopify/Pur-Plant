@@ -160,7 +160,7 @@
                     "padding-block-start": 10,
                     "padding-block-end": 10,
                     "padding-inline-start": 10,
-                    "padding-inline-end": 0
+                    "padding-inline-end": 10
                   },
                   "blocks": {}
                 }
@@ -181,7 +181,7 @@
                 "text_QfLrKR": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Trabajaremos para enviar tu pedido lo antes posible. Cuando se envíe, recibirás un correo electrónico con más información. Los tiempos de entrega varían según tu ubicación.</p>",
+                    "text": "<p>Trabajaremos para enviar tu pedido lo antes posible, días hábiles de Lunes a Viernes en 24h-48h para Península y Baleares.</p><p> Cuando se envíe, recibirás un correo electrónico con más información.</p><p>*El envío de árboles, al realizarse en pallet, suelen demorar entre 3 y 5 días hábiles desde que se realiza el pedido.</p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
