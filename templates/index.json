@@ -173,49 +173,49 @@
           "type": "collection_link",
           "settings": {
             "label": "Interior",
-            "url": ""
+            "url": "/collections/plantas-interior"
           }
         },
         "collection_link_bAnjpr": {
           "type": "collection_link",
           "settings": {
             "label": "Exterior",
-            "url": ""
+            "url": "/collections/plantas-exterior"
           }
         },
         "collection_link_e9ckfw": {
           "type": "collection_link",
           "settings": {
             "label": "Cuidados",
-            "url": ""
+            "url": "/collections/sustratos"
           }
         },
         "collection_link_L7Kfck": {
           "type": "collection_link",
           "settings": {
             "label": "Macetas",
-            "url": ""
+            "url": "/collections/macetas-artesanales"
           }
         },
         "collection_link_LQeHRL": {
           "type": "collection_link",
           "settings": {
             "label": "Accesorios",
-            "url": ""
+            "url": "/collections/accesorios"
           }
         },
         "collection_link_TpMRQX": {
           "type": "collection_link",
           "settings": {
             "label": "Autorriegos",
-            "url": ""
+            "url": "/collections/auto-riego"
           }
         },
         "collection_link_kewUcg": {
           "type": "collection_link",
           "settings": {
             "label": "Abonos",
-            "url": ""
+            "url": "/collections/fertilizantes-organicos"
           }
         }
       },
@@ -232,7 +232,7 @@
       "settings": {
         "title": "MUST",
         "view_all_text": "Ver todo",
-        "view_all_url": "shopify://collections",
+        "view_all_url": "/collections",
         "padding_top": 24,
         "padding_bottom": 16
       }
@@ -270,7 +270,7 @@
         "title": "",
         "view_all_text": "",
         "view_all_link": "",
-        "collection": "plantas-nuevas",
+        "collection": "top-ventas",
         "max_products": 20,
         "image_ratio": "portrait-tall",
         "products_per_row_mobile": 2,
