@@ -220,7 +220,7 @@
                 "text_cVxmL6": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>¿Quieres consultar el estado de tu pedido? </p>",
+                    "text": "<p>¿Quieres consultar el estado de tu pedido?Accede a tu cuenta de usuario. </p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
