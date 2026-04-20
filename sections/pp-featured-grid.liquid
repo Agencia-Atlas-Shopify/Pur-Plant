@@ -49,7 +49,7 @@
   }
 {%- endstyle -%}
 
-<div id="PP-FeaturedGrid-{{ section.id }}" class="pp-collection">
+<div id="PP-FeaturedGrid-{{ section.id }}" class="pp-collection" data-pp-tabs-target>
   <div class="pp-collection__container">
 
     {%- if section.settings.title != blank -%}
@@ -65,7 +65,7 @@
       </div>
     {%- endif -%}
 
-    <div class="pp-collection__grid">
+    <div class="pp-collection__grid" data-pp-tabs-items>
       {%- if section.settings.collection != blank -%}
         {%- assign product_index = 0 -%}
 

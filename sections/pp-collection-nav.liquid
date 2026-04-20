@@ -63,8 +63,15 @@
     transition: opacity 0.2s;
   }
 
-  .pp-collection-nav__link:hover {
+  .pp-collection-nav__link:hover,
+  .pp-collection-nav__link.is-active {
     color: #23372C;
+    font-weight: 500;
+  }
+
+  .pp-collection-nav__link.is-active {
+    text-decoration: underline;
+    text-underline-offset: 6px;
   }
 
   @media screen and (max-width: 749px) {
@@ -91,11 +98,19 @@
       </a>
     {% endif %}
 
-    <nav class="pp-collection-nav__links">
+    <nav class="pp-collection-nav__links" data-pp-tabs-nav>
       {% for block in section.blocks %}
+        {%- liquid
+          assign tab_url = block.settings.url
+          assign tab_handle = ''
+          if tab_url contains '/collections/'
+            assign tab_handle = tab_url | split: '/collections/' | last | split: '?' | first | split: '/' | first
+          endif
+        -%}
         <a
-          href="{{ block.settings.url | default: '#' }}"
+          href="{{ tab_url | default: '#' }}"
           class="pp-collection-nav__link"
+          {% if tab_handle != '' %}data-handle="{{ tab_handle }}"{% endif %}
           {{ block.shopify_attributes }}
         >
           {{ block.settings.label }}
@@ -104,6 +119,58 @@
     </nav>
   </div>
 </div>
+
+<script>
+(function(){
+  if (window.__ppTabsInit) return;
+  window.__ppTabsInit = true;
+
+  document.addEventListener('click', function(e){
+    var link = e.target.closest('.pp-collection-nav__link[data-handle]');
+    if (!link) return;
+    // Only hijack if a grid target exists on the same page
+    var grid = document.querySelector('[data-pp-tabs-target]');
+    if (!grid) return; // Let the link navigate normally if no target
+    e.preventDefault();
+    var handle = link.dataset.handle;
+    if (!handle) return;
+
+    // Active state
+    var nav = link.closest('[data-pp-tabs-nav]');
+    if (nav) {
+      nav.querySelectorAll('.pp-collection-nav__link').forEach(function(a){
+        a.classList.remove('is-active');
+      });
+    }
+    link.classList.add('is-active');
+
+    // Loading state
+    grid.classList.add('is-loading');
+    grid.style.opacity = '0.4';
+
+    fetch('/collections/' + encodeURIComponent(handle) + '?view=cards-only', {
+      headers: { 'Accept': 'text/html' },
+      credentials: 'same-origin'
+    })
+    .then(function(r){ return r.ok ? r.text() : ''; })
+    .then(function(html){
+      if (!html) return;
+      var tmp = document.createElement('div');
+      tmp.innerHTML = html;
+      var cards = tmp.querySelector('[data-collection-cards]');
+      if (!cards) return;
+      // Replace ONLY the product-cards inside the grid, keep banners/CTAs
+      var targetInner = grid.querySelector('[data-pp-tabs-items]') || grid;
+      targetInner.innerHTML = cards.innerHTML;
+    })
+    .catch(function(){ /* noop */ })
+    .finally(function(){
+      grid.classList.remove('is-loading');
+      grid.style.opacity = '';
+    });
+  });
+})();
+</script>
 
 {% schema %}
 {

@@ -1,0 +1,12 @@
+{%- comment -%}
+  collection.cards-only — minimal template that renders just product cards.
+  Used by home MUST tabs to swap grid content via fetch without a full page.
+  Access: /collections/{handle}?view=cards-only
+{%- endcomment -%}
+{%- paginate collection.products by 20 -%}
+  <div class="pp-cards-only" data-collection-cards data-handle="{{ collection.handle }}">
+    {%- for product in collection.products -%}
+      {%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait-tall' -%}
+    {%- endfor -%}
+  </div>
+{%- endpaginate -%}
