@@ -132,31 +132,6 @@
             "border_radius": 0
           },
           "blocks": {
-            "collection_title_Vw96Br": {
-              "type": "collection-title",
-              "name": "t:names.collection_title",
-              "settings": {
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": true,
-                "background_color": "#ffffff",
-                "corner_radius": 0,
-                "padding-block-start": 4,
-                "padding-block-end": 4,
-                "padding-inline-start": 8,
-                "padding-inline-end": 8
-              },
-              "blocks": {}
-            },
             "collection-card-image": {
               "type": "_collection-card-image",
               "name": "t:names.collection_card_image",
@@ -175,9 +150,7 @@
               "blocks": {}
             }
           },
-          "block_order": [
-            "collection_title_Vw96Br"
-          ]
+          "block_order": []
         }
       },
       "block_order": [
@@ -252,7 +225,7 @@
               "type": "text",
               "name": "t:names.text",
               "settings": {
-                "text": "<h3>Compra por colección</h3>",
+                "text": "<h2><strong>Cómo cuidar cada planta según su especie</strong></h2>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
