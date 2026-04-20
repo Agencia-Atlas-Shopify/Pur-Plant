@@ -56,7 +56,7 @@
       "block_order": [
         "text_rLCfNz"
       ],
-      "name": "t:names.custom_section",
+      "name": "Contenido",
       "settings": {
         "content_direction": "column",
         "vertical_on_mobile": true,
