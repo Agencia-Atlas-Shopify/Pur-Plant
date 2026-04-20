@@ -257,10 +257,34 @@
             "accordion_row_KLFBDJ",
             "accordion_row_phiL6F"
           ]
+        },
+        "image_tTeyBG": {
+          "type": "image",
+          "name": "t:names.image",
+          "settings": {
+            "image": "shopify://shop_images/ilustracion_siempre_contigo_pur_plant.png",
+            "link": "",
+            "image_ratio": "adapt",
+            "width": "custom",
+            "custom_width": 27,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
         }
       },
       "block_order": [
-        "accordion_M4UqnK"
+        "accordion_M4UqnK",
+        "image_tTeyBG"
       ],
       "name": "t:names.contact_form",
       "settings": {
