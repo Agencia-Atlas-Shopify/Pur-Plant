@@ -177,7 +177,7 @@
         "banner_mbgawb": {
           "type": "banner",
           "settings": {
-            "position": 7,
+            "position": 11,
             "width_mobile": 1,
             "width_tablet": 1,
             "width_desktop": 1,
@@ -381,6 +381,16 @@
         "padding-block-end": 48
       }
     },
+    "pp_collection_desc": {
+      "type": "pp-collection-description",
+      "settings": {
+        "heading": "{{ collection.title }}",
+        "toggle_text": "Leer más",
+        "toggle_close_text": "Leer menos",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
     "hero_GEtCdL": {
       "type": "hero",
       "blocks": {
@@ -475,16 +485,6 @@
         "reflection_opacity": 75,
         "padding-block-start": 0,
         "padding-block-end": 40
-      }
-    },
-    "pp_collection_desc": {
-      "type": "pp-collection-description",
-      "settings": {
-        "heading": "{{ collection.title }}",
-        "toggle_text": "Leer más",
-        "toggle_close_text": "Leer menos",
-        "padding_top": 40,
-        "padding_bottom": 40
       }
     },
     "main": {
