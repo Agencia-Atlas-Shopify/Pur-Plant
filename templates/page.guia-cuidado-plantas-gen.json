@@ -241,6 +241,20 @@
         "padding-block-end": 24
       }
     },
+    "divider_d86dKD": {
+      "type": "divider",
+      "name": "t:names.divider_section",
+      "settings": {
+        "color_scheme": "",
+        "section_width": "full-width",
+        "thickness": 0.5,
+        "corner_radius": "square",
+        "width_percent": 100,
+        "alignment_horizontal": "center",
+        "padding-block-start": 100,
+        "padding-block-end": 16
+      }
+    },
     "collection_list_CNNhrd": {
       "type": "collection-list",
       "blocks": {
@@ -462,6 +476,7 @@
     "section_HBFWtA",
     "pp_brand_banner_FQE6wQ",
     "collection_list_qXQmDn",
+    "divider_d86dKD",
     "collection_list_CNNhrd"
   ]
 }
