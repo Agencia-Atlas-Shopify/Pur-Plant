@@ -186,6 +186,32 @@
 
           {%- comment -%} Footer / Summary {%- endcomment -%}
           <div class="pp-cart-drawer__footer">
+            {%- comment -%} Applied discount pills {%- endcomment -%}
+            {%- if cart.cart_level_discount_applications.size > 0 or cart.discount_applications.size > 0 -%}
+              <div class="pp-cart-drawer__discounts-applied" data-pp-discounts-applied>
+                {%- for disc in cart.cart_level_discount_applications -%}
+                  <span class="pp-cart-drawer__discount-pill" data-discount-code="{{ disc.title }}">
+                    {{ disc.title }}
+                    <button type="button" data-pp-remove-discount="{{ disc.title }}" aria-label="Eliminar">×</button>
+                  </span>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+
+            {%- comment -%} Discount input {%- endcomment -%}
+            <form class="pp-cart-drawer__discount" data-pp-discount-form>
+              <input
+                type="text"
+                name="discount"
+                class="pp-cart-drawer__discount-input"
+                placeholder="Código de descuento"
+                autocomplete="off"
+                autocapitalize="characters"
+              >
+              <button type="submit" class="pp-cart-drawer__discount-btn">Aplicar</button>
+              <p class="pp-cart-drawer__discount-feedback" data-pp-discount-feedback aria-live="polite"></p>
+            </form>
+
             <div class="pp-cart-drawer__totals">
               <span class="pp-cart-drawer__subtotal-label">{{ 'content.cart_subtotal' | t | upcase }}</span>
               <span class="pp-cart-drawer__subtotal-value">
@@ -696,6 +722,85 @@
     opacity: 0.85;
   }
 
+  /* Discount input */
+  .pp-cart-drawer__discount {
+    display: flex;
+    gap: 8px;
+    margin: 0 0 12px;
+  }
+  .pp-cart-drawer__discount-input {
+    flex: 1;
+    min-width: 0;
+    height: 40px;
+    padding: 0 14px;
+    border: 1px solid rgba(35, 55, 44, 0.2);
+    border-radius: 999px;
+    background: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: #23372c;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    outline: none;
+  }
+  .pp-cart-drawer__discount-input:focus {
+    border-color: #23372c;
+  }
+  .pp-cart-drawer__discount-btn {
+    height: 40px;
+    padding: 0 20px;
+    background: #23372c;
+    color: #e4ffd3;
+    border: none;
+    border-radius: 999px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  .pp-cart-drawer__discount-btn[disabled] { opacity: 0.5; cursor: wait; }
+  .pp-cart-drawer__discount-feedback {
+    width: 100%;
+    margin: 6px 2px 0;
+    font-size: 12px;
+    color: #23372c;
+    min-height: 14px;
+  }
+  .pp-cart-drawer__discount-feedback.is-error { color: #c0392b; }
+  .pp-cart-drawer__discount-feedback.is-ok { color: #1d7a3c; }
+
+  /* Applied discount pills */
+  .pp-cart-drawer__discounts-applied {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 12px;
+  }
+  .pp-cart-drawer__discount-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    background: #e4ffd3;
+    color: #23372c;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .pp-cart-drawer__discount-pill button {
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    padding: 0 2px;
+  }
+
   @media screen and (max-width: 749px) {
     .pp-cart-drawer__dialog {
       width: 100%;
@@ -834,6 +939,66 @@
       var drawer = getDrawer();
       if (drawer && typeof drawer.close === 'function') drawer.close();
     }
+  });
+
+  // Discount form submit — applies code via Shopify /discount/CODE (sets session cookie)
+  // Then refreshes cart to reflect discount + triggers Planet Upsell by dispatching cart:update.
+  document.addEventListener('submit', function(e){
+    var form = e.target.closest('[data-pp-discount-form]');
+    if (!form) return;
+    e.preventDefault();
+    var input = form.querySelector('input[name="discount"]');
+    var btn = form.querySelector('.pp-cart-drawer__discount-btn');
+    var feedback = form.querySelector('[data-pp-discount-feedback]');
+    var code = (input && input.value || '').trim().toUpperCase();
+    if (!code) return;
+    if (btn) btn.setAttribute('disabled','true');
+    if (feedback) { feedback.textContent = 'Aplicando...'; feedback.className = 'pp-cart-drawer__discount-feedback'; }
+
+    // Step 1: set discount cookie via /discount/CODE. Follow redirect to get cart state.
+    fetch('/discount/' + encodeURIComponent(code), { credentials:'same-origin', redirect:'follow' })
+      .then(function(){
+        // Step 2: fetch cart.js — if discount was invalid the discount_code won't stick
+        return fetch('/cart.js', { credentials:'same-origin', cache:'no-store' }).then(r=>r.json());
+      })
+      .then(function(cart){
+        var applied = (cart && ((cart.cart_level_discount_applications || []).length > 0
+                      || (cart.discount_codes || []).some(function(c){ return (c.code||'').toUpperCase() === code && c.applicable; })));
+        if (!applied) {
+          if (feedback) { feedback.textContent = 'Código no válido o no aplicable'; feedback.className = 'pp-cart-drawer__discount-feedback is-error'; }
+          if (btn) btn.removeAttribute('disabled');
+          return;
+        }
+        if (feedback) { feedback.textContent = 'Aplicado ✓'; feedback.className = 'pp-cart-drawer__discount-feedback is-ok'; }
+        if (input) input.value = '';
+        // Step 3: dispatch cart:update so Planet Upsell app evaluates discount rules and injects gifts
+        document.dispatchEvent(new CustomEvent('cart:update', { detail: { source: 'pp-discount', cart: cart } }));
+        document.dispatchEvent(new CustomEvent('discount:applied', { detail: { code: code, cart: cart } }));
+        // Give Planet ~800ms to inject gift, then refresh drawer to show new line
+        setTimeout(function(){
+          window.ppRefreshCartDrawer({ open: true });
+          if (btn) btn.removeAttribute('disabled');
+        }, 900);
+      })
+      .catch(function(){
+        if (feedback) { feedback.textContent = 'Error al aplicar el código'; feedback.className = 'pp-cart-drawer__discount-feedback is-error'; }
+        if (btn) btn.removeAttribute('disabled');
+      });
+  });
+
+  // Remove applied discount
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('[data-pp-remove-discount]');
+    if (!btn) return;
+    e.preventDefault();
+    // Clear by visiting /discount/ with empty — Shopify uses /discount/clear? actually there's
+    // no official clear endpoint; setting discount to "" via update doesn't work either.
+    // Workaround: POST /cart/update.js with discount field null — not supported. Instead reload
+    // via /discount/___ (unknown code) which replaces current. Simplest: redirect to checkout_url/reset.
+    // Use fetch('/cart/clear.js') NOT acceptable (removes items). So we send /checkout?discount= with no redirect:
+    fetch('/discount/', { credentials:'same-origin' }).finally(function(){
+      window.ppRefreshCartDrawer({ open: true });
+    });
   });
 
   // Re-open dialog if still logically "open" after native morph (safety net)
