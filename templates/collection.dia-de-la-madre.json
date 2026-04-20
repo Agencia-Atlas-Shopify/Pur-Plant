@@ -171,6 +171,16 @@
       "name": "PP Collection Header",
       "settings": {}
     },
+    "pp_collection_desc": {
+      "type": "pp-collection-description",
+      "settings": {
+        "heading": "{{ collection.title }}",
+        "toggle_text": "Leer más",
+        "toggle_close_text": "Leer menos",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
     "pp_collection_grid": {
       "type": "pp-collection",
       "blocks": {
@@ -313,16 +323,6 @@
         "padding-block-end": 40
       }
     },
-    "pp_collection_desc": {
-      "type": "pp-collection-description",
-      "settings": {
-        "heading": "{{ collection.title }}",
-        "toggle_text": "Leer más",
-        "toggle_close_text": "Leer menos",
-        "padding_top": 40,
-        "padding_bottom": 40
-      }
-    },
     "main": {
       "type": "pp-collection",
       "disabled": true,
@@ -352,8 +352,8 @@
     "pp_hero_slider_UwEACy",
     "pp_collection_header_qFWbWE",
     "pp_collection_grid",
-    "hero_GEtCdL",
     "pp_collection_desc",
+    "hero_GEtCdL",
     "main"
   ]
 }
