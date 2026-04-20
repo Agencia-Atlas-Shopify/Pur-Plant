@@ -232,7 +232,7 @@
       "settings": {
         "title": "MUST",
         "view_all_text": "Ver todo",
-        "view_all_url": "/collections",
+        "view_all_url": "shopify://collections/plantas",
         "padding_top": 24,
         "padding_bottom": 16
       }
