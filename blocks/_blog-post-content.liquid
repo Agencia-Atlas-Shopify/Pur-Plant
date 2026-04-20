@@ -211,12 +211,55 @@
     });
   }
 
+  // Patterns / classes that mark a heading as "not a real section" — it stays in
+  // the document (as a <p> to preserve styling) but is excluded from TOC.
+  var TOC_SKIP_PATTERNS = [
+    /^compartir/i,
+    /^comparte/i,
+    /^\s*relacionados?\s*$/i,
+    /^comentarios?/i,
+    /^(autor|author)/i,
+    /^índice$/i,
+    /^indice$/i,
+    /^tabla de contenidos?/i,
+    /^sumario$/i,
+    /^ver también/i
+  ];
+
+  function shouldSkipHeading(h) {
+    if (h.classList.contains('pp-toc-skip')) return true;
+    if (h.classList.contains('no-toc')) return true;
+    if (h.dataset && h.dataset.tocSkip !== undefined) return true;
+    var text = (h.textContent || '').trim();
+    for (var i = 0; i < TOC_SKIP_PATTERNS.length; i++) {
+      if (TOC_SKIP_PATTERNS[i].test(text)) return true;
+    }
+    return false;
+  }
+
+  function demoteToParagraph(h) {
+    var p = document.createElement('p');
+    p.className = 'pp-heading-demoted ' + (h.className || '').trim();
+    p.innerHTML = h.innerHTML;
+    if (h.id) p.id = h.id;
+    h.parentNode.replaceChild(p, h);
+  }
+
   function buildTOC(container) {
     var toc = container.querySelector('[data-pp-toc]');
     if (!toc) return;
     var list = toc.querySelector('[data-pp-toc-list]');
     if (!list) return;
 
+    // First pass: demote "skip" headings to <p> so they stay visible but don't act as anchors
+    var allHeadings = Array.prototype.slice.call(
+      container.querySelectorAll('rte-formatter h2, rte-formatter h3')
+    );
+    allHeadings.forEach(function(h) {
+      if (shouldSkipHeading(h)) demoteToParagraph(h);
+    });
+
+    // Re-query real headings after demotion
     var headings = container.querySelectorAll('rte-formatter h2, rte-formatter h3');
     var used = {};
     var count = 0;
