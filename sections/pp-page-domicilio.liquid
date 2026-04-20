@@ -519,6 +519,18 @@
     filtered.push(w);
   }
 
+  /* Reorder [heading, image, text] → [heading, text, image] so text pairs with heading
+     and image attaches to the pair. WP Elementor often emits image between heading and text. */
+  for (var k = 0; k < filtered.length - 2; k++) {
+    if (filtered[k].type === 'heading'
+     && filtered[k + 1].type === 'image'
+     && filtered[k + 2].type === 'text') {
+      var tmp = filtered[k + 1];
+      filtered[k + 1] = filtered[k + 2];
+      filtered[k + 2] = tmp;
+    }
+  }
+
   /* Group into semantic blocks (heading + text(s)) + optional image pair.
      A new heading starts a new block. An image attaches to current block
      and flushes it; a standalone image (no preceding text/heading) renders alone. */
