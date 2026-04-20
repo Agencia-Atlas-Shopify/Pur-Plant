@@ -594,7 +594,7 @@
           "type": "button",
           "settings": {
             "label": "Descubrir Regalos",
-            "link": "shopify://pages/dia-de-la-madre",
+            "link": "shopify://collections/dia-de-la-madre",
             "open_in_new_tab": false,
             "style_class": "button",
             "width": "fit-content",
