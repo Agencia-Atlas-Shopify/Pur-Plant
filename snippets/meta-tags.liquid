@@ -77,9 +77,10 @@
     if product.vendor != blank
       assign vc = product.vendor | strip
       assign vlen = vc | size
-      assign vhas = false
       assign vd = vc | downcase
-      for ch in 'abcdefghijklmnopqrstuvwxyz' | split: ''
+      assign og_alpha = 'abcdefghijklmnopqrstuvwxyz' | split: ''
+      assign vhas = false
+      for ch in og_alpha
         if vd contains ch
           assign vhas = true
           break

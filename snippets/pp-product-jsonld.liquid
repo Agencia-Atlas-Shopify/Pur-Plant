@@ -26,9 +26,10 @@
   if product.vendor != blank
     assign vendor_clean = product.vendor | strip
     assign vendor_len = vendor_clean | size
-    assign vendor_has_letter = false
     assign vendor_downcased = vendor_clean | downcase
-    for c in 'abcdefghijklmnopqrstuvwxyz' | split: ''
+    assign alpha_chars = 'abcdefghijklmnopqrstuvwxyz' | split: ''
+    assign vendor_has_letter = false
+    for c in alpha_chars
       if vendor_downcased contains c
         assign vendor_has_letter = true
         break
