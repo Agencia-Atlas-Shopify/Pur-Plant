@@ -12,8 +12,11 @@
   assign page_type = page.metafields.custom.page_type | default: ''
   assign products_per_row = section.settings.products_per_row | default: 4
   assign is_flores = false
+  assign is_arboles = false
   if page_type == 'flores-domicilio'
     assign is_flores = true
+  elsif page_type == 'arboles-domicilio'
+    assign is_arboles = true
   endif
 -%}
 
@@ -307,6 +310,8 @@
       <span class="pp-guide__breadcrumb-sep">/</span>
       {%- if is_flores -%}
         <span>Flores a Domicilio</span>
+      {%- elsif is_arboles -%}
+        <span>Árboles a Domicilio</span>
       {%- else -%}
         <span>Plantas a Domicilio</span>
       {%- endif -%}
@@ -320,9 +325,11 @@
     <div class="pp-domicilio__hero">
       <p class="pp-domicilio__hero-subtitle">
         {%- if is_flores -%}
-          Envio de flores a domicilio
+          Envío de flores a domicilio
+        {%- elsif is_arboles -%}
+          Envío de árboles a domicilio
         {%- else -%}
-          Envio de plantas a domicilio
+          Envío de plantas a domicilio
         {%- endif -%}
       </p>
       <h1 class="pp-domicilio__hero-title">{{ page.title }}</h1>
