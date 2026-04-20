@@ -32,7 +32,7 @@
           "type": "contact_column",
           "settings": {
             "heading": "CONTÁCTANOS",
-            "content": "info@purplant.es\nHorario Atención al Cliente\nL-V de 8:00h a 17:00h"
+            "content": "info@purplant.es\nHorario Atención al Cliente\nL-V de 8:00h a 16:30h"
           }
         },
         "col_sobre": {
@@ -80,11 +80,15 @@
         "reviews_url": "https://www.google.com/search?q=pur+plant+reseñas",
         "reviews_rating": "4.8",
         "reviews_count": "4361 reseñas",
+        "promo_link": "",
         "promo_text": "¿Te gustaría hacer un Regalo Verde a esa Persona Especial?",
         "cta1_label": "TARJETA REGALO",
         "cta1_link": "/products/tarjeta-regalo-digital",
         "cta2_label": "OFERTAS FLASH",
         "cta2_link": "/collections/ofertas-flash",
+        "whatsapp_number": "34667279907",
+        "whatsapp_display": "667 279 907",
+        "email": "info@purplant.es",
         "instagram_url": "https://www.instagram.com/pur_plant/",
         "tiktok_url": "https://www.tiktok.com/@pur_plant#",
         "pinterest_url": "https://www.pinterest.es/purplant/",
