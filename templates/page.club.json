@@ -65,7 +65,7 @@
           "settings": {
             "image_desktop": "{{ page.metafields.custom.imagen_portada.value }}",
             "subheading": "",
-            "heading": "{{ page.metafields.custom.page_type.value }}",
+            "heading": "Club pur planter",
             "subtitle": "",
             "content_position": "bottom-left",
             "button_text": "",
