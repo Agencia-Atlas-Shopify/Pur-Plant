@@ -698,7 +698,7 @@
         "align_baseline": false,
         "horizontal_alignment_flex_direction_column": "center",
         "vertical_alignment_flex_direction_column": "space-between",
-        "gap": 32,
+        "gap": 22,
         "section_width": "page-width",
         "section_height": "large",
         "section_height_custom": 50,
@@ -710,7 +710,7 @@
         "blurred_reflection": false,
         "reflection_opacity": 75,
         "padding-block-start": 0,
-        "padding-block-end": 40
+        "padding-block-end": 22
       }
     },
     "main": {
