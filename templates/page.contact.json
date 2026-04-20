@@ -318,52 +318,52 @@
         "padding-block-end": 84
       }
     },
-    "pp_footer_rAppRk": {
+    "pp_footer_Q9zmgE": {
       "type": "pp-footer",
       "blocks": {
-        "links_column_cjgcRN": {
+        "links_column_P3cyXU": {
           "type": "links_column",
           "settings": {
             "heading": "¿DÓNDE ESTÁ MI PEDIDO?",
             "menu": ""
           }
         },
-        "links_column_7YAWXn": {
+        "links_column_iPTJXT": {
           "type": "links_column",
           "settings": {
             "heading": "PLANTAS QUE ENGANCHAN",
             "menu": ""
           }
         },
-        "contact_column_whNBdB": {
+        "contact_column_bgXmar": {
           "type": "contact_column",
           "settings": {
             "heading": "CONTÁCTANOS",
             "content": "info@purplant.es\n667 279 907\nL-V 8:00 - 17:00"
           }
         },
-        "links_column_jhJFQR": {
+        "links_column_mgXhG8": {
           "type": "links_column",
           "settings": {
             "heading": "SOBRE NOSOTRXS",
             "menu": ""
           }
         },
-        "links_column_LcmWkb": {
+        "links_column_LpX3TA": {
           "type": "links_column",
           "settings": {
             "heading": "PLANTAS A DOMICILIO",
             "menu": ""
           }
         },
-        "links_column_eYax6K": {
+        "links_column_A48XqC": {
           "type": "links_column",
           "settings": {
             "heading": "ÁRBOLES A DOMICILIO",
             "menu": ""
           }
         },
-        "links_column_ijHbjN": {
+        "links_column_Jm4eTX": {
           "type": "links_column",
           "settings": {
             "heading": "FLORES",
@@ -372,13 +372,13 @@
         }
       },
       "block_order": [
-        "links_column_cjgcRN",
-        "links_column_7YAWXn",
-        "contact_column_whNBdB",
-        "links_column_jhJFQR",
-        "links_column_LcmWkb",
-        "links_column_eYax6K",
-        "links_column_ijHbjN"
+        "links_column_P3cyXU",
+        "links_column_iPTJXT",
+        "contact_column_bgXmar",
+        "links_column_mgXhG8",
+        "links_column_LpX3TA",
+        "links_column_A48XqC",
+        "links_column_Jm4eTX"
       ],
       "name": "PP Footer",
       "settings": {
@@ -406,6 +406,6 @@
   "order": [
     "main",
     "form",
-    "pp_footer_rAppRk"
+    "pp_footer_Q9zmgE"
   ]
 }
