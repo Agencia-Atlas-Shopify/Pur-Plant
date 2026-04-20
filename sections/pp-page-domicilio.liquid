@@ -490,13 +490,31 @@
     return;
   }
 
+  /* Drop orphan headings (heading with no text/image before next heading) — noise from
+     WP section labels that pointed to deleted product grids. */
+  var filtered = [];
+  for (var i = 0; i < widgets.length; i++) {
+    var w = widgets[i];
+    if (!w || !w.type) continue;
+    if (w.type === 'heading') {
+      var hasBody = false;
+      for (var j = i + 1; j < widgets.length; j++) {
+        var nx = widgets[j];
+        if (!nx || !nx.type) continue;
+        if (nx.type === 'heading') break;
+        if (nx.type === 'text' || nx.type === 'image') { hasBody = true; break; }
+      }
+      if (!hasBody) continue; // skip orphan
+    }
+    filtered.push(w);
+  }
+
   /* Group widgets into paired rows (text-block + image) so image can sit next to text.
      An image consumes the nearest preceding heading+text block into a row; if there is no
      preceding block, the image renders on its own full-width. */
   var blocks = [];
   var curText = null;
-  widgets.forEach(function(w) {
-    if (!w || !w.type) return;
+  filtered.forEach(function(w) {
     if (w.type === 'heading' || w.type === 'text') {
       if (!curText) curText = { kind: 'block', html: '' };
       curText.html += (w.type === 'heading')
