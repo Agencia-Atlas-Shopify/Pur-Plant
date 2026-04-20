@@ -1,0 +1,266 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "blocks": {
+        "heading": {
+          "type": "text",
+          "name": "Title",
+          "settings": {
+            "text": "<h1>{{ closest.page.title }}</h1>",
+            "width": "100%",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "h2",
+            "font": "var(--font-primary--family)",
+            "font_size": "",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "page-content": {
+          "type": "page-content",
+          "settings": {},
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "heading",
+        "page-content"
+      ],
+      "disabled": true,
+      "settings": {
+        "content_direction": "column",
+        "gap": 32,
+        "color_scheme": "",
+        "padding-block-start": 40,
+        "padding-block-end": 80
+      }
+    },
+    "pp_hero_slider_9CcLiK": {
+      "type": "pp-hero-slider",
+      "blocks": {
+        "slide_g98xDB": {
+          "type": "slide",
+          "settings": {
+            "image_desktop": "shopify://shop_images/conocenos-quentin-purplant.jpg",
+            "subheading": "",
+            "heading": "",
+            "subtitle": "",
+            "content_position": "bottom-left",
+            "button_text": "",
+            "button_link": "",
+            "button_style": "normal",
+            "button_text_2": "",
+            "button_link_2": "",
+            "button_style_2": "inverted",
+            "link": "",
+            "heading_font": "default",
+            "heading_size": 0,
+            "heading_size_mobile": 0,
+            "heading_weight": "default",
+            "heading_color": "",
+            "subheading_font": "default",
+            "subheading_size": 0,
+            "subheading_size_mobile": 0,
+            "subheading_weight": "default",
+            "subheading_color": "",
+            "btn_font": "default",
+            "btn_size": 0,
+            "btn_weight": "default",
+            "btn_bg_color": "",
+            "btn_text_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_g98xDB"
+      ],
+      "name": "PP Hero Slider",
+      "settings": {
+        "enable_transparent_header": false,
+        "full_height_mobile": false,
+        "height_mobile": 500,
+        "full_height_desktop": false,
+        "height_desktop": 530,
+        "autoplay": true,
+        "autoplay_speed": 5,
+        "show_dots": true,
+        "show_arrows": true,
+        "content_max_width": 600,
+        "overlay_opacity": 0,
+        "overlay_direction": "to top",
+        "background_color": "0 0 0",
+        "text_color": "255 255 255",
+        "button_background": "255 255 255",
+        "button_text_color": "0 0 0"
+      }
+    },
+    "pp_about_split_GApnwF": {
+      "type": "pp-about-split",
+      "name": "PP About Split",
+      "settings": {
+        "heading": "PUR PLANT ES LA MARCA QUE CREE EN EL PODER DE LAS PLANTAS.",
+        "heading_weight": "600",
+        "body": "SOMOS LOS BOTÁNICOS DEL SXXI QUE OFRECEMOS BIENESTAR A TRAVÉS DE LA RE-CONEXIÓN CON LA NATURALEZA.",
+        "body_weight": "500",
+        "text_align": "left",
+        "vertical_align": "center",
+        "text_width": 60,
+        "button_label": "",
+        "button_link": "",
+        "image": "shopify://shop_images/width_533.webp",
+        "image_position": "right",
+        "image_outer_margin": 116,
+        "bg_color": "#ffffff",
+        "text_color": "#23372c",
+        "accent_color": "#e4ffd3",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "pp_full_text_WqDxdT": {
+      "type": "pp-full-text",
+      "name": "PP Full Text",
+      "settings": {
+        "text": "Volver a la tierra",
+        "letter_spacing": 440,
+        "text_transform": "uppercase",
+        "font_weight": "400",
+        "bg_color": "#ffffff",
+        "text_color": "#23372c",
+        "padding_top": 24,
+        "padding_bottom": 24
+      }
+    },
+    "pp_richtext_about": {
+      "type": "pp-richtext",
+      "name": "PP Rich Text",
+      "settings": {
+        "content": "<p>Volver a la tierra no es solo nuestro claim, es una declaración de principios. Somos una marca real y auténtica, profundamente conectada con lo orgánico, con el origen de todo: la semilla, el suelo, la naturaleza viva.</p><p>Creemos en el poder transformador de las plantas, en su belleza, en su capacidad de generar bienestar y alegría en cualquier espacio.</p><p>En Pur Plant queremos llenar de verde cada rincón, inspirar a las personas a reconectar con la naturaleza, a crear su propia jungla urbana y a encontrar felicidad en lo esencial: cuidar de lo vivo.</p><p>Amamos la botánica y la compartimos con pasión. Somos una tribu creativa, curiosa y un poco salvaje. Nos mueve la libertad, la innovación y la calidad, pero también el detalle, el diseño y la armonía.</p><p>Nuestro estilo combina lo orgánico con lo actual: nos gusta explorar nuevas formas, romper moldes y sorprender.</p><p>Somos pioneros en diseñar productos de cuidados para Plant Lovers y contamos con uno de los mejores catálogos de plantas naturales, pero con el alma bien arraigada en la tierra.</p><p>Pur Plant es mucho más que una tienda online de plantas: es un estilo de vida, una comunidad botánica con voz propia. Enseñamos a cuidar las plantas, pero también a disfrutar del proceso. A través de nuestra propuesta, acercamos lo verde a la vida cotidiana, combinando tecnología, tendencias, buen gusto y mucho corazón.</p><p>En nuestra selva todxs son bienvenidxs. Aquí brota la buena vibra.</p>",
+        "font_size": 25,
+        "font_weight": "400",
+        "line_height": 16,
+        "text_align": "center",
+        "max_width": 880,
+        "bg_color": "#ffffff",
+        "text_color": "#23372c",
+        "padding_top": 48,
+        "padding_bottom": 48,
+        "padding_inline": 24
+      }
+    },
+    "pp_image_full_k7zLaB": {
+      "type": "pp-image-full",
+      "name": "PP Image Full",
+      "settings": {
+        "image": "shopify://shop_images/width_800.webp",
+        "max_width_pct": 35,
+        "align": "center",
+        "auto_height": true,
+        "height": 200,
+        "height_mobile": 300,
+        "bg_color": "#ffffff",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "pp_brand_banner_7LXEHL": {
+      "type": "pp-brand-banner",
+      "custom_css": [
+        "@media (min-width: 990px) {p.pp-brand__copy {line-height: normal; font-size: 60px; font-weight: 800; font-family: \"Aileron\"; padding-bottom: 70px; }}",
+        "@media (max-width: 990px) {p.pp-brand__copy {line-height: normal; font-size: 50px; font-weight: 800; font-family: \"Aileron\"; padding-bottom: 20px; }}"
+      ],
+      "name": "PP Brand Banner",
+      "settings": {
+        "heading": "nuestra historia",
+        "subheading": "",
+        "button_label": "",
+        "button_link": "",
+        "video": "shopify://files/videos/AQOYR48pAnCzNSJNqSnEF1YV7AQeL3FpyeUXK5KePf-Rcvq0eghIzLiJwQ-QtUmibBTOfxZntikszfPpB3BiJgALVvi7X8eCgDk8MVY.mp4",
+        "video_url": "",
+        "image_position": "right",
+        "image_overflow": 48,
+        "video_max_width": 400,
+        "bg_color": "#23372c",
+        "text_color": "#daffd3",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "pp_trust_badges_i9j4mq": {
+      "type": "pp-trust-badges",
+      "blocks": {
+        "badge_dDcpQJ": {
+          "type": "badge",
+          "settings": {
+            "icon": "shopify://shop_images/width_800-1.webp",
+            "title": "más que plantas",
+            "description": "Creemos que las plantas no son solo decoración, sino una forma de transformar cómo vivimos. Queremos que formen parte de tu día a día y te ayuden a volver al  presente, porque lo mágico ocurre cuando entiendes su poder y lo integras en \ntu vida."
+          }
+        },
+        "badge_Tj73xX": {
+          "type": "badge",
+          "settings": {
+            "icon": "shopify://shop_images/width_800-2.webp",
+            "title": "SIEMPRE CONTIGO",
+            "description": "Detrás de Pur Plant hay un equipo de Plant Lovers que te acompaña, siempre aprendiendo y con una mirada consciente. Colaboramos con artesanxs locales y cultivadores de toda Europa para ofrecerte calidad cuidada, con alma \ny accesible."
+          }
+        },
+        "badge_iG4ywW": {
+          "type": "badge",
+          "settings": {
+            "icon": "shopify://shop_images/width_800-3.webp",
+            "title": "PACKAGING SEGURO",
+            "description": "Cuidamos cada detalle para que tu pedido llegue en perfectas condiciones. Utilizamos un packaging seguro y libre de plásticos, pensado para resistir el trayecto, y apostamos por materiales sostenibles en todo el proceso."
+          }
+        }
+      },
+      "block_order": [
+        "badge_dDcpQJ",
+        "badge_Tj73xX",
+        "badge_iG4ywW"
+      ],
+      "custom_css": [
+        "p.pp-trust-badges__desc {text-align: left; color: black; font-size: 1.2rem; opacity: 1; padding-top: 20px;}"
+      ],
+      "name": "PP Trust Badges",
+      "settings": {
+        "heading": "POR QUÉ COMPRAR EN PUR PLANT",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "icon_size": 350
+      }
+    }
+  },
+  "order": [
+    "main",
+    "pp_hero_slider_9CcLiK",
+    "pp_about_split_GApnwF",
+    "pp_full_text_WqDxdT",
+    "pp_richtext_about",
+    "pp_image_full_k7zLaB",
+    "pp_brand_banner_7LXEHL",
+    "pp_trust_badges_i9j4mq"
+  ]
+}
