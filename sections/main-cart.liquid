@@ -60,6 +60,48 @@
 </cart-items-component>
 
 {% stylesheet %}
+  /* Pur Plant — cart page brand alignment */
+  .cart-page__title .cart-title h1,
+  .cart-page__title .cart-title .h2 {
+    font-family: 'Aileron', var(--font-body--family), sans-serif;
+    font-weight: 900;
+    letter-spacing: -0.036em;
+    color: #23372C;
+    font-size: clamp(32px, 4vw, 44px);
+    line-height: 1.1;
+  }
+
+  .cart-page {
+    padding-block: 24px 56px;
+  }
+
+  .cart-page__summary {
+    background: #F8F6F0;
+    border-radius: 20px;
+    padding: 28px !important;
+  }
+
+  @media screen and (min-width: 750px) {
+    .cart-page__summary {
+      align-self: start;
+      margin-top: 54px;
+    }
+  }
+
+  .cart-page--empty .cart-title h1 {
+    text-align: center;
+    padding-block: 48px 16px;
+  }
+
+  /* Recommendations heading */
+  .cart-items-component + .section .product-list__heading,
+  [data-section-id] + .section h3 {
+    font-family: 'Aileron', var(--font-body--family), sans-serif;
+    font-weight: 900;
+    color: #23372C;
+    letter-spacing: -0.02em;
+  }
+
   .cart-page {
     display: grid;
     grid-template-columns: 1fr;
