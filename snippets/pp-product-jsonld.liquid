@@ -18,7 +18,26 @@
     assign rating_val = rating_mf.value.rating
   endif
 
-  assign brand = product.vendor | default: 'Pur Plant'
+  comment
+    Use vendor only if it looks like a real brand (has letters, length >= 3).
+    Junk values like "1111" or "-" fall back to "Pur Plant".
+  endcomment
+  assign brand = 'Pur Plant'
+  if product.vendor != blank
+    assign vendor_clean = product.vendor | strip
+    assign vendor_len = vendor_clean | size
+    assign vendor_has_letter = false
+    assign vendor_downcased = vendor_clean | downcase
+    for c in 'abcdefghijklmnopqrstuvwxyz' | split: ''
+      if vendor_downcased contains c
+        assign vendor_has_letter = true
+        break
+      endif
+    endfor
+    if vendor_len >= 3 and vendor_has_letter
+      assign brand = vendor_clean
+    endif
+  endif
   assign current_variant = product.selected_or_first_available_variant
   assign product_url = shop.url | append: product.url
 -%}

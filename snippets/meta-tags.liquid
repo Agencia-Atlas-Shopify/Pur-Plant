@@ -72,7 +72,24 @@
 {%- endif -%}
 
 {%- if request.page_type == 'product' -%}
-  {%- assign og_brand = product.vendor | default: 'Pur Plant' -%}
+  {%- liquid
+    assign og_brand = 'Pur Plant'
+    if product.vendor != blank
+      assign vc = product.vendor | strip
+      assign vlen = vc | size
+      assign vhas = false
+      assign vd = vc | downcase
+      for ch in 'abcdefghijklmnopqrstuvwxyz' | split: ''
+        if vd contains ch
+          assign vhas = true
+          break
+        endif
+      endfor
+      if vlen >= 3 and vhas
+        assign og_brand = vc
+      endif
+    endif
+  -%}
   <meta
     property="og:price:amount"
     content="{{ product.price | money_without_currency | strip_html }}"
