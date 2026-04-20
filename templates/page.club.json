@@ -63,9 +63,9 @@
         "slide_g98xDB": {
           "type": "slide",
           "settings": {
-            "image_desktop": "shopify://shop_images/conocenos-quentin-purplant.jpg",
+            "image_desktop": "{{ page.metafields.custom.imagen_portada.value }}",
             "subheading": "",
-            "heading": "",
+            "heading": "{{ page.metafields.custom.page_type.value }}",
             "subtitle": "",
             "content_position": "bottom-left",
             "button_text": "",
