@@ -25,16 +25,20 @@
     {%- comment -%} ═══ PLANTAS ═══ {%- endcomment -%}
     {%- comment -%}
       ═══ Dynamic panels from Shopify menu ═══
-      Top-level 1 (Plantas) = panel with sub-tabs (each child = tab, grandchildren = column links).
-      Top-level 2 (Regalos) = panel with columns (each child = column title, grandchildren = links).
-      Top-level 3 (Sobre)   = same columns pattern.
+      Column grouping via convention: items with title "── TITLE ──" act as column
+      headers (not clickable). Items following a header go into that column until
+      the next header.
+
+      Panel structure:
+        - Plantas: top.links[].links[] where headers group columns per sub-tab
+        - Regalos/Sobre: top.links[] (flat) grouped by headers into columns
     {%- endcomment -%}
     {%- for top in megamenu.links limit: 3 -%}
       {%- assign key = panel_keys[forloop.index0] -%}
       {%- assign panel_img = panel_images[forloop.index0] -%}
 
       {%- if forloop.first -%}
-        {%- comment -%} Panel PLANTAS — sub-tabs + dynamic image {%- endcomment -%}
+        {%- comment -%} ═══ PANEL PLANTAS ═══ {%- endcomment -%}
         <div class="pp-mega__panel" data-mega-panel="{{ key }}">
           <div class="pp-mega__mobile-list">
             {%- for sub in top.links -%}
@@ -58,18 +62,42 @@
             <div class="pp-mega__content">
               {%- for sub in top.links -%}
                 {%- assign sub_key = sub.title | handleize -%}
+                {%- comment -%} Pre-count columns for this sub-tab {%- endcomment -%}
+                {%- assign col_count = 0 -%}
+                {%- for it in sub.links -%}
+                  {%- if it.title contains '── ' -%}
+                    {%- assign col_count = col_count | plus: 1 -%}
+                  {%- endif -%}
+                {%- endfor -%}
+                {%- if col_count == 0 -%}{%- assign col_count = 1 -%}{%- endif -%}
+                {%- if col_count > 4 -%}{%- assign col_count = 4 -%}{%- endif -%}
+
                 <div class="pp-mega__sub{% if forloop.first %} is-active{% endif %}" data-mega-subcontent="{{ sub_key }}">
-                  <div class="pp-mega__columns pp-mega__columns--1">
-                    <div class="pp-mega__col pp-mega__col--split">
-                      <span class="pp-mega__col-title">{{ sub.title | upcase }}</span>
-                      {%- if sub.links.size > 0 -%}
-                        {%- for item in sub.links -%}
-                          <a href="{{ item.url }}" class="pp-mega__link">{{ item.title }}</a>
-                        {%- endfor -%}
+                  <div class="pp-mega__columns pp-mega__columns--{{ col_count }}">
+                    {%- assign col_open = false -%}
+                    {%- for it in sub.links -%}
+                      {%- if it.title contains '── ' -%}
+                        {%- if col_open -%}</div>{%- endif -%}
+                        {%- assign col_title = it.title | replace: '── ', '' | replace: ' ──', '' | strip -%}
+                        <div class="pp-mega__col">
+                          <span class="pp-mega__col-title">{{ col_title | upcase }}</span>
+                        {%- assign col_open = true -%}
                       {%- else -%}
-                        <a href="{{ sub.url }}" class="pp-mega__link">Ver todos</a>
+                        {%- unless col_open -%}
+                          <div class="pp-mega__col">
+                            <span class="pp-mega__col-title">{{ sub.title | upcase }}</span>
+                          {%- assign col_open = true -%}
+                        {%- endunless -%}
+                        <a href="{{ it.url }}" class="pp-mega__link">{{ it.title }}</a>
                       {%- endif -%}
-                    </div>
+                    {%- endfor -%}
+                    {%- if col_open -%}</div>{%- endif -%}
+                    {%- if sub.links.size == 0 -%}
+                      <div class="pp-mega__col">
+                        <span class="pp-mega__col-title">{{ sub.title | upcase }}</span>
+                        <a href="{{ sub.url }}" class="pp-mega__link">Ver todos</a>
+                      </div>
+                    {%- endif -%}
                   </div>
                 </div>
               {%- endfor -%}
@@ -86,30 +114,46 @@
         </div>
 
       {%- else -%}
-        {%- comment -%} Panels REGALOS + SOBRE — column layout {%- endcomment -%}
+        {%- comment -%} ═══ PANELS REGALOS + SOBRE — flat list grouped by ── headers ── ═══ {%- endcomment -%}
+        {%- assign col_count = 0 -%}
+        {%- for it in top.links -%}
+          {%- if it.title contains '── ' -%}
+            {%- assign col_count = col_count | plus: 1 -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if col_count == 0 -%}{%- assign col_count = 1 -%}{%- endif -%}
+        {%- if col_count > 4 -%}{%- assign col_count = 4 -%}{%- endif -%}
+
         <div class="pp-mega__panel" data-mega-panel="{{ key }}">
           <div class="pp-mega__mobile-list">
-            {%- for sub in top.links -%}
-              <button type="button" class="pp-mega__mobile-item" data-mega-col="{{ forloop.index0 }}">{{ sub.title }} <span class="pp-mega__mobile-plus">+</span></button>
+            {%- assign mob_idx = 0 -%}
+            {%- for it in top.links -%}
+              {%- if it.title contains '── ' -%}
+                {%- assign col_title = it.title | replace: '── ', '' | replace: ' ──', '' | strip -%}
+                <button type="button" class="pp-mega__mobile-item" data-mega-col="{{ mob_idx }}">{{ col_title }} <span class="pp-mega__mobile-plus">+</span></button>
+                {%- assign mob_idx = mob_idx | plus: 1 -%}
+              {%- endif -%}
             {%- endfor -%}
           </div>
           <div class="pp-mega__content pp-mega__content--full">
-            {%- assign col_count = top.links.size -%}
-            {%- if col_count > 4 -%}{%- assign col_count = 4 -%}{%- endif -%}
             <div class="pp-mega__columns pp-mega__columns--{{ col_count }}">
-              {%- for sub in top.links -%}
-                <div class="pp-mega__col">
-                  <span class="pp-mega__col-title">{{ sub.title | upcase }}</span>
-                  {%- if sub.links.size > 0 -%}
-                    {%- for item in sub.links -%}
-                      <a href="{{ item.url }}" class="pp-mega__link">{{ item.title }}</a>
-                    {%- endfor -%}
-                  {%- else -%}
-                    {%- comment -%} Flat menu: sub itself is a link {%- endcomment -%}
-                    <a href="{{ sub.url }}" class="pp-mega__link">{{ sub.title }}</a>
-                  {%- endif -%}
-                </div>
+              {%- assign col_open = false -%}
+              {%- for it in top.links -%}
+                {%- if it.title contains '── ' -%}
+                  {%- if col_open -%}</div>{%- endif -%}
+                  {%- assign col_title = it.title | replace: '── ', '' | replace: ' ──', '' | strip -%}
+                  <div class="pp-mega__col">
+                    <span class="pp-mega__col-title">{{ col_title | upcase }}</span>
+                  {%- assign col_open = true -%}
+                {%- else -%}
+                  {%- unless col_open -%}
+                    <div class="pp-mega__col">
+                  {%- assign col_open = true -%}
+                  {%- endunless -%}
+                  <a href="{{ it.url }}" class="pp-mega__link">{{ it.title }}</a>
+                {%- endif -%}
               {%- endfor -%}
+              {%- if col_open -%}</div>{%- endif -%}
             </div>
           </div>
           <div class="pp-mega__image">
