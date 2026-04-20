@@ -1304,12 +1304,12 @@
       "type": "pp-full-text",
       "name": "PP Full Text",
       "settings": {
-        "text": "Volver a la tierra",
-        "letter_spacing": 440,
+        "text": "FORMA PARTE DEL CLUB",
+        "letter_spacing": 650,
         "text_transform": "uppercase",
-        "font_weight": "400",
-        "bg_color": "#ffffff",
-        "text_color": "#23372c",
+        "font_weight": "700",
+        "bg_color": "#23372c",
+        "text_color": "#e4ffd3",
         "padding_top": 24,
         "padding_bottom": 24
       }
