@@ -158,7 +158,7 @@
         "settings": {
           "formSelector": "form:has([name='id']):has(button[type='submit'])",
           "buttonSelector": "button[type='submit']",
-          "freeGiftVersion": "v2",
+          "freeGiftVersion": "v1",
           "modalHeaderText": "Select an alternative",
           "modalButtonText": "Select",
           "upsellPopupEnabled": false,
