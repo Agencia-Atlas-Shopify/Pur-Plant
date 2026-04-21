@@ -859,19 +859,44 @@
     }
   }
 
+  function fetchSectionHtml(){
+    // Use /cart page + sections API which is the documented Shopify endpoint for
+    // section-rendering. Double cache-bust for iOS (Date.now + random).
+    var nonce = Date.now() + '-' + Math.random().toString(36).slice(2);
+    var url = '/cart?sections=' + encodeURIComponent(SECTION_ID) + '&_=' + nonce;
+    return fetch(url, {
+      headers: {
+        'Accept': 'application/json',
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      credentials: 'same-origin',
+      cache: 'no-store'
+    }).then(function(res){
+      if (!res.ok) return null;
+      return res.text().then(function(txt){
+        try { return JSON.parse(txt); } catch (e) { return null; }
+      });
+    });
+  }
+
   function doRefresh(options){
     options = options || {};
     var shouldOpen = options.open === true;
-    return fetch(window.location.pathname + '?sections=' + SECTION_ID + '&_t=' + Date.now(), {
-      headers: { 'Accept': 'application/json', 'Cache-Control': 'no-cache' },
-      credentials: 'same-origin',
-      cache: 'no-store'
-    })
-    .then(function(res){ return res.ok ? res.json() : null; })
-    .then(function(json){
-      if (!json) return;
-      var html = json[SECTION_ID];
-      if (!html) return;
+    return fetchSectionHtml().then(function(json){
+      var html = json && json[SECTION_ID];
+      if (!html) {
+        // Retry once on iOS where first fetch sometimes returns nothing due to cache weirdness
+        return fetchSectionHtml().then(function(j2){ return j2 && j2[SECTION_ID] || null; });
+      }
+      return html;
+    }).then(function(html){
+      if (!html) {
+        // Ultimate fallback: open drawer (user sees whatever cached HTML) — still better than nothing
+        if (shouldOpen) openDialog();
+        return;
+      }
       var tmp = document.createElement('div');
       tmp.innerHTML = html;
       var newInner = qs('[data-hydration-key="pp-cart-drawer-inner"]', tmp);
@@ -890,8 +915,7 @@
         });
       }
       if (shouldOpen) openDialog();
-    })
-    .catch(function(){ /* noop */ });
+    }).catch(function(){ if (shouldOpen) openDialog(); });
   }
 
   var pendingResolvers = [];
