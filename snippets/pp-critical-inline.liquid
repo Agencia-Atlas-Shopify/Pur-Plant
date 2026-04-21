@@ -17,9 +17,8 @@
     --pp-header-height: 120px;
   }
 
-  /* Pre-apply main padding on non-home templates with transparent header so
-     content doesn't shift when --pp-header-height is refined by JS */
-  {%- if template.name != 'index' -%}
+  /* Pre-apply main padding on non-home/non-product templates with transparent header */
+  {%- if template.name != 'index' and template.name != 'product' -%}
   main#MainContent, main.content-for-layout {
     padding-top: var(--pp-header-height, 120px) !important;
   }
