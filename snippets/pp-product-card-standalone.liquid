@@ -791,6 +791,11 @@
       button.classList.add('is-loading');
       const originalText = button.textContent;
 
+      // OPEN DRAWER IMMEDIATELY — don't wait for network. Content fills in as fetches resolve.
+      if (typeof window.ppRefreshCartDrawer === 'function') {
+        window.ppRefreshCartDrawer({ open: true });
+      }
+
       try {
         const response = await fetch('/cart/add.js', {
           method: 'POST',
@@ -814,22 +819,18 @@
         button.classList.add('is-added');
         button.textContent = '✓';
 
-        // Fetch updated cart
-        const cartResponse = await fetch('/cart.js');
-        const cart = await cartResponse.json();
-
-        // Update cart count in header
-        const cartCountEls = document.querySelectorAll('[data-cart-count]');
-        cartCountEls.forEach(el => {
-          el.textContent = cart.item_count;
-        });
-
-        // Dispatch cart events for theme compatibility
-        document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart } }));
-        document.dispatchEvent(new CustomEvent('cart:add', { detail: { cart, items: [addedItem] } }));
+        // Fetch updated cart (fire-and-forget badge update)
+        fetch('/cart.js').then(r => r.json()).then(cart => {
+          document.querySelectorAll('[data-cart-count]').forEach(el => el.textContent = cart.item_count);
+          document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart } }));
+          document.dispatchEvent(new CustomEvent('cart:add', { detail: { cart, items: [addedItem] } }));
+        }).catch(() => {});
 
         // Refresh and open cart drawer (ppRefreshCartDrawer handles opening via {open:true})
-        await refreshCartDrawer();
+        // Refresh drawer content (fire-and-forget — drawer was opened earlier)
+        if (typeof window.ppRefreshCartDrawer === 'function') {
+          window.ppRefreshCartDrawer({ open: true });
+        }
 
         // Reset button after delay
         setTimeout(() => {
