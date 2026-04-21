@@ -661,6 +661,8 @@
   display: none !important;
 }
 
+.pp-pdp__qty[hidden] { display: none !important; }
+
 .pp-pdp__qty {
   display: flex;
   align-items: center;
