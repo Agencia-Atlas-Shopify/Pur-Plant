@@ -19,13 +19,17 @@
   })();
 </script>
 {%- endif -%}
-{%- comment -%} Inline critical CSS to prevent FOUC of hidden panels during async stylesheet load {%- endcomment -%}
+{%- comment -%} Inline critical CSS: hide FOUC panels + pre-apply transparent-header offset to avoid layout shift {%- endcomment -%}
 <style>
   .pp-search, .pp-search__banner, .pp-search__backdrop, [data-pp-megamenu], .pp-cart-drawer__dialog:not([open]) {
     display: none !important;
   }
   .pp-search[aria-hidden="false"], .pp-search__banner.is-visible, .pp-search__backdrop.is-open {
     display: block !important;
+  }
+  body.pp-transparent-header-needs-offset main#MainContent,
+  body.pp-transparent-header-needs-offset main.content-for-layout {
+    padding-top: var(--pp-header-height, 120px);
   }
 </style>
 {%- comment -%} Load header CSS async — critical header rules are already inlined in theme.liquid {%- endcomment -%}
