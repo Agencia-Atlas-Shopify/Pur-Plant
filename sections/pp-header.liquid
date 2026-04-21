@@ -3,6 +3,27 @@
   Based on GNG.la header design
 {%- endcomment -%}
 
+{%- comment -%} Apply transparent-header-offset class ASAP based on section setting (avoids flicker). {%- endcomment -%}
+{%- if section.settings.transparent_header -%}
+<script>
+  (function(){
+    var apply = function(){
+      var main = document.querySelector('main#MainContent, main.content-for-layout');
+      if (!main) return false;
+      var firstSec = main.querySelector(':scope > .shopify-section:first-child');
+      var hasHero = firstSec && firstSec.querySelector('.pp-hero-slider, .pp-no-header-offset');
+      document.body.classList.add('pp-transparent-header-active');
+      if (!hasHero) document.body.classList.add('pp-transparent-header-needs-offset');
+      return true;
+    };
+    if (document.body) { apply(); }
+    else {
+      var obs = new MutationObserver(function(){ if (apply()) obs.disconnect(); });
+      obs.observe(document.documentElement, { childList:true, subtree:true });
+    }
+  })();
+</script>
+{%- endif -%}
 {%- comment -%} Inline critical CSS to prevent FOUC of hidden panels during async stylesheet load {%- endcomment -%}
 <style>
   .pp-search, .pp-search__banner, .pp-search__backdrop, [data-pp-megamenu], .pp-cart-drawer__dialog:not([open]) {
@@ -184,6 +205,7 @@
       </div>
     {%- endif -%}
   </header>
+</pp-header-height-observer>
 
 {%- comment -%} Swym Wishlist handles wishlist functionality via app embed {%- endcomment -%}
 

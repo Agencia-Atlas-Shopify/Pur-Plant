@@ -190,17 +190,7 @@
     {{ content_for_header }}
   </head>
 
-  {%- comment -%}
-    Pre-apply transparent-header-offset class for non-home templates so content
-    doesn't flicker. JS may refine later if section actually has a hero.
-  {%- endcomment -%}
-  {%- liquid
-    assign _pp_needs_offset = true
-    if template.name == 'index'
-      assign _pp_needs_offset = false
-    endif
-  -%}
-  <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }} template-{{ template.name }}{% if _pp_needs_offset %} pp-transparent-header-needs-offset{% endif %}">
+  <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }} template-{{ template.name }}">
     {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
     <div id="header-group">
       {% sections 'header-group' %}
