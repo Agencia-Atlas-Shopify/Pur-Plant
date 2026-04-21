@@ -897,7 +897,9 @@
   "platform_customizations": {
     "custom_css": [
       ".pp-cart-line:has(.pp-cart-line__media[href*=\"56953454035276\"]) .pp-cart-line__media,.pp-cart-line:has(.pp-cart-line__media[href*=\"56953454035276\"]) .pp-cart-line__title {cursor: auto; pointer-events: none;}",
-      ".pp-cart-line:has(.pp-cart-line__media[href*=\"56953454035276\"]) .quantity-selector-wrapper {display: none;}"
+      ".pp-cart-line:has(.pp-cart-line__media[href*=\"56953454035276\"]) .quantity-selector-wrapper {display: none;}",
+      ".cart-items__table-row:has(.cart-items__media-container[href*=\"56953454035276\"]) .cart-items__media-container,.cart-items__table-row:has(.cart-items__media-container[href*=\"56953454035276\"]) .cart-items__product-info {cursor: auto; pointer-events: none;}",
+      ".cart-items__table-row:has(.cart-items__media-container[href*=\"56953454035276\"]) .quantity-selector-wrapper {display: none;}"
     ]
   }
 }
