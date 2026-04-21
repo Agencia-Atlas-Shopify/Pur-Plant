@@ -881,6 +881,74 @@
     });
   }
 
+  // Format price using Shopify money format (EUR — adapt if shop uses different format)
+  function fmtMoney(cents){
+    var v = (cents / 100).toFixed(2).replace('.', ',');
+    return v + ' €';
+  }
+
+  // Build drawer lines manually from /cart.js data — used as iOS fallback when
+  // Sections API doesn't return fresh data.
+  function buildDrawerFromCart(cart){
+    var oldInner = qs('[data-hydration-key="pp-cart-drawer-inner"]');
+    if (!oldInner) return false;
+
+    // Find the items list container (or create one)
+    var itemsList = oldInner.querySelector('.pp-cart-drawer__items, [data-pp-cart-items]');
+    if (!itemsList) {
+      // Fallback: first child that looks like a list container
+      itemsList = oldInner.querySelector('ul, [role="list"]') || oldInner.firstElementChild;
+    }
+    if (!itemsList) return false;
+
+    if (!cart.items || cart.items.length === 0) {
+      itemsList.innerHTML = '<p style="padding:20px;text-align:center;color:#999;">Tu carrito está vacío</p>';
+      return true;
+    }
+
+    var html = cart.items.map(function(it){
+      var img = it.image
+        ? '<a href="' + it.url + '" class="pp-cart-line__media"><img src="' + it.image + '" alt="' + (it.title || '').replace(/"/g,'&quot;') + '" class="pp-cart-line__img" loading="lazy"></a>'
+        : '';
+      var variantLine = (it.variant_title && it.variant_title !== 'Default Title')
+        ? '<p class="pp-cart-line__variant">' + it.variant_title + '</p>' : '';
+      var price = (it.original_line_price !== it.final_line_price)
+        ? '<span class="pp-cart-line__price--sale">' + fmtMoney(it.final_line_price) + '</span><s class="pp-cart-line__price--compare">' + fmtMoney(it.original_line_price) + '</s>'
+        : fmtMoney(it.final_line_price);
+      return '<div class="pp-cart-line" data-key="' + it.key + '">'
+        + img
+        + '<div class="pp-cart-line__body">'
+          + '<div class="pp-cart-line__head">'
+            + '<a href="' + it.url + '" class="pp-cart-line__title">' + it.product_title + '</a>'
+            + '<button class="pp-cart-line__remove" type="button" aria-label="Eliminar">'
+              + '<svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 1L13 13M1 13L13 1" stroke="currentColor" stroke-width="1"/></svg>'
+            + '</button>'
+          + '</div>'
+          + variantLine
+          + '<div class="pp-cart-line__foot">'
+            + '<span class="pp-cart-line__qty">x ' + it.quantity + '</span>'
+            + '<div class="pp-cart-line__price">' + price + '</div>'
+          + '</div>'
+        + '</div>'
+      + '</div>';
+    }).join('');
+
+    itemsList.innerHTML = html;
+
+    // Update badges from cart data
+    var badges = document.querySelectorAll('.pp-header__cart-count, [data-cart-count]');
+    badges.forEach(function(b){ b.textContent = cart.item_count; });
+
+    // Update subtotal in drawer footer
+    var subtotalEl = oldInner.querySelector('.pp-cart-drawer__subtotal-value text-component');
+    if (subtotalEl) subtotalEl.textContent = fmtMoney(cart.total_price);
+    else {
+      var fallbackSub = oldInner.querySelector('.pp-cart-drawer__subtotal-value');
+      if (fallbackSub) fallbackSub.textContent = fmtMoney(cart.total_price);
+    }
+    return true;
+  }
+
   function applySectionHtml(html){
     if (!html) return false;
     var tmp = document.createElement('div');
@@ -916,15 +984,23 @@
     function attempt(n){
       return fetchSectionHtml().then(function(json){
         var html = json && json[SECTION_ID];
-        var ok = applySectionHtml(html);
-        // Compare count from /cart.js — if drawer lines < cart item_count, retry.
-        return fetch('/cart.js', { credentials:'same-origin', cache:'no-store',
-          headers: { 'Cache-Control':'no-cache','Pragma':'no-cache' } })
+        applySectionHtml(html);
+        // Verify against /cart.js — authoritative source
+        return fetch('/cart.js', {
+          credentials:'include', cache:'no-store',
+          headers: { 'Cache-Control':'no-cache','Pragma':'no-cache','Accept':'application/json' }
+        })
           .then(function(r){ return r.ok ? r.json() : null; })
           .then(function(cart){
-            var expected = (cart && cart.item_count) || 0;
+            if (!cart) return;
+            var expected = cart.item_count || 0;
             var oldInner = qs('[data-hydration-key="pp-cart-drawer-inner"]');
             var shown = (oldInner && oldInner.querySelectorAll('.pp-cart-line').length) || 0;
+            // If section API returned empty but cart has items, build manually from /cart.js
+            if (expected > 0 && shown === 0) {
+              buildDrawerFromCart(cart);
+              shown = (oldInner && oldInner.querySelectorAll('.pp-cart-line').length) || 0;
+            }
             if (expected > 0 && shown === 0 && n < 3) {
               return new Promise(function(res){ setTimeout(res, 350); }).then(function(){ return attempt(n + 1); });
             }
