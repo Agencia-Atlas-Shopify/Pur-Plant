@@ -881,41 +881,59 @@
     });
   }
 
+  function applySectionHtml(html){
+    if (!html) return false;
+    var tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    var newInner = qs('[data-hydration-key="pp-cart-drawer-inner"]', tmp);
+    var oldInner = qs('[data-hydration-key="pp-cart-drawer-inner"]');
+    if (newInner && oldInner) {
+      oldInner.innerHTML = newInner.innerHTML;
+      Array.prototype.slice.call(newInner.attributes).forEach(function(attr){
+        if (attr.name.indexOf('data-') === 0) oldInner.setAttribute(attr.name, attr.value);
+      });
+    }
+    var newBadges = tmp.querySelectorAll('.pp-header__cart-count, [data-cart-count]');
+    var oldBadges = document.querySelectorAll('.pp-header__cart-count, [data-cart-count]');
+    if (newBadges.length && oldBadges.length) {
+      oldBadges.forEach(function(el, i){
+        if (newBadges[i]) el.textContent = newBadges[i].textContent;
+      });
+    }
+    // If drawer rendered any lines, consider it applied successfully.
+    var lineCount = (oldInner && oldInner.querySelectorAll('.pp-cart-line').length) || 0;
+    return lineCount > 0;
+  }
+
   function doRefresh(options){
     options = options || {};
     var shouldOpen = options.open === true;
-    return fetchSectionHtml().then(function(json){
-      var html = json && json[SECTION_ID];
-      if (!html) {
-        // Retry once on iOS where first fetch sometimes returns nothing due to cache weirdness
-        return fetchSectionHtml().then(function(j2){ return j2 && j2[SECTION_ID] || null; });
-      }
-      return html;
-    }).then(function(html){
-      if (!html) {
-        // Ultimate fallback: open drawer (user sees whatever cached HTML) — still better than nothing
-        if (shouldOpen) openDialog();
-        return;
-      }
-      var tmp = document.createElement('div');
-      tmp.innerHTML = html;
-      var newInner = qs('[data-hydration-key="pp-cart-drawer-inner"]', tmp);
-      var oldInner = qs('[data-hydration-key="pp-cart-drawer-inner"]');
-      if (newInner && oldInner) {
-        oldInner.innerHTML = newInner.innerHTML;
-        Array.prototype.slice.call(newInner.attributes).forEach(function(attr){
-          if (attr.name.indexOf('data-') === 0) oldInner.setAttribute(attr.name, attr.value);
-        });
-      }
-      var newBadges = tmp.querySelectorAll('.pp-header__cart-count, [data-cart-count]');
-      var oldBadges = document.querySelectorAll('.pp-header__cart-count, [data-cart-count]');
-      if (newBadges.length && oldBadges.length) {
-        oldBadges.forEach(function(el, i){
-          if (newBadges[i]) el.textContent = newBadges[i].textContent;
-        });
-      }
-      if (shouldOpen) openDialog();
-    }).catch(function(){ if (shouldOpen) openDialog(); });
+
+    // Open drawer immediately if requested (shows spinner/current state);
+    // then fire multiple refreshes to force iOS to pick up latest HTML.
+    if (shouldOpen) openDialog();
+
+    function attempt(n){
+      return fetchSectionHtml().then(function(json){
+        var html = json && json[SECTION_ID];
+        var ok = applySectionHtml(html);
+        // Compare count from /cart.js — if drawer lines < cart item_count, retry.
+        return fetch('/cart.js', { credentials:'same-origin', cache:'no-store',
+          headers: { 'Cache-Control':'no-cache','Pragma':'no-cache' } })
+          .then(function(r){ return r.ok ? r.json() : null; })
+          .then(function(cart){
+            var expected = (cart && cart.item_count) || 0;
+            var oldInner = qs('[data-hydration-key="pp-cart-drawer-inner"]');
+            var shown = (oldInner && oldInner.querySelectorAll('.pp-cart-line').length) || 0;
+            if (expected > 0 && shown === 0 && n < 3) {
+              return new Promise(function(res){ setTimeout(res, 350); }).then(function(){ return attempt(n + 1); });
+            }
+          })
+          .catch(function(){});
+      }).catch(function(){});
+    }
+
+    return attempt(0);
   }
 
   var pendingResolvers = [];
