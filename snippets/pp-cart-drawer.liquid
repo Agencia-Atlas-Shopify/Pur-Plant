@@ -975,40 +975,15 @@
   function doRefresh(options){
     options = options || {};
     var shouldOpen = options.open === true;
-    var opened = false;
-    function maybeOpen(){ if (shouldOpen && !opened) { openDialog(); opened = true; } }
 
-    function attempt(n){
-      return fetchSectionHtml().then(function(json){
-        var html = json && json[SECTION_ID];
-        var appliedOk = applySectionHtml(html);
-        // Verify against /cart.js — authoritative source
-        return fetch('/cart.js', {
-          credentials:'include', cache:'no-store',
-          headers: { 'Cache-Control':'no-cache','Pragma':'no-cache','Accept':'application/json' }
-        })
-          .then(function(r){ return r.ok ? r.json() : null; })
-          .then(function(cart){
-            if (!cart) { maybeOpen(); return; }
-            var expected = cart.item_count || 0;
-            var oldInner = qs('[data-hydration-key="pp-cart-drawer-inner"]');
-            var shown = (oldInner && oldInner.querySelectorAll('.pp-cart-line').length) || 0;
-            // If section API returned empty but cart has items, build manually from /cart.js
-            if (expected > 0 && shown === 0) {
-              buildDrawerFromCart(cart);
-              shown = (oldInner && oldInner.querySelectorAll('.pp-cart-line').length) || 0;
-            }
-            // Content is ready — open drawer now (prevents flash of empty state)
-            maybeOpen();
-            if (expected > 0 && shown === 0 && n < 3) {
-              return new Promise(function(res){ setTimeout(res, 350); }).then(function(){ return attempt(n + 1); });
-            }
-          })
-          .catch(function(){ maybeOpen(); });
-      }).catch(function(){ maybeOpen(); });
-    }
+    // Open drawer immediately — user clicked, don't make them wait.
+    // Content fills in as the section-render arrives (usually <500ms).
+    if (shouldOpen) openDialog();
 
-    return attempt(0);
+    return fetchSectionHtml().then(function(json){
+      var html = json && json[SECTION_ID];
+      applySectionHtml(html);
+    }).catch(function(){});
   }
 
   var pendingResolvers = [];
