@@ -791,11 +791,6 @@
       button.classList.add('is-loading');
       const originalText = button.textContent;
 
-      // OPEN DRAWER IMMEDIATELY — don't wait for network. Content fills in as fetches resolve.
-      if (typeof window.ppRefreshCartDrawer === 'function') {
-        window.ppRefreshCartDrawer({ open: true });
-      }
-
       try {
         const response = await fetch('/cart/add.js', {
           method: 'POST',

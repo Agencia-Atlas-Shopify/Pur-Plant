@@ -976,15 +976,13 @@
   function doRefresh(options){
     options = options || {};
     var shouldOpen = options.open === true;
-
-    // Open drawer immediately if requested (shows spinner/current state);
-    // then fire multiple refreshes to force iOS to pick up latest HTML.
-    if (shouldOpen) openDialog();
+    var opened = false;
+    function maybeOpen(){ if (shouldOpen && !opened) { openDialog(); opened = true; } }
 
     function attempt(n){
       return fetchSectionHtml().then(function(json){
         var html = json && json[SECTION_ID];
-        applySectionHtml(html);
+        var appliedOk = applySectionHtml(html);
         // Verify against /cart.js — authoritative source
         return fetch('/cart.js', {
           credentials:'include', cache:'no-store',
@@ -992,7 +990,7 @@
         })
           .then(function(r){ return r.ok ? r.json() : null; })
           .then(function(cart){
-            if (!cart) return;
+            if (!cart) { maybeOpen(); return; }
             var expected = cart.item_count || 0;
             var oldInner = qs('[data-hydration-key="pp-cart-drawer-inner"]');
             var shown = (oldInner && oldInner.querySelectorAll('.pp-cart-line').length) || 0;
@@ -1001,12 +999,14 @@
               buildDrawerFromCart(cart);
               shown = (oldInner && oldInner.querySelectorAll('.pp-cart-line').length) || 0;
             }
+            // Content is ready — open drawer now (prevents flash of empty state)
+            maybeOpen();
             if (expected > 0 && shown === 0 && n < 3) {
               return new Promise(function(res){ setTimeout(res, 350); }).then(function(){ return attempt(n + 1); });
             }
           })
-          .catch(function(){});
-      }).catch(function(){});
+          .catch(function(){ maybeOpen(); });
+      }).catch(function(){ maybeOpen(); });
     }
 
     return attempt(0);
