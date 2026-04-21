@@ -3,22 +3,17 @@
   Based on GNG.la header design
 {%- endcomment -%}
 
-{%- comment -%} Apply transparent-header-offset class ASAP based on section setting (avoids flicker). {%- endcomment -%}
+{%- comment -%} Apply transparent-header-offset class BEFORE main paints to avoid layout shift.
+    We set it optimistically; pp-header.js removes it later if there's a hero. {%- endcomment -%}
 {%- if section.settings.transparent_header -%}
 <script>
   (function(){
-    var apply = function(){
-      var main = document.querySelector('main#MainContent, main.content-for-layout');
-      if (!main) return false;
-      var firstSec = main.querySelector(':scope > .shopify-section:first-child');
-      var hasHero = firstSec && firstSec.querySelector('.pp-hero-slider, .pp-no-header-offset');
-      document.body.classList.add('pp-transparent-header-active');
-      if (!hasHero) document.body.classList.add('pp-transparent-header-needs-offset');
-      return true;
+    var add = function(){
+      document.body.classList.add('pp-transparent-header-active', 'pp-transparent-header-needs-offset');
     };
-    if (document.body) { apply(); }
+    if (document.body) add();
     else {
-      var obs = new MutationObserver(function(){ if (apply()) obs.disconnect(); });
+      var obs = new MutationObserver(function(){ if (document.body) { add(); obs.disconnect(); } });
       obs.observe(document.documentElement, { childList:true, subtree:true });
     }
   })();
