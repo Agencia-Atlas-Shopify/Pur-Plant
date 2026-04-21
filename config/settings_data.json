@@ -893,5 +893,11 @@
         }
       }
     }
+  },
+  "platform_customizations": {
+    "custom_css": [
+      ".pp-cart-line:has(.pp-cart-line__media[href*=\"56953454035276\"]) .pp-cart-line__media,.pp-cart-line:has(.pp-cart-line__media[href*=\"56953454035276\"]) .pp-cart-line__title {cursor: auto; pointer-events: none;}",
+      ".pp-cart-line:has(.pp-cart-line__media[href*=\"56953454035276\"]) .quantity-selector-wrapper {display: none;}"
+    ]
   }
 }
