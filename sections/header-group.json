@@ -206,10 +206,70 @@
         "transparent_bg_hover": "#23372c",
         "transparent_text_hover": "#daffd3"
       }
+    },
+    "pp_hero_slider_XLwPd4": {
+      "type": "pp-hero-slider",
+      "blocks": {
+        "slide_jQhfQb": {
+          "type": "slide",
+          "settings": {
+            "video_desktop": "shopify://files/videos/cake tarta aniversario.mp4",
+            "subheading": "",
+            "heading": "PLANT DAYS",
+            "subtitle": "ESTE 6 ANIVERSARIO NO HAY TARTA, HAY PLANTAS",
+            "content_position": "bottom-left",
+            "button_text": "VER OFERTAS",
+            "button_link": "shopify://pages/plant-days",
+            "button_style": "normal",
+            "button_text_2": "",
+            "button_link_2": "",
+            "button_style_2": "inverted",
+            "link": "",
+            "heading_font": "default",
+            "heading_size": 0,
+            "heading_size_mobile": 0,
+            "heading_weight": "default",
+            "heading_color": "",
+            "subheading_font": "default",
+            "subheading_size": 0,
+            "subheading_size_mobile": 0,
+            "subheading_weight": "default",
+            "subheading_color": "",
+            "btn_font": "default",
+            "btn_size": 0,
+            "btn_weight": "default",
+            "btn_bg_color": "",
+            "btn_text_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_jQhfQb"
+      ],
+      "name": "PP Hero Slider",
+      "settings": {
+        "enable_transparent_header": false,
+        "full_height_mobile": false,
+        "height_mobile": 500,
+        "full_height_desktop": false,
+        "height_desktop": 700,
+        "autoplay": true,
+        "autoplay_speed": 5,
+        "show_dots": true,
+        "show_arrows": true,
+        "content_max_width": 600,
+        "overlay_opacity": 0,
+        "overlay_direction": "to top",
+        "background_color": "0 0 0",
+        "text_color": "255 255 255",
+        "button_background": "255 255 255",
+        "button_text_color": "0 0 0"
+      }
     }
   },
   "order": [
     "header_section",
-    "pp_header"
+    "pp_header",
+    "pp_hero_slider_XLwPd4"
   ]
 }
