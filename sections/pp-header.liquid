@@ -27,10 +27,18 @@
   .pp-search[aria-hidden="false"], .pp-search__banner.is-visible, .pp-search__backdrop.is-open {
     display: block !important;
   }
+  {%- if section.settings.transparent_header and template.name != 'index' -%}
+  /* Unconditional padding for non-home pages — avoids JS-delayed class add causing shift */
+  main#MainContent,
+  main.content-for-layout {
+    padding-top: var(--pp-header-height, 120px);
+  }
+  {%- else -%}
   body.pp-transparent-header-needs-offset main#MainContent,
   body.pp-transparent-header-needs-offset main.content-for-layout {
     padding-top: var(--pp-header-height, 120px);
   }
+  {%- endif -%}
 </style>
 {%- comment -%} Load header CSS async — critical header rules are already inlined in theme.liquid {%- endcomment -%}
 <link rel="preload" href="{{ 'pp-header.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
