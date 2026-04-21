@@ -150,7 +150,7 @@
       "settings": {
         "enable_transparent_header": false,
         "full_height_mobile": false,
-        "height_mobile": 500,
+        "height_mobile": 250,
         "full_height_desktop": false,
         "height_desktop": 610,
         "autoplay": true,
