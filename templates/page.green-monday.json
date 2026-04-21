@@ -531,7 +531,7 @@
               "name": "t:names.button",
               "settings": {
                 "label": "Ver plantas <20",
-                "link": "shopify://collections/all",
+                "link": "shopify://collections/plantas-20-euros",
                 "open_in_new_tab": false,
                 "style_class": "button",
                 "width": "fit-content",
