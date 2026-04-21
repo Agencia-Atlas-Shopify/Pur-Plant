@@ -267,6 +267,9 @@
     <main
       id="MainContent"
       class="content-for-layout"
+      {%- if template.name != 'index' -%}
+      style="padding-top: var(--pp-header-height, 120px);"
+      {%- endif -%}
       role="main"
       data-page-transition-enabled="{{ settings.page_transition_enabled }}"
       data-product-transition="{{ settings.transition_to_main_product }}"

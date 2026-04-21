@@ -21,7 +21,7 @@
      content doesn't shift when --pp-header-height is refined by JS */
   {%- if template.name != 'index' -%}
   main#MainContent, main.content-for-layout {
-    padding-top: var(--pp-header-height, 120px);
+    padding-top: var(--pp-header-height, 120px) !important;
   }
   {%- endif -%}
 
