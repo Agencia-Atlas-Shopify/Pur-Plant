@@ -1,6 +1,303 @@
+{% doc %}
+  @prompt
+    dame un bloque con fondo de color #23372c y un texto con un boton editables en color #e4ffd3
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-cta-block-{{ ai_gen_id }} {
+    display: block;
+    background-color: {{ block.settings.background_color }};
+    padding: {{ block.settings.padding_vertical }}px {{ block.settings.padding_horizontal }}px;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+  }
+
+  .ai-cta-block-content-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    align-items: {{ block.settings.alignment }};
+    gap: {{ block.settings.spacing }}px;
+    max-width: {{ block.settings.content_max_width }}px;
+    margin: 0 auto;
+  }
+
+  .ai-cta-block-text-{{ ai_gen_id }} {
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.text_size }}px;
+    text-align: {{ block.settings.text_alignment }};
+    line-height: 1.5;
+  }
+
+  .ai-cta-block-button-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: {{ block.settings.button_padding_vertical }}px {{ block.settings.button_padding_horizontal }}px;
+    background-color: {{ block.settings.button_background_color }};
+    color: {{ block.settings.button_text_color }};
+    border: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: {{ block.settings.button_text_size }}px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .ai-cta-block-button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_color }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-cta-block-{{ ai_gen_id }} {
+      width: 100%;
+    }
+
+    .ai-cta-block-content-{{ ai_gen_id }} {
+      align-items: center;
+    }
+
+    .ai-cta-block-text-{{ ai_gen_id }} {
+      text-align: center;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-cta-block-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-cta-block-content-{{ ai_gen_id }}">
+    {% if block.settings.text != blank %}
+      <div class="ai-cta-block-text-{{ ai_gen_id }}">
+        {{ block.settings.text }}
+      </div>
+    {% endif %}
+
+    {% if block.settings.button_text != blank %}
+      <a
+        href="{{ block.settings.button_link }}"
+        class="ai-cta-block-button-{{ ai_gen_id }}"
+      >
+        {{ block.settings.button_text }}
+      </a>
+    {% endif %}
+  </div>
+</div>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Bloque de texto y botón",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Contenido"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Texto",
+      "default": "<p>Descubre nuestra colección de plantas únicas</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Texto del botón",
+      "default": "Ver plantas"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Enlace del botón"
+    },
+    {
+      "type": "header",
+      "content": "Diseño"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Ancho en escritorio",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Ancho máximo del contenido",
+      "min": 400,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "default": 800
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alineación",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Izquierda"
+        },
+        {
+          "value": "center",
+          "label": "Centro"
+        },
+        {
+          "value": "flex-end",
+          "label": "Derecha"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Alineación del texto",
+      "options": [
+        {
+          "value": "left",
+          "label": "Izquierda"
+        },
+        {
+          "value": "center",
+          "label": "Centro"
+        },
+        {
+          "value": "right",
+          "label": "Derecha"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "spacing",
+      "label": "Espacio entre elementos",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_vertical",
+      "label": "Espaciado vertical",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_horizontal",
+      "label": "Espaciado horizontal",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Colores"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Fondo",
+      "default": "#23372c"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Texto",
+      "default": "#e4ffd3"
+    },
+    {
+      "type": "header",
+      "content": "Texto"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Tamaño del texto",
+      "min": 12,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Botón"
+    },
+    {
+      "type": "color",
+      "id": "button_background_color",
+      "label": "Fondo del botón",
+      "default": "#e4ffd3"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Texto del botón",
+      "default": "#23372c"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_color",
+      "label": "Fondo del botón al pasar el ratón",
+      "default": "#d0f0b8"
+    },
+    {
+      "type": "range",
+      "id": "button_text_size",
+      "label": "Tamaño del texto del botón",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "button_padding_vertical",
+      "label": "Espaciado vertical del botón",
+      "min": 8,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "button_padding_horizontal",
+      "label": "Espaciado horizontal del botón",
+      "min": 16,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Radio de borde del botón",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 4
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bloque de texto y botón"
+    }
+  ]
+}
 {% endschema %}
