@@ -14,8 +14,16 @@
     --pp-bg: #f6f4ed;
     --pp-font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     --pp-font-heading: "Tenor Sans", Georgia, serif;
-    --pp-header-height: 80px;
+    --pp-header-height: 120px;
   }
+
+  /* Pre-apply main padding on non-home templates with transparent header so
+     content doesn't shift when --pp-header-height is refined by JS */
+  {%- if template.name != 'index' -%}
+  main#MainContent, main.content-for-layout {
+    padding-top: var(--pp-header-height, 120px);
+  }
+  {%- endif -%}
 
   /* Force font-display: swap on any Google / Shopify fonts loaded via
      third-party CSS so text paints immediately with the fallback instead
