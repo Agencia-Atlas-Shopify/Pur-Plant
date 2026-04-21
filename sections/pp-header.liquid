@@ -3,6 +3,15 @@
   Based on GNG.la header design
 {%- endcomment -%}
 
+{%- comment -%} Inline critical CSS to prevent FOUC of hidden panels during async stylesheet load {%- endcomment -%}
+<style>
+  .pp-search, .pp-search__banner, .pp-search__backdrop, [data-pp-megamenu], .pp-cart-drawer__dialog:not([open]) {
+    display: none !important;
+  }
+  .pp-search[aria-hidden="false"], .pp-search__banner.is-visible, .pp-search__backdrop.is-open {
+    display: block !important;
+  }
+</style>
 {%- comment -%} Load header CSS async — critical header rules are already inlined in theme.liquid {%- endcomment -%}
 <link rel="preload" href="{{ 'pp-header.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript>{{ 'pp-header.css' | asset_url | stylesheet_tag }}</noscript>
