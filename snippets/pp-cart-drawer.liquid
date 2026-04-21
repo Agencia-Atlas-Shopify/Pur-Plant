@@ -860,10 +860,10 @@
   }
 
   function fetchSectionHtml(){
-    // Use /cart page + sections API which is the documented Shopify endpoint for
-    // section-rendering. Double cache-bust for iOS (Date.now + random).
+    // Use current page + sections API. Double cache-bust for iOS (Date.now + random).
     var nonce = Date.now() + '-' + Math.random().toString(36).slice(2);
-    var url = '/cart?sections=' + encodeURIComponent(SECTION_ID) + '&_=' + nonce;
+    var path = window.location.pathname || '/';
+    var url = path + '?sections=' + encodeURIComponent(SECTION_ID) + '&_=' + nonce;
     return fetch(url, {
       headers: {
         'Accept': 'application/json',
