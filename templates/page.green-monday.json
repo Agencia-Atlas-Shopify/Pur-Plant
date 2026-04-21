@@ -136,13 +136,14 @@
               },
               "blocks": {}
             },
-            "product_list_button_KRpHY3": {
-              "type": "_product-list-button",
-              "name": "t:names.product_list_button",
+            "button_WpmiAL": {
+              "type": "button",
+              "name": "t:names.button",
               "settings": {
-                "label": "Ver todo",
+                "label": "Ver plantas <5",
+                "link": "shopify://collections/plantas-5-euros",
                 "open_in_new_tab": false,
-                "style_class": "link",
+                "style_class": "button",
                 "width": "fit-content",
                 "custom_width": 100,
                 "width_mobile": "fit-content",
@@ -153,7 +154,7 @@
           },
           "block_order": [
             "product_list_text_iAyrcL",
-            "product_list_button_KRpHY3"
+            "button_WpmiAL"
           ]
         },
         "static-product-card": {
