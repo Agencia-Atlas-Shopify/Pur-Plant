@@ -85,31 +85,11 @@
         "padding-block-end": 0
       }
     },
-    "pp_brand_banner_FQE6wQ": {
-      "type": "pp-brand-banner",
-      "name": "PP Brand Banner",
-      "settings": {
-        "heading": "PUR PLANT ES LA MARCA QUE CREE EN EL PODER DE LAS PLANTAS",
-        "subheading": "",
-        "button_label": "Más sobre Nosotrxs",
-        "button_link": "shopify://pages/sobre-nosotros",
-        "video": "shopify://files/videos/AQOYR48pAnCzNSJNqSnEF1YV7AQeL3FpyeUXK5KePf-Rcvq0eghIzLiJwQ-QtUmibBTOfxZntikszfPpB3BiJgALVvi7X8eCgDk8MVY.mp4",
-        "video_url": "",
-        "image_position": "right",
-        "image_overflow": 48,
-        "video_max_width": 400,
-        "bg_color": "#23372c",
-        "text_color": "#daffd3",
-        "padding_top": 48,
-        "padding_bottom": 48
-      }
-    },
-    "collection_list_qXQmDn": {
-      "type": "collection-list",
+    "section_kwgypx": {
+      "type": "section",
       "blocks": {
-        "group_NCVTbG": {
+        "group_KBbedg": {
           "type": "group",
-          "name": "t:names.header",
           "settings": {
             "content_direction": "column",
             "vertical_on_mobile": true,
@@ -118,8 +98,8 @@
             "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "flex-start",
             "vertical_alignment_flex_direction_column": "center",
-            "gap": 16,
-            "width": "fill",
+            "gap": 12,
+            "width": "custom",
             "custom_width": 100,
             "width_mobile": "fill",
             "custom_width_mobile": 100,
@@ -147,13 +127,12 @@
             "padding-inline-end": 0
           },
           "blocks": {
-            "text_yb83jg": {
+            "text_w8RpY4": {
               "type": "text",
-              "name": "t:names.text",
               "settings": {
-                "text": "<h3>Compra por colección</h3>",
-                "width": "fit-content",
-                "max_width": "normal",
+                "text": "<p>¡Tenemos algo para ti! 15% de descuento en tu siguiente compra con el cupón: </p>",
+                "width": "100%",
+                "max_width": "narrow",
                 "alignment": "left",
                 "type_preset": "rte",
                 "font": "var(--font-body--family)",
@@ -167,92 +146,63 @@
                 "background_color": "#00000026",
                 "corner_radius": 0,
                 "padding-block-start": 0,
-                "padding-block-end": 16,
+                "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "button_Vwdrii": {
+              "type": "button",
+              "settings": {
+                "label": "VOLVER15",
+                "link": "#",
+                "open_in_new_tab": false,
+                "style_class": "button",
+                "width": "fit-content",
+                "custom_width": 100,
+                "width_mobile": "fit-content",
+                "custom_width_mobile": 100
               },
               "blocks": {}
             }
           },
           "block_order": [
-            "text_yb83jg"
+            "text_w8RpY4",
+            "button_Vwdrii"
           ]
-        },
-        "static-collection-card": {
-          "type": "_collection-card",
-          "name": "t:names.collection_card",
-          "static": true,
-          "settings": {
-            "placement": "on_image",
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "flex-end",
-            "collection_card_gap": 8,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0
-          },
-          "blocks": {
-            "collection-card-image": {
-              "type": "_collection-card-image",
-              "name": "t:names.collection_card_image",
-              "static": true,
-              "settings": {
-                "image_ratio": "adapt",
-                "toggle_overlay": false,
-                "overlay_color": "#00000026",
-                "overlay_style": "solid",
-                "gradient_direction": "to top",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": []
         }
       },
       "block_order": [
-        "group_NCVTbG"
+        "group_KBbedg"
       ],
-      "name": "t:names.collections_bento",
+      "name": "t:names.image_with_text",
       "settings": {
-        "collection_list": [],
-        "layout_type": "bento",
-        "carousel_on_mobile": false,
-        "columns": 4,
-        "columns_laptop": 3,
-        "mobile_columns": "2",
-        "mobile_card_size": "60cqw",
-        "columns_gap": 8,
-        "bento_gap": 8,
-        "rows_gap": 8,
-        "max_collections": 4,
-        "icons_style": "arrow",
-        "icons_shape": "none",
+        "content_direction": "row",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "center",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 32,
         "section_width": "page-width",
-        "gap": 12,
-        "color_scheme": "",
-        "padding-block-start": 24,
-        "padding-block-end": 24
-      }
-    },
-    "divider_d86dKD": {
-      "type": "divider",
-      "name": "t:names.divider_section",
-      "settings": {
-        "color_scheme": "",
-        "section_width": "full-width",
-        "thickness": 0.5,
-        "corner_radius": "square",
-        "width_percent": 100,
-        "alignment_horizontal": "center",
-        "padding-block-start": 100,
-        "padding-block-end": 16
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "pp-green-dark",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 40,
+        "padding-block-end": 40
       }
     },
     "collection_list_CNNhrd": {
@@ -469,14 +419,185 @@
         "padding-block-start": 30,
         "padding-block-end": 30
       }
+    },
+    "pp_brand_banner_FQE6wQ": {
+      "type": "pp-brand-banner",
+      "name": "PP Brand Banner",
+      "settings": {
+        "heading": "PUR PLANT ES LA MARCA QUE CREE EN EL PODER DE LAS PLANTAS",
+        "subheading": "",
+        "button_label": "Más sobre Nosotrxs",
+        "button_link": "shopify://pages/sobre-nosotros",
+        "video": "shopify://files/videos/AQOYR48pAnCzNSJNqSnEF1YV7AQeL3FpyeUXK5KePf-Rcvq0eghIzLiJwQ-QtUmibBTOfxZntikszfPpB3BiJgALVvi7X8eCgDk8MVY.mp4",
+        "video_url": "",
+        "image_position": "right",
+        "image_overflow": 48,
+        "video_max_width": 400,
+        "bg_color": "#23372c",
+        "text_color": "#daffd3",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "collection_list_qXQmDn": {
+      "type": "collection-list",
+      "blocks": {
+        "group_NCVTbG": {
+          "type": "group",
+          "name": "t:names.header",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 16,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "text_yb83jg": {
+              "type": "text",
+              "name": "t:names.text",
+              "settings": {
+                "text": "<h3>Compra por colección</h3>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 16,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_yb83jg"
+          ]
+        },
+        "static-collection-card": {
+          "type": "_collection-card",
+          "name": "t:names.collection_card",
+          "static": true,
+          "settings": {
+            "placement": "on_image",
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "flex-end",
+            "collection_card_gap": 8,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0
+          },
+          "blocks": {
+            "collection-card-image": {
+              "type": "_collection-card-image",
+              "name": "t:names.collection_card_image",
+              "static": true,
+              "settings": {
+                "image_ratio": "adapt",
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": []
+        }
+      },
+      "block_order": [
+        "group_NCVTbG"
+      ],
+      "name": "t:names.collections_bento",
+      "settings": {
+        "collection_list": [],
+        "layout_type": "bento",
+        "carousel_on_mobile": false,
+        "columns": 4,
+        "columns_laptop": 3,
+        "mobile_columns": "2",
+        "mobile_card_size": "60cqw",
+        "columns_gap": 8,
+        "bento_gap": 8,
+        "rows_gap": 8,
+        "max_collections": 4,
+        "icons_style": "arrow",
+        "icons_shape": "none",
+        "section_width": "page-width",
+        "gap": 12,
+        "color_scheme": "",
+        "padding-block-start": 24,
+        "padding-block-end": 24
+      }
+    },
+    "divider_d86dKD": {
+      "type": "divider",
+      "name": "t:names.divider_section",
+      "settings": {
+        "color_scheme": "",
+        "section_width": "full-width",
+        "thickness": 0.5,
+        "corner_radius": "square",
+        "width_percent": 100,
+        "alignment_horizontal": "center",
+        "padding-block-start": 100,
+        "padding-block-end": 16
+      }
     }
   },
   "order": [
     "main",
     "section_HBFWtA",
+    "section_kwgypx",
+    "collection_list_CNNhrd",
     "pp_brand_banner_FQE6wQ",
     "collection_list_qXQmDn",
-    "divider_d86dKD",
-    "collection_list_CNNhrd"
+    "divider_d86dKD"
   ]
 }
