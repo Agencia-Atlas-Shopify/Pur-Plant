@@ -92,7 +92,7 @@ pp-header-height-observer {
 /* When transparent header needs offset (no hero as first section) */
 body.pp-transparent-header-needs-offset main#MainContent,
 body.pp-transparent-header-needs-offset main.content-for-layout {
-  padding-top: var(--pp-header-height, 56px);
+  padding-top: var(--pp-header-height, 120px);
 }
 
 /* PDP - no padding needed */
