@@ -860,10 +860,10 @@
   }
 
   function fetchSectionHtml(){
-    // Use current page + sections API. Double cache-bust for iOS (Date.now + random).
+    // ALWAYS use home path for Section Rendering API — collection URLs return
+    // collection JSON metadata instead of section HTML (Shopify quirk).
     var nonce = Date.now() + '-' + Math.random().toString(36).slice(2);
-    var path = window.location.pathname || '/';
-    var url = path + '?sections=' + encodeURIComponent(SECTION_ID) + '&_=' + nonce;
+    var url = '/?sections=' + encodeURIComponent(SECTION_ID) + '&_=' + nonce;
     return fetch(url, {
       headers: {
         'Accept': 'application/json',
