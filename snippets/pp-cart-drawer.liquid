@@ -893,12 +893,11 @@
     var oldInner = qs('[data-hydration-key="pp-cart-drawer-inner"]');
     if (!oldInner) return false;
 
-    // Find the items list container (or create one)
+    // Find the items list container. DO NOT fall back to firstElementChild — that
+    // would wipe the drawer header/footer. If no proper container exists (cart was
+    // empty on initial render so template showed empty state), bail and let the
+    // next section-render fetch rebuild the full drawer layout.
     var itemsList = oldInner.querySelector('.pp-cart-drawer__items, [data-pp-cart-items]');
-    if (!itemsList) {
-      // Fallback: first child that looks like a list container
-      itemsList = oldInner.querySelector('ul, [role="list"]') || oldInner.firstElementChild;
-    }
     if (!itemsList) return false;
 
     if (!cart.items || cart.items.length === 0) {
