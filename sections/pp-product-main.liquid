@@ -327,6 +327,12 @@
               {%- break -%}
             {%- endif -%}
           {%- endfor -%}
+          {%- comment -%}
+            WP-style breadcrumb: show parent chain only (e.g. Plantas / Plantas de Interior).
+            We drop the leaf collection (species-level like "Ficus") and drop the closest
+            parent from the chain output to avoid redundancy — the product.title comes next.
+            Keep top-level parents; drop the most recent parent if it matches leaf "family".
+          {%- endcomment -%}
           {%- if breadcrumb_chain != '' -%}
             {%- assign crumb_titles = breadcrumb_chain | split: '|||' -%}
             {%- assign crumb_urls = breadcrumb_urls | split: '|||' -%}
@@ -334,9 +340,11 @@
               <a href="{{ crumb_urls[forloop.index0] }}">{{ crumb_title }}</a>
               <span>/</span>
             {%- endfor -%}
+          {%- else -%}
+            {%- comment -%} Leaf has no parent chain — show leaf as only category {%- endcomment -%}
+            <a href="{{ best_coll.url }}">{{ best_coll.title }}</a>
+            <span>/</span>
           {%- endif -%}
-          <a href="{{ best_coll.url }}">{{ best_coll.title }}</a>
-          <span>/</span>
         {%- elsif product.type != blank -%}
           <span>{{ product.type }}</span>
           <span>/</span>
