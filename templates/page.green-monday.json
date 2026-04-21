@@ -73,6 +73,33 @@
         "padding_bottom": 60
       }
     },
+    "pp_countdown_banner_ghtM6k": {
+      "type": "pp-countdown-banner",
+      "name": "PP Countdown Banner",
+      "settings": {
+        "subheading": "green monday",
+        "heading": "EL GRAN MERCADO DE PLANTAS",
+        "description": "",
+        "end_date": "2026-05-04",
+        "end_time": "23:59",
+        "hide_on_end": false,
+        "show_progress_bar": true,
+        "days_label": "Days",
+        "hours_label": "Hours",
+        "minutes_label": "Min",
+        "seconds_label": "Sec",
+        "button_text": "",
+        "button_link": "",
+        "button_style": "normal",
+        "background_color": "#daffd3",
+        "text_color": "#23372c",
+        "accent_color": "#23372c",
+        "button_background": "#23372c",
+        "button_text_color": "#23372c",
+        "padding_mobile": 32,
+        "padding_desktop": 48
+      }
+    },
     "product_list_N9yad6": {
       "type": "product-list",
       "blocks": {
@@ -662,6 +689,7 @@
   "order": [
     "main",
     "pp_page_problemas_knPFTK",
+    "pp_countdown_banner_ghtM6k",
     "product_list_N9yad6",
     "product_list_bqLeLM",
     "product_list_Hn7Pyg"
