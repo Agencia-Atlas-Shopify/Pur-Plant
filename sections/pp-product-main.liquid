@@ -699,7 +699,7 @@
       {%- for block in section.blocks -%}
         {%- if block.type == 'buy_button' -%}
           <div class="pp-pdp__buy-wrap" {{ block.shopify_attributes }}>
-            <div class="pp-pdp__qty">
+            <div class="pp-pdp__qty"{% unless current_variant.available %} hidden{% endunless %} data-pp-qty-wrap>
               <button type="button" class="pp-pdp__qty-minus" data-pp-qty-minus aria-label="Decrease quantity">−</button>
               <input type="number" class="pp-pdp__qty-input" data-pp-qty-input value="1" min="1" max="99" aria-label="Quantity">
               <button type="button" class="pp-pdp__qty-plus" data-pp-qty-plus aria-label="Increase quantity">+</button>

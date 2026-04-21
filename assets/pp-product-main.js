@@ -257,17 +257,21 @@
 
   function updateAddToCartButton(variant) {
     if (!addToCartBtn) return;
+    var qtyWrap = document.querySelector('[data-pp-qty-wrap]');
     if (!variant) {
       addToCartBtn.disabled = true;
       if (addToCartText) addToCartText.textContent = 'No disponible';
+      if (qtyWrap) qtyWrap.hidden = true;
       return;
     }
     if (!variant.available) {
       addToCartBtn.disabled = true;
       if (addToCartText) addToCartText.textContent = 'Agotado';
+      if (qtyWrap) qtyWrap.hidden = true;
     } else {
       addToCartBtn.disabled = false;
       if (addToCartText) addToCartText.textContent = 'Agregar al carrito';
+      if (qtyWrap) qtyWrap.hidden = false;
     }
   }
 
