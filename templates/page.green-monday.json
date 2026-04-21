@@ -114,11 +114,11 @@
               "type": "_product-list-text",
               "name": "t:names.collection_title",
               "settings": {
-                "text": "<h3>{{ closest.collection.title }}</h3>",
+                "text": "<h3><strong>{{ closest.collection.title }}</strong></h3>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
-                "type_preset": "rte",
+                "type_preset": "h3",
                 "font": "var(--font-body--family)",
                 "font_size": "1rem",
                 "line_height": "normal",
@@ -304,15 +304,15 @@
             "padding-inline-end": 0
           },
           "blocks": {
-            "product_list_text_zBUbdi": {
+            "product_list_text_jgF8Bm": {
               "type": "_product-list-text",
               "name": "t:names.collection_title",
               "settings": {
-                "text": "<h3>{{ closest.collection.title }}</h3>",
+                "text": "<h3><strong>{{ closest.collection.title }}</strong></h3>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
-                "type_preset": "rte",
+                "type_preset": "h3",
                 "font": "var(--font-body--family)",
                 "font_size": "1rem",
                 "line_height": "normal",
@@ -330,13 +330,14 @@
               },
               "blocks": {}
             },
-            "product_list_button_gHqkMB": {
-              "type": "_product-list-button",
-              "name": "t:names.product_list_button",
+            "button_NYh6Gg": {
+              "type": "button",
+              "name": "t:names.button",
               "settings": {
-                "label": "Ver todo",
+                "label": "Ver plantas <10",
+                "link": "shopify://collections/plantas-10-euros",
                 "open_in_new_tab": false,
-                "style_class": "link",
+                "style_class": "button",
                 "width": "fit-content",
                 "custom_width": 100,
                 "width_mobile": "fit-content",
@@ -346,8 +347,8 @@
             }
           },
           "block_order": [
-            "product_list_text_zBUbdi",
-            "product_list_button_gHqkMB"
+            "product_list_text_jgF8Bm",
+            "button_NYh6Gg"
           ]
         },
         "static-product-card": {
@@ -498,15 +499,15 @@
             "padding-inline-end": 0
           },
           "blocks": {
-            "product_list_text_bxRbq6": {
+            "product_list_text_99wMmr": {
               "type": "_product-list-text",
               "name": "t:names.collection_title",
               "settings": {
-                "text": "<h3>{{ closest.collection.title }}</h3>",
+                "text": "<h3><strong>{{ closest.collection.title }}</strong></h3>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
-                "type_preset": "rte",
+                "type_preset": "h3",
                 "font": "var(--font-body--family)",
                 "font_size": "1rem",
                 "line_height": "normal",
@@ -524,13 +525,14 @@
               },
               "blocks": {}
             },
-            "product_list_button_9heEnt": {
-              "type": "_product-list-button",
-              "name": "t:names.product_list_button",
+            "button_ktLzEe": {
+              "type": "button",
+              "name": "t:names.button",
               "settings": {
-                "label": "Ver todo",
+                "label": "Ver plantas <20",
+                "link": "shopify://collections/all",
                 "open_in_new_tab": false,
-                "style_class": "link",
+                "style_class": "button",
                 "width": "fit-content",
                 "custom_width": 100,
                 "width_mobile": "fit-content",
@@ -540,8 +542,8 @@
             }
           },
           "block_order": [
-            "product_list_text_bxRbq6",
-            "product_list_button_9heEnt"
+            "product_list_text_99wMmr",
+            "button_ktLzEe"
           ]
         },
         "static-product-card": {
