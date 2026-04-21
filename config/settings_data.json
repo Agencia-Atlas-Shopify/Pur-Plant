@@ -143,13 +143,22 @@
         "disabled": false,
         "settings": {}
       },
+      "3277273836769507369": {
+        "type": "shopify://apps/planet-discounts-upsells/blocks/smart-cart/7760a1dc-aa67-41be-af44-a96da1e75b18",
+        "disabled": false,
+        "settings": {
+          "smart_cart_css": "",
+          "form_action_buttons_selector": "form[action*='/cart/add']:has(button)",
+          "link_action_buttons_selector": "a[href$='/cart']"
+        }
+      },
       "9652119864611087242": {
         "type": "shopify://apps/planet-discounts-upsells/blocks/widgets/7760a1dc-aa67-41be-af44-a96da1e75b18",
         "disabled": false,
         "settings": {
           "formSelector": "form:has([name='id']):has(button[type='submit'])",
           "buttonSelector": "button[type='submit']",
-          "freeGiftVersion": "v1",
+          "freeGiftVersion": "v2",
           "modalHeaderText": "Select an alternative",
           "modalButtonText": "Select",
           "upsellPopupEnabled": false,
@@ -172,20 +181,6 @@
           "upsellPopupButtonsBackgroundColor": "#000000",
           "upsellPopupDiscountedPriceColor": "#de242b"
         }
-      },
-      "3277273836769507369": {
-        "type": "shopify://apps/planet-discounts-upsells/blocks/smart-cart/7760a1dc-aa67-41be-af44-a96da1e75b18",
-        "disabled": false,
-        "settings": {
-          "smart_cart_css": "",
-          "form_action_buttons_selector": "form[action*='/cart/add']:has(button)",
-          "link_action_buttons_selector": "a[href$='/cart']"
-        }
-      },
-      "6174324309569838175": {
-        "type": "shopify://apps/smile-io/blocks/smile-shopify-app/2fae4e25-1841-4ea2-bc02-bd548478c4f6",
-        "disabled": false,
-        "settings": {}
       }
     },
     "color_schemes": {
