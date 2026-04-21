@@ -894,26 +894,31 @@
     .catch(function(){ /* noop */ });
   }
 
+  var pendingResolvers = [];
   window.ppRefreshCartDrawer = function(options){
     options = options || {};
-    // If one is already in-flight, mark that we want another right after it.
-    // Merge "open" preference: if any caller wanted open, honour it.
+    // If one is already in-flight, queue another right after it and return a promise
+    // that resolves when the queued refresh actually completes (not immediately).
     if (refreshInFlight) {
       refreshPending = true;
       pendingOpts = {
         open: (pendingOpts && pendingOpts.open) || options.open === true,
       };
-      return Promise.resolve();
+      return new Promise(function(resolve){ pendingResolvers.push(resolve); });
     }
     refreshInFlight = true;
     return doRefresh(options).finally(function(){
       refreshInFlight = false;
+      var waiters = pendingResolvers;
+      pendingResolvers = [];
       if (refreshPending) {
         refreshPending = false;
         var nextOpts = pendingOpts || {};
         pendingOpts = null;
-        // Kick off the queued refresh; recursion will continue until quiescent.
-        window.ppRefreshCartDrawer(nextOpts);
+        // Kick off the queued refresh; resolve waiters when it completes.
+        window.ppRefreshCartDrawer(nextOpts).then(function(){ waiters.forEach(function(r){ r(); }); });
+      } else {
+        waiters.forEach(function(r){ r(); });
       }
     });
   };

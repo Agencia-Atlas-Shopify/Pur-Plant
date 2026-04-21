@@ -828,24 +828,8 @@
         document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart } }));
         document.dispatchEvent(new CustomEvent('cart:add', { detail: { cart, items: [addedItem] } }));
 
-        // Refresh and open cart drawer
+        // Refresh and open cart drawer (ppRefreshCartDrawer handles opening via {open:true})
         await refreshCartDrawer();
-
-        const cartDrawer = document.querySelector('cart-drawer-component');
-        if (cartDrawer) {
-          // Try using the component's open method first
-          if (typeof cartDrawer.open === 'function') {
-            cartDrawer.open();
-          } else if (typeof cartDrawer.showDialog === 'function') {
-            cartDrawer.showDialog();
-          } else {
-            // Fallback: manually show the dialog
-            const dialog = cartDrawer.querySelector('dialog');
-            if (dialog && !dialog.open) {
-              dialog.showModal();
-            }
-          }
-        }
 
         // Reset button after delay
         setTimeout(() => {
