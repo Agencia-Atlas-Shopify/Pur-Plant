@@ -847,7 +847,9 @@
   /* Mobile floating ATC — show when the main buy button leaves the viewport */
   (function () {
     const floating = document.querySelector('[data-pp-floating-atc]');
-    const mainBtn = document.querySelector('[data-pp-add-to-cart]');
+    // Specific selector — was grabbing FIRST [data-pp-add-to-cart] on page which
+    // could be a routine/recommended product button (causing wrong product added).
+    const mainBtn = document.querySelector('.pp-pdp__add-to-cart-btn[data-pp-add-to-cart]');
     const floatingBtn = document.querySelector('[data-pp-floating-atc-btn]');
     if (!floating || !mainBtn || !floatingBtn) return;
 
