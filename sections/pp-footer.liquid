@@ -376,16 +376,16 @@
         {%- endif -%}
       </div>
 
-      {%- comment -%} Reviews badge — auto from Judge.me, fallback to manual {%- endcomment -%}
+      {%- comment -%} Reviews badge — manual setting wins, Judge.me as fallback {%- endcomment -%}
       {%- liquid
         assign jdg_rating = shop.metafields.judgeme.all_reviews_rating
         assign jdg_count = shop.metafields.judgeme.all_reviews_count
         assign reviews_rating_val = section.settings.reviews_rating
         assign reviews_count_val = section.settings.reviews_count
-        if jdg_rating != blank and jdg_rating != '0.00' and jdg_rating != '0'
+        if reviews_rating_val == blank and jdg_rating != blank and jdg_rating != '0.00' and jdg_rating != '0'
           assign reviews_rating_val = jdg_rating | times: 1.0 | round: 1
         endif
-        if jdg_count != blank and jdg_count != '0'
+        if reviews_count_val == blank and jdg_count != blank and jdg_count != '0'
           assign reviews_count_val = jdg_count | append: ' reseñas'
         endif
         assign has_reviews = false
