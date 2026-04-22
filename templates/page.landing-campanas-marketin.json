@@ -22,9 +22,128 @@
         "padding_top": 40,
         "padding_bottom": 60
       }
+    },
+    "pp_collection_nav_bB3YJy": {
+      "type": "pp-collection-nav",
+      "blocks": {
+        "collection_link_iwez3L": {
+          "type": "collection_link",
+          "settings": {
+            "label": "Interior",
+            "url": ""
+          }
+        },
+        "collection_link_NkXbAi": {
+          "type": "collection_link",
+          "settings": {
+            "label": "Exterior",
+            "url": ""
+          }
+        },
+        "collection_link_4UtnwJ": {
+          "type": "collection_link",
+          "settings": {
+            "label": "Cuidados",
+            "url": ""
+          }
+        },
+        "collection_link_aFL8ei": {
+          "type": "collection_link",
+          "settings": {
+            "label": "Macetas",
+            "url": ""
+          }
+        },
+        "collection_link_gL94em": {
+          "type": "collection_link",
+          "settings": {
+            "label": "Accesorios",
+            "url": ""
+          }
+        },
+        "collection_link_PrFQLq": {
+          "type": "collection_link",
+          "settings": {
+            "label": "Autorriegos",
+            "url": ""
+          }
+        },
+        "collection_link_nCjAdc": {
+          "type": "collection_link",
+          "settings": {
+            "label": "Abonos",
+            "url": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_link_iwez3L",
+        "collection_link_NkXbAi",
+        "collection_link_4UtnwJ",
+        "collection_link_aFL8ei",
+        "collection_link_gL94em",
+        "collection_link_PrFQLq",
+        "collection_link_nCjAdc"
+      ],
+      "name": "PP Collection Nav",
+      "settings": {
+        "title": "MUST",
+        "view_all_text": "Ver todo",
+        "view_all_url": "",
+        "padding_top": 24,
+        "padding_bottom": 16
+      }
+    },
+    "pp_featured_grid_aEMy79": {
+      "type": "pp-featured-grid",
+      "blocks": {
+        "video_block_FAg4kT": {
+          "type": "video_block",
+          "settings": {
+            "position": 5,
+            "width_mobile": 1,
+            "width_tablet": 1,
+            "width_desktop": 1,
+            "height": "auto",
+            "video": "shopify://files/videos/fiesta-primavera.mp4",
+            "video_url": "/pages/fiesta-primavera",
+            "title": "",
+            "subtitle": "",
+            "button_text": "",
+            "button_link": "",
+            "link": "",
+            "content_position": "bottom-left",
+            "text_color": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        }
+      },
+      "block_order": [
+        "video_block_FAg4kT"
+      ],
+      "name": "PP Featured Grid",
+      "settings": {
+        "title": "",
+        "view_all_text": "",
+        "view_all_link": "",
+        "collection": "top-ventas",
+        "max_products": 20,
+        "image_ratio": "portrait-tall",
+        "products_per_row_mobile": 2,
+        "products_per_row_tablet": 3,
+        "products_per_row_desktop": 4,
+        "gap_mobile": 10,
+        "gap_tablet": 16,
+        "gap_desktop": 20,
+        "padding_top": 0,
+        "padding_bottom": 40
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "pp_collection_nav_bB3YJy",
+    "pp_featured_grid_aEMy79"
   ]
 }
