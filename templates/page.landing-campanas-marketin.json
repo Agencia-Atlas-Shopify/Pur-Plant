@@ -88,41 +88,15 @@
                 "placeholder": "",
                 "padding-block-start": 0,
                 "padding-block-end": 0,
-                "padding-inline-start": 0,
+                "padding-inline-start": 30,
                 "padding-inline-end": 0
               },
               "blocks": {
-                "text_c3VkzW": {
-                  "type": "text",
-                  "name": "t:names.heading",
-                  "settings": {
-                    "text": "<h2><em>Presentamos</em></h2>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "h6",
-                    "font": "var(--font-accent--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
                 "text_JaxcXz": {
                   "type": "text",
                   "name": "t:names.heading",
                   "settings": {
-                    "text": "<h1>Novedades</h1>",
+                    "text": "<h1><strong>Novedades</strong></h1>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
@@ -139,27 +113,26 @@
                     "corner_radius": 0,
                     "padding-block-start": 0,
                     "padding-block-end": 0,
-                    "padding-inline-start": 0,
+                    "padding-inline-start": 30,
                     "padding-inline-end": 0
                   },
                   "blocks": {}
                 }
               },
               "block_order": [
-                "text_c3VkzW",
                 "text_JaxcXz"
               ]
             },
-            "text_ppyANJ": {
+            "text_UpaWgF": {
               "type": "text",
-              "name": "t:names.text",
+              "name": "t:names.heading",
               "settings": {
-                "text": "<p>Creamos cosas que funcionan mejor y duran más. Nuestros productos resuelven problemas reales con un diseño limpio y materiales honestos.</p>",
-                "width": "fit-content",
-                "max_width": "none",
+                "text": "<h2><em>Presentamos</em></h2>",
+                "width": "100%",
+                "max_width": "normal",
                 "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
+                "type_preset": "h6",
+                "font": "var(--font-accent--family)",
                 "font_size": "1rem",
                 "line_height": "normal",
                 "letter_spacing": "normal",
@@ -171,7 +144,7 @@
                 "corner_radius": 0,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
-                "padding-inline-start": 0,
+                "padding-inline-start": 20,
                 "padding-inline-end": 0
               },
               "blocks": {}
@@ -179,16 +152,20 @@
           },
           "block_order": [
             "group_33XUq9",
-            "text_ppyANJ"
+            "text_UpaWgF"
           ]
         }
       },
       "block_order": [
         "group_ENwJMi"
       ],
-      "name": "t:names.hero_bottom_aligned",
+      "custom_css": [
+        ".page-plant-days .hero-section {margin-top: calc(-1 * var(--header-height));}"
+      ],
+      "name": "HERO PLANT DAYS",
       "settings": {
         "media_type_1": "image",
+        "image_1": "shopify://shop_images/pur_plant_tarta_aniversario_194d4669-61fd-40dd-96b9-e33396e15171.jpg",
         "media_type_2": "image",
         "stack_media_on_mobile": false,
         "custom_mobile_media": false,
@@ -196,12 +173,12 @@
         "media_type_2_mobile": "image",
         "link": "",
         "open_in_new_tab": false,
-        "content_direction": "column",
+        "content_direction": "row",
         "vertical_on_mobile": true,
         "horizontal_alignment": "flex-start",
         "vertical_alignment": "center",
         "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "center",
+        "horizontal_alignment_flex_direction_column": "flex-end",
         "vertical_alignment_flex_direction_column": "flex-end",
         "gap": 16,
         "section_width": "full-width",
