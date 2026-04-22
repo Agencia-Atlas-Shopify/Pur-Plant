@@ -309,39 +309,32 @@
           endif
         -%}
         {%- if best_coll != blank -%}
+          {%- comment -%}
+            WP-style breadcrumb: Home > Category > Product. One single intermediate crumb.
+            Walk up coleccion_padre chain, show the LAST ancestor that is NOT root
+            (we skip the top-most = "Plantas" / "Flores" / root) and the leaf species.
+            Example: Adenium → Plantas de Interior → Plantas.  Shown: "Plantas de Interior".
+            If leaf has no parent at all, show the leaf itself as the category.
+          {%- endcomment -%}
+          {%- assign category_coll = nil -%}
           {%- assign walk_coll = best_coll -%}
-          {%- assign breadcrumb_chain = '' -%}
-          {%- assign breadcrumb_urls = '' -%}
           {%- for i in (1..5) -%}
             {%- assign parent_ref = walk_coll.metafields.custom.coleccion_padre.value -%}
             {%- if parent_ref != blank -%}
-              {%- if breadcrumb_chain == '' -%}
-                {%- assign breadcrumb_chain = parent_ref.title -%}
-                {%- assign breadcrumb_urls = parent_ref.url -%}
-              {%- else -%}
-                {%- assign breadcrumb_chain = parent_ref.title | append: '|||' | append: breadcrumb_chain -%}
-                {%- assign breadcrumb_urls = parent_ref.url | append: '|||' | append: breadcrumb_urls -%}
-              {%- endif -%}
+              {%- assign category_coll = walk_coll -%}
               {%- assign walk_coll = parent_ref -%}
             {%- else -%}
               {%- break -%}
             {%- endif -%}
           {%- endfor -%}
-          {%- comment -%}
-            WP-style breadcrumb: show parent chain only (e.g. Plantas / Plantas de Interior).
-            We drop the leaf collection (species-level like "Ficus") and drop the closest
-            parent from the chain output to avoid redundancy — the product.title comes next.
-            Keep top-level parents; drop the most recent parent if it matches leaf "family".
-          {%- endcomment -%}
-          {%- if breadcrumb_chain != '' -%}
-            {%- assign crumb_titles = breadcrumb_chain | split: '|||' -%}
-            {%- assign crumb_urls = breadcrumb_urls | split: '|||' -%}
-            {%- for crumb_title in crumb_titles -%}
-              <a href="{{ crumb_urls[forloop.index0] }}">{{ crumb_title }}</a>
+          {%- if category_coll != nil -%}
+            {%- comment -%} category_coll is the direct child of the root — the WP-style category {%- endcomment -%}
+            {%- assign cat_parent = category_coll.metafields.custom.coleccion_padre.value -%}
+            {%- if cat_parent != blank -%}
+              <a href="{{ cat_parent.url }}">{{ cat_parent.title }}</a>
               <span>/</span>
-            {%- endfor -%}
+            {%- endif -%}
           {%- else -%}
-            {%- comment -%} Leaf has no parent chain — show leaf as only category {%- endcomment -%}
             <a href="{{ best_coll.url }}">{{ best_coll.title }}</a>
             <span>/</span>
           {%- endif -%}
