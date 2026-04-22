@@ -885,6 +885,25 @@
       return Math.round(track.scrollLeft / slideWidth);
     }
 
+    // Hover auto-switch: on card hover show 2nd image, on leave go back to 1st (desktop only)
+    if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      document.addEventListener('mouseenter', (e) => {
+        const card = e.target?.closest?.('.pp-product-card-standalone');
+        if (!card) return;
+        const track = card.querySelector('[data-pp-slider-track]');
+        if (!track) return;
+        if (track.querySelectorAll('.pp-card__slide').length <= 1) return;
+        scrollToSlide(track, 1, false);
+      }, true);
+      document.addEventListener('mouseleave', (e) => {
+        const card = e.target?.closest?.('.pp-product-card-standalone');
+        if (!card) return;
+        const track = card.querySelector('[data-pp-slider-track]');
+        if (!track) return;
+        scrollToSlide(track, 0, false);
+      }, true);
+    }
+
     // Event delegation for slider navigation arrows
     document.addEventListener('click', (e) => {
       // Previous button
