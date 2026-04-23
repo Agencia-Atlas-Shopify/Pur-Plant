@@ -1095,7 +1095,7 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<p>Trabajaremos para enviar tu pedido lo antes posible. Cuando se envíe, recibirás un correo electrónico con más información. Los tiempos de entrega varían según tu ubicación.</p>",
+                    "text": "<p>Añade el importe minimo en la cesta, y usa el cupón equivalente en el carrito antes de finalizar compra. ¡Muy sencillo!</p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
