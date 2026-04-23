@@ -195,6 +195,49 @@
         "padding-block-end": 40
       }
     },
+    "1776951229102c0a24": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_60e1314_TCQKLb": {
+          "type": "ai_gen_block_60e1314",
+          "settings": {
+            "desktop_height": 110,
+            "mobile_height": 30
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_60e1314_TCQKLb"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 37,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
     "media_with_content_XUcxgN": {
       "type": "media-with-content",
       "blocks": {
@@ -242,7 +285,7 @@
           ]
         }
       },
-      "name": "t:names.editorial_jumbo_text",
+      "name": "Regalamos Plantas Muchas Plantas",
       "settings": {
         "media_position": "right",
         "media_width": "medium",
@@ -254,10 +297,10 @@
         "padding-block-end": 0
       }
     },
-    "1776951229102c0a24": {
+    "blocks_XNjNWb": {
       "type": "_blocks",
       "blocks": {
-        "ai_gen_block_60e1314_TCQKLb": {
+        "ai_gen_block_60e1314_Y6iQBg": {
           "type": "ai_gen_block_60e1314",
           "settings": {
             "desktop_height": 110,
@@ -267,7 +310,7 @@
         }
       },
       "block_order": [
-        "ai_gen_block_60e1314_TCQKLb"
+        "ai_gen_block_60e1314_Y6iQBg"
       ],
       "settings": {
         "content_direction": "column",
@@ -417,8 +460,9 @@
   },
   "order": [
     "hero_39iATj",
-    "media_with_content_XUcxgN",
     "1776951229102c0a24",
+    "media_with_content_XUcxgN",
+    "blocks_XNjNWb",
     "pp_collection_nav_bB3YJy",
     "pp_featured_grid_aEMy79"
   ]
