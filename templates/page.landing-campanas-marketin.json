@@ -636,10 +636,10 @@
         "padding-block-end": 40
       }
     },
-    "collection_list_T37myQ": {
+    "collection_list_H4PkiH": {
       "type": "collection-list",
       "blocks": {
-        "group_FyW83k": {
+        "group_AP4MM8": {
           "type": "group",
           "name": "t:names.header",
           "settings": {
@@ -679,7 +679,7 @@
             "padding-inline-end": 0
           },
           "blocks": {
-            "text_UMNrMd": {
+            "text_yK43qa": {
               "type": "text",
               "name": "t:names.text",
               "settings": {
@@ -707,7 +707,7 @@
             }
           },
           "block_order": [
-            "text_UMNrMd"
+            "text_yK43qa"
           ]
         },
         "static-collection-card": {
@@ -727,7 +727,7 @@
             "border_radius": 0
           },
           "blocks": {
-            "collection_title_RgKLbm": {
+            "collection_title_m7gUx8": {
               "type": "collection-title",
               "name": "t:names.collection_title",
               "settings": {
@@ -771,19 +771,26 @@
             }
           },
           "block_order": [
-            "collection_title_RgKLbm"
+            "collection_title_m7gUx8"
           ]
         }
       },
       "block_order": [
-        "group_FyW83k"
+        "group_AP4MM8"
       ],
       "name": "t:names.collections_carousel",
       "settings": {
-        "collection_list": [],
+        "collection_list": [
+          "plantas",
+          "macetas-artesanales",
+          "cuidados",
+          "auto-riego",
+          "accesorios",
+          "jardin-eterno"
+        ],
         "layout_type": "carousel",
         "carousel_on_mobile": false,
-        "columns": 3,
+        "columns": 5,
         "columns_laptop": 3,
         "mobile_columns": "2",
         "mobile_card_size": "60cqw",
@@ -812,6 +819,6 @@
     "pp_collection_nav_bB3YJy",
     "pp_featured_grid_aEMy79",
     "hero_PbQyTM",
-    "collection_list_T37myQ"
+    "collection_list_H4PkiH"
   ]
 }
