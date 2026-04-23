@@ -12,6 +12,14 @@
     "hero_39iATj": {
       "type": "hero",
       "blocks": {
+        "custom_liquid_X4yHrN": {
+          "type": "custom-liquid",
+          "name": "t:names.custom_liquid",
+          "settings": {
+            "custom_liquid": "<style>\n@media (max-width: 749px) {\n  #shopify-block-template--29682782536012__hero_39iATj__group_ENwJMi__group_33XUq9__image_FEGdjx img {\n    width: 30% !important;\n  }\n}\n</style>"
+          },
+          "blocks": {}
+        },
         "group_ENwJMi": {
           "type": "group",
           "name": "t:names.group",
@@ -62,7 +70,7 @@
                 "vertical_alignment": "center",
                 "align_baseline": false,
                 "horizontal_alignment_flex_direction_column": "flex-start",
-                "vertical_alignment_flex_direction_column": "center",
+                "vertical_alignment_flex_direction_column": "flex-end",
                 "gap": 6,
                 "width": "fit-content",
                 "custom_width": 100,
@@ -100,18 +108,18 @@
                     "link": "",
                     "image_ratio": "square",
                     "width": "custom",
-                    "custom_width": 5,
-                    "width_mobile": "fit-content",
-                    "custom_width_mobile": 100,
+                    "custom_width": 0,
+                    "width_mobile": "custom",
+                    "custom_width_mobile": 15,
                     "height": "fit",
                     "border": "none",
                     "border_width": 1,
                     "border_opacity": 100,
                     "border_radius": 0,
-                    "padding-block-start": 80,
+                    "padding-block-start": 14,
                     "padding-block-end": 0,
                     "padding-inline-start": 0,
-                    "padding-inline-end": 0
+                    "padding-inline-end": 100
                   },
                   "blocks": {}
                 }
@@ -127,6 +135,7 @@
         }
       },
       "block_order": [
+        "custom_liquid_X4yHrN",
         "group_ENwJMi"
       ],
       "custom_css": [
