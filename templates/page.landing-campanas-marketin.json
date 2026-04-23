@@ -64,7 +64,7 @@
                 "horizontal_alignment_flex_direction_column": "flex-start",
                 "vertical_alignment_flex_direction_column": "center",
                 "gap": 6,
-                "width": "custom",
+                "width": "fit-content",
                 "custom_width": 100,
                 "width_mobile": "fill",
                 "custom_width_mobile": 100,
@@ -87,72 +87,42 @@
                 "open_in_new_tab": false,
                 "placeholder": "",
                 "padding-block-start": 0,
-                "padding-block-end": 0,
+                "padding-block-end": 20,
                 "padding-inline-start": 30,
                 "padding-inline-end": 0
               },
               "blocks": {
-                "text_JaxcXz": {
-                  "type": "text",
-                  "name": "t:names.heading",
+                "image_FEGdjx": {
+                  "type": "image",
+                  "name": "t:names.image",
                   "settings": {
-                    "text": "<h1><strong>Novedades</strong></h1>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "h2",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
+                    "image": "shopify://shop_images/logo_pur_plant_days.png",
+                    "link": "",
+                    "image_ratio": "square",
+                    "width": "custom",
+                    "custom_width": 5,
+                    "width_mobile": "fit-content",
+                    "custom_width_mobile": 100,
+                    "height": "fit",
+                    "border": "none",
+                    "border_width": 1,
+                    "border_opacity": 100,
+                    "border_radius": 0,
+                    "padding-block-start": 80,
                     "padding-block-end": 0,
-                    "padding-inline-start": 30,
+                    "padding-inline-start": 0,
                     "padding-inline-end": 0
                   },
                   "blocks": {}
                 }
               },
               "block_order": [
-                "text_JaxcXz"
+                "image_FEGdjx"
               ]
-            },
-            "text_UpaWgF": {
-              "type": "text",
-              "name": "t:names.heading",
-              "settings": {
-                "text": "<h2><em>Presentamos</em></h2>",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "h6",
-                "font": "var(--font-accent--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 20,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
             }
           },
           "block_order": [
-            "group_33XUq9",
-            "text_UpaWgF"
+            "group_33XUq9"
           ]
         }
       },
@@ -197,19 +167,6 @@
     },
     "1776951229102c0a24": {
       "type": "_blocks",
-      "blocks": {
-        "ai_gen_block_60e1314_TCQKLb": {
-          "type": "ai_gen_block_60e1314",
-          "settings": {
-            "desktop_height": 110,
-            "mobile_height": 30
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "ai_gen_block_60e1314_TCQKLb"
-      ],
       "settings": {
         "content_direction": "column",
         "vertical_on_mobile": true,
@@ -218,7 +175,7 @@
         "align_baseline": false,
         "horizontal_alignment_flex_direction_column": "flex-start",
         "vertical_alignment_flex_direction_column": "center",
-        "gap": 37,
+        "gap": 23,
         "section_width": "page-width",
         "section_height": "",
         "section_height_custom": 50,
@@ -236,6 +193,23 @@
         "gradient_direction": "to top",
         "padding-block-start": 0,
         "padding-block-end": 0
+      }
+    },
+    "pp_richtext_i9QkTc": {
+      "type": "pp-richtext",
+      "name": "PP Rich Text",
+      "settings": {
+        "content": "<p><strong>¡¡Celebramos nuestro 6 aniversario por todo lo alto!!🎉</strong></p>",
+        "font_size": 25,
+        "font_weight": "400",
+        "line_height": 16,
+        "text_align": "center",
+        "max_width": 860,
+        "bg_color": "#ffffff",
+        "text_color": "#23372c",
+        "padding_top": 48,
+        "padding_bottom": 48,
+        "padding_inline": 24
       }
     },
     "media_with_content_XUcxgN": {
@@ -461,6 +435,7 @@
   "order": [
     "hero_39iATj",
     "1776951229102c0a24",
+    "pp_richtext_i9QkTc",
     "media_with_content_XUcxgN",
     "blocks_XNjNWb",
     "pp_collection_nav_bB3YJy",
