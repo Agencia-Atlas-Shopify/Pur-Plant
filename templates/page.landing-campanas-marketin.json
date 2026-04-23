@@ -525,6 +525,92 @@
         "padding_bottom": 40
       }
     },
+    "blocks_yrPTJH": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_60e1314_4QLF6c": {
+          "type": "ai_gen_block_60e1314",
+          "settings": {
+            "desktop_height": 60,
+            "mobile_height": 30
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_60e1314_4QLF6c"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 11,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "blocks_VzgEUX": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_60e1314_CcJb4k": {
+          "type": "ai_gen_block_60e1314",
+          "settings": {
+            "desktop_height": 60,
+            "mobile_height": 30
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_60e1314_CcJb4k"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 11,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
     "hero_PbQyTM": {
       "type": "hero",
       "blocks": {
@@ -806,6 +892,24 @@
         "padding-block-start": 48,
         "padding-block-end": 48
       }
+    },
+    "pp_brand_banner_wyeWPw": {
+      "type": "pp-brand-banner",
+      "name": "PP Brand Banner",
+      "settings": {
+        "heading": "PUR PLANT ES LA MARCA QUE CREE EN EL PODER DE LAS PLANTAS",
+        "subheading": "",
+        "button_label": "Más sobre Nosotrxs",
+        "button_link": "",
+        "video_url": "",
+        "image_position": "right",
+        "image_overflow": 48,
+        "video_max_width": 400,
+        "bg_color": "#23372c",
+        "text_color": "#daffd3",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
     }
   },
   "order": [
@@ -818,7 +922,10 @@
     "blocks_MLGrbh",
     "pp_collection_nav_bB3YJy",
     "pp_featured_grid_aEMy79",
+    "blocks_yrPTJH",
     "hero_PbQyTM",
-    "collection_list_H4PkiH"
+    "collection_list_H4PkiH",
+    "blocks_VzgEUX",
+    "pp_brand_banner_wyeWPw"
   ]
 }
