@@ -16,7 +16,7 @@
           "type": "custom-liquid",
           "name": "t:names.custom_liquid",
           "settings": {
-            "custom_liquid": "<style>\n@media (max-width: 749px) {\n  #shopify-block-template--29682782536012__hero_39iATj__group_ENwJMi__group_33XUq9__image_FEGdjx img {\n    width: 30% !important;\n  }\n}\n</style>"
+            "custom_liquid": "<style>\n@media (max-width: 749px) {\n  #shopify-block-template--29682782536012__hero_39iATj__group_ENwJMi__group_33XUq9__image_FEGdjx img {\n    width: 15% !important;\n    max-width: 15% !important;\n  }\n}\n</style>"
           },
           "blocks": {}
         },
@@ -106,20 +106,20 @@
                   "settings": {
                     "image": "shopify://shop_images/logo_pur_plant_days.png",
                     "link": "",
-                    "image_ratio": "square",
+                    "image_ratio": "adapt",
                     "width": "custom",
                     "custom_width": 0,
                     "width_mobile": "custom",
-                    "custom_width_mobile": 15,
+                    "custom_width_mobile": 6,
                     "height": "fit",
                     "border": "none",
                     "border_width": 1,
                     "border_opacity": 100,
                     "border_radius": 0,
-                    "padding-block-start": 14,
+                    "padding-block-start": 0,
                     "padding-block-end": 0,
                     "padding-inline-start": 0,
-                    "padding-inline-end": 100
+                    "padding-inline-end": 55
                   },
                   "blocks": {}
                 }
