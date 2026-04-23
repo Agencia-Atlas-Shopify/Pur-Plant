@@ -872,18 +872,39 @@
       mainBtn.click();
     });
 
-    // Mirror the price + disabled state of the main button
+    // Mirror the price + state of the main button.
+    // Distinguish loading / success / truly-sold-out — otherwise ALL disabled
+    // states (including during /cart/add.js request) read as "Agotado".
     function syncFromMain() {
       const priceSrc = document.querySelector('[data-pp-total-price]');
       const priceDst = document.querySelector('[data-pp-floating-price]');
       if (priceSrc && priceDst) priceDst.textContent = priceSrc.textContent;
-      floatingBtn.disabled = mainBtn.disabled;
-      floatingBtn.textContent = mainBtn.disabled ? 'Agotado' : 'Añadir';
+
+      const isLoading = mainBtn.classList.contains('is-loading');
+      const isSuccess = mainBtn.classList.contains('is-success');
+      const isError = mainBtn.classList.contains('is-error');
+
+      if (isLoading) {
+        floatingBtn.disabled = true;
+        floatingBtn.textContent = 'Añadiendo...';
+      } else if (isSuccess) {
+        floatingBtn.disabled = true;
+        floatingBtn.textContent = '✓';
+      } else if (isError) {
+        floatingBtn.disabled = true;
+        floatingBtn.textContent = 'Error';
+      } else if (mainBtn.disabled) {
+        floatingBtn.disabled = true;
+        floatingBtn.textContent = 'Agotado';
+      } else {
+        floatingBtn.disabled = false;
+        floatingBtn.textContent = 'Añadir';
+      }
     }
     syncFromMain();
     new MutationObserver(syncFromMain).observe(mainBtn, {
       attributes: true,
-      attributeFilter: ['disabled'],
+      attributeFilter: ['disabled', 'class'],
     });
     const priceSrc = document.querySelector('[data-pp-total-price]');
     if (priceSrc) {
