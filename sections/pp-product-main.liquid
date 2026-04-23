@@ -309,8 +309,9 @@
           endif
         -%}
         {%- comment -%}
-          Anchor: if custom.coleccion_breadcrumb is set, it overrides coleccion_principal.
-          Anchor is NOT rendered — only its coleccion_padre chain is (root → leaf-parent).
+          Anchor: custom.coleccion_breadcrumb overrides coleccion_principal.
+          Full chain rendered: Home / root / ... / anchor / Product.
+          Anchor IS rendered as leaf-parent crumb.
         {%- endcomment -%}
         {%- assign breadcrumb_override = product.metafields.custom.coleccion_breadcrumb.value -%}
         {%- if breadcrumb_override != blank -%}
@@ -320,31 +321,24 @@
         {%- endif -%}
         {%- if anchor_coll != blank -%}
           {%- assign walk_coll = anchor_coll -%}
-          {%- assign chain_titles = '' -%}
-          {%- assign chain_urls = '' -%}
+          {%- assign chain_titles = anchor_coll.title -%}
+          {%- assign chain_urls = anchor_coll.url -%}
           {%- for i in (1..8) -%}
             {%- assign parent_ref = walk_coll.metafields.custom.coleccion_padre.value -%}
             {%- if parent_ref != blank -%}
-              {%- if chain_titles == '' -%}
-                {%- assign chain_titles = parent_ref.title -%}
-                {%- assign chain_urls = parent_ref.url -%}
-              {%- else -%}
-                {%- assign chain_titles = parent_ref.title | append: '|||' | append: chain_titles -%}
-                {%- assign chain_urls = parent_ref.url | append: '|||' | append: chain_urls -%}
-              {%- endif -%}
+              {%- assign chain_titles = parent_ref.title | append: '|||' | append: chain_titles -%}
+              {%- assign chain_urls = parent_ref.url | append: '|||' | append: chain_urls -%}
               {%- assign walk_coll = parent_ref -%}
             {%- else -%}
               {%- break -%}
             {%- endif -%}
           {%- endfor -%}
-          {%- if chain_titles != '' -%}
-            {%- assign crumb_titles = chain_titles | split: '|||' -%}
-            {%- assign crumb_urls = chain_urls | split: '|||' -%}
-            {%- for t in crumb_titles -%}
-              <a href="{{ crumb_urls[forloop.index0] }}">{{ t }}</a>
-              <span>/</span>
-            {%- endfor -%}
-          {%- endif -%}
+          {%- assign crumb_titles = chain_titles | split: '|||' -%}
+          {%- assign crumb_urls = chain_urls | split: '|||' -%}
+          {%- for t in crumb_titles -%}
+            <a href="{{ crumb_urls[forloop.index0] }}">{{ t }}</a>
+            <span>/</span>
+          {%- endfor -%}
         {%- elsif product.type != blank -%}
           <span>{{ product.type }}</span>
           <span>/</span>
