@@ -348,6 +348,23 @@
         "padding-block-end": 0
       }
     },
+    "pp_richtext_WD38gA": {
+      "type": "pp-richtext",
+      "name": "PP Rich Text",
+      "settings": {
+        "content": "<p><strong>Llena tu cesta de verde y recibe tu PLANTA REGALO al usar el cupón</strong></p>",
+        "font_size": 25,
+        "font_weight": "400",
+        "line_height": 16,
+        "text_align": "center",
+        "max_width": 640,
+        "bg_color": "#ffffff",
+        "text_color": "#23372c",
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "padding_inline": 24
+      }
+    },
     "blocks_MLGrbh": {
       "type": "_blocks",
       "blocks": {
@@ -389,23 +406,6 @@
         "gradient_direction": "to top",
         "padding-block-start": 0,
         "padding-block-end": 0
-      }
-    },
-    "pp_richtext_WD38gA": {
-      "type": "pp-richtext",
-      "name": "PP Rich Text",
-      "settings": {
-        "content": "<p><strong>Llena tu cesta de verde y recibe tu PLANTA REGALO al usar el cupón</strong></p>",
-        "font_size": 25,
-        "font_weight": "400",
-        "line_height": 16,
-        "text_align": "center",
-        "max_width": 640,
-        "bg_color": "#ffffff",
-        "text_color": "#23372c",
-        "padding_top": 20,
-        "padding_bottom": 20,
-        "padding_inline": 24
       }
     },
     "pp_collection_nav_bB3YJy": {
@@ -524,6 +524,281 @@
         "padding_top": 0,
         "padding_bottom": 40
       }
+    },
+    "hero_PbQyTM": {
+      "type": "hero",
+      "blocks": {
+        "spacer_yXD6Qz": {
+          "type": "spacer",
+          "settings": {
+            "size": "pixel",
+            "percent_size": 100,
+            "pixel_size": 24,
+            "custom_mobile_size": false,
+            "size_mobile": "percent",
+            "percent_size_mobile": 100,
+            "pixel_size_mobile": 120
+          },
+          "blocks": {}
+        },
+        "marquee_qn4Eqr": {
+          "type": "_marquee",
+          "settings": {
+            "movement_direction": "normal",
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "transparent_background": true,
+            "padding-block-start": 24,
+            "padding-block-end": 24,
+            "gap_between_elements": 24
+          },
+          "blocks": {
+            "text_gCzV9n": {
+              "type": "text",
+              "settings": {
+                "text": "<p><strong>Este Aniversario, Pur Plant invita.</strong></p>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "h1",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-primary)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_gCzV9n"
+          ]
+        },
+        "button_wbrrbm": {
+          "type": "button",
+          "settings": {
+            "label": "Comprar ahora",
+            "link": "shopify://collections/all",
+            "open_in_new_tab": false,
+            "style_class": "button",
+            "width": "fit-content",
+            "custom_width": 100,
+            "width_mobile": "fit-content",
+            "custom_width_mobile": 100
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "spacer_yXD6Qz",
+        "marquee_qn4Eqr",
+        "button_wbrrbm"
+      ],
+      "name": "t:names.hero_marquee",
+      "settings": {
+        "media_type_1": "video",
+        "video_1": "shopify://files/videos/cake tarta aniversario.mp4",
+        "media_type_2": "image",
+        "stack_media_on_mobile": false,
+        "custom_mobile_media": false,
+        "media_type_1_mobile": "image",
+        "media_type_2_mobile": "image",
+        "link": "",
+        "open_in_new_tab": false,
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "space-between",
+        "gap": 32,
+        "section_width": "page-width",
+        "section_height": "large",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-5",
+        "toggle_overlay": true,
+        "overlay_color": "#00000026",
+        "overlay_style": "gradient",
+        "gradient_direction": "to top",
+        "blurred_reflection": false,
+        "reflection_opacity": 75,
+        "padding-block-start": 0,
+        "padding-block-end": 40
+      }
+    },
+    "collection_list_T37myQ": {
+      "type": "collection-list",
+      "blocks": {
+        "group_FyW83k": {
+          "type": "group",
+          "name": "t:names.header",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "text_UMNrMd": {
+              "type": "text",
+              "name": "t:names.text",
+              "settings": {
+                "text": "<h3>Compra por colección</h3>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 16,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_UMNrMd"
+          ]
+        },
+        "static-collection-card": {
+          "type": "_collection-card",
+          "name": "t:names.collection_card",
+          "static": true,
+          "settings": {
+            "placement": "below_image",
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "collection_card_gap": 8,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0
+          },
+          "blocks": {
+            "collection_title_RgKLbm": {
+              "type": "collection-title",
+              "name": "t:names.collection_title",
+              "settings": {
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "collection-card-image": {
+              "type": "_collection-card-image",
+              "name": "t:names.collection_card_image",
+              "static": true,
+              "settings": {
+                "image_ratio": "adapt",
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "collection_title_RgKLbm"
+          ]
+        }
+      },
+      "block_order": [
+        "group_FyW83k"
+      ],
+      "name": "t:names.collections_carousel",
+      "settings": {
+        "collection_list": [],
+        "layout_type": "carousel",
+        "carousel_on_mobile": false,
+        "columns": 3,
+        "columns_laptop": 3,
+        "mobile_columns": "2",
+        "mobile_card_size": "60cqw",
+        "columns_gap": 8,
+        "bento_gap": 8,
+        "rows_gap": 8,
+        "max_collections": 4,
+        "icons_style": "arrow",
+        "icons_shape": "circle",
+        "section_width": "page-width",
+        "gap": 12,
+        "color_scheme": "",
+        "padding-block-start": 48,
+        "padding-block-end": 48
+      }
     }
   },
   "order": [
@@ -535,6 +810,8 @@
     "pp_richtext_WD38gA",
     "blocks_MLGrbh",
     "pp_collection_nav_bB3YJy",
-    "pp_featured_grid_aEMy79"
+    "pp_featured_grid_aEMy79",
+    "hero_PbQyTM",
+    "collection_list_T37myQ"
   ]
 }
