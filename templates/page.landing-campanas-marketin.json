@@ -233,9 +233,9 @@
             "link": "",
             "video": "shopify://files/videos/plantdays-aniversario.mp4",
             "video_loop": true,
-            "video_autoplay": false,
+            "video_autoplay": true,
             "image_position": "contain",
-            "video_position": "cover"
+            "video_position": "contain"
           },
           "blocks": {}
         },
