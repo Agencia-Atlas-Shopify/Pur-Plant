@@ -690,13 +690,17 @@
       </div>
 
       {%- comment -%} Quantity + Add to cart {%- endcomment -%}
+      {%- assign pp_lock_qty_to_1 = false -%}
+      {%- if settings.pp_limit_under_1_enabled and current_variant.price < 100 -%}
+        {%- assign pp_lock_qty_to_1 = true -%}
+      {%- endif -%}
       {%- for block in section.blocks -%}
         {%- if block.type == 'buy_button' -%}
-          <div class="pp-pdp__buy-wrap" {{ block.shopify_attributes }}>
-            <div class="pp-pdp__qty"{% unless current_variant.available %} hidden{% endunless %} data-pp-qty-wrap>
+          <div class="pp-pdp__buy-wrap" {{ block.shopify_attributes }} {% if pp_lock_qty_to_1 %}data-pp-max-qty="1"{% endif %}>
+            <div class="pp-pdp__qty"{% unless current_variant.available %} hidden{% endunless %}{% if pp_lock_qty_to_1 %} hidden{% endif %} data-pp-qty-wrap>
               <button type="button" class="pp-pdp__qty-minus" data-pp-qty-minus aria-label="Decrease quantity">−</button>
-              <input type="number" class="pp-pdp__qty-input" data-pp-qty-input value="1" min="1" max="99" aria-label="Quantity">
-              <button type="button" class="pp-pdp__qty-plus" data-pp-qty-plus aria-label="Increase quantity">+</button>
+              <input type="number" class="pp-pdp__qty-input" data-pp-qty-input value="1" min="1" max="{% if pp_lock_qty_to_1 %}1{% else %}99{% endif %}" aria-label="Quantity">
+              <button type="button" class="pp-pdp__qty-plus" data-pp-qty-plus aria-label="Increase quantity"{% if pp_lock_qty_to_1 %} disabled{% endif %}>+</button>
             </div>
 
             <button

@@ -27,6 +27,12 @@
   else
     assign min_quantity = variant.quantity_rule.min | default: 1
   endif
+
+  # PP: products under 1€ limited to 1 unit when setting enabled
+  assign pp_force_max_1 = false
+  if settings.pp_limit_under_1_enabled and variant.price < 100
+    assign pp_force_max_1 = true
+  endif
 %}
 
 <div
@@ -72,7 +78,9 @@
       {% if line_index %}
         data-cart-line="{{ line_index | plus: 1 }}"
       {% endif %}
-      {% if variant.quantity_rule.max %}
+      {% if pp_force_max_1 %}
+        max="1"
+      {% elsif variant.quantity_rule.max %}
         max="{{ variant.quantity_rule.max }}"
       {% endif %}
       step="{{ variant.quantity_rule.increment | default: 1 }}"
@@ -86,7 +94,7 @@
       name="plus"
       on:click="/increaseQuantity"
       ref="plusButton"
-      {% if can_update_quantity == false %}
+      {% if can_update_quantity == false or pp_force_max_1 %}
         disabled
       {% endif %}
     >

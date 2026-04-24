@@ -2655,5 +2655,20 @@
         "info": "CSS selector for where to attach the icon on mobile view"
       }
     ]
+  },
+  {
+    "name": "Ofertas menos de 1€",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Productos con precio inferior a 1€ se limitan a 1 unidad por pedido (selector de cantidad y ATC)."
+      },
+      {
+        "type": "checkbox",
+        "id": "pp_limit_under_1_enabled",
+        "label": "Activar límite 1 unidad para productos <1€",
+        "default": false
+      }
+    ]
   }
 ]

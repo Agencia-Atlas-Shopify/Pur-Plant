@@ -731,11 +731,20 @@
      6. Quantity Selector
   ---------------------------------------------------------- */
 
+  function getMaxQty() {
+    var wrap = document.querySelector('[data-pp-max-qty]');
+    if (wrap) {
+      var cap = parseInt(wrap.getAttribute('data-pp-max-qty'), 10);
+      if (!isNaN(cap) && cap > 0) return cap;
+    }
+    return 99;
+  }
+
   function updateQuantity(delta) {
     if (!qtyInput) return;
     var current = parseInt(qtyInput.value, 10);
     if (isNaN(current)) current = 1;
-    var next = Math.min(99, Math.max(1, current + delta));
+    var next = Math.min(getMaxQty(), Math.max(1, current + delta));
     qtyInput.value = next;
 
     // Dispatch input event in case anything listens
@@ -762,8 +771,9 @@
     if (qtyInput) {
       qtyInput.addEventListener('change', function () {
         var val = parseInt(qtyInput.value, 10);
+        var max = getMaxQty();
         if (isNaN(val) || val < 1) qtyInput.value = 1;
-        else if (val > 99) qtyInput.value = 99;
+        else if (val > max) qtyInput.value = max;
       });
     }
   }
