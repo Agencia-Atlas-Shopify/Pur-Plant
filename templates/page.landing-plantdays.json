@@ -9,6 +9,65 @@
  */
 {
   "sections": {
+    "pp_hero_slider_NphnHC": {
+      "type": "pp-hero-slider",
+      "blocks": {
+        "slide_cfBazW": {
+          "type": "slide",
+          "settings": {
+            "image_desktop": "shopify://shop_images/pur_plant_tarta_aniversario_194d4669-61fd-40dd-96b9-e33396e15171.jpg",
+            "subheading": "FIESTA DE LA",
+            "heading": "PRIMAVERA",
+            "subtitle": "NATURALEZA QUE BROTA",
+            "content_position": "bottom-left",
+            "button_text": "HASTA 50%",
+            "button_link": "shopify://collections/fiesta-primavera",
+            "button_style": "normal",
+            "button_text_2": "",
+            "button_link_2": "",
+            "button_style_2": "inverted",
+            "link": "shopify://collections/fiesta-primavera",
+            "heading_font": "'Aileron', sans-serif",
+            "heading_size": 0,
+            "heading_size_mobile": 0,
+            "heading_weight": "default",
+            "heading_color": "",
+            "subheading_font": "default",
+            "subheading_size": 0,
+            "subheading_size_mobile": 0,
+            "subheading_weight": "default",
+            "subheading_color": "",
+            "btn_font": "default",
+            "btn_size": 0,
+            "btn_weight": "default",
+            "btn_bg_color": "",
+            "btn_text_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_cfBazW"
+      ],
+      "name": "PP Hero Slider",
+      "settings": {
+        "enable_transparent_header": false,
+        "full_height_mobile": false,
+        "height_mobile": 500,
+        "full_height_desktop": false,
+        "height_desktop": 750,
+        "autoplay": false,
+        "autoplay_speed": 5,
+        "show_dots": false,
+        "show_arrows": false,
+        "content_max_width": 600,
+        "overlay_opacity": 0,
+        "overlay_direction": "to top",
+        "background_color": "0 0 0",
+        "text_color": "255 255 255",
+        "button_background": "255 255 255",
+        "button_text_color": "0 0 0"
+      }
+    },
     "hero_39iATj": {
       "type": "hero",
       "blocks": {
@@ -138,6 +197,7 @@
         "custom_liquid_X4yHrN",
         "group_ENwJMi"
       ],
+      "disabled": true,
       "custom_css": [
         ".page-plant-days .hero-section {margin-top: calc(-1 * var(--header-height));}"
       ],
@@ -1207,6 +1267,7 @@
     }
   },
   "order": [
+    "pp_hero_slider_NphnHC",
     "hero_39iATj",
     "1776951229102c0a24",
     "pp_richtext_i9QkTc",
