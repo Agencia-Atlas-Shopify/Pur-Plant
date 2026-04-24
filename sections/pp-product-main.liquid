@@ -845,6 +845,7 @@
   window.ppProductVariants = {{ product.variants | json }};
   window.ppProductOptions = {{ product.options_with_values | json }};
   window.ppCurrentVariantId = {{ current_variant.id }};
+  window.ppLimitUnder1 = {{ settings.pp_limit_under_1_enabled | json }};
 </script>
 <script src="{{ 'pp-product-main.js' | asset_url }}" type="module" defer></script>
 

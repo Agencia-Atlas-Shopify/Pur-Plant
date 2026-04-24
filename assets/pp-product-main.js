@@ -611,6 +611,12 @@
   function addToCart(variantId, quantity) {
     setButtonLoading(true);
 
+    // PP: clamp qty to 1 for <1€ products when setting enabled
+    if (window.ppLimitUnder1) {
+      var variant = (window.ppProductVariants || []).find(function (v) { return v.id === variantId; });
+      if (variant && variant.price < 100) quantity = 1;
+    }
+
     // Find the section ID so /cart/add.js returns freshly rendered HTML
     var headerEl = qs('[data-section-id]', qs('.pp-header') || document);
     var sectionId = headerEl ? headerEl.dataset.sectionId : '';
@@ -639,6 +645,28 @@
         });
       }
       return res.json();
+    })
+    .then(function (data) {
+      // PP: post-add cart sanity — any <1€ line with qty>1 gets clamped to 1.
+      // Covers race: user rapid-clicks ATC, /cart/add bumps qty each call.
+      if (window.ppLimitUnder1) {
+        return fetch('/cart.js', { credentials: 'same-origin' })
+          .then(function (r) { return r.json(); })
+          .then(function (cart) {
+            var fixes = (cart.items || []).filter(function (it) {
+              return it.price < 100 && it.quantity > 1;
+            }).map(function (it) {
+              return fetch('/cart/change.js', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({ id: it.key, quantity: 1 }),
+              });
+            });
+            return Promise.all(fixes).then(function () { return data; });
+          })
+          .catch(function () { return data; });
+      }
+      return data;
     })
     .then(function (data) {
       setButtonLoading(false);
