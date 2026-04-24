@@ -267,7 +267,7 @@
               "type": "image",
               "name": "t:names.image",
               "settings": {
-                "image": "shopify://shop_images/plantas_regalo.png",
+                "image": "shopify://shop_images/plantas_regalo_plant_days.png",
                 "link": "",
                 "image_ratio": "adapt",
                 "width": "fill",
