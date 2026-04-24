@@ -482,6 +482,26 @@
     "pp_featured_grid_aEMy79": {
       "type": "pp-featured-grid",
       "blocks": {
+        "banner_nzBmt9": {
+          "type": "banner",
+          "settings": {
+            "position": 18,
+            "width_mobile": 1,
+            "width_tablet": 1,
+            "width_desktop": 1,
+            "height": "portrait",
+            "image": "shopify://shop_images/PLANT_DAYS_PUR_PLANT.jpg",
+            "title": "",
+            "subtitle": "",
+            "button_text": "",
+            "button_link": "",
+            "link": "",
+            "content_position": "bottom-left",
+            "text_color": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
         "video_block_FAg4kT": {
           "type": "video_block",
           "settings": {
@@ -505,6 +525,7 @@
         }
       },
       "block_order": [
+        "banner_nzBmt9",
         "video_block_FAg4kT"
       ],
       "name": "PP Featured Grid",
