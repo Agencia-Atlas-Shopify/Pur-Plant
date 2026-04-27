@@ -1497,7 +1497,7 @@ dl.pp-pdp__acerca-dl dd.pp-pdp__acerca-tags {
   .pp-pdp__info-right > .pp-pdp__shipping-bottom { order: 11; }
   .pp-pdp__info-right > .pp-vol { order: 12; }
   .pp-pdp__info-right > .pp-pdp__recommended { order: 13; }
-  .pp-pdp__info-right > .pp-pdp__routine { order: 14; }
+  .pp-pdp__info-right > .pp-pdp__routine { order: 14; padding-top: 30px; }
   .pp-pdp__info-right > .pp-pdp__app-block { order: 15; }
   /* Fallback: any unordered direct child gets pushed to the end */
   .pp-pdp__info-right > * { order: 20; }
