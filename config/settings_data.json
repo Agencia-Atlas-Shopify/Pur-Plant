@@ -187,6 +187,11 @@
           "upsellPopupButtonsBackgroundColor": "#000000",
           "upsellPopupDiscountedPriceColor": "#de242b"
         }
+      },
+      "12777516434707648072": {
+        "type": "shopify://apps/easy-tag-gtm-data-layer/blocks/datalayer-embed-block/be308f3f-c82d-4290-b187-8561d4a8782a",
+        "disabled": false,
+        "settings": {}
       }
     },
     "color_schemes": {
