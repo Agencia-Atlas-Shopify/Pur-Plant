@@ -673,14 +673,18 @@
   opacity: 0.85;
 }
 
-.pp-pdp__acerca-dl {
-  display: block;
+.pp-pdp__accordion-content .pp-pdp__acerca-dl,
+dl.pp-pdp__acerca-dl {
+  display: block !important;
+  grid-template-columns: none !important;
+  gap: 0 !important;
   margin: 0;
   padding: 0;
   border-top: 1px solid rgba(35, 55, 44, 0.12);
 }
 
-.pp-pdp__acerca-dl > div {
+.pp-pdp__accordion-content .pp-pdp__acerca-dl > div,
+dl.pp-pdp__acerca-dl > div {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
@@ -689,7 +693,8 @@
   border-bottom: 1px solid rgba(35, 55, 44, 0.08);
 }
 
-.pp-pdp__acerca-dl dt {
+.pp-pdp__accordion-content .pp-pdp__acerca-dl dt,
+dl.pp-pdp__acerca-dl dt {
   flex: 0 0 auto;
   font-size: 12px;
   font-weight: 700;
@@ -700,7 +705,8 @@
   margin: 0;
 }
 
-.pp-pdp__acerca-dl dd {
+.pp-pdp__accordion-content .pp-pdp__acerca-dl dd,
+dl.pp-pdp__acerca-dl dd {
   flex: 1 1 auto;
   margin: 0;
   font-size: 14px;
@@ -709,7 +715,8 @@
   color: var(--pp-dark-green);
 }
 
-.pp-pdp__acerca-dl dd.pp-pdp__acerca-tags {
+.pp-pdp__accordion-content .pp-pdp__acerca-dl dd.pp-pdp__acerca-tags,
+dl.pp-pdp__acerca-dl dd.pp-pdp__acerca-tags {
   justify-content: flex-end;
 }
 
