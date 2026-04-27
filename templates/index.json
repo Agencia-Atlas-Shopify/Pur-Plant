@@ -249,7 +249,7 @@
             "width_desktop": 1,
             "height": "auto",
             "video": "shopify://files/videos/fiesta-primavera.mp4",
-            "video_url": "/pages/fiesta-primavera",
+            "video_url": "shopify://collections/fiesta-primavera",
             "title": "",
             "subtitle": "",
             "button_text": "",
