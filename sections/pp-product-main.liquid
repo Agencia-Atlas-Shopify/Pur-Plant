@@ -122,38 +122,75 @@
           {%- when 'accordion' -%}
             {%- liquid
               assign mf_key = block.settings.metafield_key
+              assign cs = block.settings.content_source
+
+              # Detect if product is planta or maceta — walk coleccion_padre up to root
+              assign root_handle = ''
+              assign anchor_for_root = product.metafields.custom.coleccion_principal.value
+              if anchor_for_root != blank
+                assign walk_root = anchor_for_root
+                for i in (1..6)
+                  assign parent_root = walk_root.metafields.custom.coleccion_padre.value
+                  if parent_root != blank
+                    assign walk_root = parent_root
+                  else
+                    break
+                  endif
+                endfor
+                assign root_handle = walk_root.handle
+              endif
+              assign is_planta = false
+              assign is_maceta = false
+              if root_handle == 'plantas-de-interior' or root_handle == 'plantas-de-exterior'
+                assign is_planta = true
+              endif
+              if root_handle == 'macetas'
+                assign is_maceta = true
+              endif
+
+              # Compute has_content for current source
+              assign has_content = false
+              if cs == 'description' and product.description != blank
+                assign has_content = true
+              elsif cs == 'descripcion_corta' and product.metafields.custom.descripcion_corta != blank
+                assign has_content = true
+              elsif cs == 'metafield' and product.metafields.custom[mf_key] != blank
+                assign has_content = true
+              elsif cs == 'custom' and block.settings.custom_content != blank
+                assign has_content = true
+              elsif cs == 'medidas'
+                if product.metafields.custom.altura_cm != blank or product.metafields.custom.diametro_maceta_cm != blank
+                  assign has_content = true
+                endif
+              endif
+
+              # Video also counts as content
+              if block.settings.video_url != blank
+                assign has_content = true
+              endif
+
+              # Medidas restricted: only plantas + macetas
+              assign show_block = has_content
+              if cs == 'medidas' and is_planta == false and is_maceta == false
+                assign show_block = false
+              endif
             -%}
+            {%- if show_block -%}
               <details class="pp-pdp__accordion"{% if block.settings.open_by_default %} open{% endif %} {{ block.shopify_attributes }}>
                 <summary class="pp-pdp__accordion-header">
                   <span>{{ block.settings.heading }}</span>
                   <span class="pp-pdp__accordion-icon">+</span>
                 </summary>
                 <div class="pp-pdp__accordion-content">
-                  {%- case block.settings.content_source -%}
+                  {%- case cs -%}
                     {%- when 'description' -%}
-                      {%- if product.description != blank -%}
-                        {{ product.description }}
-                      {%- else -%}
-                        <p>Descripción del producto pendiente de rellenar.</p>
-                      {%- endif -%}
+                      {{ product.description }}
                     {%- when 'descripcion_corta' -%}
-                      {%- if product.metafields.custom.descripcion_corta != blank -%}
-                        {{ product.metafields.custom.descripcion_corta | strip_html }}
-                      {%- else -%}
-                        <p>Descripción corta pendiente de rellenar.</p>
-                      {%- endif -%}
+                      {{ product.metafields.custom.descripcion_corta | strip_html }}
                     {%- when 'metafield' -%}
-                      {%- if product.metafields.custom[mf_key] != blank -%}
-                        {{ product.metafields.custom[mf_key] | metafield_tag }}
-                      {%- else -%}
-                        <p>Información pendiente de rellenar.</p>
-                      {%- endif -%}
+                      {{ product.metafields.custom[mf_key] | metafield_tag }}
                     {%- when 'custom' -%}
-                      {%- if block.settings.custom_content != blank -%}
-                        {{ block.settings.custom_content }}
-                      {%- else -%}
-                        <p>Contenido personalizable desde el editor del tema.</p>
-                      {%- endif -%}
+                      {{ block.settings.custom_content }}
                     {%- when 'medidas' -%}
                       <ul class="pp-pdp__medidas-list">
                         {%- if product.metafields.custom.altura_cm != blank -%}
@@ -165,10 +202,6 @@
                           {%- assign diam_val = product.metafields.custom.diametro_maceta_cm | plus: 0 -%}
                           {%- assign diam_int = diam_val | floor -%}
                           <li>Diámetro: {% if diam_val == diam_int %}{{ diam_int }}{% else %}{{ diam_val }}{% endif %} cm</li>
-                        {%- endif -%}
-                        {%- if product.metafields.custom.altura_cm == blank and product.metafields.custom.diametro_maceta_cm == blank -%}
-                          <li>Altura aproximada: 35cm</li>
-                          <li>Diámetro: 12cm</li>
                         {%- endif -%}
                       </ul>
                   {%- endcase -%}
@@ -197,6 +230,7 @@
                   {%- endif -%}
                 </div>
               </details>
+            {%- endif -%}
         {%- endcase -%}
       {%- endfor -%}
       {%- if care_icons_open -%}
