@@ -810,9 +810,9 @@
         {%- endif -%}
       {%- endfor -%}
 
-      {%- comment -%} Volume Discount cards (debajo del add to cart) {%- endcomment -%}
+      {%- comment -%} Volume Discount cards (debajo del add to cart). Oculto si precio <= 1€ {%- endcomment -%}
       {%- for block in section.blocks -%}
-        {%- if block.type == 'volume_discount' -%}
+        {%- if block.type == 'volume_discount' and current_variant.price > 100 -%}
           {%- liquid
             assign base = current_variant.price
             assign t1_pct = block.settings.tier1_pct | plus: 0

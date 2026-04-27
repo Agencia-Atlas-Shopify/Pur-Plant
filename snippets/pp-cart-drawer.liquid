@@ -1100,18 +1100,38 @@
       });
   });
 
-  // Remove applied discount
+  // Remove applied discount.
+  // Shopify no expone endpoint AJAX directo para borrar un discount aplicado.
+  // Trick: aplicar código dummy inexistente que reemplaza al válido (Shopify lo rechaza
+  // silenciosamente y deja el cart sin discount). + refrescar cart drawer.
   document.addEventListener('click', function(e){
     var btn = e.target.closest('[data-pp-remove-discount]');
     if (!btn) return;
     e.preventDefault();
-    // Clear by visiting /discount/ with empty — Shopify uses /discount/clear? actually there's
-    // no official clear endpoint; setting discount to "" via update doesn't work either.
-    // Workaround: POST /cart/update.js with discount field null — not supported. Instead reload
-    // via /discount/___ (unknown code) which replaces current. Simplest: redirect to checkout_url/reset.
-    // Use fetch('/cart/clear.js') NOT acceptable (removes items). So we send /checkout?discount= with no redirect:
-    fetch('/discount/', { credentials:'same-origin' }).finally(function(){
-      window.ppRefreshCartDrawer({ open: true });
+    btn.setAttribute('disabled', 'disabled');
+    var dummyCode = '__pp_clear_' + Date.now() + '__';
+    // Visit /discount/<dummy> in background — replaces active discount with invalid one.
+    fetch('/discount/' + encodeURIComponent(dummyCode), {
+      credentials: 'same-origin',
+      redirect: 'manual',
+    })
+    .catch(function(){})
+    .finally(function(){
+      // Then update cart so totals re-render without discount line
+      fetch('/cart/update.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ discount: '' }),
+      })
+      .catch(function(){})
+      .finally(function(){
+        if (typeof window.ppRefreshCartDrawer === 'function') {
+          window.ppRefreshCartDrawer({ open: true });
+        } else {
+          window.location.reload();
+        }
+      });
     });
   });
 
