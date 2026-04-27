@@ -642,8 +642,9 @@
   gap: 14px;
 }
 
+.pp-pdp__accordion-content .pp-pdp__acerca-puntos,
 .pp-pdp__acerca-puntos {
-  list-style: none;
+  list-style: none !important;
   margin: 0;
   padding: 0;
   display: flex;
@@ -651,11 +652,13 @@
   gap: 6px;
 }
 
+.pp-pdp__accordion-content .pp-pdp__acerca-puntos li,
 .pp-pdp__acerca-puntos li {
   position: relative;
   padding-left: 20px;
   line-height: 1.55;
   margin: 0;
+  list-style: none !important;
 }
 
 .pp-pdp__acerca-puntos li::before {
