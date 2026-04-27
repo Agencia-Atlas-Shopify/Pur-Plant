@@ -674,35 +674,43 @@
 }
 
 .pp-pdp__acerca-dl {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 10px 0;
+  display: block;
   margin: 0;
-  padding: 12px 0 0;
+  padding: 0;
   border-top: 1px solid rgba(35, 55, 44, 0.12);
 }
 
 .pp-pdp__acerca-dl > div {
-  display: grid;
-  grid-template-columns: 130px 1fr;
-  gap: 12px;
+  display: flex;
   align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(35, 55, 44, 0.08);
 }
 
 .pp-pdp__acerca-dl dt {
+  flex: 0 0 auto;
   font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--pp-dark-green);
-  opacity: 1;
+  opacity: 0.7;
   margin: 0;
 }
 
 .pp-pdp__acerca-dl dd {
+  flex: 1 1 auto;
   margin: 0;
   font-size: 14px;
   line-height: 1.5;
+  text-align: right;
+  color: var(--pp-dark-green);
+}
+
+.pp-pdp__acerca-dl dd.pp-pdp__acerca-tags {
+  justify-content: flex-end;
 }
 
 .pp-pdp__acerca-tags {
@@ -724,10 +732,6 @@
 }
 
 @media (max-width: 600px) {
-  .pp-pdp__acerca-dl > div {
-    grid-template-columns: 1fr;
-    gap: 2px;
-  }
   .pp-pdp__acerca-dl dt {
     font-size: 11px;
   }
@@ -1290,14 +1294,31 @@
    ========================================================================== */
 
 @media screen and (max-width: 749px) {
+  /* Full-bleed gallery: PDP starts at viewport top, header overlays. Body padding zeroed for product template */
+  body.template-product main#MainContent,
+  body.template-product main.content-for-layout {
+    padding-top: 0 !important;
+  }
+
   .pp-pdp {
-    padding: var(--pp-header-height, 60px) var(--page-margin, 20px) 0;
+    padding: 0;
+  }
+
+  /* Restore side margins for non-gallery content */
+  .pp-pdp__breadcrumb,
+  .pp-pdp__grid {
+    padding-left: var(--page-margin, 20px);
+    padding-right: var(--page-margin, 20px);
   }
 
   .pp-pdp__breadcrumb {
-    padding: 0;
     margin-bottom: 12px;
     font-size: 11px;
+  }
+
+  /* Breadcrumb sits below the gallery (gallery is order:1) */
+  .pp-pdp__breadcrumb {
+    order: 99;
   }
 
   /* Single column layout — order: gallery, right-info, left-info */
@@ -1328,15 +1349,17 @@
     position: static;
   }
 
-  /* Gallery: horizontal swipe, no thumbnails */
+  /* Gallery: full-bleed (100vw), horizontal swipe, no thumbnails. Passes behind sticky header */
   .pp-pdp__gallery {
     display: block;
-    width: 100%;
-    max-width: 100%;
+    width: 100vw;
+    max-width: 100vw;
     min-width: 0;
     height: auto;
     margin-top: 0;
-    padding-top: 20px;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    padding: 0;
     overflow: hidden;
     position: relative;
     box-sizing: border-box;
@@ -1365,16 +1388,15 @@
     display: none;
   }
 
-  /* Each slide is exactly the visible width of its parent grid cell, with a fixed
-     4/5 aspect ratio so the image inside is bounded regardless of its native size. */
+  /* Full-bleed slide: 100vw + 4/5 aspect, no border-radius (edge-to-edge) */
   .pp-pdp__main-image {
-    flex: 0 0 100% !important;
-    width: 100% !important;
-    max-width: 100%;
+    flex: 0 0 100vw !important;
+    width: 100vw !important;
+    max-width: 100vw;
     height: auto;
     aspect-ratio: 4 / 5;
     scroll-snap-align: start;
-    border-radius: var(--pp-radius-sm);
+    border-radius: 0;
     overflow: hidden;
     position: relative;
   }
