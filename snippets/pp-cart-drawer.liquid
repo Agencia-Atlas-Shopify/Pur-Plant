@@ -186,14 +186,27 @@
 
           {%- comment -%} Footer / Summary {%- endcomment -%}
           <div class="pp-cart-drawer__footer">
-            {%- comment -%} Applied discount pills {%- endcomment -%}
-            {%- if cart.cart_level_discount_applications.size > 0 or cart.discount_applications.size > 0 -%}
+            {%- comment -%} Applied discount pills — codes only (no automatic) {%- endcomment -%}
+            {%- assign shown_codes = '' -%}
+            {%- assign has_codes = false -%}
+            {%- for disc in cart.discount_applications -%}
+              {%- if disc.type == 'discount_code' and disc.title != blank -%}
+                {%- assign has_codes = true -%}
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+            {%- if has_codes -%}
               <div class="pp-cart-drawer__discounts-applied" data-pp-discounts-applied>
-                {%- for disc in cart.cart_level_discount_applications -%}
-                  <span class="pp-cart-drawer__discount-pill" data-discount-code="{{ disc.title }}">
-                    {{ disc.title }}
-                    <button type="button" data-pp-remove-discount="{{ disc.title }}" aria-label="Eliminar">×</button>
-                  </span>
+                {%- for disc in cart.discount_applications -%}
+                  {%- if disc.type == 'discount_code' and disc.title != blank -%}
+                    {%- unless shown_codes contains disc.title -%}
+                      {%- assign shown_codes = shown_codes | append: '|' | append: disc.title -%}
+                      <span class="pp-cart-drawer__discount-pill" data-discount-code="{{ disc.title }}">
+                        {{ disc.title }}
+                        <button type="button" data-pp-remove-discount="{{ disc.title }}" aria-label="Eliminar código">×</button>
+                      </span>
+                    {%- endunless -%}
+                  {%- endif -%}
                 {%- endfor -%}
               </div>
             {%- endif -%}
