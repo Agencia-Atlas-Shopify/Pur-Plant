@@ -801,9 +801,9 @@
         {%- endif -%}
       {%- endfor -%}
 
-      {%- comment -%} App blocks (Planet Discounts, Judge.me, etc.). Oculto si variant.price <= 1€ {%- endcomment -%}
+      {%- comment -%} App blocks (Planet Discounts, Judge.me, etc.) {%- endcomment -%}
       {%- for block in section.blocks -%}
-        {%- if block.type == '@app' and current_variant.price > 100 -%}
+        {%- if block.type == '@app' -%}
           <div class="pp-pdp__app-block" {{ block.shopify_attributes }}>
             {% render block %}
           </div>
@@ -922,6 +922,36 @@
   window.ppLimitUnder1 = {{ settings.pp_limit_under_1_enabled | json }};
 </script>
 <script src="{{ 'pp-product-main.js' | asset_url }}" type="module" defer></script>
+
+<script>
+  /* Hide Planet Volume Discount widget when current variant price <= 1€.
+     The widget renders client-side after page load — observe DOM until it appears, then evaluate. */
+  (function () {
+    function getCurrentVariantPrice() {
+      var btn = document.querySelector('.pp-pdp__add-to-cart-btn[data-variant-id]');
+      var vid = btn ? parseInt(btn.dataset.variantId, 10) : window.ppCurrentVariantId;
+      var v = (window.ppProductVariants || []).find(function (x) { return x.id === vid; });
+      return v ? v.price : null;
+    }
+    function evaluateAndHide() {
+      var price = getCurrentVariantPrice();
+      if (price == null) return;
+      var hide = price <= 100;
+      document.querySelectorAll('volume-discount-product-selector').forEach(function (el) {
+        var wrap = el.closest('.pp-pdp__app-block') || el.closest('.shopify-app-block') || el;
+        wrap.style.display = hide ? 'none' : '';
+      });
+    }
+    // Initial pass after load + observer for late-rendered widget
+    evaluateAndHide();
+    var mo = new MutationObserver(function () { evaluateAndHide(); });
+    mo.observe(document.body, { childList: true, subtree: true });
+    // Re-evaluate on variant change (price may change between variants)
+    document.addEventListener('click', function (e) {
+      if (e.target.closest('.pp-pdp__variant-btn')) setTimeout(evaluateAndHide, 50);
+    });
+  })();
+</script>
 
 <script>
   /* Mobile floating ATC — show when the main buy button leaves the viewport */
