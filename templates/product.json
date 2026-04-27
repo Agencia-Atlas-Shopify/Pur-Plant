@@ -93,8 +93,8 @@
           "type": "accordion",
           "settings": {
             "heading": "ACERCA DE",
-            "content_source": "custom",
-            "custom_content": "<p>{{ product.metafields.custom.punto_1.value }}{{ product.metafields.custom.punto_2.value }}{{ product.metafields.custom.punto_3.value }}{{ product.metafields.custom.punto_4.value }}{{ product.metafields.custom.punto_5.value }}{{ product.metafields.custom.pasaporte_fitosanitario.value }}</p>{{ product.metafields.custom.familia | metafield_tag }}{{ product.metafields.custom.tipo_planta | metafield_tag }}",
+            "content_source": "acerca_planta_auto",
+            "custom_content": "",
             "metafield_key": "",
             "video_url": "",
             "open_by_default": false
