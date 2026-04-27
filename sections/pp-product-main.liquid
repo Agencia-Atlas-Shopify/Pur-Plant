@@ -162,6 +162,10 @@
                 if product.metafields.custom.altura_cm != blank or product.metafields.custom.diametro_maceta_cm != blank
                   assign has_content = true
                 endif
+              elsif cs == 'acerca_planta_auto'
+                if product.metafields.custom.punto_1 != blank or product.metafields.custom.punto_2 != blank or product.metafields.custom.punto_3 != blank or product.metafields.custom.punto_4 != blank or product.metafields.custom.punto_5 != blank or product.metafields.custom.familia != blank or product.metafields.custom.tipo_planta != blank or product.metafields.custom.pasaporte_fitosanitario != blank or product.metafields.custom.nombre_cientifico != blank
+                  assign has_content = true
+                endif
               endif
 
               # Video also counts as content
@@ -191,6 +195,42 @@
                       {{ product.metafields.custom[mf_key] | metafield_tag }}
                     {%- when 'custom' -%}
                       {{ block.settings.custom_content }}
+                    {%- when 'acerca_planta_auto' -%}
+                      <div class="pp-pdp__acerca">
+                        {%- assign has_puntos = false -%}
+                        {%- if product.metafields.custom.punto_1 != blank or product.metafields.custom.punto_2 != blank or product.metafields.custom.punto_3 != blank or product.metafields.custom.punto_4 != blank or product.metafields.custom.punto_5 != blank -%}
+                          {%- assign has_puntos = true -%}
+                        {%- endif -%}
+                        {%- if has_puntos -%}
+                          <ul class="pp-pdp__acerca-puntos">
+                            {%- for i in (1..5) -%}
+                              {%- assign pkey = 'punto_' | append: i -%}
+                              {%- assign pval = product.metafields.custom[pkey] -%}
+                              {%- if pval != blank -%}<li>{{ pval }}</li>{%- endif -%}
+                            {%- endfor -%}
+                          </ul>
+                        {%- endif -%}
+                        <dl class="pp-pdp__acerca-dl">
+                          {%- if product.metafields.custom.nombre_cientifico != blank -%}
+                            <div><dt>Nombre científico</dt><dd><em>{{ product.metafields.custom.nombre_cientifico }}</em></dd></div>
+                          {%- endif -%}
+                          {%- if product.metafields.custom.familia != blank -%}
+                            <div><dt>Familia</dt><dd>
+                              {%- assign fam_list = product.metafields.custom.familia.value -%}
+                              {%- for f in fam_list -%}{{ f }}{%- unless forloop.last %}, {% endunless -%}{%- endfor -%}
+                            </dd></div>
+                          {%- endif -%}
+                          {%- if product.metafields.custom.tipo_planta != blank -%}
+                            <div><dt>Características</dt><dd class="pp-pdp__acerca-tags">
+                              {%- assign tipo_list = product.metafields.custom.tipo_planta.value -%}
+                              {%- for t in tipo_list -%}<span class="pp-pdp__acerca-tag">{{ t }}</span>{%- endfor -%}
+                            </dd></div>
+                          {%- endif -%}
+                          {%- if product.metafields.custom.pasaporte_fitosanitario != blank -%}
+                            <div><dt>Pasaporte fitosanitario</dt><dd>{{ product.metafields.custom.pasaporte_fitosanitario }}</dd></div>
+                          {%- endif -%}
+                        </dl>
+                      </div>
                     {%- when 'medidas' -%}
                       <ul class="pp-pdp__medidas-list">
                         {%- if product.metafields.custom.altura_cm != blank -%}
@@ -1221,7 +1261,8 @@
             { "value": "description", "label": "Product description" },
             { "value": "descripcion_corta", "label": "Descripción corta (sin HTML)" },
             { "value": "metafield", "label": "Metafield" },
-            { "value": "medidas", "label": "Medidas (auto from metafields)" }
+            { "value": "medidas", "label": "Medidas (auto from metafields)" },
+            { "value": "acerca_planta_auto", "label": "Acerca de — auto (plantas)" }
           ],
           "default": "custom"
         },
