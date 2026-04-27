@@ -801,9 +801,9 @@
         {%- endif -%}
       {%- endfor -%}
 
-      {%- comment -%} App blocks (Planet Discounts, Judge.me, etc.) {%- endcomment -%}
+      {%- comment -%} App blocks (Planet Discounts, Judge.me, etc.). Oculto si variant.price <= 1€ {%- endcomment -%}
       {%- for block in section.blocks -%}
-        {%- if block.type == '@app' -%}
+        {%- if block.type == '@app' and current_variant.price > 100 -%}
           <div class="pp-pdp__app-block" {{ block.shopify_attributes }}>
             {% render block %}
           </div>
