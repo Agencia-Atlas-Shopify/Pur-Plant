@@ -1364,7 +1364,7 @@
       "name": "t:names.hero_marquee",
       "settings": {
         "media_type_1": "image",
-        "image_1": "shopify://shop_images/green_monday_foto_caja.jpg",
+        "image_1": "shopify://shop_images/green_monday_caja_con_plantas_1.jpg",
         "video_1": "shopify://files/videos/cake tarta aniversario.mp4",
         "media_type_2": "image",
         "stack_media_on_mobile": false,
