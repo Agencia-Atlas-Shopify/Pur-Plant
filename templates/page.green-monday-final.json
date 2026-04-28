@@ -138,6 +138,7 @@
         "custom_liquid_X4yHrN",
         "group_ENwJMi"
       ],
+      "disabled": true,
       "custom_css": [
         ".page-plant-days .hero-section {margin-top: calc(-1 * var(--header-height));}"
       ],
@@ -249,11 +250,35 @@
             "gap": 24
           },
           "blocks": {
+            "image_kX6KBy": {
+              "type": "image",
+              "name": "t:names.image",
+              "settings": {
+                "image": "shopify://shop_images/Logo-Principal-e1771413588153-1024x521.png",
+                "link": "",
+                "image_ratio": "adapt",
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
             "jumbo_text_BDBeRk": {
               "type": "jumbo-text",
               "name": "t:names.jumbo_text",
+              "disabled": true,
               "settings": {
-                "text": "REGALAMOS PLANTAS\nMUCHAS PLANTAS",
+                "text": "GREEN MONDAY",
                 "font": "accent",
                 "alignment": "left",
                 "line_height": "0.8",
@@ -289,6 +314,7 @@
             }
           },
           "block_order": [
+            "image_kX6KBy",
             "jumbo_text_BDBeRk",
             "image_MMaxJf"
           ]
