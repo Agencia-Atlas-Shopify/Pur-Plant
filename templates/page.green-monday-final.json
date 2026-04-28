@@ -254,6 +254,7 @@
         "ai_gen_block_60e1314_Y6iQBg",
         "jumbo_text_AeYhjP"
       ],
+      "disabled": true,
       "settings": {
         "content_direction": "column",
         "vertical_on_mobile": true,
@@ -310,9 +311,9 @@
             "link": "",
             "image_ratio": "square",
             "width": "custom",
-            "custom_width": 34,
+            "custom_width": 23,
             "width_mobile": "custom",
-            "custom_width_mobile": 32,
+            "custom_width_mobile": 21,
             "height": "fit",
             "border": "none",
             "border_width": 1,
@@ -369,7 +370,7 @@
               "name": "t:names.heading",
               "settings": {
                 "text": "<h2><strong>PLANTAS POR MENOS DE de 1€, 5€, 10€ y 20€</strong></h2>",
-                "width": "fit-content",
+                "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
                 "type_preset": "h3",
@@ -464,7 +465,7 @@
         "description": "",
         "end_date": "2026-05-04",
         "end_time": "23:59",
-        "hide_on_end": false,
+        "hide_on_end": true,
         "show_progress_bar": true,
         "days_label": "DÍAS",
         "hours_label": "H",
@@ -512,7 +513,7 @@
       "name": "PP Featured Grid",
       "settings": {
         "title": "Plantas por menos de 1€",
-        "view_all_text": "",
+        "view_all_text": "*Solo se permite",
         "view_all_link": "",
         "collection": "plantas-por-menos-1",
         "max_products": 20,
@@ -1042,7 +1043,7 @@
         "section_width": "full-width",
         "extend_media": true,
         "color_scheme": "scheme-1",
-        "padding-block-start": 0,
+        "padding-block-start": 100,
         "padding-block-end": 0
       }
     },
