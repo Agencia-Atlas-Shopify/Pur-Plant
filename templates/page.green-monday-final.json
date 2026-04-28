@@ -248,35 +248,11 @@
             "animation_repeat": false
           },
           "blocks": {}
-        },
-        "image_Ma7crC": {
-          "type": "image",
-          "name": "t:names.image",
-          "settings": {
-            "image": "shopify://shop_images/GREEN-MONDAY-IMAGO_368bbd51-dd31-4cb3-bef2-6afb1995c1e1.png",
-            "link": "",
-            "image_ratio": "square",
-            "width": "custom",
-            "custom_width": 10,
-            "width_mobile": "custom",
-            "custom_width_mobile": 19,
-            "height": "fit",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
         }
       },
       "block_order": [
         "ai_gen_block_60e1314_Y6iQBg",
-        "jumbo_text_AeYhjP",
-        "image_Ma7crC"
+        "jumbo_text_AeYhjP"
       ],
       "settings": {
         "content_direction": "column",
@@ -308,6 +284,7 @@
     },
     "pp_richtext_WD38gA": {
       "type": "pp-richtext",
+      "disabled": true,
       "name": "PP Rich Text",
       "settings": {
         "content": "<p>SOLO HOY</p><p><strong>PLANTAS POR MENOS DE de 1€, 5€, 10€ y 20€</strong></p><p>SIN COLAS Y DESDE CASA</p><p>STOCK LIMITADO</p>",
@@ -321,6 +298,161 @@
         "padding_top": 20,
         "padding_bottom": 20,
         "padding_inline": 24
+      }
+    },
+    "section_AztMVj": {
+      "type": "section",
+      "blocks": {
+        "image_hrmneG": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/GREEN-MONDAY-IMAGO_368bbd51-dd31-4cb3-bef2-6afb1995c1e1.png",
+            "link": "",
+            "image_ratio": "square",
+            "width": "custom",
+            "custom_width": 34,
+            "width_mobile": "custom",
+            "custom_width_mobile": 32,
+            "height": "fit",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "group_khh4pj": {
+          "type": "group",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "width": "custom",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "text_L6kWjg": {
+              "type": "text",
+              "name": "t:names.heading",
+              "settings": {
+                "text": "<h2><strong>PLANTAS POR MENOS DE de 1€, 5€, 10€ y 20€</strong></h2>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "h3",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "text_dnmjjy": {
+              "type": "text",
+              "settings": {
+                "text": "<p>SOLO HOY</p><p>STOCK LIMITADO</p><p>SIN COLAS Y DESDE CASA</p>",
+                "width": "fit-content",
+                "max_width": "narrow",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_L6kWjg",
+            "text_dnmjjy"
+          ]
+        }
+      },
+      "block_order": [
+        "image_hrmneG",
+        "group_khh4pj"
+      ],
+      "name": "t:names.image_with_text",
+      "settings": {
+        "content_direction": "row",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 32,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 40,
+        "padding-block-end": 40
       }
     },
     "pp_countdown_banner_Em43cQ": {
@@ -1455,6 +1587,7 @@
     "pp_richtext_i9QkTc",
     "blocks_XNjNWb",
     "pp_richtext_WD38gA",
+    "section_AztMVj",
     "pp_countdown_banner_Em43cQ",
     "pp_featured_grid_aEMy79",
     "pp_featured_grid_4V9fwj",
