@@ -145,6 +145,33 @@
         "padding-block-end": 0
       }
     },
+    "pp_countdown_banner_Em43cQ": {
+      "type": "pp-countdown-banner",
+      "name": "PP Countdown Banner",
+      "settings": {
+        "subheading": "",
+        "heading": "",
+        "description": "",
+        "end_date": "2026-05-04",
+        "end_time": "23:59",
+        "hide_on_end": true,
+        "show_progress_bar": true,
+        "days_label": "DÍAS",
+        "hours_label": "H",
+        "minutes_label": "MIN",
+        "seconds_label": "SEG",
+        "button_text": "",
+        "button_link": "",
+        "button_style": "normal",
+        "background_color": "#bcffdd",
+        "text_color": "#23372c",
+        "accent_color": "#23372c",
+        "button_background": "#ffffff",
+        "button_text_color": "#000000",
+        "padding_mobile": 32,
+        "padding_desktop": 48
+      }
+    },
     "1776951229102c0a24": {
       "type": "_blocks",
       "settings": {
@@ -268,33 +295,6 @@
         "padding_top": 20,
         "padding_bottom": 20,
         "padding_inline": 24
-      }
-    },
-    "pp_countdown_banner_Em43cQ": {
-      "type": "pp-countdown-banner",
-      "name": "PP Countdown Banner",
-      "settings": {
-        "subheading": "",
-        "heading": "",
-        "description": "",
-        "end_date": "2026-05-04",
-        "end_time": "23:59",
-        "hide_on_end": true,
-        "show_progress_bar": true,
-        "days_label": "DÍAS",
-        "hours_label": "H",
-        "minutes_label": "MIN",
-        "seconds_label": "SEG",
-        "button_text": "",
-        "button_link": "",
-        "button_style": "normal",
-        "background_color": "#bcffdd",
-        "text_color": "#23372c",
-        "accent_color": "#23372c",
-        "button_background": "#ffffff",
-        "button_text_color": "#000000",
-        "padding_mobile": 32,
-        "padding_desktop": 48
       }
     },
     "pp_featured_grid_aEMy79": {
@@ -1398,11 +1398,11 @@
   },
   "order": [
     "hero_39iATj",
+    "pp_countdown_banner_Em43cQ",
     "1776951229102c0a24",
     "pp_richtext_i9QkTc",
     "blocks_XNjNWb",
     "pp_richtext_WD38gA",
-    "pp_countdown_banner_Em43cQ",
     "pp_featured_grid_aEMy79",
     "pp_featured_grid_4V9fwj",
     "17773821671acbd4e0",
