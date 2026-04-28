@@ -124,29 +124,16 @@
               assign mf_key = block.settings.metafield_key
               assign cs = block.settings.content_source
 
-              # Detect if product is planta or maceta — walk coleccion_padre chain and match ANY level.
-              # Root suele ser "plantas" o "macetas"; las hijas son "plantas-interior"/"plantas-exterior" etc.
-              # Incluimos handles habituales del chain para no depender solo de root.
+              # Detect planta/maceta via product.type (campo nativo Shopify).
+              # Pur Plant convention: "PLANTAS" o "MACETAS" (uppercase).
+              assign type_lower = product.type | downcase
               assign is_planta = false
               assign is_maceta = false
-              assign anchor_for_root = product.metafields.custom.coleccion_principal.value
-              if anchor_for_root != blank
-                assign walk_root = anchor_for_root
-                for i in (1..6)
-                  assign hcheck = walk_root.handle
-                  if hcheck contains 'planta'
-                    assign is_planta = true
-                  endif
-                  if hcheck contains 'maceta'
-                    assign is_maceta = true
-                  endif
-                  assign parent_root = walk_root.metafields.custom.coleccion_padre.value
-                  if parent_root != blank
-                    assign walk_root = parent_root
-                  else
-                    break
-                  endif
-                endfor
+              if type_lower contains 'planta'
+                assign is_planta = true
+              endif
+              if type_lower contains 'maceta'
+                assign is_maceta = true
               endif
 
               # Compute has_content for current source
