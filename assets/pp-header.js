@@ -41,7 +41,7 @@ class PPHeaderHeightObserver extends HTMLElement {
           const isPDP = document.body.classList.contains('template-product');
           const main = document.querySelector('main#MainContent, main.content-for-layout');
           const firstSection = main?.querySelector(':scope > .shopify-section:first-child');
-          const hasHero = firstSection?.querySelector('.pp-hero-slider, .pp-no-header-offset, [data-transparent-header], .pp-about__hero, video, [data-hero], .pp-lookbook__hero');
+          const hasHero = firstSection?.querySelector('.pp-hero-slider, .pp-no-header-offset, [data-transparent-header], .pp-about__hero, video, [data-hero], .pp-lookbook__hero, .hero');
           if (isPDP || hasHero) {
             this.style.minHeight = '';
           } else {
@@ -581,10 +581,21 @@ document.addEventListener('shopify:section:load', initMegamenuSliders);
 
 (function initTransparentHeaderOffset() {
   function updateOffset() {
-    const header = document.querySelector('.pp-header--transparent');
+    const headerEl = document.querySelector('.pp-header');
     const main = document.querySelector('main#MainContent, main.content-for-layout');
+    if (!headerEl || !main) return;
 
-    if (!header || !main) {
+    // Auto-promote header to transparent if first section opts in via [data-transparent-header]
+    // (pp-hero-slider sets this when its enable_transparent_header setting is on).
+    // This avoids needing the cliente to also flip the global pp-header transparent_header setting.
+    const firstSection = main.querySelector(':scope > .shopify-section:first-child');
+    const heroOptsIn = firstSection?.querySelector('[data-transparent-header], .pp-hero-slider, .pp-no-header-offset, .hero');
+    if (heroOptsIn && !headerEl.classList.contains('pp-header--transparent')) {
+      headerEl.classList.add('pp-header--transparent', 'pp-header--transparent-auto');
+    }
+
+    const header = document.querySelector('.pp-header--transparent');
+    if (!header) {
       document.body.classList.remove('pp-transparent-header-active', 'pp-transparent-header-needs-offset');
       return;
     }
@@ -593,8 +604,7 @@ document.addEventListener('shopify:section:load', initMegamenuSliders);
     document.body.classList.add('pp-transparent-header-active');
 
     // Check if first section is a hero that should NOT have offset
-    const firstSection = main.querySelector(':scope > .shopify-section:first-child');
-    const hasHero = firstSection?.querySelector('.pp-hero-slider, .pp-no-header-offset');
+    const hasHero = firstSection?.querySelector('.pp-hero-slider, .pp-no-header-offset, [data-transparent-header], .hero');
 
     if (hasHero) {
       document.body.classList.remove('pp-transparent-header-needs-offset');

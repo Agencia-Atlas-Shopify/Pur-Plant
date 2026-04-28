@@ -31,7 +31,7 @@
 
 <pp-hero-slider
   id="RC-HeroSlider-{{ section.id }}"
-  class="pp-hero-slider{% if section.settings.enable_transparent_header %} rc-no-header-offset{% endif %}"
+  class="pp-hero-slider{% if section.settings.enable_transparent_header %} pp-no-header-offset rc-no-header-offset{% endif %}"
   {% if section.settings.autoplay and section.settings.autoplay_speed > 0 %}
     data-autoplay="{{ section.settings.autoplay_speed | times: 1000 }}"
   {% endif %}
