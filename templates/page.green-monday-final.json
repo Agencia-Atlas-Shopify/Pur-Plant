@@ -618,7 +618,7 @@
         "title": "Plantas por menos de 10€",
         "view_all_text": "",
         "view_all_link": "",
-        "collection": "plantas-10-euros",
+        "collection": "gm-plantas-por-menos-10",
         "max_products": 20,
         "image_ratio": "portrait-tall",
         "products_per_row_mobile": 2,
