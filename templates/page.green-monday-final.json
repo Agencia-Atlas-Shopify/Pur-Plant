@@ -727,7 +727,7 @@
         "button_wbrrbm": {
           "type": "button",
           "settings": {
-            "label": "",
+            "label": "Ver más plantas",
             "link": "shopify://collections/plantas",
             "open_in_new_tab": false,
             "style_class": "button",
