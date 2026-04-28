@@ -992,25 +992,6 @@
         "padding-block-end": 0
       }
     },
-    "pp_brand_banner_wyeWPw": {
-      "type": "pp-brand-banner",
-      "name": "PP Planta Semana Banner",
-      "settings": {
-        "heading": "PLANTA DE TEMPORADA ¡AL 50%!",
-        "subheading": "",
-        "button_label": "LA QUIERO",
-        "button_link": "shopify://products/philodendron-brasil",
-        "video_url": "",
-        "image": "shopify://shop_images/philodendron-brasil-contexto-1-819x1024_bd3a03b7-24e2-4b7d-b875-42404c4ddd20.jpg",
-        "image_position": "right",
-        "image_overflow": 48,
-        "video_max_width": 400,
-        "bg_color": "#23372c",
-        "text_color": "#daffd3",
-        "padding_top": 60,
-        "padding_bottom": 60
-      }
-    },
     "blocks_cMfTPy": {
       "type": "_blocks",
       "blocks": {
@@ -1220,54 +1201,12 @@
               "block_order": [
                 "text_nVCAYk"
               ]
-            },
-            "accordion_row_6MD4MY": {
-              "type": "_accordion-row",
-              "name": "t:names.accordion_row",
-              "settings": {
-                "heading": "¿CUÁNDO FINALIZAN LOS PLANT DAYS?",
-                "open_by_default": false,
-                "icon": "none",
-                "width": 20
-              },
-              "blocks": {
-                "text_MTxtiY": {
-                  "type": "text",
-                  "name": "t:names.text",
-                  "settings": {
-                    "text": "<p>Los Plant Days y los cupones se desactivarán el viernes 8/05/2026 a las 23.59h ¡Y hasta el año que viene!</p>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "text_MTxtiY"
-              ]
             }
           },
           "block_order": [
             "accordion_row_RBFjEX",
             "accordion_row_r9j4j8",
-            "accordion_row_ym7dnJ",
-            "accordion_row_6MD4MY"
+            "accordion_row_ym7dnJ"
           ]
         }
       },
@@ -1321,7 +1260,6 @@
     "hero_PbQyTM",
     "collection_list_H4PkiH",
     "blocks_VzgEUX",
-    "pp_brand_banner_wyeWPw",
     "blocks_cMfTPy",
     "section_m9F7Ch"
   ]
