@@ -5,20 +5,37 @@
 
 {%- comment -%} Apply transparent-header-offset class BEFORE main paints to avoid layout shift.
     We set it optimistically; pp-header.js removes it later if there's a hero. {%- endcomment -%}
-{%- if section.settings.transparent_header -%}
 <script>
   (function(){
-    var add = function(){
-      document.body.classList.add('pp-transparent-header-active', 'pp-transparent-header-needs-offset');
-    };
-    if (document.body) add();
-    else {
-      var obs = new MutationObserver(function(){ if (document.body) { add(); obs.disconnect(); } });
-      obs.observe(document.documentElement, { childList:true, subtree:true });
+    var HERO_SEL = '[data-transparent-header], .pp-hero-slider, .pp-no-header-offset, .hero, [data-hero], video';
+    function applyClasses(){
+      document.body.classList.add('pp-transparent-header-active');
+      var main = document.querySelector('main#MainContent, main.content-for-layout');
+      var firstSec = main ? main.querySelector(':scope > .shopify-section:first-child') : null;
+      var hasHero = firstSec && firstSec.querySelector(HERO_SEL);
+      if (!hasHero) document.body.classList.add('pp-transparent-header-needs-offset');
+    }
+    function start(){
+      var main = document.querySelector('main#MainContent, main.content-for-layout');
+      if (main && main.firstElementChild) { applyClasses(); return true; }
+      return false;
+    }
+    if (!start()) {
+      var obs = new MutationObserver(function(){ if (start()) obs.disconnect(); });
+      if (document.body) obs.observe(document.body, { childList:true, subtree:true });
+      else {
+        var docObs = new MutationObserver(function(){
+          if (document.body) {
+            obs.observe(document.body, { childList:true, subtree:true });
+            docObs.disconnect();
+            start();
+          }
+        });
+        docObs.observe(document.documentElement, { childList:true, subtree:true });
+      }
     }
   })();
 </script>
-{%- endif -%}
 {%- comment -%} Inline critical CSS: hide FOUC panels + pre-apply transparent-header offset to avoid layout shift {%- endcomment -%}
 <style>
   .pp-search, .pp-search__banner, .pp-search__backdrop, [data-pp-megamenu], .pp-cart-drawer__dialog:not([open]) {
@@ -27,18 +44,11 @@
   .pp-search[aria-hidden="false"], .pp-search__banner.is-visible, .pp-search__backdrop.is-open {
     display: block !important;
   }
-  {%- if section.settings.transparent_header and template.name != 'index' -%}
-  /* Unconditional padding for non-home pages — avoids JS-delayed class add causing shift */
-  main#MainContent,
-  main.content-for-layout {
-    padding-top: var(--pp-header-height, 120px);
-  }
-  {%- else -%}
+  /* Padding solo si needs-offset (no hay hero al top). pp-header.js gestiona la clase tras detectar primera sección hero */
   body.pp-transparent-header-needs-offset main#MainContent,
   body.pp-transparent-header-needs-offset main.content-for-layout {
     padding-top: var(--pp-header-height, 120px);
   }
-  {%- endif -%}
 </style>
 {%- comment -%} Load header CSS async — critical header rules are already inlined in theme.liquid {%- endcomment -%}
 <link rel="preload" href="{{ 'pp-header.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
