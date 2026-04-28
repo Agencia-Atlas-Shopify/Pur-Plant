@@ -434,77 +434,6 @@
         "padding-block-end": 0
       }
     },
-    "pp_collection_nav_bB3YJy": {
-      "type": "pp-collection-nav",
-      "blocks": {
-        "collection_link_iwez3L": {
-          "type": "collection_link",
-          "settings": {
-            "label": "Interior",
-            "url": ""
-          }
-        },
-        "collection_link_NkXbAi": {
-          "type": "collection_link",
-          "settings": {
-            "label": "Exterior",
-            "url": ""
-          }
-        },
-        "collection_link_4UtnwJ": {
-          "type": "collection_link",
-          "settings": {
-            "label": "Cuidados",
-            "url": ""
-          }
-        },
-        "collection_link_aFL8ei": {
-          "type": "collection_link",
-          "settings": {
-            "label": "Macetas",
-            "url": ""
-          }
-        },
-        "collection_link_gL94em": {
-          "type": "collection_link",
-          "settings": {
-            "label": "Accesorios",
-            "url": ""
-          }
-        },
-        "collection_link_PrFQLq": {
-          "type": "collection_link",
-          "settings": {
-            "label": "Autorriegos",
-            "url": ""
-          }
-        },
-        "collection_link_nCjAdc": {
-          "type": "collection_link",
-          "settings": {
-            "label": "Abonos",
-            "url": ""
-          }
-        }
-      },
-      "block_order": [
-        "collection_link_iwez3L",
-        "collection_link_NkXbAi",
-        "collection_link_4UtnwJ",
-        "collection_link_aFL8ei",
-        "collection_link_gL94em",
-        "collection_link_PrFQLq",
-        "collection_link_nCjAdc"
-      ],
-      "name": "PP Collection Nav",
-      "settings": {
-        "title": "MUST",
-        "view_all_text": "Ver todo",
-        "view_all_url": "",
-        "padding_top": 24,
-        "padding_bottom": 16
-      }
-    },
     "pp_featured_grid_aEMy79": {
       "type": "pp-featured-grid",
       "blocks": {
@@ -1261,7 +1190,6 @@
     "blocks_XNjNWb",
     "pp_richtext_WD38gA",
     "blocks_MLGrbh",
-    "pp_collection_nav_bB3YJy",
     "pp_featured_grid_aEMy79",
     "blocks_yrPTJH",
     "hero_PbQyTM",
