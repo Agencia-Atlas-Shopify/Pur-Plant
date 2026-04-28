@@ -424,33 +424,12 @@
         "banner_nzBmt9": {
           "type": "banner",
           "settings": {
-            "position": 18,
+            "position": 7,
             "width_mobile": 1,
             "width_tablet": 1,
             "width_desktop": 1,
-            "height": "portrait",
-            "image": "shopify://shop_images/PLANT_DAYS_PUR_PLANT.jpg",
-            "title": "",
-            "subtitle": "",
-            "button_text": "",
-            "button_link": "",
-            "link": "",
-            "content_position": "bottom-left",
-            "text_color": "#ffffff",
-            "overlay_color": "#000000",
-            "overlay_opacity": 0
-          }
-        },
-        "video_block_FAg4kT": {
-          "type": "video_block",
-          "settings": {
-            "position": 5,
-            "width_mobile": 1,
-            "width_tablet": 1,
-            "width_desktop": 1,
-            "height": "auto",
-            "video": "shopify://files/videos/PUR PLANT DAYS 6 ANIVERSARIO RECURSOS GRAFICOS (2).mp4",
-            "video_url": "/pages/fiesta-primavera",
+            "height": "square",
+            "image": "shopify://shop_images/GREEN_MONDAY_DESDE.jpg",
             "title": "",
             "subtitle": "",
             "button_text": "",
@@ -464,15 +443,14 @@
         }
       },
       "block_order": [
-        "banner_nzBmt9",
-        "video_block_FAg4kT"
+        "banner_nzBmt9"
       ],
       "name": "PP Featured Grid",
       "settings": {
         "title": "",
         "view_all_text": "",
         "view_all_link": "",
-        "collection": "top-ventas",
+        "collection": "plantas-5-euros",
         "max_products": 20,
         "image_ratio": "portrait-tall",
         "products_per_row_mobile": 2,
