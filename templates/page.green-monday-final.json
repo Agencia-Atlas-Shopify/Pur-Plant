@@ -1315,7 +1315,7 @@
                 "heading": "¿CUÁNDO ES EL GREEN MONDAY?",
                 "open_by_default": false,
                 "icon": "none",
-                "width": 20
+                "width": 50
               },
               "blocks": {
                 "text_rePUAy": {
@@ -1453,7 +1453,7 @@
         "section_width": "page-width",
         "section_height": "",
         "section_height_custom": 50,
-        "color_scheme": "scheme-1",
+        "color_scheme": "scheme-cfe6beb4-dfd6-48b6-b5e8-7a9747cd132c",
         "background_media": "none",
         "video_position": "cover",
         "background_image_position": "cover",
