@@ -159,7 +159,11 @@
               elsif cs == 'custom' and block.settings.custom_content != blank
                 assign has_content = true
               elsif cs == 'medidas'
-                if product.metafields.custom.altura_cm != blank or product.metafields.custom.diametro_maceta_cm != blank
+                # Para plantas/macetas siempre mostramos (con fallback si no hay metafields).
+                # Para otros, solo si hay datos reales.
+                if is_planta or is_maceta
+                  assign has_content = true
+                elsif product.metafields.custom.altura_cm != blank or product.metafields.custom.diametro_maceta_cm != blank
                   assign has_content = true
                 endif
               elsif cs == 'acerca_planta_auto'
@@ -242,6 +246,10 @@
                           {%- assign diam_val = product.metafields.custom.diametro_maceta_cm | plus: 0 -%}
                           {%- assign diam_int = diam_val | floor -%}
                           <li>Diámetro: {% if diam_val == diam_int %}{{ diam_int }}{% else %}{{ diam_val }}{% endif %} cm</li>
+                        {%- endif -%}
+                        {%- if product.metafields.custom.altura_cm == blank and product.metafields.custom.diametro_maceta_cm == blank -%}
+                          <li>Altura aproximada: 35 cm</li>
+                          <li>Diámetro: 12 cm</li>
                         {%- endif -%}
                       </ul>
                   {%- endcase -%}
