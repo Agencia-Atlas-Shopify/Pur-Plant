@@ -67,17 +67,6 @@
             "open_by_default": false
           }
         },
-        "accordion_cuidados": {
-          "type": "accordion",
-          "settings": {
-            "heading": "CUIDADOS",
-            "content_source": "metafield",
-            "custom_content": "",
-            "metafield_key": "cuidados",
-            "video_url": "",
-            "open_by_default": false
-          }
-        },
         "accordion_medidas": {
           "type": "accordion",
           "settings": {
@@ -85,6 +74,17 @@
             "content_source": "medidas",
             "custom_content": "",
             "metafield_key": "",
+            "video_url": "",
+            "open_by_default": false
+          }
+        },
+        "accordion_cuidados": {
+          "type": "accordion",
+          "settings": {
+            "heading": "CUIDADOS",
+            "content_source": "metafield",
+            "custom_content": "",
+            "metafield_key": "cuidados",
             "video_url": "",
             "open_by_default": false
           }
@@ -164,8 +164,8 @@
         "care_nivel",
         "accordion_detalles",
         "accordion_descripcion",
-        "accordion_cuidados",
         "accordion_medidas",
+        "accordion_cuidados",
         "accordion_about",
         "accordion_envios",
         "variants",
