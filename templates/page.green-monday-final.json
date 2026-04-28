@@ -627,7 +627,7 @@
         "gap_mobile": 10,
         "gap_tablet": 16,
         "gap_desktop": 20,
-        "padding_top": 20,
+        "padding_top": 40,
         "padding_bottom": 40
       }
     },
