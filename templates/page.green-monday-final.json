@@ -512,8 +512,30 @@
     "pp_featured_grid_6ijcMA": {
       "type": "pp-featured-grid",
       "blocks": {
+        "video_block_h3UffW": {
+          "type": "video_block",
+          "settings": {
+            "position": 5,
+            "width_mobile": 1,
+            "width_tablet": 1,
+            "width_desktop": 1,
+            "height": "portrait",
+            "video": "shopify://files/videos/unboxing pur plant.mp4",
+            "video_url": "",
+            "title": "",
+            "subtitle": "",
+            "button_text": "",
+            "button_link": "",
+            "link": "",
+            "content_position": "bottom-left",
+            "text_color": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
         "banner_Bct4WJ": {
           "type": "banner",
+          "disabled": true,
           "settings": {
             "position": 7,
             "width_mobile": 1,
@@ -534,14 +556,15 @@
         }
       },
       "block_order": [
+        "video_block_h3UffW",
         "banner_Bct4WJ"
       ],
       "name": "PP Featured Grid",
       "settings": {
-        "title": "Plantas por menos de 1€",
+        "title": "Plantas por menos de 10€",
         "view_all_text": "",
         "view_all_link": "",
-        "collection": "plantas-5-euros",
+        "collection": "plantas-10-euros",
         "max_products": 20,
         "image_ratio": "portrait-tall",
         "products_per_row_mobile": 2,
@@ -559,6 +582,7 @@
       "blocks": {
         "banner_6HKeba": {
           "type": "banner",
+          "disabled": true,
           "settings": {
             "position": 7,
             "width_mobile": 1,
@@ -583,10 +607,10 @@
       ],
       "name": "PP Featured Grid",
       "settings": {
-        "title": "Plantas por menos de 1€",
+        "title": "Plantas por menos de 20€",
         "view_all_text": "",
         "view_all_link": "",
-        "collection": "plantas-5-euros",
+        "collection": "plantas-20-euros",
         "max_products": 20,
         "image_ratio": "portrait-tall",
         "products_per_row_mobile": 2,
