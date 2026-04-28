@@ -72,8 +72,8 @@
           "settings": {
             "heading": "MEDIDAS",
             "content_source": "custom",
-            "custom_content": "<p>{{ product.metafields.custom.altura_cm.value }}{{ product.metafields.custom.diametro_maceta_cm.value }}</p>",
-            "metafield_key": "",
+            "custom_content": "",
+            "metafield_key": "{{ product.metafields.custom.altura_cm.value }}{{ product.metafields.custom.diametro_maceta_cm.value }}",
             "video_url": "",
             "open_by_default": false
           }
