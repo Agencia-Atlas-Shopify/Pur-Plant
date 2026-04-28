@@ -84,7 +84,7 @@
           "type": "jumbo-text",
           "name": "t:names.jumbo_text",
           "settings": {
-            "text": "GREEN MONDAY EL GRAN MERCADO DE PLANTAS",
+            "text": "EL GRAN MERCADO DE PLANTAS",
             "font": "subheading",
             "alignment": "left",
             "line_height": "0.8",
