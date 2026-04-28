@@ -1144,7 +1144,7 @@
             "accordion_row_r9j4j8": {
               "type": "_accordion-row",
               "settings": {
-                "heading": "¿QUÉ PLANTA RECIBIRÉ DE REGALO?",
+                "heading": "¿CUÁNDO ACABA EL GREEN MONDAY?",
                 "open_by_default": false,
                 "icon": "none",
                 "width": 20
@@ -1153,7 +1153,7 @@
                 "text_BF9jw8": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>No podemos  desvelar el tipo de planta, pero prometemos que te va a enamorar.</p>",
+                    "text": "<p>El primer lunes de cada mes, se celebra nuestro clásico Gran Mercado de Plantas, y tan solo dura 24h o hasta agotar existencias. Generalmente, la oferta finaliza a las 23.59 p.m</p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
