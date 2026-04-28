@@ -823,7 +823,7 @@
         "title": "Plantas por menos de 20€",
         "view_all_text": "",
         "view_all_link": "",
-        "collection": "plantas-20-euros",
+        "collection": "gm-plantas-por-menos-20",
         "max_products": 20,
         "image_ratio": "portrait-tall",
         "products_per_row_mobile": 2,
