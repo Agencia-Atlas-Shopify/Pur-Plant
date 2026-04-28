@@ -447,7 +447,7 @@
       ],
       "name": "PP Featured Grid",
       "settings": {
-        "title": "",
+        "title": "Plantas por menos de 1€",
         "view_all_text": "",
         "view_all_link": "",
         "collection": "plantas-5-euros",
@@ -459,7 +459,143 @@
         "gap_mobile": 10,
         "gap_tablet": 16,
         "gap_desktop": 20,
-        "padding_top": 0,
+        "padding_top": 20,
+        "padding_bottom": 40
+      }
+    },
+    "pp_featured_grid_4V9fwj": {
+      "type": "pp-featured-grid",
+      "blocks": {
+        "banner_zYTALG": {
+          "type": "banner",
+          "disabled": true,
+          "settings": {
+            "position": 7,
+            "width_mobile": 1,
+            "width_tablet": 1,
+            "width_desktop": 1,
+            "height": "square",
+            "image": "shopify://shop_images/GREEN_MONDAY_DESDE.jpg",
+            "title": "",
+            "subtitle": "",
+            "button_text": "",
+            "button_link": "",
+            "link": "",
+            "content_position": "bottom-left",
+            "text_color": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        }
+      },
+      "block_order": [
+        "banner_zYTALG"
+      ],
+      "name": "PP Featured Grid",
+      "settings": {
+        "title": "Plantas por menos de 5€",
+        "view_all_text": "",
+        "view_all_link": "",
+        "collection": "plantas-5-euros",
+        "max_products": 20,
+        "image_ratio": "portrait-tall",
+        "products_per_row_mobile": 2,
+        "products_per_row_tablet": 3,
+        "products_per_row_desktop": 4,
+        "gap_mobile": 10,
+        "gap_tablet": 16,
+        "gap_desktop": 20,
+        "padding_top": 20,
+        "padding_bottom": 40
+      }
+    },
+    "pp_featured_grid_6ijcMA": {
+      "type": "pp-featured-grid",
+      "blocks": {
+        "banner_Bct4WJ": {
+          "type": "banner",
+          "settings": {
+            "position": 7,
+            "width_mobile": 1,
+            "width_tablet": 1,
+            "width_desktop": 1,
+            "height": "square",
+            "image": "shopify://shop_images/GREEN_MONDAY_DESDE.jpg",
+            "title": "",
+            "subtitle": "",
+            "button_text": "",
+            "button_link": "",
+            "link": "",
+            "content_position": "bottom-left",
+            "text_color": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        }
+      },
+      "block_order": [
+        "banner_Bct4WJ"
+      ],
+      "name": "PP Featured Grid",
+      "settings": {
+        "title": "Plantas por menos de 1€",
+        "view_all_text": "",
+        "view_all_link": "",
+        "collection": "plantas-5-euros",
+        "max_products": 20,
+        "image_ratio": "portrait-tall",
+        "products_per_row_mobile": 2,
+        "products_per_row_tablet": 3,
+        "products_per_row_desktop": 4,
+        "gap_mobile": 10,
+        "gap_tablet": 16,
+        "gap_desktop": 20,
+        "padding_top": 20,
+        "padding_bottom": 40
+      }
+    },
+    "pp_featured_grid_dKDFVd": {
+      "type": "pp-featured-grid",
+      "blocks": {
+        "banner_6HKeba": {
+          "type": "banner",
+          "settings": {
+            "position": 7,
+            "width_mobile": 1,
+            "width_tablet": 1,
+            "width_desktop": 1,
+            "height": "square",
+            "image": "shopify://shop_images/GREEN_MONDAY_DESDE.jpg",
+            "title": "",
+            "subtitle": "",
+            "button_text": "",
+            "button_link": "",
+            "link": "",
+            "content_position": "bottom-left",
+            "text_color": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        }
+      },
+      "block_order": [
+        "banner_6HKeba"
+      ],
+      "name": "PP Featured Grid",
+      "settings": {
+        "title": "Plantas por menos de 1€",
+        "view_all_text": "",
+        "view_all_link": "",
+        "collection": "plantas-5-euros",
+        "max_products": 20,
+        "image_ratio": "portrait-tall",
+        "products_per_row_mobile": 2,
+        "products_per_row_tablet": 3,
+        "products_per_row_desktop": 4,
+        "gap_mobile": 10,
+        "gap_tablet": 16,
+        "gap_desktop": 20,
+        "padding_top": 20,
         "padding_bottom": 40
       }
     },
@@ -1153,6 +1289,9 @@
     "pp_richtext_WD38gA",
     "pp_countdown_banner_Em43cQ",
     "pp_featured_grid_aEMy79",
+    "pp_featured_grid_4V9fwj",
+    "pp_featured_grid_6ijcMA",
+    "pp_featured_grid_dKDFVd",
     "blocks_yrPTJH",
     "hero_PbQyTM",
     "collection_list_H4PkiH",
