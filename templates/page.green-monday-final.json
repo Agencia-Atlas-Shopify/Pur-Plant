@@ -12,27 +12,19 @@
     "hero_39iATj": {
       "type": "hero",
       "blocks": {
-        "custom_liquid_X4yHrN": {
-          "type": "custom-liquid",
-          "name": "t:names.custom_liquid",
-          "settings": {
-            "custom_liquid": "<style>\n@media (max-width: 749px) {\n  #shopify-block-template--29682782536012__hero_39iATj__group_ENwJMi__group_33XUq9__image_FEGdjx img {\n    width: 15% !important;\n    max-width: 15% !important;\n  }\n}\n</style>"
-          },
-          "blocks": {}
-        },
-        "group_ENwJMi": {
+        "group_hUWUTH": {
           "type": "group",
           "name": "t:names.group",
           "settings": {
-            "content_direction": "row",
+            "content_direction": "column",
             "vertical_on_mobile": true,
             "horizontal_alignment": "flex-start",
-            "vertical_alignment": "flex-end",
-            "align_baseline": true,
+            "vertical_alignment": "center",
+            "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 0,
-            "width": "fill",
+            "vertical_alignment_flex_direction_column": "flex-end",
+            "gap": 6,
+            "width": "fit-content",
             "custom_width": 100,
             "width_mobile": "fill",
             "custom_width_mobile": 100,
@@ -55,88 +47,67 @@
             "open_in_new_tab": false,
             "placeholder": "",
             "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
+            "padding-block-end": 20,
+            "padding-inline-start": 30,
             "padding-inline-end": 0
           },
           "blocks": {
-            "group_33XUq9": {
-              "type": "group",
-              "name": "t:names.group",
+            "image_FEGdjx": {
+              "type": "image",
+              "name": "t:names.image",
               "settings": {
-                "content_direction": "column",
-                "vertical_on_mobile": true,
-                "horizontal_alignment": "flex-start",
-                "vertical_alignment": "center",
-                "align_baseline": false,
-                "horizontal_alignment_flex_direction_column": "flex-start",
-                "vertical_alignment_flex_direction_column": "flex-end",
-                "gap": 6,
-                "width": "fit-content",
+                "image": "shopify://shop_images/GREEN-MONDAY-IMAGO_368bbd51-dd31-4cb3-bef2-6afb1995c1e1.png",
+                "link": "",
+                "image_ratio": "adapt",
+                "width": "custom",
                 "custom_width": 100,
-                "width_mobile": "fill",
-                "custom_width_mobile": 100,
-                "height": "fit",
-                "custom_height": 100,
-                "inherit_color_scheme": true,
-                "color_scheme": "",
-                "background_media": "none",
-                "video_position": "cover",
-                "background_image_position": "cover",
+                "width_mobile": "custom",
+                "custom_width_mobile": 32,
+                "height": "fill",
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
                 "border_radius": 0,
-                "toggle_overlay": false,
-                "overlay_color": "#00000026",
-                "overlay_style": "solid",
-                "gradient_direction": "to top",
-                "link": "",
-                "open_in_new_tab": false,
-                "placeholder": "",
                 "padding-block-start": 0,
-                "padding-block-end": 20,
-                "padding-inline-start": 30,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
-              "blocks": {
-                "image_FEGdjx": {
-                  "type": "image",
-                  "name": "t:names.image",
-                  "settings": {
-                    "image": "shopify://shop_images/GREEN-MONDAY-IMAGO_368bbd51-dd31-4cb3-bef2-6afb1995c1e1.png",
-                    "link": "",
-                    "image_ratio": "adapt",
-                    "width": "fill",
-                    "custom_width": 100,
-                    "width_mobile": "fill",
-                    "custom_width_mobile": 100,
-                    "height": "fill",
-                    "border": "none",
-                    "border_width": 1,
-                    "border_opacity": 100,
-                    "border_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "image_FEGdjx"
-              ]
+              "blocks": {}
             }
           },
           "block_order": [
-            "group_33XUq9"
+            "image_FEGdjx"
           ]
+        },
+        "jumbo_text_aKgYxV": {
+          "type": "jumbo-text",
+          "name": "t:names.jumbo_text",
+          "settings": {
+            "text": "GREEN MONDAY EL GRAN MERCADO DE PLANTAS",
+            "font": "subheading",
+            "alignment": "left",
+            "line_height": "0.8",
+            "letter_spacing": "-0.03em",
+            "case": "none",
+            "text_effect": "none",
+            "animation_repeat": false
+          },
+          "blocks": {}
+        },
+        "custom_liquid_X4yHrN": {
+          "type": "custom-liquid",
+          "name": "t:names.custom_liquid",
+          "settings": {
+            "custom_liquid": "<style>\n@media (max-width: 749px) {\n  #shopify-block-template--29682782536012__hero_39iATj__group_ENwJMi__group_33XUq9__image_FEGdjx img {\n    width: 15% !important;\n    max-width: 15% !important;\n  }\n}\n</style>"
+          },
+          "blocks": {}
         }
       },
       "block_order": [
-        "custom_liquid_X4yHrN",
-        "group_ENwJMi"
+        "group_hUWUTH",
+        "jumbo_text_aKgYxV",
+        "custom_liquid_X4yHrN"
       ],
       "custom_css": [
         ".page-plant-days .hero-section {margin-top: calc(-1 * var(--header-height));}"
