@@ -124,12 +124,22 @@
               assign mf_key = block.settings.metafield_key
               assign cs = block.settings.content_source
 
-              # Detect if product is planta or maceta — walk coleccion_padre up to root
-              assign root_handle = ''
+              # Detect if product is planta or maceta — walk coleccion_padre chain and match ANY level.
+              # Root suele ser "plantas" o "macetas"; las hijas son "plantas-interior"/"plantas-exterior" etc.
+              # Incluimos handles habituales del chain para no depender solo de root.
+              assign is_planta = false
+              assign is_maceta = false
               assign anchor_for_root = product.metafields.custom.coleccion_principal.value
               if anchor_for_root != blank
                 assign walk_root = anchor_for_root
                 for i in (1..6)
+                  assign hcheck = walk_root.handle
+                  if hcheck == 'plantas' or hcheck == 'plantas-de-interior' or hcheck == 'plantas-de-exterior' or hcheck == 'plantas-interior' or hcheck == 'plantas-exterior'
+                    assign is_planta = true
+                  endif
+                  if hcheck == 'macetas'
+                    assign is_maceta = true
+                  endif
                   assign parent_root = walk_root.metafields.custom.coleccion_padre.value
                   if parent_root != blank
                     assign walk_root = parent_root
@@ -137,15 +147,6 @@
                     break
                   endif
                 endfor
-                assign root_handle = walk_root.handle
-              endif
-              assign is_planta = false
-              assign is_maceta = false
-              if root_handle == 'plantas-de-interior' or root_handle == 'plantas-de-exterior'
-                assign is_planta = true
-              endif
-              if root_handle == 'macetas'
-                assign is_maceta = true
               endif
 
               # Compute has_content for current source
