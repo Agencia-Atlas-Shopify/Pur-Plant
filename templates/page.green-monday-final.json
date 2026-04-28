@@ -223,98 +223,6 @@
         "padding_inline": 24
       }
     },
-    "media_with_content_XUcxgN": {
-      "type": "media-with-content",
-      "blocks": {
-        "media": {
-          "type": "_media-without-appearance",
-          "static": true,
-          "settings": {
-            "media_type": "video",
-            "image": "shopify://shop_images/CUPONES-REGALO-PLANTAS-PLANT-DAYS.png",
-            "link": "",
-            "video": "shopify://files/videos/1-HOOK-FASE 1.mp4",
-            "video_loop": true,
-            "video_autoplay": true,
-            "image_position": "contain",
-            "video_position": "contain"
-          },
-          "blocks": {}
-        },
-        "content": {
-          "type": "_content-without-appearance",
-          "static": true,
-          "settings": {
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "flex-end",
-            "gap": 24
-          },
-          "blocks": {
-            "image_kX6KBy": {
-              "type": "image",
-              "name": "t:names.image",
-              "settings": {
-                "image": "shopify://shop_images/Logo-Principal-e1771413588153-1024x521.png",
-                "link": "",
-                "image_ratio": "adapt",
-                "width": "fill",
-                "custom_width": 100,
-                "width_mobile": "fill",
-                "custom_width_mobile": 100,
-                "height": "fit",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "image_MMaxJf": {
-              "type": "image",
-              "name": "t:names.image",
-              "settings": {
-                "image": "shopify://shop_images/green_monday_pur_plant_plantas_por_menos_1_euro_carros_1.png",
-                "link": "",
-                "image_ratio": "adapt",
-                "width": "fill",
-                "custom_width": 100,
-                "width_mobile": "fill",
-                "custom_width_mobile": 100,
-                "height": "fit",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "image_kX6KBy",
-            "image_MMaxJf"
-          ]
-        }
-      },
-      "name": "Regalamos Plantas Muchas Plantas",
-      "settings": {
-        "media_position": "right",
-        "media_width": "medium",
-        "media_height": "60svh",
-        "section_width": "full-width",
-        "extend_media": true,
-        "color_scheme": "scheme-1",
-        "padding-block-start": 0,
-        "padding-block-end": 0
-      }
-    },
     "blocks_XNjNWb": {
       "type": "_blocks",
       "blocks": {
@@ -340,11 +248,35 @@
             "animation_repeat": false
           },
           "blocks": {}
+        },
+        "image_Ma7crC": {
+          "type": "image",
+          "name": "t:names.image",
+          "settings": {
+            "image": "shopify://shop_images/GREEN-MONDAY-IMAGO_368bbd51-dd31-4cb3-bef2-6afb1995c1e1.png",
+            "link": "",
+            "image_ratio": "square",
+            "width": "custom",
+            "custom_width": 4,
+            "width_mobile": "custom",
+            "custom_width_mobile": 10,
+            "height": "fit",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
         }
       },
       "block_order": [
         "ai_gen_block_60e1314_Y6iQBg",
-        "jumbo_text_AeYhjP"
+        "jumbo_text_AeYhjP",
+        "image_Ma7crC"
       ],
       "settings": {
         "content_direction": "column",
@@ -890,6 +822,98 @@
         "padding-block-end": 0
       }
     },
+    "media_with_content_XUcxgN": {
+      "type": "media-with-content",
+      "blocks": {
+        "media": {
+          "type": "_media-without-appearance",
+          "static": true,
+          "settings": {
+            "media_type": "video",
+            "image": "shopify://shop_images/CUPONES-REGALO-PLANTAS-PLANT-DAYS.png",
+            "link": "",
+            "video": "shopify://files/videos/1-HOOK-FASE 1.mp4",
+            "video_loop": true,
+            "video_autoplay": true,
+            "image_position": "contain",
+            "video_position": "contain"
+          },
+          "blocks": {}
+        },
+        "content": {
+          "type": "_content-without-appearance",
+          "static": true,
+          "settings": {
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "flex-end",
+            "gap": 24
+          },
+          "blocks": {
+            "image_kX6KBy": {
+              "type": "image",
+              "name": "t:names.image",
+              "settings": {
+                "image": "shopify://shop_images/Logo-Principal-e1771413588153-1024x521.png",
+                "link": "",
+                "image_ratio": "adapt",
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "image_MMaxJf": {
+              "type": "image",
+              "name": "t:names.image",
+              "settings": {
+                "image": "shopify://shop_images/green_monday_pur_plant_plantas_por_menos_1_euro_carros_1.png",
+                "link": "",
+                "image_ratio": "adapt",
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "image_kX6KBy",
+            "image_MMaxJf"
+          ]
+        }
+      },
+      "name": "Regalamos Plantas Muchas Plantas",
+      "settings": {
+        "media_position": "right",
+        "media_width": "medium",
+        "media_height": "60svh",
+        "section_width": "full-width",
+        "extend_media": true,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
     "blocks_cMfTPy": {
       "type": "_blocks",
       "blocks": {
@@ -1429,7 +1453,6 @@
     "hero_39iATj",
     "1776951229102c0a24",
     "pp_richtext_i9QkTc",
-    "media_with_content_XUcxgN",
     "blocks_XNjNWb",
     "pp_richtext_WD38gA",
     "pp_countdown_banner_Em43cQ",
@@ -1443,6 +1466,7 @@
     "blocks_VzgEUX",
     "pp_featured_grid_dKDFVd",
     "blocks_9AjR7U",
+    "media_with_content_XUcxgN",
     "blocks_cMfTPy",
     "collection_list_H4PkiH",
     "section_m9F7Ch",
