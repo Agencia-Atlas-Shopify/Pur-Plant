@@ -273,27 +273,11 @@
               },
               "blocks": {}
             },
-            "jumbo_text_BDBeRk": {
-              "type": "jumbo-text",
-              "name": "t:names.jumbo_text",
-              "disabled": true,
-              "settings": {
-                "text": "GREEN MONDAY",
-                "font": "accent",
-                "alignment": "left",
-                "line_height": "0.8",
-                "letter_spacing": "-0.03em",
-                "case": "uppercase",
-                "text_effect": "none",
-                "animation_repeat": false
-              },
-              "blocks": {}
-            },
             "image_MMaxJf": {
               "type": "image",
               "name": "t:names.image",
               "settings": {
-                "image": "shopify://shop_images/green_monday_pur_plant_plantas_por_menos_1_euro_1.png",
+                "image": "shopify://shop_images/green_monday_pur_plant_plantas_por_menos_1_euro_carros_1.png",
                 "link": "",
                 "image_ratio": "adapt",
                 "width": "fill",
@@ -315,7 +299,6 @@
           },
           "block_order": [
             "image_kX6KBy",
-            "jumbo_text_BDBeRk",
             "image_MMaxJf"
           ]
         }
@@ -342,10 +325,26 @@
             "mobile_height": 30
           },
           "blocks": {}
+        },
+        "jumbo_text_AeYhjP": {
+          "type": "jumbo-text",
+          "name": "t:names.jumbo_text",
+          "settings": {
+            "text": "GREEN MONDAY",
+            "font": "accent",
+            "alignment": "left",
+            "line_height": "0.8",
+            "letter_spacing": "-0.03em",
+            "case": "uppercase",
+            "text_effect": "none",
+            "animation_repeat": false
+          },
+          "blocks": {}
         }
       },
       "block_order": [
-        "ai_gen_block_60e1314_Y6iQBg"
+        "ai_gen_block_60e1314_Y6iQBg",
+        "jumbo_text_AeYhjP"
       ],
       "settings": {
         "content_direction": "column",
@@ -359,7 +358,7 @@
         "section_width": "page-width",
         "section_height": "",
         "section_height_custom": 50,
-        "color_scheme": "",
+        "color_scheme": "scheme-cfe6beb4-dfd6-48b6-b5e8-7a9747cd132c",
         "background_media": "none",
         "video_position": "cover",
         "background_image_position": "cover",
@@ -379,7 +378,7 @@
       "type": "pp-richtext",
       "name": "PP Rich Text",
       "settings": {
-        "content": "<p><strong>Llena tu cesta de verde y recibe tu PLANTA REGALO al usar el cupón</strong></p>",
+        "content": "<p>SOLO HOY</p><p><strong>PLANTAS POR MENOS DE de 1€, 5€, 10€ y 20€</strong></p><p>SIN COLAS Y DESDE CASA</p><p>STOCK LIMITADO</p>",
         "font_size": 25,
         "font_weight": "400",
         "line_height": 16,
