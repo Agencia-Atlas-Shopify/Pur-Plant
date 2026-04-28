@@ -67,11 +67,11 @@
             "open_by_default": false
           }
         },
-        "accordion_medidas": {
+        "accordion_Ydciaa": {
           "type": "accordion",
           "settings": {
             "heading": "MEDIDAS",
-            "content_source": "medidas",
+            "content_source": "description",
             "custom_content": "<p>{{ product.metafields.custom.altura_cm.value }}{{ product.metafields.custom.diametro_maceta_cm.value }}</p>",
             "metafield_key": "",
             "video_url": "",
@@ -164,7 +164,7 @@
         "care_nivel",
         "accordion_detalles",
         "accordion_descripcion",
-        "accordion_medidas",
+        "accordion_Ydciaa",
         "accordion_cuidados",
         "accordion_about",
         "accordion_envios",
