@@ -1,0 +1,1248 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero_39iATj": {
+      "type": "hero",
+      "blocks": {
+        "custom_liquid_X4yHrN": {
+          "type": "custom-liquid",
+          "name": "t:names.custom_liquid",
+          "settings": {
+            "custom_liquid": "<style>\n@media (max-width: 749px) {\n  #shopify-block-template--29682782536012__hero_39iATj__group_ENwJMi__group_33XUq9__image_FEGdjx img {\n    width: 15% !important;\n    max-width: 15% !important;\n  }\n}\n</style>"
+          },
+          "blocks": {}
+        },
+        "group_ENwJMi": {
+          "type": "group",
+          "name": "t:names.group",
+          "settings": {
+            "content_direction": "row",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "flex-end",
+            "align_baseline": true,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 18,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "group_33XUq9": {
+              "type": "group",
+              "name": "t:names.group",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "flex-end",
+                "gap": 6,
+                "width": "fit-content",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
+                "padding-block-start": 0,
+                "padding-block-end": 20,
+                "padding-inline-start": 30,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "image_FEGdjx": {
+                  "type": "image",
+                  "name": "t:names.image",
+                  "settings": {
+                    "image": "shopify://shop_images/logo_pur_plant_days.png",
+                    "link": "",
+                    "image_ratio": "adapt",
+                    "width": "custom",
+                    "custom_width": 0,
+                    "width_mobile": "custom",
+                    "custom_width_mobile": 6,
+                    "height": "fit",
+                    "border": "none",
+                    "border_width": 1,
+                    "border_opacity": 100,
+                    "border_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 55
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "image_FEGdjx"
+              ]
+            }
+          },
+          "block_order": [
+            "group_33XUq9"
+          ]
+        }
+      },
+      "block_order": [
+        "custom_liquid_X4yHrN",
+        "group_ENwJMi"
+      ],
+      "custom_css": [
+        ".page-plant-days .hero-section {margin-top: calc(-1 * var(--header-height));}"
+      ],
+      "name": "HERO PLANT DAYS",
+      "settings": {
+        "media_type_1": "image",
+        "image_1": "shopify://shop_images/pur_plant_tarta_aniversario_194d4669-61fd-40dd-96b9-e33396e15171.jpg",
+        "media_type_2": "image",
+        "stack_media_on_mobile": false,
+        "custom_mobile_media": false,
+        "media_type_1_mobile": "image",
+        "media_type_2_mobile": "image",
+        "link": "",
+        "open_in_new_tab": false,
+        "content_direction": "row",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-end",
+        "vertical_alignment_flex_direction_column": "flex-end",
+        "gap": 16,
+        "section_width": "full-width",
+        "section_height": "medium",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-5",
+        "toggle_overlay": true,
+        "overlay_color": "#00000026",
+        "overlay_style": "gradient",
+        "gradient_direction": "to top",
+        "blurred_reflection": false,
+        "reflection_opacity": 75,
+        "padding-block-start": 40,
+        "padding-block-end": 40
+      }
+    },
+    "1776951229102c0a24": {
+      "type": "_blocks",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 23,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "pp_richtext_i9QkTc": {
+      "type": "pp-richtext",
+      "name": "PP Rich Text",
+      "settings": {
+        "content": "<p><strong>¡¡Celebramos nuestro 6 aniversario por todo lo alto!!🎉</strong></p>",
+        "font_size": 25,
+        "font_weight": "400",
+        "line_height": 16,
+        "text_align": "center",
+        "max_width": 640,
+        "bg_color": "#ffffff",
+        "text_color": "#23372c",
+        "padding_top": 40,
+        "padding_bottom": 20,
+        "padding_inline": 24
+      }
+    },
+    "media_with_content_XUcxgN": {
+      "type": "media-with-content",
+      "blocks": {
+        "media": {
+          "type": "_media-without-appearance",
+          "static": true,
+          "settings": {
+            "media_type": "video",
+            "image": "shopify://shop_images/CUPONES-REGALO-PLANTAS-PLANT-DAYS.png",
+            "link": "",
+            "video": "shopify://files/videos/REAL-PLANT DAYS.mp4",
+            "video_loop": true,
+            "video_autoplay": true,
+            "image_position": "contain",
+            "video_position": "contain"
+          },
+          "blocks": {}
+        },
+        "content": {
+          "type": "_content-without-appearance",
+          "static": true,
+          "settings": {
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "flex-end",
+            "gap": 24
+          },
+          "blocks": {
+            "jumbo_text_BDBeRk": {
+              "type": "jumbo-text",
+              "name": "t:names.jumbo_text",
+              "settings": {
+                "text": "REGALAMOS PLANTAS\nMUCHAS PLANTAS",
+                "font": "accent",
+                "alignment": "left",
+                "line_height": "0.8",
+                "letter_spacing": "-0.03em",
+                "case": "uppercase",
+                "text_effect": "none",
+                "animation_repeat": false
+              },
+              "blocks": {}
+            },
+            "image_MMaxJf": {
+              "type": "image",
+              "name": "t:names.image",
+              "settings": {
+                "image": "shopify://shop_images/plantas_regalo_plant_days.png",
+                "link": "",
+                "image_ratio": "adapt",
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "jumbo_text_BDBeRk",
+            "image_MMaxJf"
+          ]
+        }
+      },
+      "name": "Regalamos Plantas Muchas Plantas",
+      "settings": {
+        "media_position": "right",
+        "media_width": "medium",
+        "media_height": "60svh",
+        "section_width": "full-width",
+        "extend_media": true,
+        "color_scheme": "pp-green-dark",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "blocks_XNjNWb": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_60e1314_Y6iQBg": {
+          "type": "ai_gen_block_60e1314",
+          "settings": {
+            "desktop_height": 60,
+            "mobile_height": 30
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_60e1314_Y6iQBg"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 11,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "pp_richtext_WD38gA": {
+      "type": "pp-richtext",
+      "name": "PP Rich Text",
+      "settings": {
+        "content": "<p><strong>Llena tu cesta de verde y recibe tu PLANTA REGALO al usar el cupón</strong></p>",
+        "font_size": 25,
+        "font_weight": "400",
+        "line_height": 16,
+        "text_align": "center",
+        "max_width": 640,
+        "bg_color": "#ffffff",
+        "text_color": "#23372c",
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "padding_inline": 24
+      }
+    },
+    "blocks_MLGrbh": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_60e1314_qpDHq3": {
+          "type": "ai_gen_block_60e1314",
+          "settings": {
+            "desktop_height": 60,
+            "mobile_height": 30
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_60e1314_qpDHq3"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 11,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "pp_collection_nav_bB3YJy": {
+      "type": "pp-collection-nav",
+      "blocks": {
+        "collection_link_iwez3L": {
+          "type": "collection_link",
+          "settings": {
+            "label": "Interior",
+            "url": ""
+          }
+        },
+        "collection_link_NkXbAi": {
+          "type": "collection_link",
+          "settings": {
+            "label": "Exterior",
+            "url": ""
+          }
+        },
+        "collection_link_4UtnwJ": {
+          "type": "collection_link",
+          "settings": {
+            "label": "Cuidados",
+            "url": ""
+          }
+        },
+        "collection_link_aFL8ei": {
+          "type": "collection_link",
+          "settings": {
+            "label": "Macetas",
+            "url": ""
+          }
+        },
+        "collection_link_gL94em": {
+          "type": "collection_link",
+          "settings": {
+            "label": "Accesorios",
+            "url": ""
+          }
+        },
+        "collection_link_PrFQLq": {
+          "type": "collection_link",
+          "settings": {
+            "label": "Autorriegos",
+            "url": ""
+          }
+        },
+        "collection_link_nCjAdc": {
+          "type": "collection_link",
+          "settings": {
+            "label": "Abonos",
+            "url": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_link_iwez3L",
+        "collection_link_NkXbAi",
+        "collection_link_4UtnwJ",
+        "collection_link_aFL8ei",
+        "collection_link_gL94em",
+        "collection_link_PrFQLq",
+        "collection_link_nCjAdc"
+      ],
+      "name": "PP Collection Nav",
+      "settings": {
+        "title": "MUST",
+        "view_all_text": "Ver todo",
+        "view_all_url": "",
+        "padding_top": 24,
+        "padding_bottom": 16
+      }
+    },
+    "pp_featured_grid_aEMy79": {
+      "type": "pp-featured-grid",
+      "blocks": {
+        "banner_nzBmt9": {
+          "type": "banner",
+          "settings": {
+            "position": 18,
+            "width_mobile": 1,
+            "width_tablet": 1,
+            "width_desktop": 1,
+            "height": "portrait",
+            "image": "shopify://shop_images/PLANT_DAYS_PUR_PLANT.jpg",
+            "title": "",
+            "subtitle": "",
+            "button_text": "",
+            "button_link": "",
+            "link": "",
+            "content_position": "bottom-left",
+            "text_color": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "video_block_FAg4kT": {
+          "type": "video_block",
+          "settings": {
+            "position": 5,
+            "width_mobile": 1,
+            "width_tablet": 1,
+            "width_desktop": 1,
+            "height": "auto",
+            "video": "shopify://files/videos/PUR PLANT DAYS 6 ANIVERSARIO RECURSOS GRAFICOS (2).mp4",
+            "video_url": "/pages/fiesta-primavera",
+            "title": "",
+            "subtitle": "",
+            "button_text": "",
+            "button_link": "",
+            "link": "",
+            "content_position": "bottom-left",
+            "text_color": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        }
+      },
+      "block_order": [
+        "banner_nzBmt9",
+        "video_block_FAg4kT"
+      ],
+      "name": "PP Featured Grid",
+      "settings": {
+        "title": "",
+        "view_all_text": "",
+        "view_all_link": "",
+        "collection": "top-ventas",
+        "max_products": 20,
+        "image_ratio": "portrait-tall",
+        "products_per_row_mobile": 2,
+        "products_per_row_tablet": 3,
+        "products_per_row_desktop": 4,
+        "gap_mobile": 10,
+        "gap_tablet": 16,
+        "gap_desktop": 20,
+        "padding_top": 0,
+        "padding_bottom": 40
+      }
+    },
+    "blocks_yrPTJH": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_60e1314_4QLF6c": {
+          "type": "ai_gen_block_60e1314",
+          "settings": {
+            "desktop_height": 60,
+            "mobile_height": 30
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_60e1314_4QLF6c"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 11,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "hero_PbQyTM": {
+      "type": "hero",
+      "blocks": {
+        "spacer_yXD6Qz": {
+          "type": "spacer",
+          "settings": {
+            "size": "pixel",
+            "percent_size": 100,
+            "pixel_size": 24,
+            "custom_mobile_size": false,
+            "size_mobile": "percent",
+            "percent_size_mobile": 100,
+            "pixel_size_mobile": 120
+          },
+          "blocks": {}
+        },
+        "marquee_qn4Eqr": {
+          "type": "_marquee",
+          "settings": {
+            "movement_direction": "normal",
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "transparent_background": true,
+            "padding-block-start": 24,
+            "padding-block-end": 24,
+            "gap_between_elements": 24
+          },
+          "blocks": {
+            "text_gCzV9n": {
+              "type": "text",
+              "settings": {
+                "text": "<p><strong>Este Aniversario, Pur Plant invita.</strong></p>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "h1",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-primary)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_gCzV9n"
+          ]
+        },
+        "button_wbrrbm": {
+          "type": "button",
+          "settings": {
+            "label": "Comprar ahora",
+            "link": "shopify://collections/all",
+            "open_in_new_tab": false,
+            "style_class": "button",
+            "width": "fit-content",
+            "custom_width": 100,
+            "width_mobile": "fit-content",
+            "custom_width_mobile": 100
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "spacer_yXD6Qz",
+        "marquee_qn4Eqr",
+        "button_wbrrbm"
+      ],
+      "name": "t:names.hero_marquee",
+      "settings": {
+        "media_type_1": "video",
+        "video_1": "shopify://files/videos/cake tarta aniversario.mp4",
+        "media_type_2": "image",
+        "stack_media_on_mobile": false,
+        "custom_mobile_media": false,
+        "media_type_1_mobile": "image",
+        "media_type_2_mobile": "image",
+        "link": "",
+        "open_in_new_tab": false,
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 32,
+        "section_width": "page-width",
+        "section_height": "large",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-5",
+        "toggle_overlay": true,
+        "overlay_color": "#00000026",
+        "overlay_style": "gradient",
+        "gradient_direction": "to top",
+        "blurred_reflection": false,
+        "reflection_opacity": 75,
+        "padding-block-start": 0,
+        "padding-block-end": 40
+      }
+    },
+    "collection_list_H4PkiH": {
+      "type": "collection-list",
+      "blocks": {
+        "group_AP4MM8": {
+          "type": "group",
+          "name": "t:names.header",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "text_yK43qa": {
+              "type": "text",
+              "name": "t:names.text",
+              "settings": {
+                "text": "<h3><strong>Naturaleza que engancha</strong></h3>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 16,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_yK43qa"
+          ]
+        },
+        "static-collection-card": {
+          "type": "_collection-card",
+          "name": "t:names.collection_card",
+          "static": true,
+          "settings": {
+            "placement": "below_image",
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "collection_card_gap": 8,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0
+          },
+          "blocks": {
+            "collection_title_m7gUx8": {
+              "type": "collection-title",
+              "name": "t:names.collection_title",
+              "settings": {
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "collection-card-image": {
+              "type": "_collection-card-image",
+              "name": "t:names.collection_card_image",
+              "static": true,
+              "settings": {
+                "image_ratio": "adapt",
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "collection_title_m7gUx8"
+          ]
+        }
+      },
+      "block_order": [
+        "group_AP4MM8"
+      ],
+      "name": "t:names.collections_carousel",
+      "settings": {
+        "collection_list": [
+          "plantas",
+          "macetas-artesanales",
+          "cuidados",
+          "auto-riego",
+          "accesorios",
+          "jardin-eterno"
+        ],
+        "layout_type": "carousel",
+        "carousel_on_mobile": false,
+        "columns": 5,
+        "columns_laptop": 3,
+        "mobile_columns": "2",
+        "mobile_card_size": "60cqw",
+        "columns_gap": 8,
+        "bento_gap": 8,
+        "rows_gap": 8,
+        "max_collections": 4,
+        "icons_style": "arrow",
+        "icons_shape": "circle",
+        "section_width": "page-width",
+        "gap": 12,
+        "color_scheme": "",
+        "padding-block-start": 48,
+        "padding-block-end": 48
+      }
+    },
+    "blocks_VzgEUX": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_60e1314_CcJb4k": {
+          "type": "ai_gen_block_60e1314",
+          "settings": {
+            "desktop_height": 80,
+            "mobile_height": 30
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_60e1314_CcJb4k"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 11,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "pp_brand_banner_wyeWPw": {
+      "type": "pp-brand-banner",
+      "name": "PP Planta Semana Banner",
+      "settings": {
+        "heading": "PLANTA DE TEMPORADA ¡AL 50%!",
+        "subheading": "",
+        "button_label": "LA QUIERO",
+        "button_link": "shopify://products/philodendron-brasil",
+        "video_url": "",
+        "image": "shopify://shop_images/philodendron-brasil-contexto-1-819x1024_bd3a03b7-24e2-4b7d-b875-42404c4ddd20.jpg",
+        "image_position": "right",
+        "image_overflow": 48,
+        "video_max_width": 400,
+        "bg_color": "#23372c",
+        "text_color": "#daffd3",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "blocks_cMfTPy": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_60e1314_FFQ7Qx": {
+          "type": "ai_gen_block_60e1314",
+          "settings": {
+            "desktop_height": 80,
+            "mobile_height": 30
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_60e1314_FFQ7Qx"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 11,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "section_m9F7Ch": {
+      "type": "section",
+      "blocks": {
+        "text_RaF4aE": {
+          "type": "text",
+          "name": "t:names.heading",
+          "settings": {
+            "text": "<h3><strong>Preguntas frecuentes</strong></h3>",
+            "width": "fit-content",
+            "max_width": "narrow",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "accordion_YQPrNd": {
+          "type": "accordion",
+          "name": "t:names.accordion",
+          "settings": {
+            "icon": "plus",
+            "dividers": true,
+            "type_preset": "h5",
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "accordion_row_RBFjEX": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "¿CUÁNDO EMPIEZAN LOS PLANT DAYS?",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
+              },
+              "blocks": {
+                "text_rePUAy": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Los cupones de regalo de plantas de nuestro aniversario se activarán desde el martes 5/05/2026</p>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_rePUAy"
+              ]
+            },
+            "accordion_row_r9j4j8": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "¿QUÉ PLANTA RECIBIRÉ DE REGALO?",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
+              },
+              "blocks": {
+                "text_BF9jw8": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>No podemos  desvelar el tipo de planta, pero prometemos que te va a enamorar.</p>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_BF9jw8"
+              ]
+            },
+            "accordion_row_ym7dnJ": {
+              "type": "_accordion-row",
+              "name": "t:names.accordion_row",
+              "settings": {
+                "heading": "¿CÓMO PUEDO USAR EL CUPÓN?",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
+              },
+              "blocks": {
+                "text_nVCAYk": {
+                  "type": "text",
+                  "name": "t:names.text",
+                  "settings": {
+                    "text": "<p>Añade el importe minimo en la cesta, y usa el cupón equivalente en el carrito antes de finalizar compra. ¡Muy sencillo!</p>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_nVCAYk"
+              ]
+            },
+            "accordion_row_6MD4MY": {
+              "type": "_accordion-row",
+              "name": "t:names.accordion_row",
+              "settings": {
+                "heading": "¿CUÁNDO FINALIZAN LOS PLANT DAYS?",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
+              },
+              "blocks": {
+                "text_MTxtiY": {
+                  "type": "text",
+                  "name": "t:names.text",
+                  "settings": {
+                    "text": "<p>Los Plant Days y los cupones se desactivarán el viernes 8/05/2026 a las 23.59h ¡Y hasta el año que viene!</p>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_MTxtiY"
+              ]
+            }
+          },
+          "block_order": [
+            "accordion_row_RBFjEX",
+            "accordion_row_r9j4j8",
+            "accordion_row_ym7dnJ",
+            "accordion_row_6MD4MY"
+          ]
+        }
+      },
+      "block_order": [
+        "text_RaF4aE",
+        "accordion_YQPrNd"
+      ],
+      "name": "t:names.faq_section",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 32,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-1",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 48,
+        "padding-block-end": 48
+      }
+    }
+  },
+  "order": [
+    "hero_39iATj",
+    "1776951229102c0a24",
+    "pp_richtext_i9QkTc",
+    "media_with_content_XUcxgN",
+    "blocks_XNjNWb",
+    "pp_richtext_WD38gA",
+    "blocks_MLGrbh",
+    "pp_collection_nav_bB3YJy",
+    "pp_featured_grid_aEMy79",
+    "blocks_yrPTJH",
+    "hero_PbQyTM",
+    "collection_list_H4PkiH",
+    "blocks_VzgEUX",
+    "pp_brand_banner_wyeWPw",
+    "blocks_cMfTPy",
+    "section_m9F7Ch"
+  ]
+}
