@@ -134,10 +134,10 @@
                 assign walk_root = anchor_for_root
                 for i in (1..6)
                   assign hcheck = walk_root.handle
-                  if hcheck == 'plantas' or hcheck == 'plantas-de-interior' or hcheck == 'plantas-de-exterior' or hcheck == 'plantas-interior' or hcheck == 'plantas-exterior'
+                  if hcheck contains 'planta'
                     assign is_planta = true
                   endif
-                  if hcheck == 'macetas'
+                  if hcheck contains 'maceta'
                     assign is_maceta = true
                   endif
                   assign parent_root = walk_root.metafields.custom.coleccion_padre.value
