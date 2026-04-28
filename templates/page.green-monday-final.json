@@ -747,7 +747,7 @@
       "name": "t:names.hero_marquee",
       "settings": {
         "media_type_1": "image",
-        "image_1": "shopify://shop_images/green_monday_header.jpg",
+        "image_1": "shopify://shop_images/green-monday-foto-caja-1-1024x576.jpg",
         "video_1": "shopify://files/videos/cake tarta aniversario.mp4",
         "media_type_2": "image",
         "stack_media_on_mobile": false,
@@ -763,11 +763,11 @@
         "align_baseline": false,
         "horizontal_alignment_flex_direction_column": "center",
         "vertical_alignment_flex_direction_column": "center",
-        "gap": 32,
+        "gap": 15,
         "section_width": "page-width",
         "section_height": "large",
         "section_height_custom": 50,
-        "color_scheme": "scheme-5",
+        "color_scheme": "scheme-cfe6beb4-dfd6-48b6-b5e8-7a9747cd132c",
         "toggle_overlay": true,
         "overlay_color": "#00000026",
         "overlay_style": "gradient",
@@ -1105,7 +1105,7 @@
             "accordion_row_RBFjEX": {
               "type": "_accordion-row",
               "settings": {
-                "heading": "¿CUÁNDO EMPIEZAN LOS PLANT DAYS?",
+                "heading": "¿CUÁNDO ES EL GREEN MONDAY?",
                 "open_by_default": false,
                 "icon": "none",
                 "width": 20
