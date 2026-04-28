@@ -149,12 +149,6 @@ body.pp-mega-open .pp-header__inner {
   color: rgb(var(--pp-header-transparent-text));
 }
 
-/* Inner nav bar bg también transparente cuando header transparent y no scrolled/open/hover.
-   Sin esto, el inner mantiene bg verde opaco y oculta la imagen detrás. */
-.pp-header--transparent:not(.pp-header--scrolled):not(.pp-header--open):not(:hover) .pp-header__inner {
-  background-color: transparent;
-  box-shadow: none;
-}
 
 .pp-header--transparent.pp-header--sticky {
   position: fixed;
