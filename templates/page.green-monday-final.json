@@ -354,7 +354,7 @@
         "align_baseline": false,
         "horizontal_alignment_flex_direction_column": "flex-start",
         "vertical_alignment_flex_direction_column": "center",
-        "gap": 11,
+        "gap": 0,
         "section_width": "page-width",
         "section_height": "",
         "section_height_custom": 50,
@@ -432,6 +432,33 @@
         "gradient_direction": "to top",
         "padding-block-start": 0,
         "padding-block-end": 0
+      }
+    },
+    "pp_countdown_banner_Em43cQ": {
+      "type": "pp-countdown-banner",
+      "name": "PP Countdown Banner",
+      "settings": {
+        "subheading": "STOCK LIMITADO",
+        "heading": "GREEN MONDAY TERMINA EN",
+        "description": "",
+        "end_date": "2026-05-04",
+        "end_time": "23:59",
+        "hide_on_end": false,
+        "show_progress_bar": true,
+        "days_label": "DÍAS",
+        "hours_label": "H",
+        "minutes_label": "MIN",
+        "seconds_label": "SEG",
+        "button_text": "",
+        "button_link": "",
+        "button_style": "normal",
+        "background_color": "#bcffdd",
+        "text_color": "#23372c",
+        "accent_color": "#23372c",
+        "button_background": "#ffffff",
+        "button_text_color": "#000000",
+        "padding_mobile": 32,
+        "padding_desktop": 48
       }
     },
     "pp_featured_grid_aEMy79": {
@@ -1190,6 +1217,7 @@
     "blocks_XNjNWb",
     "pp_richtext_WD38gA",
     "blocks_MLGrbh",
+    "pp_countdown_banner_Em43cQ",
     "pp_featured_grid_aEMy79",
     "blocks_yrPTJH",
     "hero_PbQyTM",
