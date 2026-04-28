@@ -124,15 +124,23 @@
               assign mf_key = block.settings.metafield_key
               assign cs = block.settings.content_source
 
-              # Detect planta/maceta via product.type (campo nativo Shopify).
-              # Pur Plant convention: "PLANTAS" o "MACETAS" (uppercase).
+              # Detect planta/maceta via varias señales (OR).
+              # Suficiente con que UNA matchee — robusto si cliente olvida product.type.
               assign type_lower = product.type | downcase
               assign is_planta = false
               assign is_maceta = false
               if type_lower contains 'planta'
                 assign is_planta = true
+              elsif product.metafields.custom.nombre_cientifico != blank
+                assign is_planta = true
+              elsif product.metafields.custom.familia != blank
+                assign is_planta = true
+              elsif product.metafields.shopify['plant-name'] != blank
+                assign is_planta = true
               endif
               if type_lower contains 'maceta'
+                assign is_maceta = true
+              elsif product.metafields.custom.material != blank
                 assign is_maceta = true
               endif
 
