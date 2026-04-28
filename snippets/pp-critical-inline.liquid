@@ -17,12 +17,11 @@
     --pp-header-height: 120px;
   }
 
-  /* Pre-apply main padding on non-home/non-product templates with transparent header */
-  {%- if template.name != 'index' and template.name != 'product' -%}
-  main#MainContent, main.content-for-layout {
+  /* Pre-apply main padding solo si body tiene needs-offset (pp-header.liquid pre-paint script gestiona la clase). Antes era unconditional+!important y bloqueaba que hero pasara bajo header transparent en landings */
+  body.pp-transparent-header-needs-offset main#MainContent,
+  body.pp-transparent-header-needs-offset main.content-for-layout {
     padding-top: var(--pp-header-height, 120px) !important;
   }
-  {%- endif -%}
 
   /* Force font-display: swap on any Google / Shopify fonts loaded via
      third-party CSS so text paints immediately with the fallback instead
