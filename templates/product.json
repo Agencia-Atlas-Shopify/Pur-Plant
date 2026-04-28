@@ -67,17 +67,6 @@
             "open_by_default": false
           }
         },
-        "accordion_M3bNra": {
-          "type": "accordion",
-          "settings": {
-            "heading": "MEDIDAS",
-            "content_source": "custom",
-            "custom_content": "",
-            "metafield_key": "{{ product.metafields.custom.altura_cm.value }}{{ product.metafields.custom.diametro_maceta_cm.value }}",
-            "video_url": "",
-            "open_by_default": false
-          }
-        },
         "accordion_Ydciaa": {
           "type": "accordion",
           "settings": {
@@ -175,7 +164,6 @@
         "care_nivel",
         "accordion_detalles",
         "accordion_descripcion",
-        "accordion_M3bNra",
         "accordion_Ydciaa",
         "accordion_cuidados",
         "accordion_about",
