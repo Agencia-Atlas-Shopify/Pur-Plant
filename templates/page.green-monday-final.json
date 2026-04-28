@@ -1184,7 +1184,7 @@
               "type": "_accordion-row",
               "name": "t:names.accordion_row",
               "settings": {
-                "heading": "¿CÓMO PUEDO USAR EL CUPÓN?",
+                "heading": "¿PUEDO COMPRAR MÁS DE UNA PLANTA A 1€?",
                 "open_by_default": false,
                 "icon": "none",
                 "width": 20
@@ -1194,7 +1194,7 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<p>Añade el importe minimo en la cesta, y usa el cupón equivalente en el carrito antes de finalizar compra. ¡Muy sencillo!</p>",
+                    "text": "<p>Se pueden comprar varias plantas a 1 € pero solo se permite la compra de una planta por menos de 1€  de una única variedad por persona.</p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
