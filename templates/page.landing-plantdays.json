@@ -653,7 +653,7 @@
           "type": "button",
           "settings": {
             "label": "Comprar ahora",
-            "link": "shopify://collections/all",
+            "link": "shopify://collections/plantas",
             "open_in_new_tab": false,
             "style_class": "button",
             "width": "fit-content",
