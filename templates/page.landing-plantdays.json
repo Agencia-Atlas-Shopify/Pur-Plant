@@ -456,8 +456,8 @@
         "collection_link_nCjAdc": {
           "type": "collection_link",
           "settings": {
-            "label": "Abonos",
-            "url": "shopify://collections/fertilizantes-organicos"
+            "label": "Sustratos",
+            "url": "shopify://collections/sustratos"
           }
         }
       },
