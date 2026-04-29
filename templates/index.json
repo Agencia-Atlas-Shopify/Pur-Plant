@@ -610,6 +610,7 @@
         "marquee_nJidBH",
         "button_WdkjBK"
       ],
+      "disabled": true,
       "name": "HEADER-FOOTER-CAMPAÑAS",
       "settings": {
         "media_type_1": "image",
