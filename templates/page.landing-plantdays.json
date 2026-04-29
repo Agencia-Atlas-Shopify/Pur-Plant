@@ -429,21 +429,21 @@
           "type": "collection_link",
           "settings": {
             "label": "Cuidados",
-            "url": ""
+            "url": "shopify://collections/cuidados"
           }
         },
         "collection_link_aFL8ei": {
           "type": "collection_link",
           "settings": {
             "label": "Macetas",
-            "url": ""
+            "url": "shopify://collections/macetas-artesanales"
           }
         },
         "collection_link_gL94em": {
           "type": "collection_link",
           "settings": {
             "label": "Accesorios",
-            "url": ""
+            "url": "shopify://collections/accesorios"
           }
         },
         "collection_link_PrFQLq": {
