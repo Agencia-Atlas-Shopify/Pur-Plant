@@ -290,8 +290,8 @@
         "line_height": 16,
         "text_align": "center",
         "max_width": 640,
-        "bg_color": "#ffffff",
-        "text_color": "#23372c",
+        "bg_color": "#23372c",
+        "text_color": "#c3f6e3",
         "padding_top": 20,
         "padding_bottom": 20,
         "padding_inline": 24
@@ -304,7 +304,7 @@
           "type": "text",
           "name": "t:names.text",
           "settings": {
-            "text": "<p>PLANTAS POR MENOS DE 1€ <br/><br/></p>",
+            "text": "<p><strong>PLANTAS POR MENOS DE 1€ <br/><br/></strong></p>",
             "width": "100%",
             "max_width": "none",
             "alignment": "left",
@@ -355,7 +355,7 @@
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 0,
+        "padding-block-start": 44,
         "padding-block-end": 0
       }
     },
