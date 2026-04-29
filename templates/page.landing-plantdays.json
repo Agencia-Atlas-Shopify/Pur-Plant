@@ -293,6 +293,7 @@
           ]
         }
       },
+      "disabled": true,
       "name": "Regalamos Plantas Muchas Plantas",
       "settings": {
         "media_position": "right",
@@ -350,6 +351,7 @@
     },
     "pp_richtext_WD38gA": {
       "type": "pp-richtext",
+      "disabled": true,
       "name": "PP Rich Text",
       "settings": {
         "content": "<p><strong>Llena tu cesta de verde y recibe tu PLANTA REGALO al usar el cupón</strong></p>",
@@ -918,12 +920,12 @@
       "type": "pp-brand-banner",
       "name": "PP Planta Semana Banner",
       "settings": {
-        "heading": "PLANTA DE TEMPORADA ¡AL 50%!",
+        "heading": "MONSTERA THAI CONSTELLATION L ¡UN MUST!",
         "subheading": "",
         "button_label": "LA QUIERO",
-        "button_link": "shopify://products/philodendron-brasil",
+        "button_link": "shopify://products/monstera-thai-constellation",
         "video_url": "",
-        "image": "shopify://shop_images/philodendron-brasil-contexto-1-819x1024_bd3a03b7-24e2-4b7d-b875-42404c4ddd20.jpg",
+        "image": "shopify://shop_images/Monstera-Thai-Constellation_6c48bb26-f333-4f8c-8739-3f1868994baf.jpg",
         "image_position": "right",
         "image_overflow": 48,
         "video_max_width": 400,
