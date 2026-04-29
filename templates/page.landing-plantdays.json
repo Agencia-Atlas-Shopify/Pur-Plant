@@ -1199,6 +1199,7 @@
         "text_RaF4aE",
         "accordion_YQPrNd"
       ],
+      "disabled": true,
       "name": "t:names.faq_section",
       "settings": {
         "content_direction": "column",
