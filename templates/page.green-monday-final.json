@@ -326,8 +326,8 @@
       ],
       "name": "PP Featured Grid",
       "settings": {
-        "title": "Plantas por menos de 1€",
-        "view_all_text": "*Solo se permite",
+        "title": "Plantas por menos de 1€ *Máximo 1 por persona",
+        "view_all_text": "*Solo se permite la compra de una planta de menos de 1 € por persona.",
         "view_all_link": "",
         "collection": "plantas-por-menos-1",
         "max_products": 20,
