@@ -457,7 +457,7 @@
           "type": "collection_link",
           "settings": {
             "label": "Abonos",
-            "url": ""
+            "url": "shopify://collections/fertilizantes-organicos"
           }
         }
       },
