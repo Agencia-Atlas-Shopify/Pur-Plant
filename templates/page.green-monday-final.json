@@ -304,9 +304,9 @@
           "type": "text",
           "name": "t:names.text",
           "settings": {
-            "text": "<p><br/>*Solo se permite la compra de una planta de menos de 1 € por persona.</p>",
-            "width": "fit-content",
-            "max_width": "normal",
+            "text": "<p>*Solo se permite la compra de una planta de menos de 1 € por persona.</p>",
+            "width": "100%",
+            "max_width": "none",
             "alignment": "left",
             "type_preset": "rte",
             "font": "var(--font-body--family)",
