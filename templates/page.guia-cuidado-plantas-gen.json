@@ -176,6 +176,7 @@
       "block_order": [
         "group_KBbedg"
       ],
+      "disabled": true,
       "name": "t:names.image_with_text",
       "settings": {
         "content_direction": "row",
