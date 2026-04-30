@@ -16,9 +16,27 @@
   var MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
   var SHIP_DAYS = 1;
 
+  // Festivos editables desde theme settings (Customizer > Theme settings > Festivos envío)
+  var holidaysRaw = (window.ppShippingHolidays || '');
+  var HOLIDAYS = new Set(
+    holidaysRaw.split(/[\n,]/).map(function (s) { return s.trim(); })
+      .filter(function (s) { return /^\d{4}-\d{2}-\d{2}$/.test(s); })
+  );
+
+  function dateKey(d) {
+    var y = d.getFullYear(), m = d.getMonth() + 1, day = d.getDate();
+    return y + '-' + (m < 10 ? '0' : '') + m + '-' + (day < 10 ? '0' : '') + day;
+  }
+
+  function isBizDay(d) {
+    if (d.getDay() === 0 || d.getDay() === 6) return false;
+    if (HOLIDAYS.has(dateKey(d))) return false;
+    return true;
+  }
+
   function addBizDays(date, n) {
     var d = new Date(date);
-    while (n > 0) { d.setDate(d.getDate() + 1); if (d.getDay() !== 0 && d.getDay() !== 6) n--; }
+    while (n > 0) { d.setDate(d.getDate() + 1); if (isBizDay(d)) n--; }
     return d;
   }
 
@@ -36,7 +54,7 @@
   var sp = spainNow();
   var baseToday = new Date(sp);
   var baseNext = new Date(sp);
-  do { baseNext.setDate(baseNext.getDate() + 1); } while (baseNext.getDay() === 0 || baseNext.getDay() === 6);
+  do { baseNext.setDate(baseNext.getDate() + 1); } while (!isBizDay(baseNext));
 
   var rangeToday = fmtRange(baseToday);
   var rangeNext = fmtRange(baseNext);
