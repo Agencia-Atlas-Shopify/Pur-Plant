@@ -68,20 +68,19 @@
         "button_text_color": "0 0 0"
       }
     },
-    "pp_hero_slider_RBqrkx": {
+    "pp_hero_slider_w3E8ht": {
       "type": "pp-hero-slider",
       "blocks": {
-        "slide_rGhJQP": {
+        "slide_whPjRL": {
           "type": "slide",
           "settings": {
-            "image_desktop": "shopify://shop_images/green_monday_caja_con_plantas_1.jpg",
-            "video_desktop": "shopify://files/videos/unboxing pur plant.mp4",
-            "subheading": "GREEN",
-            "heading": "MONDAY",
-            "subtitle": "PLANTAS DESDE 0,99€",
+            "video_desktop": "shopify://files/videos/pur (1).mp4",
+            "subheading": "FIESTA DE LA",
+            "heading": "PRIMAVERA",
+            "subtitle": "NATURALEZA QUE BROTA",
             "content_position": "bottom-left",
-            "button_text": "VOY CORRIENDO",
-            "button_link": "shopify://pages/green-monday",
+            "button_text": "HASTA 50%",
+            "button_link": "shopify://collections/fiesta-primavera",
             "button_style": "normal",
             "button_text_2": "",
             "button_link_2": "",
@@ -102,6 +101,67 @@
             "btn_weight": "default",
             "btn_bg_color": "",
             "btn_text_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_whPjRL"
+      ],
+      "disabled": true,
+      "name": "PP Hero Slider Plant Days",
+      "settings": {
+        "enable_transparent_header": false,
+        "full_height_mobile": false,
+        "height_mobile": 500,
+        "full_height_desktop": false,
+        "height_desktop": 750,
+        "autoplay": false,
+        "autoplay_speed": 5,
+        "show_dots": false,
+        "show_arrows": false,
+        "content_max_width": 600,
+        "overlay_opacity": 0,
+        "overlay_direction": "to top",
+        "background_color": "0 0 0",
+        "text_color": "255 255 255",
+        "button_background": "255 255 255",
+        "button_text_color": "0 0 0"
+      }
+    },
+    "pp_hero_slider_RBqrkx": {
+      "type": "pp-hero-slider",
+      "blocks": {
+        "slide_rGhJQP": {
+          "type": "slide",
+          "settings": {
+            "image_desktop": "shopify://shop_images/green_monday_caja_con_plantas_1.jpg",
+            "video_desktop": "shopify://files/videos/green monday plants.mp4",
+            "subheading": "GREEN",
+            "heading": "MONDAY",
+            "subtitle": "PLANTAS DESDE 0,99€",
+            "content_position": "bottom-left",
+            "button_text": "VOY CORRIENDO",
+            "button_link": "shopify://pages/green-monday",
+            "button_style": "normal",
+            "button_text_2": "",
+            "button_link_2": "",
+            "button_style_2": "inverted",
+            "link": "shopify://pages/green-monday",
+            "heading_font": "'Aileron', sans-serif",
+            "heading_size": 0,
+            "heading_size_mobile": 0,
+            "heading_weight": "default",
+            "heading_color": "#bcffdd",
+            "subheading_font": "default",
+            "subheading_size": 0,
+            "subheading_size_mobile": 0,
+            "subheading_weight": "default",
+            "subheading_color": "#bcffdd",
+            "btn_font": "default",
+            "btn_size": 0,
+            "btn_weight": "default",
+            "btn_bg_color": "#bcffdd",
+            "btn_text_color": "#bcffdd"
           }
         }
       },
@@ -708,6 +768,7 @@
   },
   "order": [
     "pp_hero_slider_wX8GrT",
+    "pp_hero_slider_w3E8ht",
     "pp_hero_slider_RBqrkx",
     "cat_nav_pp",
     "pp_collection_nav_zLxaVU",
