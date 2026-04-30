@@ -743,7 +743,8 @@
           endif
         endfor
       -%}
-      {%- if shipping_block -%}
+      {%- comment -%} Tarjeta regalo digital: oculta countdown + delivery (entrega es por email) {%- endcomment -%}
+      {%- if shipping_block and product.gift_card? != true -%}
         <div class="pp-pdp__shipping-info" style="padding-top: {{ shipping_block.settings.padding_top | default: 10 }}px; padding-bottom: {{ shipping_block.settings.padding_bottom | default: 10 }}px;" {{ shipping_block.shopify_attributes }}>
           {%- if shipping_block.settings.icon != blank -%}
             <img src="{{ shipping_block.settings.icon | image_url: width: 40 }}" width="20" height="20" alt="">
@@ -844,21 +845,23 @@
         {%- endif -%}
       {%- endfor -%}
 
-      {%- comment -%} Bottom shipping text {%- endcomment -%}
-      <div class="pp-pdp__shipping-bottom">
-        <div class="pp-pdp__shipping-bottom-row">
-          {%- if section.settings.shipping_bottom_image1 != blank -%}
-            <img src="{{ section.settings.shipping_bottom_image1 | image_url: width: 80 }}" width="28" height="28" alt="" class="pp-pdp__shipping-bottom-icon" loading="lazy">
-          {%- endif -%}
-          <p>{{ section.settings.shipping_bottom_line1 | default: 'RECÍBE TU PEDIDO EN 24/48H' }}</p>
+      {%- comment -%} Bottom shipping text — oculto en gift_card (entrega digital) {%- endcomment -%}
+      {%- unless product.gift_card? -%}
+        <div class="pp-pdp__shipping-bottom">
+          <div class="pp-pdp__shipping-bottom-row">
+            {%- if section.settings.shipping_bottom_image1 != blank -%}
+              <img src="{{ section.settings.shipping_bottom_image1 | image_url: width: 80 }}" width="28" height="28" alt="" class="pp-pdp__shipping-bottom-icon" loading="lazy">
+            {%- endif -%}
+            <p>{{ section.settings.shipping_bottom_line1 | default: 'RECÍBE TU PEDIDO EN 24/48H' }}</p>
+          </div>
+          <div class="pp-pdp__shipping-bottom-row">
+            {%- if section.settings.shipping_bottom_image2 != blank -%}
+              <img src="{{ section.settings.shipping_bottom_image2 | image_url: width: 80 }}" width="28" height="28" alt="" class="pp-pdp__shipping-bottom-icon" loading="lazy">
+            {%- endif -%}
+            <p>{{ section.settings.shipping_bottom_line2 | default: 'ENVÍO GRATIS PEDIDOS +49€ (Península y Baleares)' }}</p>
+          </div>
         </div>
-        <div class="pp-pdp__shipping-bottom-row">
-          {%- if section.settings.shipping_bottom_image2 != blank -%}
-            <img src="{{ section.settings.shipping_bottom_image2 | image_url: width: 80 }}" width="28" height="28" alt="" class="pp-pdp__shipping-bottom-icon" loading="lazy">
-          {%- endif -%}
-          <p>{{ section.settings.shipping_bottom_line2 | default: 'ENVÍO GRATIS PEDIDOS +49€ (Península y Baleares)' }}</p>
-        </div>
-      </div>
+      {%- endunless -%}
     </div>
   </div>
 
@@ -916,6 +919,8 @@
   window.ppProductOptions = {{ product.options_with_values | json }};
   window.ppCurrentVariantId = {{ current_variant.id }};
   window.ppLimitUnder1 = {{ settings.pp_limit_under_1_enabled | json }};
+  window.ppShippingHolidays = {{ settings.pp_shipping_holidays | default: '' | json }};
+  window.ppIsGiftCard = {{ product.gift_card? | json }};
 </script>
 <script src="{{ 'pp-product-main.js' | asset_url }}" type="module" defer></script>
 

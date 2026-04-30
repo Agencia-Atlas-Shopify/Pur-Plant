@@ -2670,5 +2670,20 @@
         "default": false
       }
     ]
+  },
+  {
+    "name": "Festivos envío",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Lista de fechas festivas (no laborales) que afectan al cálculo de fecha de entrega en PDP. Una por línea, formato YYYY-MM-DD. Ejemplo: 2026-05-01"
+      },
+      {
+        "type": "textarea",
+        "id": "pp_shipping_holidays",
+        "label": "Festivos (YYYY-MM-DD, uno por línea)",
+        "default": ""
+      }
+    ]
   }
 ]

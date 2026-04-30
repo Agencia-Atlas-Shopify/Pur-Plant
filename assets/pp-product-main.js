@@ -54,12 +54,26 @@
     var hour = spanish.getHours();
     var dow = spanish.getDay(); // 0=Sun, 1=Mon...5=Fri, 6=Sat
 
+    // Parse holidays from theme setting (YYYY-MM-DD per line) → Set
+    var holidaysRaw = (window.ppShippingHolidays || '');
+    var holidays = new Set(
+      holidaysRaw.split(/[\n,]/).map(function(s){ return s.trim(); }).filter(function(s){ return /^\d{4}-\d{2}-\d{2}$/.test(s); })
+    );
+    function dateKey(d) {
+      var y = d.getFullYear(), m = d.getMonth()+1, day = d.getDate();
+      return y + '-' + (m<10?'0':'') + m + '-' + (day<10?'0':'') + day;
+    }
+    function isBusinessDay(d) {
+      if (d.getDay() === 0 || d.getDay() === 6) return false;
+      if (holidays.has(dateKey(d))) return false;
+      return true;
+    }
+
     var shipDate = new Date(spanish);
 
-    // Determine ship date (when the order leaves warehouse)
+    // Determine ship date (when order leaves warehouse)
     if (dow === 5) {
       // Friday (any time) → ships Friday, delivery Lunes-Martes
-      // shipDate stays as Friday
     } else if (dow === 0) {
       // Sunday → ships Monday
       shipDate.setDate(shipDate.getDate() + 1);
@@ -70,16 +84,19 @@
       // After 18:00 Mon-Thu → ships next business day
       shipDate.setDate(shipDate.getDate() + 1);
     }
-    // else: before 18:00 Mon-Thu → ships today
 
-    // Delivery = 1-2 business days after ship date
-    // Calculate min (1 biz day) and max (2 biz days)
+    // Push shipDate past any holidays that fell on the calculated day
+    while (!isBusinessDay(shipDate)) {
+      shipDate.setDate(shipDate.getDate() + 1);
+    }
+
+    // Delivery = 1-2 business days after ship date (skip weekends + festivos)
     function addBusinessDays(from, n) {
       var d = new Date(from);
       var added = 0;
       while (added < n) {
         d.setDate(d.getDate() + 1);
-        if (d.getDay() !== 0 && d.getDay() !== 6) added++;
+        if (isBusinessDay(d)) added++;
       }
       return d;
     }
