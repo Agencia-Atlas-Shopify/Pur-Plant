@@ -109,7 +109,7 @@
     "swym_header_icon_selector_desktop": ".pp-header__wishlist-link",
     "swym_header_icon_selector_mobile": ".pp-header__wishlist-link",
     "pp_limit_under_1_enabled": true,
-    "pp_shipping_holidays": "2026-05-01\n2026-05-04",
+    "pp_shipping_holidays": "2026-05-01",
     "content_for_index": [],
     "blocks": {
       "14060646107696862457": {
