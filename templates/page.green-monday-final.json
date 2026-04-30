@@ -150,7 +150,7 @@
       "name": "PP Countdown Banner",
       "settings": {
         "subheading": "",
-        "heading": "",
+        "heading": "EL PRÓXIMO GREEN MONDAY EMPIEZA EN",
         "description": "",
         "end_date": "2026-05-04",
         "end_time": "23:59",
@@ -284,7 +284,7 @@
       "type": "pp-richtext",
       "name": "PP Rich Text",
       "settings": {
-        "content": "<p>SOLO HOY</p><p><strong>PLANTAS POR MENOS DE de 1€, 5€, 10€ y 20€</strong></p><p>SIN COLAS Y DESDE CASA</p><p>STOCK LIMITADO</p>",
+        "content": "<p>SOLO 24H</p><p><strong>PLANTAS POR MENOS DE de 1€, 5€, 10€ y 20€</strong></p><p>SIN COLAS Y DESDE CASA</p><p>STOCK LIMITADO</p>",
         "font_size": 25,
         "font_weight": "400",
         "line_height": 16,
@@ -918,6 +918,25 @@
         "padding-block-end": 0
       }
     },
+    "pp_brand_banner_wyeWPw": {
+      "type": "pp-brand-banner",
+      "name": "PP Planta Semana Banner",
+      "settings": {
+        "heading": "no puede faltar",
+        "subheading": "¡Aquí y ahora! Llévate la box perfecta para trasplantar y nutrir tus plantas desde la raíz ¡SUSTRATO DE REGALO!",
+        "button_label": "LA QUIERO",
+        "button_link": "shopify://products/nutrition-plant-box",
+        "video_url": "",
+        "image": "shopify://shop_images/Nutrition-Plant-box-Pack.jpg",
+        "image_position": "right",
+        "image_overflow": 48,
+        "video_max_width": 400,
+        "bg_color": "#23372c",
+        "text_color": "#bcffdd",
+        "padding_top": 44,
+        "padding_bottom": 60
+      }
+    },
     "blocks_NR6qMw": {
       "type": "_blocks",
       "blocks": {
@@ -960,25 +979,6 @@
         "gradient_direction": "to top",
         "padding-block-start": 0,
         "padding-block-end": 0
-      }
-    },
-    "pp_brand_banner_wyeWPw": {
-      "type": "pp-brand-banner",
-      "name": "PP Planta Semana Banner",
-      "settings": {
-        "heading": "no puede faltar",
-        "subheading": "¡Aquí y ahora! Llévate la box perfecta para trasplantar y nutrir tus plantas desde la raíz ¡SUSTRATO DE REGALO!",
-        "button_label": "LA QUIERO",
-        "button_link": "shopify://products/nutrition-plant-box",
-        "video_url": "",
-        "image": "shopify://shop_images/Nutrition-Plant-box-Pack.jpg",
-        "image_position": "right",
-        "image_overflow": 48,
-        "video_max_width": 400,
-        "bg_color": "#23372c",
-        "text_color": "#bcffdd",
-        "padding_top": 44,
-        "padding_bottom": 60
       }
     },
     "collection_list_H4PkiH": {
