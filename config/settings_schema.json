@@ -2682,7 +2682,7 @@
         "type": "textarea",
         "id": "pp_shipping_holidays",
         "label": "Festivos (YYYY-MM-DD, uno por línea)",
-        "default": ""
+        "info": "Ejemplo: 2026-05-01 (uno por línea)"
       }
     ]
   }
