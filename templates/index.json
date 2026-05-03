@@ -361,6 +361,26 @@
     "pp_featured_grid_eWihzK": {
       "type": "pp-featured-grid",
       "blocks": {
+        "banner_J6Vfaf": {
+          "type": "banner",
+          "settings": {
+            "position": 7,
+            "width_mobile": 1,
+            "width_tablet": 1,
+            "width_desktop": 1,
+            "height": "portrait",
+            "image": "shopify://shop_images/green_monday_banner.jpg",
+            "title": "",
+            "subtitle": "",
+            "button_text": "",
+            "button_link": "",
+            "link": "shopify://pages/green-monday",
+            "content_position": "bottom-left",
+            "text_color": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
         "video_block_6VPFpT": {
           "type": "video_block",
           "disabled": true,
@@ -385,6 +405,7 @@
         }
       },
       "block_order": [
+        "banner_J6Vfaf",
         "video_block_6VPFpT"
       ],
       "name": "PP Featured Grid",
