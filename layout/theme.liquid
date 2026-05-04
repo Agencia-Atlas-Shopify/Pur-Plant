@@ -120,6 +120,9 @@
       }
     </style>
     <script>
+      window.ppLimitUnder1 = {{ settings.pp_limit_under_1_enabled | json }};
+    </script>
+    <script>
       document.addEventListener('DOMContentLoaded', function() {
         var titles = document.querySelectorAll('.pp-card__title, h3.pp-card__title');
         var prices = document.querySelectorAll('.pp-card__price-regular, .pp-card__price-sale, .pp-card__price-compare');

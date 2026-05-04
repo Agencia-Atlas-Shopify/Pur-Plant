@@ -816,6 +816,22 @@
         button.classList.add('is-added');
         button.textContent = '✓';
 
+        // PP <1€ sanity: clamp any line with price<100c & qty>1 to qty=1.
+        // Cubre rapid-click ATC en cards desde colecciones/landings.
+        if (window.ppLimitUnder1) {
+          try {
+            const cart = await fetch('/cart.js', { credentials: 'same-origin' }).then(r => r.json());
+            const fixes = (cart.items || []).filter(it => it.price < 100 && it.quantity > 1).map(it =>
+              fetch('/cart/change.js', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({ id: it.key, quantity: 1 }),
+              })
+            );
+            if (fixes.length) await Promise.all(fixes);
+          } catch (e) {}
+        }
+
         // Fetch updated cart (fire-and-forget badge update)
         fetch('/cart.js').then(r => r.json()).then(cart => {
           document.querySelectorAll('[data-cart-count]').forEach(el => el.textContent = cart.item_count);
