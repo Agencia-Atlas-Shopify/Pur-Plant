@@ -376,10 +376,10 @@
         {%- endif -%}
       </div>
 
-      {%- comment -%} Reviews badge — manual setting wins, Judge.me as fallback {%- endcomment -%}
+      {%- comment -%} Reviews badge — manual setting wins, Judge.me shop_reviews (reseñas de tienda, similar a Google) como fallback {%- endcomment -%}
       {%- liquid
-        assign jdg_rating = shop.metafields.judgeme.all_reviews_rating
-        assign jdg_count = shop.metafields.judgeme.all_reviews_count
+        assign jdg_rating = shop.metafields.judgeme.shop_reviews_rating
+        assign jdg_count = shop.metafields.judgeme.shop_reviews_count
         assign reviews_rating_val = section.settings.reviews_rating
         assign reviews_count_val = section.settings.reviews_count
         if reviews_rating_val == blank and jdg_rating != blank and jdg_rating != '0.00' and jdg_rating != '0'

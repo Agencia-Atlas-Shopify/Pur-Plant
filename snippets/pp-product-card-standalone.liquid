@@ -86,7 +86,8 @@
 
       {%- comment -%}
         Badge — single label, priority order:
-          Pet Friendly > Novedad > Fácil Cuidado > Purificadora > Oferta > Últimas Unidades > Vuelve Pronto
+          Vuelve Pronto (sin stock) > Pet Friendly > Novedad > Fácil Cuidado > Purificadora > Oferta > Últimas Unidades
+        Sin stock siempre gana — cliente no compra agotado, ofertas/etiquetas otras irrelevantes.
       {%- endcomment -%}
       {%- liquid
         assign type_needle = '|' | append: product.type | append: '|'
@@ -98,7 +99,12 @@
 
         assign badge = ''
 
-        if is_planta and product.metafields.custom.pet_friendly == true
+        # PRIORIDAD MAXIMA: sin stock
+        if product.available == false
+          assign badge = 'pronto'
+        endif
+
+        if badge == '' and is_planta and product.metafields.custom.pet_friendly == true
           assign badge = 'pet'
         endif
 
@@ -125,10 +131,6 @@
 
         if badge == '' and product.available and product.variants.first.inventory_quantity <= 5 and product.variants.first.inventory_quantity > 0
           assign badge = 'last'
-        endif
-
-        if badge == '' and product.available == false
-          assign badge = 'pronto'
         endif
       -%}
 
