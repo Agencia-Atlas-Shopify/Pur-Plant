@@ -363,19 +363,18 @@
       "blocks": {
         "banner_J6Vfaf": {
           "type": "banner",
-          "disabled": true,
           "settings": {
-            "position": 7,
+            "position": 18,
             "width_mobile": 1,
             "width_tablet": 1,
             "width_desktop": 1,
             "height": "portrait",
-            "image": "shopify://shop_images/green_monday_banner.jpg",
+            "image": "shopify://shop_images/Plant_Days_Regalamos_Plantas_2.jpg",
             "title": "",
             "subtitle": "",
             "button_text": "",
             "button_link": "",
-            "link": "shopify://pages/green-monday",
+            "link": "shopify://pages/plant-days",
             "content_position": "bottom-left",
             "text_color": "#ffffff",
             "overlay_color": "#000000",
