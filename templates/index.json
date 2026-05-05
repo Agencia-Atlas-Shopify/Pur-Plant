@@ -364,7 +364,7 @@
         "banner_J6Vfaf": {
           "type": "banner",
           "settings": {
-            "position": 18,
+            "position": 5,
             "width_mobile": 1,
             "width_tablet": 1,
             "width_desktop": 1,
@@ -406,7 +406,7 @@
         "video_block_gTDiD9": {
           "type": "video_block",
           "settings": {
-            "position": 5,
+            "position": 14,
             "width_mobile": 1,
             "width_tablet": 1,
             "width_desktop": 1,
