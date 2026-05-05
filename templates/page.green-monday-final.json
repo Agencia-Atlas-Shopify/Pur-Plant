@@ -150,9 +150,9 @@
       "name": "PP Countdown Banner",
       "settings": {
         "subheading": "",
-        "heading": "¡YA ES GREEN MONDAY! Y TERMINA EN..",
+        "heading": "EL PRÓXIMO GREEN MONDAY EMPIEZA EN..",
         "description": "",
-        "end_date": "2026-05-04",
+        "end_date": "2026-05-31",
         "end_time": "23:59",
         "hide_on_end": true,
         "show_progress_bar": true,
