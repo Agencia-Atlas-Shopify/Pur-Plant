@@ -535,7 +535,7 @@
         "view_all_text": "",
         "view_all_link": "",
         "collection": "plant-days",
-        "max_products": 20,
+        "max_products": 48,
         "image_ratio": "portrait-tall",
         "products_per_row_mobile": 2,
         "products_per_row_tablet": 3,
