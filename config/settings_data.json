@@ -197,6 +197,14 @@
         "type": "shopify://apps/easy-tag-gtm-data-layer/blocks/datalayer-embed-block/be308f3f-c82d-4290-b187-8561d4a8782a",
         "disabled": false,
         "settings": {}
+      },
+      "8962992520437913685": {
+        "type": "shopify://apps/yotpo-loyalty-rewards/blocks/loader-app-embed-block/2f9660df-5018-4e02-9868-ee1fb88d6ccd",
+        "disabled": false,
+        "settings": {
+          "inject_modules_loader": true,
+          "inject_sdk_loader": false
+        }
       }
     },
     "color_schemes": {
