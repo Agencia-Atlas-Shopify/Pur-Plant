@@ -43,7 +43,7 @@
       "settings": {
         "custom_liquid": "<!--Banner Section-->\n<div class=\"yotpo-widget-instance\" data-yotpo-instance-id=\"1324326\"></div>\n\n<!--My Activity-->\n<div class=\"yotpo-widget-instance\" data-yotpo-instance-id=\"1324331\"\nrewards-history-no-rewards-text=\"Aún no has recibido ningún premio\"\nrewards-history-coupon-copied-text=\"Copiado\"\n></div>\n\n<!--Earning Points-->\n<div class=\"yotpo-widget-instance\" data-yotpo-instance-id=\"1324325\"></div>\n\n<!--Redeem Points (Interactive)-->\n<div class=\"yotpo-widget-instance\" data-yotpo-instance-id=\"1324330\"\nconfirmation-step-title=\"ESTAS SEGURO?\"\nconfirmation-step-confirm-option=\"Si\"\nconfirmation-step-cancel-option=\"No pudimos canjear tus puntos\"\ncopied-icon-text=\"COPIADO\"\ncoupon-code-copied-message-title=\"COPIADO\"\ncoupon-code-copied-message-body=\"Gracias por canjear tus puntos. Por favor copia el código en caja.\"\n></div>\n\n<!--VIP Tiers-->\n<div class=\"yotpo-widget-instance\" data-yotpo-instance-id=\"1324328\"></div>\n\n<!--Refer Friends-->\n<div class=\"yotpo-widget-instance\" data-yotpo-instance-id=\"1324327\"\nCopy Link=\"Copiar Link\"\nOne or more email addresses are invalid=\"Una o más direcciones de correo electrónico no son válidas\"\n></div>",
         "color_scheme": "",
-        "section_width": "page-width",
+        "section_width": "full-width",
         "padding-block-start": 0,
         "padding-block-end": 0
       }
