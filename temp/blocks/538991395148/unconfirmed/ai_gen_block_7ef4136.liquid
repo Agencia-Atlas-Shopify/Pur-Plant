@@ -1,6 +1,755 @@
+{% doc %}
+  @prompt
+    crea una lista tipo carrusel pero de paginas
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-page-carousel-{{ ai_gen_id }} {
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    display: block;
+    padding: {{ block.settings.section_padding }}px 0;
+  }
+
+  .ai-page-carousel-header-{{ ai_gen_id }} {
+    margin-bottom: {{ block.settings.title_spacing }}px;
+    text-align: {{ block.settings.title_alignment }};
+  }
+
+  .ai-page-carousel-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    color: {{ block.settings.title_color }};
+    margin: 0;
+  }
+
+  .ai-page-carousel-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ai-page-carousel-track-{{ ai_gen_id }} {
+    display: flex;
+    gap: {{ block.settings.card_gap }}px;
+    transition: transform 0.4s ease;
+    will-change: transform;
+  }
+
+  .ai-page-carousel-card-{{ ai_gen_id }} {
+    flex: 0 0 calc((100% - ({{ block.settings.cards_per_view | minus: 1 }} * {{ block.settings.card_gap }}px)) / {{ block.settings.cards_per_view }});
+    background-color: {{ block.settings.card_background }};
+    border-radius: {{ block.settings.card_border_radius }}px;
+    overflow: hidden;
+    border: {{ block.settings.card_border_width }}px solid {{ block.settings.card_border_color }};
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .ai-page-carousel-card-{{ ai_gen_id }}:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  .ai-page-carousel-card-link-{{ ai_gen_id }} {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .ai-page-carousel-card-image-{{ ai_gen_id }} {
+    width: 100%;
+    aspect-ratio: {{ block.settings.image_aspect_ratio }};
+    object-fit: cover;
+    display: block;
+  }
+
+  .ai-page-carousel-card-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    aspect-ratio: {{ block.settings.image_aspect_ratio }};
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-page-carousel-card-image-placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.3;
+  }
+
+  .ai-page-carousel-card-content-{{ ai_gen_id }} {
+    padding: {{ block.settings.card_padding }}px;
+  }
+
+  .ai-page-carousel-card-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.card_title_size }}px;
+    color: {{ block.settings.card_title_color }};
+    margin: 0 0 8px 0;
+    font-weight: 600;
+  }
+
+  .ai-page-carousel-card-excerpt-{{ ai_gen_id }} {
+    font-size: {{ block.settings.card_text_size }}px;
+    color: {{ block.settings.card_text_color }};
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .ai-page-carousel-nav-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-top: {{ block.settings.nav_spacing }}px;
+  }
+
+  .ai-page-carousel-nav-button-{{ ai_gen_id }} {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: {{ block.settings.nav_button_background }};
+    color: {{ block.settings.nav_button_color }};
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+  }
+
+  .ai-page-carousel-nav-button-{{ ai_gen_id }}:hover:not(:disabled) {
+    background-color: {{ block.settings.nav_button_hover_background }};
+  }
+
+  .ai-page-carousel-nav-button-{{ ai_gen_id }}:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .ai-page-carousel-nav-button-{{ ai_gen_id }} svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .ai-page-carousel-dots-{{ ai_gen_id }} {
+    display: flex;
+    gap: 8px;
+  }
+
+  .ai-page-carousel-dot-{{ ai_gen_id }} {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: {{ block.settings.dot_color }};
+    opacity: 0.3;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .ai-page-carousel-dot-{{ ai_gen_id }}.active {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-page-carousel-card-{{ ai_gen_id }} {
+      flex: 0 0 calc((100% - ({{ block.settings.cards_per_view_mobile | minus: 1 }} * {{ block.settings.card_gap }}px)) / {{ block.settings.cards_per_view_mobile }});
+    }
+
+    .ai-page-carousel-title-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.title_size }}px * 0.8);
+    }
+
+    .ai-page-carousel-card-title-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.card_title_size }}px * 0.9);
+    }
+  }
+{% endstyle %}
+
+<page-carousel-{{ ai_gen_id }} class="ai-page-carousel-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.title != blank %}
+    <div class="ai-page-carousel-header-{{ ai_gen_id }}">
+      <h2 class="ai-page-carousel-title-{{ ai_gen_id }}">{{ block.settings.title }}</h2>
+    </div>
+  {% endif %}
+
+  <div class="ai-page-carousel-wrapper-{{ ai_gen_id }}">
+    <div class="ai-page-carousel-track-{{ ai_gen_id }}" data-carousel-track>
+      {% for i in (1..8) %}
+        {% liquid
+          assign page_key = 'page_' | append: i
+          assign page = block.settings[page_key]
+        %}
+
+        {% if page != blank %}
+          <div class="ai-page-carousel-card-{{ ai_gen_id }}">
+            <a href="{{ page.url }}" class="ai-page-carousel-card-link-{{ ai_gen_id }}">
+              {% if page.image %}
+                <img
+                  src="{{ page.image | image_url: width: 600 }}"
+                  alt="{{ page.image.alt | escape }}"
+                  class="ai-page-carousel-card-image-{{ ai_gen_id }}"
+                  loading="lazy"
+                  width="600"
+                  height="{{ 600 | divided_by: block.settings.image_aspect_ratio }}"
+                >
+              {% else %}
+                <div class="ai-page-carousel-card-image-placeholder-{{ ai_gen_id }}">
+                  {{ 'image' | placeholder_svg_tag }}
+                </div>
+              {% endif %}
+
+              <div class="ai-page-carousel-card-content-{{ ai_gen_id }}">
+                <h3 class="ai-page-carousel-card-title-{{ ai_gen_id }}">{{ page.title }}</h3>
+                {% if block.settings.show_excerpt and page.content != blank %}
+                  <div class="ai-page-carousel-card-excerpt-{{ ai_gen_id }}">
+                    {{ page.content | strip_html | truncate: 100 }}
+                  </div>
+                {% endif %}
+              </div>
+            </a>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  {% if block.settings.show_navigation %}
+    <div class="ai-page-carousel-nav-{{ ai_gen_id }}">
+      <button
+        class="ai-page-carousel-nav-button-{{ ai_gen_id }}"
+        data-carousel-prev
+        aria-label="Anterior"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+
+      <div class="ai-page-carousel-dots-{{ ai_gen_id }}" data-carousel-dots></div>
+
+      <button
+        class="ai-page-carousel-nav-button-{{ ai_gen_id }}"
+        data-carousel-next
+        aria-label="Siguiente"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </div>
+  {% endif %}
+</page-carousel-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class PageCarousel{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.currentIndex = 0;
+        this.cardsPerView = {{ block.settings.cards_per_view }};
+        this.cardsPerViewMobile = {{ block.settings.cards_per_view_mobile }};
+        this.autoplay = {{ block.settings.autoplay }};
+        this.autoplaySpeed = {{ block.settings.autoplay_speed | times: 1000 }};
+        this.autoplayTimer = null;
+      }
+
+      connectedCallback() {
+        this.track = this.querySelector('[data-carousel-track]');
+        this.prevButton = this.querySelector('[data-carousel-prev]');
+        this.nextButton = this.querySelector('[data-carousel-next]');
+        this.dotsContainer = this.querySelector('[data-carousel-dots]');
+
+        if (!this.track) return;
+
+        this.cards = Array.from(this.track.children);
+        this.totalCards = this.cards.length;
+
+        this.updateCardsPerView();
+        this.createDots();
+        this.updateCarousel();
+        this.setupEventListeners();
+
+        if (this.autoplay) {
+          this.startAutoplay();
+        }
+      }
+
+      disconnectedCallback() {
+        this.stopAutoplay();
+      }
+
+      updateCardsPerView() {
+        const isMobile = window.innerWidth < 750;
+        this.currentCardsPerView = isMobile ? this.cardsPerViewMobile : this.cardsPerView;
+        this.totalSlides = Math.max(1, this.totalCards - this.currentCardsPerView + 1);
+      }
+
+      setupEventListeners() {
+        if (this.prevButton) {
+          this.prevButton.addEventListener('click', () => this.prev());
+        }
+
+        if (this.nextButton) {
+          this.nextButton.addEventListener('click', () => this.next());
+        }
+
+        window.addEventListener('resize', () => {
+          this.updateCardsPerView();
+          this.currentIndex = Math.min(this.currentIndex, this.totalSlides - 1);
+          this.updateCarousel();
+        });
+
+        this.addEventListener('mouseenter', () => this.stopAutoplay());
+        this.addEventListener('mouseleave', () => {
+          if (this.autoplay) {
+            this.startAutoplay();
+          }
+        });
+      }
+
+      createDots() {
+        if (!this.dotsContainer) return;
+
+        this.dotsContainer.innerHTML = '';
+
+        for (let i = 0; i < this.totalSlides; i++) {
+          const dot = document.createElement('button');
+          dot.className = 'ai-page-carousel-dot-{{ ai_gen_id }}';
+          dot.setAttribute('aria-label', `Ir a diapositiva ${i + 1}`);
+          dot.addEventListener('click', () => this.goToSlide(i));
+          this.dotsContainer.appendChild(dot);
+        }
+      }
+
+      updateCarousel() {
+        const cardWidth = this.cards[0]?.offsetWidth || 0;
+        const gap = {{ block.settings.card_gap }};
+        const offset = -(this.currentIndex * (cardWidth + gap));
+
+        this.track.style.transform = `translateX(${offset}px)`;
+
+        if (this.prevButton) {
+          this.prevButton.disabled = this.currentIndex === 0;
+        }
+
+        if (this.nextButton) {
+          this.nextButton.disabled = this.currentIndex >= this.totalSlides - 1;
+        }
+
+        this.updateDots();
+      }
+
+      updateDots() {
+        if (!this.dotsContainer) return;
+
+        const dots = this.dotsContainer.querySelectorAll('.ai-page-carousel-dot-{{ ai_gen_id }}');
+        dots.forEach((dot, index) => {
+          if (index === this.currentIndex) {
+            dot.classList.add('active');
+          } else {
+            dot.classList.remove('active');
+          }
+        });
+      }
+
+      prev() {
+        if (this.currentIndex > 0) {
+          this.currentIndex--;
+          this.updateCarousel();
+          this.resetAutoplay();
+        }
+      }
+
+      next() {
+        if (this.currentIndex < this.totalSlides - 1) {
+          this.currentIndex++;
+          this.updateCarousel();
+          this.resetAutoplay();
+        } else if (this.autoplay) {
+          this.currentIndex = 0;
+          this.updateCarousel();
+        }
+      }
+
+      goToSlide(index) {
+        this.currentIndex = index;
+        this.updateCarousel();
+        this.resetAutoplay();
+      }
+
+      startAutoplay() {
+        this.stopAutoplay();
+        this.autoplayTimer = setInterval(() => {
+          this.next();
+        }, this.autoplaySpeed);
+      }
+
+      stopAutoplay() {
+        if (this.autoplayTimer) {
+          clearInterval(this.autoplayTimer);
+          this.autoplayTimer = null;
+        }
+      }
+
+      resetAutoplay() {
+        if (this.autoplay) {
+          this.startAutoplay();
+        }
+      }
+    }
+
+    customElements.define('page-carousel-{{ ai_gen_id }}', PageCarousel{{ ai_gen_id }});
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Carrusel de páginas",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Contenido"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Título",
+      "default": "Explora nuestras páginas"
+    },
+    {
+      "type": "select",
+      "id": "title_alignment",
+      "label": "Alineación del título",
+      "options": [
+        {
+          "value": "left",
+          "label": "Izquierda"
+        },
+        {
+          "value": "center",
+          "label": "Centro"
+        },
+        {
+          "value": "right",
+          "label": "Derecha"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "page",
+      "id": "page_1",
+      "label": "Página 1"
+    },
+    {
+      "type": "page",
+      "id": "page_2",
+      "label": "Página 2"
+    },
+    {
+      "type": "page",
+      "id": "page_3",
+      "label": "Página 3"
+    },
+    {
+      "type": "page",
+      "id": "page_4",
+      "label": "Página 4"
+    },
+    {
+      "type": "page",
+      "id": "page_5",
+      "label": "Página 5"
+    },
+    {
+      "type": "page",
+      "id": "page_6",
+      "label": "Página 6"
+    },
+    {
+      "type": "page",
+      "id": "page_7",
+      "label": "Página 7"
+    },
+    {
+      "type": "page",
+      "id": "page_8",
+      "label": "Página 8"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_excerpt",
+      "label": "Mostrar extracto",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Diseño"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Ancho en escritorio",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "cards_per_view",
+      "label": "Tarjetas visibles (escritorio)",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "cards_per_view_mobile",
+      "label": "Tarjetas visibles (móvil)",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "label": "Espacio entre tarjetas",
+      "min": 8,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "image_aspect_ratio",
+      "label": "Proporción de imagen",
+      "options": [
+        {
+          "value": "1",
+          "label": "Cuadrada (1:1)"
+        },
+        {
+          "value": "1.33",
+          "label": "Paisaje (4:3)"
+        },
+        {
+          "value": "1.78",
+          "label": "Panorámica (16:9)"
+        },
+        {
+          "value": "0.75",
+          "label": "Retrato (3:4)"
+        }
+      ],
+      "default": "1.33"
+    },
+    {
+      "type": "header",
+      "content": "Navegación"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_navigation",
+      "label": "Mostrar navegación",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Reproducción automática",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "Velocidad de reproducción",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "default": 5
+    },
+    {
+      "type": "header",
+      "content": "Estilo de tarjetas"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Fondo",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "label": "Radio de borde",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "card_border_width",
+      "label": "Ancho de borde",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Color de borde",
+      "default": "#e6e6e6"
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "label": "Relleno interno",
+      "min": 8,
+      "max": 32,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Tipografía"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Tamaño del título",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Color del título",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "card_title_size",
+      "label": "Tamaño título de tarjeta",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "card_title_color",
+      "label": "Color título de tarjeta",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "card_text_size",
+      "label": "Tamaño texto de tarjeta",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "card_text_color",
+      "label": "Color texto de tarjeta",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Colores de navegación"
+    },
+    {
+      "type": "color",
+      "id": "nav_button_background",
+      "label": "Fondo de botones",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "nav_button_hover_background",
+      "label": "Fondo al pasar (hover)",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "nav_button_color",
+      "label": "Color de iconos",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "dot_color",
+      "label": "Color de puntos",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Espaciado"
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "label": "Relleno de sección",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "title_spacing",
+      "label": "Espacio bajo título",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "nav_spacing",
+      "label": "Espacio sobre navegación",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    }
+  ],
+  "presets": [
+    {
+      "name": "Carrusel de páginas"
+    }
+  ]
+}
 {% endschema %}
