@@ -1,6 +1,931 @@
+{% doc %}
+  @prompt
+    quiero una lista de páginas exactamente igual que una lista de carrusel de colecciones. Justificado a la izquierda, que escoga la imagen destacada de la página, y que pueda añadir más de 80 paginas
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-pages-carousel-{{ ai_gen_id }} {
+    width: 100%;
+    display: block;
+  }
+
+  .ai-pages-carousel-container-{{ ai_gen_id }} {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .ai-pages-carousel-wrapper-{{ ai_gen_id }} {
+    display: flex;
+    gap: {{ block.settings.gap }}px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding-bottom: 10px;
+  }
+
+  .ai-pages-carousel-wrapper-{{ ai_gen_id }}::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ai-pages-carousel-item-{{ ai_gen_id }} {
+    flex: 0 0 {{ block.settings.card_width }}px;
+    min-width: {{ block.settings.card_width }}px;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease;
+  }
+
+  .ai-pages-carousel-item-{{ ai_gen_id }}:hover {
+    transform: translateY(-4px);
+  }
+
+  .ai-pages-carousel-image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    aspect-ratio: {{ block.settings.image_aspect_ratio }};
+    overflow: hidden;
+    border-radius: {{ block.settings.image_border_radius }}px;
+    background-color: #f4f4f4;
+  }
+
+  .ai-pages-carousel-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-pages-carousel-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f4f4f4;
+  }
+
+  .ai-pages-carousel-image-placeholder-{{ ai_gen_id }} svg {
+    width: 50%;
+    height: 50%;
+    opacity: 0.3;
+  }
+
+  .ai-pages-carousel-title-{{ ai_gen_id }} {
+    margin-top: {{ block.settings.title_spacing }}px;
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: {{ block.settings.title_weight }};
+    color: {{ block.settings.title_color }};
+    line-height: 1.3;
+  }
+
+  .ai-pages-carousel-navigation-{{ ai_gen_id }} {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .ai-pages-carousel-nav-button-{{ ai_gen_id }} {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid {{ block.settings.nav_border_color }};
+    background-color: {{ block.settings.nav_bg_color }};
+    color: {{ block.settings.nav_icon_color }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .ai-pages-carousel-nav-button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.nav_hover_bg_color }};
+    border-color: {{ block.settings.nav_hover_border_color }};
+  }
+
+  .ai-pages-carousel-nav-button-{{ ai_gen_id }}:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .ai-pages-carousel-nav-button-{{ ai_gen_id }} svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-pages-carousel-item-{{ ai_gen_id }} {
+      flex: 0 0 {{ block.settings.card_width_mobile }}px;
+      min-width: {{ block.settings.card_width_mobile }}px;
+    }
+  }
+{% endstyle %}
+
+<pages-carousel-{{ ai_gen_id }} class="ai-pages-carousel-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-pages-carousel-container-{{ ai_gen_id }}">
+    <div class="ai-pages-carousel-wrapper-{{ ai_gen_id }}" data-carousel-wrapper>
+      {% for i in (1..100) %}
+        {% assign page_key = 'page_' | append: i %}
+        {% assign page = block.settings[page_key] %}
+        
+        {% if page != blank %}
+          <a href="{{ page.url }}" class="ai-pages-carousel-item-{{ ai_gen_id }}">
+            <div class="ai-pages-carousel-image-wrapper-{{ ai_gen_id }}">
+              {% if page.image %}
+                <img
+                  src="{{ page.image | image_url: width: 600 }}"
+                  alt="{{ page.image.alt | default: page.title | escape }}"
+                  loading="lazy"
+                  width="600"
+                  height="{{ 600 | divided_by: block.settings.image_aspect_ratio }}"
+                  class="ai-pages-carousel-image-{{ ai_gen_id }}"
+                >
+              {% else %}
+                <div class="ai-pages-carousel-image-placeholder-{{ ai_gen_id }}">
+                  {{ 'image' | placeholder_svg_tag }}
+                </div>
+              {% endif %}
+            </div>
+            {% if block.settings.show_title %}
+              <h3 class="ai-pages-carousel-title-{{ ai_gen_id }}">{{ page.title }}</h3>
+            {% endif %}
+          </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    {% if block.settings.show_navigation %}
+      <div class="ai-pages-carousel-navigation-{{ ai_gen_id }}">
+        <button
+          class="ai-pages-carousel-nav-button-{{ ai_gen_id }}"
+          data-nav-prev
+          aria-label="Anterior"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <button
+          class="ai-pages-carousel-nav-button-{{ ai_gen_id }}"
+          data-nav-next
+          aria-label="Siguiente"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+    {% endif %}
+  </div>
+</pages-carousel-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class PagesCarousel{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.wrapper = this.querySelector('[data-carousel-wrapper]');
+        this.prevButton = this.querySelector('[data-nav-prev]');
+        this.nextButton = this.querySelector('[data-nav-next]');
+        
+        if (this.prevButton && this.nextButton) {
+          this.setupNavigation();
+        }
+      }
+
+      setupNavigation() {
+        this.prevButton.addEventListener('click', () => this.scroll('prev'));
+        this.nextButton.addEventListener('click', () => this.scroll('next'));
+        
+        this.wrapper.addEventListener('scroll', () => this.updateButtonStates());
+        this.updateButtonStates();
+      }
+
+      scroll(direction) {
+        const scrollAmount = this.wrapper.offsetWidth * 0.8;
+        const currentScroll = this.wrapper.scrollLeft;
+        
+        if (direction === 'prev') {
+          this.wrapper.scrollLeft = currentScroll - scrollAmount;
+        } else {
+          this.wrapper.scrollLeft = currentScroll + scrollAmount;
+        }
+      }
+
+      updateButtonStates() {
+        const isAtStart = this.wrapper.scrollLeft <= 0;
+        const isAtEnd = this.wrapper.scrollLeft + this.wrapper.offsetWidth >= this.wrapper.scrollWidth - 1;
+        
+        this.prevButton.disabled = isAtStart;
+        this.nextButton.disabled = isAtEnd;
+      }
+    }
+
+    customElements.define('pages-carousel-{{ ai_gen_id }}', PagesCarousel{{ ai_gen_id }});
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Carrusel de páginas",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Páginas"
+    },
+    {
+      "type": "paragraph",
+      "content": "Añade hasta 100 páginas al carrusel. Solo las páginas seleccionadas se mostrarán."
+    },
+    {
+      "type": "page",
+      "id": "page_1",
+      "label": "Página 1"
+    },
+    {
+      "type": "page",
+      "id": "page_2",
+      "label": "Página 2"
+    },
+    {
+      "type": "page",
+      "id": "page_3",
+      "label": "Página 3"
+    },
+    {
+      "type": "page",
+      "id": "page_4",
+      "label": "Página 4"
+    },
+    {
+      "type": "page",
+      "id": "page_5",
+      "label": "Página 5"
+    },
+    {
+      "type": "page",
+      "id": "page_6",
+      "label": "Página 6"
+    },
+    {
+      "type": "page",
+      "id": "page_7",
+      "label": "Página 7"
+    },
+    {
+      "type": "page",
+      "id": "page_8",
+      "label": "Página 8"
+    },
+    {
+      "type": "page",
+      "id": "page_9",
+      "label": "Página 9"
+    },
+    {
+      "type": "page",
+      "id": "page_10",
+      "label": "Página 10"
+    },
+    {
+      "type": "page",
+      "id": "page_11",
+      "label": "Página 11"
+    },
+    {
+      "type": "page",
+      "id": "page_12",
+      "label": "Página 12"
+    },
+    {
+      "type": "page",
+      "id": "page_13",
+      "label": "Página 13"
+    },
+    {
+      "type": "page",
+      "id": "page_14",
+      "label": "Página 14"
+    },
+    {
+      "type": "page",
+      "id": "page_15",
+      "label": "Página 15"
+    },
+    {
+      "type": "page",
+      "id": "page_16",
+      "label": "Página 16"
+    },
+    {
+      "type": "page",
+      "id": "page_17",
+      "label": "Página 17"
+    },
+    {
+      "type": "page",
+      "id": "page_18",
+      "label": "Página 18"
+    },
+    {
+      "type": "page",
+      "id": "page_19",
+      "label": "Página 19"
+    },
+    {
+      "type": "page",
+      "id": "page_20",
+      "label": "Página 20"
+    },
+    {
+      "type": "page",
+      "id": "page_21",
+      "label": "Página 21"
+    },
+    {
+      "type": "page",
+      "id": "page_22",
+      "label": "Página 22"
+    },
+    {
+      "type": "page",
+      "id": "page_23",
+      "label": "Página 23"
+    },
+    {
+      "type": "page",
+      "id": "page_24",
+      "label": "Página 24"
+    },
+    {
+      "type": "page",
+      "id": "page_25",
+      "label": "Página 25"
+    },
+    {
+      "type": "page",
+      "id": "page_26",
+      "label": "Página 26"
+    },
+    {
+      "type": "page",
+      "id": "page_27",
+      "label": "Página 27"
+    },
+    {
+      "type": "page",
+      "id": "page_28",
+      "label": "Página 28"
+    },
+    {
+      "type": "page",
+      "id": "page_29",
+      "label": "Página 29"
+    },
+    {
+      "type": "page",
+      "id": "page_30",
+      "label": "Página 30"
+    },
+    {
+      "type": "page",
+      "id": "page_31",
+      "label": "Página 31"
+    },
+    {
+      "type": "page",
+      "id": "page_32",
+      "label": "Página 32"
+    },
+    {
+      "type": "page",
+      "id": "page_33",
+      "label": "Página 33"
+    },
+    {
+      "type": "page",
+      "id": "page_34",
+      "label": "Página 34"
+    },
+    {
+      "type": "page",
+      "id": "page_35",
+      "label": "Página 35"
+    },
+    {
+      "type": "page",
+      "id": "page_36",
+      "label": "Página 36"
+    },
+    {
+      "type": "page",
+      "id": "page_37",
+      "label": "Página 37"
+    },
+    {
+      "type": "page",
+      "id": "page_38",
+      "label": "Página 38"
+    },
+    {
+      "type": "page",
+      "id": "page_39",
+      "label": "Página 39"
+    },
+    {
+      "type": "page",
+      "id": "page_40",
+      "label": "Página 40"
+    },
+    {
+      "type": "page",
+      "id": "page_41",
+      "label": "Página 41"
+    },
+    {
+      "type": "page",
+      "id": "page_42",
+      "label": "Página 42"
+    },
+    {
+      "type": "page",
+      "id": "page_43",
+      "label": "Página 43"
+    },
+    {
+      "type": "page",
+      "id": "page_44",
+      "label": "Página 44"
+    },
+    {
+      "type": "page",
+      "id": "page_45",
+      "label": "Página 45"
+    },
+    {
+      "type": "page",
+      "id": "page_46",
+      "label": "Página 46"
+    },
+    {
+      "type": "page",
+      "id": "page_47",
+      "label": "Página 47"
+    },
+    {
+      "type": "page",
+      "id": "page_48",
+      "label": "Página 48"
+    },
+    {
+      "type": "page",
+      "id": "page_49",
+      "label": "Página 49"
+    },
+    {
+      "type": "page",
+      "id": "page_50",
+      "label": "Página 50"
+    },
+    {
+      "type": "page",
+      "id": "page_51",
+      "label": "Página 51"
+    },
+    {
+      "type": "page",
+      "id": "page_52",
+      "label": "Página 52"
+    },
+    {
+      "type": "page",
+      "id": "page_53",
+      "label": "Página 53"
+    },
+    {
+      "type": "page",
+      "id": "page_54",
+      "label": "Página 54"
+    },
+    {
+      "type": "page",
+      "id": "page_55",
+      "label": "Página 55"
+    },
+    {
+      "type": "page",
+      "id": "page_56",
+      "label": "Página 56"
+    },
+    {
+      "type": "page",
+      "id": "page_57",
+      "label": "Página 57"
+    },
+    {
+      "type": "page",
+      "id": "page_58",
+      "label": "Página 58"
+    },
+    {
+      "type": "page",
+      "id": "page_59",
+      "label": "Página 59"
+    },
+    {
+      "type": "page",
+      "id": "page_60",
+      "label": "Página 60"
+    },
+    {
+      "type": "page",
+      "id": "page_61",
+      "label": "Página 61"
+    },
+    {
+      "type": "page",
+      "id": "page_62",
+      "label": "Página 62"
+    },
+    {
+      "type": "page",
+      "id": "page_63",
+      "label": "Página 63"
+    },
+    {
+      "type": "page",
+      "id": "page_64",
+      "label": "Página 64"
+    },
+    {
+      "type": "page",
+      "id": "page_65",
+      "label": "Página 65"
+    },
+    {
+      "type": "page",
+      "id": "page_66",
+      "label": "Página 66"
+    },
+    {
+      "type": "page",
+      "id": "page_67",
+      "label": "Página 67"
+    },
+    {
+      "type": "page",
+      "id": "page_68",
+      "label": "Página 68"
+    },
+    {
+      "type": "page",
+      "id": "page_69",
+      "label": "Página 69"
+    },
+    {
+      "type": "page",
+      "id": "page_70",
+      "label": "Página 70"
+    },
+    {
+      "type": "page",
+      "id": "page_71",
+      "label": "Página 71"
+    },
+    {
+      "type": "page",
+      "id": "page_72",
+      "label": "Página 72"
+    },
+    {
+      "type": "page",
+      "id": "page_73",
+      "label": "Página 73"
+    },
+    {
+      "type": "page",
+      "id": "page_74",
+      "label": "Página 74"
+    },
+    {
+      "type": "page",
+      "id": "page_75",
+      "label": "Página 75"
+    },
+    {
+      "type": "page",
+      "id": "page_76",
+      "label": "Página 76"
+    },
+    {
+      "type": "page",
+      "id": "page_77",
+      "label": "Página 77"
+    },
+    {
+      "type": "page",
+      "id": "page_78",
+      "label": "Página 78"
+    },
+    {
+      "type": "page",
+      "id": "page_79",
+      "label": "Página 79"
+    },
+    {
+      "type": "page",
+      "id": "page_80",
+      "label": "Página 80"
+    },
+    {
+      "type": "page",
+      "id": "page_81",
+      "label": "Página 81"
+    },
+    {
+      "type": "page",
+      "id": "page_82",
+      "label": "Página 82"
+    },
+    {
+      "type": "page",
+      "id": "page_83",
+      "label": "Página 83"
+    },
+    {
+      "type": "page",
+      "id": "page_84",
+      "label": "Página 84"
+    },
+    {
+      "type": "page",
+      "id": "page_85",
+      "label": "Página 85"
+    },
+    {
+      "type": "page",
+      "id": "page_86",
+      "label": "Página 86"
+    },
+    {
+      "type": "page",
+      "id": "page_87",
+      "label": "Página 87"
+    },
+    {
+      "type": "page",
+      "id": "page_88",
+      "label": "Página 88"
+    },
+    {
+      "type": "page",
+      "id": "page_89",
+      "label": "Página 89"
+    },
+    {
+      "type": "page",
+      "id": "page_90",
+      "label": "Página 90"
+    },
+    {
+      "type": "page",
+      "id": "page_91",
+      "label": "Página 91"
+    },
+    {
+      "type": "page",
+      "id": "page_92",
+      "label": "Página 92"
+    },
+    {
+      "type": "page",
+      "id": "page_93",
+      "label": "Página 93"
+    },
+    {
+      "type": "page",
+      "id": "page_94",
+      "label": "Página 94"
+    },
+    {
+      "type": "page",
+      "id": "page_95",
+      "label": "Página 95"
+    },
+    {
+      "type": "page",
+      "id": "page_96",
+      "label": "Página 96"
+    },
+    {
+      "type": "page",
+      "id": "page_97",
+      "label": "Página 97"
+    },
+    {
+      "type": "page",
+      "id": "page_98",
+      "label": "Página 98"
+    },
+    {
+      "type": "page",
+      "id": "page_99",
+      "label": "Página 99"
+    },
+    {
+      "type": "page",
+      "id": "page_100",
+      "label": "Página 100"
+    },
+    {
+      "type": "header",
+      "content": "Diseño"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Mostrar título",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_navigation",
+      "label": "Mostrar navegación",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "card_width",
+      "label": "Ancho de tarjeta (escritorio)",
+      "min": 150,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "default": 280
+    },
+    {
+      "type": "range",
+      "id": "card_width_mobile",
+      "label": "Ancho de tarjeta (móvil)",
+      "min": 120,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "default": 200
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Espacio entre tarjetas",
+      "min": 8,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Imagen"
+    },
+    {
+      "type": "select",
+      "id": "image_aspect_ratio",
+      "label": "Proporción de imagen",
+      "options": [
+        {
+          "value": "1",
+          "label": "Cuadrada (1:1)"
+        },
+        {
+          "value": "1.33",
+          "label": "Paisaje (4:3)"
+        },
+        {
+          "value": "1.5",
+          "label": "Paisaje (3:2)"
+        },
+        {
+          "value": "0.75",
+          "label": "Retrato (3:4)"
+        },
+        {
+          "value": "0.67",
+          "label": "Retrato (2:3)"
+        }
+      ],
+      "default": "1.33"
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "label": "Radio de borde de imagen",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Título"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Tamaño de título",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "title_spacing",
+      "label": "Espacio sobre título",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "title_weight",
+      "label": "Peso de título",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medio"
+        },
+        {
+          "value": "600",
+          "label": "Semi-negrita"
+        },
+        {
+          "value": "700",
+          "label": "Negrita"
+        }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Color de título",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Navegación"
+    },
+    {
+      "type": "color",
+      "id": "nav_bg_color",
+      "label": "Fondo",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "nav_hover_bg_color",
+      "label": "Fondo al pasar",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "nav_border_color",
+      "label": "Borde",
+      "default": "#e6e6e6"
+    },
+    {
+      "type": "color",
+      "id": "nav_hover_border_color",
+      "label": "Borde al pasar",
+      "default": "#cccccc"
+    },
+    {
+      "type": "color",
+      "id": "nav_icon_color",
+      "label": "Color de icono",
+      "default": "#000000"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Carrusel de páginas"
+    }
+  ]
+}
 {% endschema %}
