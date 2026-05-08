@@ -1,5 +1,5 @@
 {% liquid
-  assign related_pages = collection.metafields.custom.paginas_relacionadas.value
+  assign related_pages = page.metafields.custom.paginas_relacionadas.value
   assign max_items = 0
   if related_pages != blank
     assign max_items = related_pages.size
