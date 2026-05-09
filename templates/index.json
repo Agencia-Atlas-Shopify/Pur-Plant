@@ -48,7 +48,6 @@
       "block_order": [
         "slide_6xTadD"
       ],
-      "disabled": true,
       "name": "PP Hero Slider",
       "settings": {
         "enable_transparent_header": false,
@@ -108,6 +107,7 @@
       "block_order": [
         "slide_whPjRL"
       ],
+      "disabled": true,
       "name": "PP Hero Slider Plant Days",
       "settings": {
         "enable_transparent_header": false,
@@ -363,6 +363,7 @@
       "blocks": {
         "banner_J6Vfaf": {
           "type": "banner",
+          "disabled": true,
           "settings": {
             "position": 5,
             "width_mobile": 1,
@@ -383,7 +384,6 @@
         },
         "video_block_6VPFpT": {
           "type": "video_block",
-          "disabled": true,
           "settings": {
             "position": 5,
             "width_mobile": 1,
@@ -405,6 +405,7 @@
         },
         "video_block_gTDiD9": {
           "type": "video_block",
+          "disabled": true,
           "settings": {
             "position": 14,
             "width_mobile": 1,
@@ -435,7 +436,7 @@
         "title": "",
         "view_all_text": "",
         "view_all_link": "",
-        "collection": "plant-days",
+        "collection": "fiesta-primavera",
         "max_products": 48,
         "image_ratio": "portrait-tall",
         "products_per_row_mobile": 2,
