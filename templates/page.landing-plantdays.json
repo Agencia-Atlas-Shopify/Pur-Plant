@@ -293,6 +293,7 @@
           ]
         }
       },
+      "disabled": true,
       "name": "Regalamos Plantas Muchas Plantas",
       "settings": {
         "media_position": "right",
