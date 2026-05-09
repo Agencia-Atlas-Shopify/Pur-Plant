@@ -208,7 +208,7 @@
       "type": "pp-richtext",
       "name": "PP Rich Text",
       "settings": {
-        "content": "<p><strong>¡¡Gracias por formar parte de nuestro aniversario!!🎉</strong></p><p><strong>Campaña cerrada</strong></p>",
+        "content": "<p><br/>Gracias por acompañarnos en este aniversario tan especial.<br/><br/>Nos vemos muy pronto entre plantas.<br/><br/></p>",
         "font_size": 25,
         "font_weight": "400",
         "line_height": 16,
