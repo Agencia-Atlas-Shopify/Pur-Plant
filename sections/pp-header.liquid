@@ -124,7 +124,7 @@
       </nav>
 
       {%- comment -%} CENTER: Logo — always visible {%- endcomment -%}
-      <h1 class="pp-header__logo">
+      <spanclass="pp-header__logo">
         <a href="{{ routes.root_url }}">
           <span class="sr-only">{{ shop.name }}</span>
           {%- if section.settings.logo != blank -%}
@@ -139,7 +139,7 @@
             <span class="pp-header__logo-text">{{ shop.name }}</span>
           {%- endif -%}
         </a>
-      </h1>
+      </span>
 
       {%- comment -%} RIGHT: Sobre Pur Plant, ES, icons {%- endcomment -%}
       <nav class="pp-header__secondary-nav" aria-label="Navegación secundaria">
