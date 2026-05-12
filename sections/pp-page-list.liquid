@@ -1,10 +1,15 @@
 {% liquid
-  assign related_pages = page.metafields.custom.paginas_relacionadas.value
+  if template.name == 'collection'
+    assign related_pages = collection.metafields.custom.paginas_relacionadas.value
+  elsif template.name == 'page'
+    assign related_pages = page.metafields.custom.paginas_relacionadas.value
+  endif
   assign max_items = 0
   if related_pages != blank
     assign max_items = related_pages.size
   endif
 %}
+
 
 {%- if max_items == 0 -%}
   {%- comment -%} No pages — hide section {%- endcomment -%}
