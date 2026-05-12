@@ -22,266 +22,6 @@
   data-product-id="{{ product.id }}"
 >
   <div class="pp-pdp__grid">
-    {%- comment -%} ═══ LEFT: Care icons + Accordions only ═══ {%- endcomment -%}
-    <div class="pp-pdp__info-left" data-pp-info-left>
-      {%- comment -%} Care icons from metafields (with demo fallback) {%- endcomment -%}
-      {%- assign care_icons_open = false -%}
-      {%- for block in section.blocks -%}
-        {%- if block.type == 'care_icon' and care_icons_open == false -%}
-          {%- assign care_icons_open = true -%}
-          <div class="pp-pdp__care-icons">
-        {%- endif -%}
-        {%- if block.type != 'care_icon' and care_icons_open -%}
-          {%- assign care_icons_open = false -%}
-          </div>
-        {%- endif -%}
-        {%- case block.type -%}
-          {%- when 'care_icon' -%}
-            {%- liquid
-              assign mf_source = block.settings.metafield_source
-              assign mf_value = blank
-              assign should_show = false
-              assign is_pet_true = false
-
-              case mf_source
-                when 'pet_friendly'
-                  if product.metafields.custom.pet_friendly != blank
-                    assign should_show = true
-                    if product.metafields.custom.pet_friendly == true
-                      assign mf_value = 'Sí'
-                      assign is_pet_true = true
-                    else
-                      assign mf_value = 'No'
-                    endif
-                  endif
-                when 'purificadora'
-                  if product.metafields.custom.purificadora != blank
-                    assign should_show = true
-                    if product.metafields.custom.purificadora == true
-                      assign mf_value = 'Sí'
-                    else
-                      assign mf_value = 'No'
-                    endif
-                  endif
-                when 'luz'
-                  if product.metafields.custom.luz.value != blank
-                    assign should_show = true
-                    assign mf_value = product.metafields.custom.luz.value | join: ', '
-                  endif
-                when 'riego'
-                  if product.metafields.custom.riego.value != blank
-                    assign should_show = true
-                    assign mf_value = product.metafields.custom.riego.value | join: ', '
-                  endif
-                when 'dificultad'
-                  if product.metafields.custom.dificultad != blank
-                    assign should_show = true
-                    assign mf_value = product.metafields.custom.dificultad
-                  endif
-                when 'ubicacion'
-                  if product.metafields.custom.ubicacion != blank
-                    assign should_show = true
-                    assign mf_value = product.metafields.custom.ubicacion
-                  endif
-                when 'temperatura'
-                  if product.metafields.custom.temperatura != blank
-                    assign should_show = true
-                    assign mf_value = product.metafields.custom.temperatura
-                  endif
-                when 'humedad'
-                  if product.metafields.custom.humedad != blank
-                    assign should_show = true
-                    assign mf_value = product.metafields.custom.humedad
-                  endif
-                when 'crecimiento'
-                  if product.metafields.custom.crecimiento != blank
-                    assign should_show = true
-                    assign mf_value = product.metafields.custom.crecimiento
-                  endif
-              endcase
-            -%}
-            {%- if should_show -%}
-              <div class="pp-pdp__care-icon" {{ block.shopify_attributes }}>
-                {%- if mf_source == 'pet_friendly' -%}
-                  {%- if is_pet_true and block.settings.icon != blank -%}
-                    <img src="{{ block.settings.icon | image_url: width: 80 }}" alt="{{ block.settings.label }}" width="32" height="32" loading="lazy">
-                  {%- elsif is_pet_true == false and block.settings.icon_false != blank -%}
-                    <img src="{{ block.settings.icon_false | image_url: width: 80 }}" alt="{{ block.settings.label }}" width="32" height="32" loading="lazy">
-                  {%- elsif block.settings.icon != blank -%}
-                    <img src="{{ block.settings.icon | image_url: width: 80 }}" alt="{{ block.settings.label }}" width="32" height="32" loading="lazy">
-                  {%- endif -%}
-                {%- elsif block.settings.icon != blank -%}
-                  <img src="{{ block.settings.icon | image_url: width: 80 }}" alt="{{ block.settings.label }}" width="32" height="32" loading="lazy">
-                {%- endif -%}
-                {%- if block.settings.label != blank -%}
-                  <span class="pp-pdp__care-label">{{ block.settings.label }}</span>
-                {%- endif -%}
-                <span class="pp-pdp__care-value">{{ mf_value }}</span>
-              </div>
-            {%- endif -%}
-          {%- when 'accordion' -%}
-            {%- liquid
-              assign mf_key = block.settings.metafield_key
-              assign cs = block.settings.content_source
-
-              # Detect planta/maceta via varias señales (OR).
-              # Suficiente con que UNA matchee — robusto si cliente olvida product.type.
-              assign type_lower = product.type | downcase
-              assign is_planta = false
-              assign is_maceta = false
-              if type_lower contains 'planta'
-                assign is_planta = true
-              elsif product.metafields.custom.nombre_cientifico != blank
-                assign is_planta = true
-              elsif product.metafields.custom.familia != blank
-                assign is_planta = true
-              elsif product.metafields.shopify['plant-name'] != blank
-                assign is_planta = true
-              endif
-              if type_lower contains 'maceta'
-                assign is_maceta = true
-              elsif product.metafields.custom.material != blank
-                assign is_maceta = true
-              endif
-
-              # Compute has_content for current source
-              assign has_content = false
-              if cs == 'description' and product.description != blank
-                assign has_content = true
-              elsif cs == 'descripcion_corta' and product.metafields.custom.descripcion_corta != blank
-                assign has_content = true
-              elsif cs == 'metafield' and product.metafields.custom[mf_key] != blank
-                assign has_content = true
-              elsif cs == 'custom' and block.settings.custom_content != blank
-                assign has_content = true
-              elsif cs == 'medidas'
-                if product.metafields.custom.altura_cm != blank or product.metafields.custom.diametro_maceta_cm != blank
-                  assign has_content = true
-                endif
-              elsif cs == 'acerca_planta_auto'
-                if product.metafields.custom.punto_1 != blank or product.metafields.custom.punto_2 != blank or product.metafields.custom.punto_3 != blank or product.metafields.custom.punto_4 != blank or product.metafields.custom.punto_5 != blank or product.metafields.custom.familia != blank or product.metafields.custom.tipo_planta != blank or product.metafields.custom.pasaporte_fitosanitario != blank or product.metafields.custom.nombre_cientifico != blank
-                  assign has_content = true
-                endif
-              endif
-
-              # Video also counts as content
-              if block.settings.video_url != blank
-                assign has_content = true
-              endif
-
-              # Medidas restricted: only plantas + macetas
-              assign show_block = has_content
-              if cs == 'medidas' and is_planta == false and is_maceta == false
-                assign show_block = false
-              endif
-            -%}
-            {%- if show_block -%}
-              <details class="pp-pdp__accordion"{% if block.settings.open_by_default %} open{% endif %} {{ block.shopify_attributes }}>
-                <summary class="pp-pdp__accordion-header">
-                  <span>{{ block.settings.heading }}</span>
-                  <span class="pp-pdp__accordion-icon">+</span>
-                </summary>
-                <div class="pp-pdp__accordion-content">
-                  {%- case cs -%}
-                    {%- when 'description' -%}
-                      {{ product.description }}
-                    {%- when 'descripcion_corta' -%}
-                      {{ product.metafields.custom.descripcion_corta | strip_html }}
-                    {%- when 'metafield' -%}
-                      {{ product.metafields.custom[mf_key] | metafield_tag }}
-                    {%- when 'custom' -%}
-                      {{ block.settings.custom_content }}
-                    {%- when 'acerca_planta_auto' -%}
-                      <div class="pp-pdp__acerca">
-                        {%- assign has_puntos = false -%}
-                        {%- if product.metafields.custom.punto_1 != blank or product.metafields.custom.punto_2 != blank or product.metafields.custom.punto_3 != blank or product.metafields.custom.punto_4 != blank or product.metafields.custom.punto_5 != blank -%}
-                          {%- assign has_puntos = true -%}
-                        {%- endif -%}
-                        {%- if has_puntos -%}
-                          <ul class="pp-pdp__acerca-puntos">
-                            {%- for i in (1..5) -%}
-                              {%- assign pkey = 'punto_' | append: i -%}
-                              {%- assign pval = product.metafields.custom[pkey] -%}
-                              {%- if pval != blank -%}<li>{{ pval }}</li>{%- endif -%}
-                            {%- endfor -%}
-                          </ul>
-                        {%- endif -%}
-                        <dl class="pp-pdp__acerca-dl">
-                          {%- if product.metafields.custom.nombre_cientifico != blank -%}
-                            <div><dt>Nombre científico</dt><dd><em>{{ product.metafields.custom.nombre_cientifico }}</em></dd></div>
-                          {%- endif -%}
-                          {%- if product.metafields.custom.familia != blank -%}
-                            <div><dt>Familia</dt><dd>
-                              {%- assign fam_list = product.metafields.custom.familia.value -%}
-                              {%- for f in fam_list -%}{{ f }}{%- unless forloop.last %}, {% endunless -%}{%- endfor -%}
-                            </dd></div>
-                          {%- endif -%}
-                          {%- if product.metafields.custom.tipo_planta != blank -%}
-                            <div><dt>Características</dt><dd class="pp-pdp__acerca-tags">
-                              {%- assign tipo_list = product.metafields.custom.tipo_planta.value -%}
-                              {%- for t in tipo_list -%}<span class="pp-pdp__acerca-tag">{{ t }}</span>{%- endfor -%}
-                            </dd></div>
-                          {%- endif -%}
-                          {%- if product.metafields.custom.pasaporte_fitosanitario != blank -%}
-                            <div><dt>Pasaporte fitosanitario</dt><dd>{{ product.metafields.custom.pasaporte_fitosanitario }}</dd></div>
-                          {%- endif -%}
-                        </dl>
-                      </div>
-                    {%- when 'medidas' -%}
-                      <ul class="pp-pdp__medidas-list">
-                        {%- if product.metafields.custom.altura_cm != blank -%}
-                          {%- assign altura_val = product.metafields.custom.altura_cm | plus: 0 -%}
-                          {%- assign altura_int = altura_val | floor -%}
-                          <li>Altura aproximada: {% if altura_val == altura_int %}{{ altura_int }}{% else %}{{ altura_val }}{% endif %} cm</li>
-                        {%- endif -%}
-                        {%- if product.metafields.custom.diametro_maceta_cm != blank -%}
-                          {%- assign diam_val = product.metafields.custom.diametro_maceta_cm | plus: 0 -%}
-                          {%- assign diam_int = diam_val | floor -%}
-                          <li>Diámetro: {% if diam_val == diam_int %}{{ diam_int }}{% else %}{{ diam_val }}{% endif %} cm</li>
-                        {%- endif -%}
-                      </ul>
-                  {%- endcase -%}
-
-                  {%- comment -%} Optional embedded YouTube / Vimeo video {%- endcomment -%}
-                  {%- if block.settings.video_url != blank -%}
-                    {%- assign vu = block.settings.video_url -%}
-                    {%- assign yt_id = '' -%}
-                    {%- if vu contains 'youtu.be/' -%}
-                      {%- assign yt_id = vu | split: 'youtu.be/' | last | split: '?' | first | split: '&' | first -%}
-                    {%- elsif vu contains 'youtube.com/watch' -%}
-                      {%- assign yt_id = vu | split: 'v=' | last | split: '&' | first -%}
-                    {%- elsif vu contains 'youtube.com/embed/' -%}
-                      {%- assign yt_id = vu | split: 'youtube.com/embed/' | last | split: '?' | first -%}
-                    {%- endif -%}
-                    {%- if yt_id != '' -%}
-                      <div class="pp-pdp__accordion-video">
-                        <iframe src="https://www.youtube.com/embed/{{ yt_id }}" title="{{ block.settings.heading | escape }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
-                      </div>
-                    {%- elsif vu contains 'vimeo.com/' -%}
-                      {%- assign vm_id = vu | split: 'vimeo.com/' | last | split: '?' | first | split: '/' | first -%}
-                      <div class="pp-pdp__accordion-video">
-                        <iframe src="https://player.vimeo.com/video/{{ vm_id }}" title="{{ block.settings.heading | escape }}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
-                      </div>
-                    {%- endif -%}
-                  {%- endif -%}
-                </div>
-              </details>
-            {%- endif -%}
-        {%- endcase -%}
-      {%- endfor -%}
-      {%- if care_icons_open -%}
-        </div>
-      {%- endif -%}
-
-      {%- comment -%} Left column image (uploadable from customizer) {%- endcomment -%}
-      {%- for block in section.blocks -%}
-        {%- if block.type == 'left_image' and block.settings.image != blank -%}
-          <div class="pp-pdp__left-image" {{ block.shopify_attributes }}>
-            <img src="{{ block.settings.image | image_url: width: 400 }}" alt="{{ block.settings.image.alt | default: product.title | escape }}" width="200" loading="lazy">
-          </div>
-        {%- endif -%}
-      {%- endfor -%}
-    </div>
 
     {%- comment -%} ═══ CENTER: Image Gallery ═══ {%- endcomment -%}
     <div class="pp-pdp__gallery">
@@ -862,6 +602,275 @@
           </div>
         </div>
       {%- endunless -%}
+    </div>
+
+    {%- comment -%} ═══ LEFT: Care icons + Accordions (moved after gallery+info-right for correct DOM read order: H1 before accordion headings) ═══ {%- endcomment -%}
+    <div class="pp-pdp__info-left" data-pp-info-left>
+      {%- comment -%} Care icons from metafields (with demo fallback) {%- endcomment -%}
+      {%- assign care_icons_open = false -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'care_icon' and care_icons_open == false -%}
+          {%- assign care_icons_open = true -%}
+          <div class="pp-pdp__care-icons">
+        {%- endif -%}
+        {%- if block.type != 'care_icon' and care_icons_open -%}
+          {%- assign care_icons_open = false -%}
+          </div>
+        {%- endif -%}
+        {%- case block.type -%}
+          {%- when 'care_icon' -%}
+            {%- liquid
+              assign mf_source = block.settings.metafield_source
+              assign mf_value = blank
+              assign should_show = false
+              assign is_pet_true = false
+
+              case mf_source
+                when 'pet_friendly'
+                  if product.metafields.custom.pet_friendly != blank
+                    assign should_show = true
+                    if product.metafields.custom.pet_friendly == true
+                      assign mf_value = 'Sí'
+                      assign is_pet_true = true
+                    else
+                      assign mf_value = 'No'
+                    endif
+                  endif
+                when 'purificadora'
+                  if product.metafields.custom.purificadora != blank
+                    assign should_show = true
+                    if product.metafields.custom.purificadora == true
+                      assign mf_value = 'Sí'
+                    else
+                      assign mf_value = 'No'
+                    endif
+                  endif
+                when 'luz'
+                  if product.metafields.custom.luz.value != blank
+                    assign should_show = true
+                    assign mf_value = product.metafields.custom.luz.value | join: ', '
+                  endif
+                when 'riego'
+                  if product.metafields.custom.riego.value != blank
+                    assign should_show = true
+                    assign mf_value = product.metafields.custom.riego.value | join: ', '
+                  endif
+                when 'dificultad'
+                  if product.metafields.custom.dificultad != blank
+                    assign should_show = true
+                    assign mf_value = product.metafields.custom.dificultad
+                  endif
+                when 'ubicacion'
+                  if product.metafields.custom.ubicacion != blank
+                    assign should_show = true
+                    assign mf_value = product.metafields.custom.ubicacion
+                  endif
+                when 'temperatura'
+                  if product.metafields.custom.temperatura != blank
+                    assign should_show = true
+                    assign mf_value = product.metafields.custom.temperatura
+                  endif
+                when 'humedad'
+                  if product.metafields.custom.humedad != blank
+                    assign should_show = true
+                    assign mf_value = product.metafields.custom.humedad
+                  endif
+                when 'crecimiento'
+                  if product.metafields.custom.crecimiento != blank
+                    assign should_show = true
+                    assign mf_value = product.metafields.custom.crecimiento
+                  endif
+              endcase
+            -%}
+            {%- if should_show -%}
+              <div class="pp-pdp__care-icon" {{ block.shopify_attributes }}>
+                {%- if mf_source == 'pet_friendly' -%}
+                  {%- if is_pet_true and block.settings.icon != blank -%}
+                    <img src="{{ block.settings.icon | image_url: width: 80 }}" alt="{{ block.settings.label }}" width="32" height="32" loading="lazy">
+                  {%- elsif is_pet_true == false and block.settings.icon_false != blank -%}
+                    <img src="{{ block.settings.icon_false | image_url: width: 80 }}" alt="{{ block.settings.label }}" width="32" height="32" loading="lazy">
+                  {%- elsif block.settings.icon != blank -%}
+                    <img src="{{ block.settings.icon | image_url: width: 80 }}" alt="{{ block.settings.label }}" width="32" height="32" loading="lazy">
+                  {%- endif -%}
+                {%- elsif block.settings.icon != blank -%}
+                  <img src="{{ block.settings.icon | image_url: width: 80 }}" alt="{{ block.settings.label }}" width="32" height="32" loading="lazy">
+                {%- endif -%}
+                {%- if block.settings.label != blank -%}
+                  <span class="pp-pdp__care-label">{{ block.settings.label }}</span>
+                {%- endif -%}
+                <span class="pp-pdp__care-value">{{ mf_value }}</span>
+              </div>
+            {%- endif -%}
+          {%- when 'accordion' -%}
+            {%- liquid
+              assign mf_key = block.settings.metafield_key
+              assign cs = block.settings.content_source
+
+              # Detect planta/maceta via varias señales (OR).
+              # Suficiente con que UNA matchee — robusto si cliente olvida product.type.
+              assign type_lower = product.type | downcase
+              assign is_planta = false
+              assign is_maceta = false
+              if type_lower contains 'planta'
+                assign is_planta = true
+              elsif product.metafields.custom.nombre_cientifico != blank
+                assign is_planta = true
+              elsif product.metafields.custom.familia != blank
+                assign is_planta = true
+              elsif product.metafields.shopify['plant-name'] != blank
+                assign is_planta = true
+              endif
+              if type_lower contains 'maceta'
+                assign is_maceta = true
+              elsif product.metafields.custom.material != blank
+                assign is_maceta = true
+              endif
+
+              # Compute has_content for current source
+              assign has_content = false
+              if cs == 'description' and product.description != blank
+                assign has_content = true
+              elsif cs == 'descripcion_corta' and product.metafields.custom.descripcion_corta != blank
+                assign has_content = true
+              elsif cs == 'metafield' and product.metafields.custom[mf_key] != blank
+                assign has_content = true
+              elsif cs == 'custom' and block.settings.custom_content != blank
+                assign has_content = true
+              elsif cs == 'medidas'
+                if product.metafields.custom.altura_cm != blank or product.metafields.custom.diametro_maceta_cm != blank
+                  assign has_content = true
+                endif
+              elsif cs == 'acerca_planta_auto'
+                if product.metafields.custom.punto_1 != blank or product.metafields.custom.punto_2 != blank or product.metafields.custom.punto_3 != blank or product.metafields.custom.punto_4 != blank or product.metafields.custom.punto_5 != blank or product.metafields.custom.familia != blank or product.metafields.custom.tipo_planta != blank or product.metafields.custom.pasaporte_fitosanitario != blank or product.metafields.custom.nombre_cientifico != blank
+                  assign has_content = true
+                endif
+              endif
+
+              # Video also counts as content
+              if block.settings.video_url != blank
+                assign has_content = true
+              endif
+
+              # Medidas restricted: only plantas + macetas
+              assign show_block = has_content
+              if cs == 'medidas' and is_planta == false and is_maceta == false
+                assign show_block = false
+              endif
+            -%}
+            {%- if show_block -%}
+              <details class="pp-pdp__accordion"{% if block.settings.open_by_default %} open{% endif %} {{ block.shopify_attributes }}>
+                <summary class="pp-pdp__accordion-header">
+                  <span>{{ block.settings.heading }}</span>
+                  <span class="pp-pdp__accordion-icon">+</span>
+                </summary>
+                <div class="pp-pdp__accordion-content">
+                  {%- case cs -%}
+                    {%- when 'description' -%}
+                      {{ product.description }}
+                    {%- when 'descripcion_corta' -%}
+                      {{ product.metafields.custom.descripcion_corta | strip_html }}
+                    {%- when 'metafield' -%}
+                      {{ product.metafields.custom[mf_key] | metafield_tag }}
+                    {%- when 'custom' -%}
+                      {{ block.settings.custom_content }}
+                    {%- when 'acerca_planta_auto' -%}
+                      <div class="pp-pdp__acerca">
+                        {%- assign has_puntos = false -%}
+                        {%- if product.metafields.custom.punto_1 != blank or product.metafields.custom.punto_2 != blank or product.metafields.custom.punto_3 != blank or product.metafields.custom.punto_4 != blank or product.metafields.custom.punto_5 != blank -%}
+                          {%- assign has_puntos = true -%}
+                        {%- endif -%}
+                        {%- if has_puntos -%}
+                          <ul class="pp-pdp__acerca-puntos">
+                            {%- for i in (1..5) -%}
+                              {%- assign pkey = 'punto_' | append: i -%}
+                              {%- assign pval = product.metafields.custom[pkey] -%}
+                              {%- if pval != blank -%}<li>{{ pval }}</li>{%- endif -%}
+                            {%- endfor -%}
+                          </ul>
+                        {%- endif -%}
+                        <dl class="pp-pdp__acerca-dl">
+                          {%- if product.metafields.custom.nombre_cientifico != blank -%}
+                            <div><dt>Nombre científico</dt><dd><em>{{ product.metafields.custom.nombre_cientifico }}</em></dd></div>
+                          {%- endif -%}
+                          {%- if product.metafields.custom.familia != blank -%}
+                            <div><dt>Familia</dt><dd class="pp-pdp__acerca-tags">
+                              {%- assign fam_list = product.metafields.custom.familia.value -%}
+                              {%- for f in fam_list -%}
+                                {%- assign fam_handle = f | handleize | prepend: 'plantas-' -%}
+                                {%- assign fam_coll = collections[fam_handle] -%}
+                                {%- if fam_coll.handle != blank and fam_coll.products_count > 0 -%}
+                                  <a href="{{ fam_coll.url }}" class="pp-pdp__acerca-tag pp-pdp__acerca-tag--link">{{ f }}</a>
+                                {%- else -%}
+                                  <span class="pp-pdp__acerca-tag">{{ f }}</span>
+                                {%- endif -%}
+                              {%- endfor -%}
+                            </dd></div>
+                          {%- endif -%}
+                          {%- if product.metafields.custom.tipo_planta != blank -%}
+                            <div><dt>Características</dt><dd class="pp-pdp__acerca-tags">
+                              {%- assign tipo_list = product.metafields.custom.tipo_planta.value -%}
+                              {%- for t in tipo_list -%}<span class="pp-pdp__acerca-tag">{{ t }}</span>{%- endfor -%}
+                            </dd></div>
+                          {%- endif -%}
+                          {%- if product.metafields.custom.pasaporte_fitosanitario != blank -%}
+                            <div><dt>Pasaporte fitosanitario</dt><dd>{{ product.metafields.custom.pasaporte_fitosanitario }}</dd></div>
+                          {%- endif -%}
+                        </dl>
+                      </div>
+                    {%- when 'medidas' -%}
+                      <ul class="pp-pdp__medidas-list">
+                        {%- if product.metafields.custom.altura_cm != blank -%}
+                          {%- assign altura_val = product.metafields.custom.altura_cm | plus: 0 -%}
+                          {%- assign altura_int = altura_val | floor -%}
+                          <li>Altura aproximada: {% if altura_val == altura_int %}{{ altura_int }}{% else %}{{ altura_val }}{% endif %} cm</li>
+                        {%- endif -%}
+                        {%- if product.metafields.custom.diametro_maceta_cm != blank -%}
+                          {%- assign diam_val = product.metafields.custom.diametro_maceta_cm | plus: 0 -%}
+                          {%- assign diam_int = diam_val | floor -%}
+                          <li>Diámetro: {% if diam_val == diam_int %}{{ diam_int }}{% else %}{{ diam_val }}{% endif %} cm</li>
+                        {%- endif -%}
+                      </ul>
+                  {%- endcase -%}
+
+                  {%- comment -%} Optional embedded YouTube / Vimeo video {%- endcomment -%}
+                  {%- if block.settings.video_url != blank -%}
+                    {%- assign vu = block.settings.video_url -%}
+                    {%- assign yt_id = '' -%}
+                    {%- if vu contains 'youtu.be/' -%}
+                      {%- assign yt_id = vu | split: 'youtu.be/' | last | split: '?' | first | split: '&' | first -%}
+                    {%- elsif vu contains 'youtube.com/watch' -%}
+                      {%- assign yt_id = vu | split: 'v=' | last | split: '&' | first -%}
+                    {%- elsif vu contains 'youtube.com/embed/' -%}
+                      {%- assign yt_id = vu | split: 'youtube.com/embed/' | last | split: '?' | first -%}
+                    {%- endif -%}
+                    {%- if yt_id != '' -%}
+                      <div class="pp-pdp__accordion-video">
+                        <iframe src="https://www.youtube.com/embed/{{ yt_id }}" title="{{ block.settings.heading | escape }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                      </div>
+                    {%- elsif vu contains 'vimeo.com/' -%}
+                      {%- assign vm_id = vu | split: 'vimeo.com/' | last | split: '?' | first | split: '/' | first -%}
+                      <div class="pp-pdp__accordion-video">
+                        <iframe src="https://player.vimeo.com/video/{{ vm_id }}" title="{{ block.settings.heading | escape }}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                      </div>
+                    {%- endif -%}
+                  {%- endif -%}
+                </div>
+              </details>
+            {%- endif -%}
+        {%- endcase -%}
+      {%- endfor -%}
+      {%- if care_icons_open -%}
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} Left column image (uploadable from customizer) {%- endcomment -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'left_image' and block.settings.image != blank -%}
+          <div class="pp-pdp__left-image" {{ block.shopify_attributes }}>
+            <img src="{{ block.settings.image | image_url: width: 400 }}" alt="{{ block.settings.image.alt | default: product.title | escape }}" width="200" loading="lazy">
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
     </div>
   </div>
 

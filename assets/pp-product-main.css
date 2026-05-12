@@ -67,6 +67,8 @@
 
 /* ---------- 3-Column Grid: info-left | gallery | info-right ---------- */
 /* Scuffers-style: 1fr 2fr 1fr, sticky side columns centered vertically */
+/* DOM order is gallery → info-right → info-left (SEO: H1 before accordion headings);
+   `order` restores the visual left | center | right layout. */
 .pp-pdp__grid {
   display: grid;
   grid-template-columns: 1.2fr 1.6fr 1.2fr;
@@ -75,6 +77,10 @@
   padding: 0 47px;
   margin: 0 auto;
 }
+
+.pp-pdp__info-left { order: 1; }
+.pp-pdp__gallery { order: 2; }
+.pp-pdp__info-right { order: 3; }
 
 @media only screen and (min-width: 900px) and (max-width: 1800px) {
   .pp-pdp__grid {
@@ -736,6 +742,16 @@ dl.pp-pdp__acerca-dl dd.pp-pdp__acerca-tags {
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.02em;
+}
+
+a.pp-pdp__acerca-tag--link {
+  text-decoration: none;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+a.pp-pdp__acerca-tag--link:hover {
+  background: var(--pp-dark-green, #23372c);
+  color: #fff;
 }
 
 @media (max-width: 600px) {
