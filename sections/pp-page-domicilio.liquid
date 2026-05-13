@@ -21,6 +21,30 @@
   elsif page_type == 'campaign'
     assign is_campaign = true
   endif
+
+  # Parent landing for breadcrumb 2nd level + "Ver plantas" CTA fallback (avoid self-ref)
+  assign parent_label = 'Plantas a Domicilio'
+  assign parent_url = '/pages/plantas-a-domicilio'
+  if is_flores
+    assign parent_label = 'Flores a Domicilio'
+    assign parent_url = '/pages/flores-a-domicilio'
+  elsif is_arboles
+    assign parent_label = 'Árboles a Domicilio'
+    assign parent_url = '/pages/arboles'
+  elsif is_campaign
+    assign parent_label = 'Ofertas'
+    assign parent_url = '/collections/all'
+  endif
+  assign is_parent_page = false
+  if page.url == parent_url
+    assign is_parent_page = true
+  endif
+
+  # CTA target: admin override → else parent landing. Hide CTA on the parent itself.
+  assign cta_url = section.settings.banner_cta_url
+  if cta_url == blank
+    assign cta_url = parent_url
+  endif
 -%}
 
 <style>
@@ -333,25 +357,18 @@
   "
 >
 
-  {%- comment -%} -- Breadcrumb -- {%- endcomment -%}
+  {%- comment -%} -- Breadcrumb: 2nd level is a clickable link to the pillar (Plantas/Flores/Árboles a Domicilio) so users + crawlers can ascend. -- {%- endcomment -%}
   {%- if section.settings.show_breadcrumb -%}
     <nav class="pp-guide__breadcrumb" aria-label="Breadcrumb">
-      <a href="/">Pur Plant</a>
+      <a href="/">Inicio</a>
       <span class="pp-guide__breadcrumb-sep">/</span>
-      {%- if is_flores -%}
-        <span>Flores a Domicilio</span>
-        <span class="pp-guide__breadcrumb-sep">/</span>
-      {%- elsif is_arboles -%}
-        <span>Árboles a Domicilio</span>
-        <span class="pp-guide__breadcrumb-sep">/</span>
-      {%- elsif is_campaign -%}
-        <a href="/collections/all">Ofertas</a>
-        <span class="pp-guide__breadcrumb-sep">/</span>
+      {%- if is_parent_page -%}
+        <span>{{ parent_label }}</span>
       {%- else -%}
-        <span>Plantas a Domicilio</span>
+        <a href="{{ parent_url }}">{{ parent_label }}</a>
         <span class="pp-guide__breadcrumb-sep">/</span>
+        <span>{{ page.title }}</span>
       {%- endif -%}
-      <span>{{ page.title }}</span>
     </nav>
   {%- endif -%}
 
@@ -370,12 +387,14 @@
         {%- endif -%}
       </p>
       <h1 class="pp-domicilio__hero-title">{{ page.title }}</h1>
-      <a href="{{ section.settings.banner_cta_url }}" class="pp-domicilio__hero-cta">
-        {{ section.settings.banner_cta_text | default: 'Ver plantas' }}
-        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3.333 8h9.334M8.667 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </a>
+      {%- unless is_parent_page or cta_url == page.url -%}
+        <a href="{{ cta_url }}" class="pp-domicilio__hero-cta">
+          {{ section.settings.banner_cta_text | default: 'Ver plantas' }}
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3.333 8h9.334M8.667 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      {%- endunless -%}
     </div>
   {%- else -%}
     <h1 class="pp-guide__title">{{ page.title }}</h1>

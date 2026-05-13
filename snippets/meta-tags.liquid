@@ -147,16 +147,15 @@
   {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
 </title>
 
-{%- liquid
-  comment
-    canonical_url already strips ?variant=X. We also split on '?' to remove
-    any stray tracking params (fbclid, gclid, utm_*, etc.) before output.
-  endcomment
-  assign clean_canonical = canonical_url | split: '?' | first
--%}
+{%- comment -%}
+  Use canonical_url directly. Shopify ya excluye ?variant= y NO incluye tracking
+  params (fbclid/utm) porque es server-computed. SÍ incluye ?page=N en paginaciones,
+  que DEBE preservarse: cada página paginada debe auto-referenciarse (no apuntar a
+  la página 1) para que Google rastree e indexe los productos de páginas profundas.
+{%- endcomment -%}
 <link
   rel="canonical"
-  href="{{ clean_canonical }}"
+  href="{{ canonical_url }}"
 >
 
 {% if page_description %}

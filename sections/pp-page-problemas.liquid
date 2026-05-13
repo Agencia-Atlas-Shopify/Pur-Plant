@@ -441,11 +441,15 @@
   {%- comment -%} -- Breadcrumb (after hero) -- {%- endcomment -%}
   {%- if section.settings.show_breadcrumb -%}
     <nav class="pp-guide__breadcrumb" aria-label="Breadcrumb">
-      <a href="/">Pur Plant</a>
+      <a href="/">Inicio</a>
       <span class="pp-guide__breadcrumb-sep">/</span>
-      <a href="/pages/problemas-plantas">Guia de Problemas</a>
-      <span class="pp-guide__breadcrumb-sep">/</span>
-      <span>{{ page.title }}</span>
+      {%- if page.handle != 'guia-problemas-plantas' -%}
+        <a href="/pages/guia-problemas-plantas">Guía Problemas Plantas</a>
+        <span class="pp-guide__breadcrumb-sep">/</span>
+        <span>{{ page.title }}</span>
+      {%- else -%}
+        <span>{{ page.title }}</span>
+      {%- endif -%}
     </nav>
   {%- endif -%}
 

@@ -1,10 +1,59 @@
 {{ 'pp-sections.css' | asset_url | stylesheet_tag }}
 
+<style>
+  .pp-coll-breadcrumb {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: #6b7d72;
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+  }
+  .pp-coll-breadcrumb a { color: #6b7d72; text-decoration: none; }
+  .pp-coll-breadcrumb a:hover { text-decoration: underline; color: #23372c; }
+  .pp-coll-breadcrumb span[aria-hidden] { opacity: 0.5; }
+  .pp-coll-breadcrumb .pp-coll-breadcrumb__current { color: #23372c; font-weight: 500; }
+  @media (max-width: 600px) { .pp-coll-breadcrumb { font-size: 11px; } }
+</style>
+
 <section class="pp-coll-title" style="
     padding-top: {{ section.settings.padding_top }}px;
     padding-bottom: {{ section.settings.padding_bottom }}px;
   ">
   <div class="pp-coll-title__inner">
+    {%- comment -%} Breadcrumb: Home / root / ... / parent / [Current]. Walk coleccion_padre chain. {%- endcomment -%}
+    {%- assign chain_titles = '' -%}
+    {%- assign chain_urls = '' -%}
+    {%- assign walk = collection.metafields.custom.coleccion_padre.value -%}
+    {%- for i in (1..8) -%}
+      {%- if walk != blank -%}
+        {%- if chain_titles == '' -%}
+          {%- assign chain_titles = walk.title -%}
+          {%- assign chain_urls = walk.url -%}
+        {%- else -%}
+          {%- assign chain_titles = walk.title | append: '|||' | append: chain_titles -%}
+          {%- assign chain_urls = walk.url | append: '|||' | append: chain_urls -%}
+        {%- endif -%}
+        {%- assign walk = walk.metafields.custom.coleccion_padre.value -%}
+      {%- else -%}
+        {%- break -%}
+      {%- endif -%}
+    {%- endfor -%}
+    <nav class="pp-coll-breadcrumb" aria-label="Breadcrumb">
+      <a href="{{ routes.root_url }}">Inicio</a>
+      <span aria-hidden="true">/</span>
+      {%- if chain_titles != '' -%}
+        {%- assign ct = chain_titles | split: '|||' -%}
+        {%- assign cu = chain_urls | split: '|||' -%}
+        {%- for t in ct -%}
+          <a href="{{ cu[forloop.index0] }}">{{ t }}</a>
+          <span aria-hidden="true">/</span>
+        {%- endfor -%}
+      {%- endif -%}
+      <span class="pp-coll-breadcrumb__current">{{ collection.title }}</span>
+    </nav>
     <h1 class="pp-coll-title__heading">{{ collection.title }}</h1>
   </div>
 </section>

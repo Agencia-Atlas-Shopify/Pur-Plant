@@ -19,15 +19,20 @@
     Determine breadcrumb middle label based on page_type
   endcomment
   assign breadcrumb_label = 'Guia'
+  assign breadcrumb_url = ''
   case page_type
     when 'guia-cuidado'
-      assign breadcrumb_label = 'Guia Cuidados'
+      assign breadcrumb_label = 'Guía Cuidados'
+      assign breadcrumb_url = '/pages/guia-cuidado-plantas'
     when 'guia-tipos'
-      assign breadcrumb_label = 'Guia de Tipos'
+      assign breadcrumb_label = 'Guía de Tipos'
+      assign breadcrumb_url = '/pages/guia-tipos-plantas'
     when 'guia-problemas'
-      assign breadcrumb_label = 'Guia de Problemas'
+      assign breadcrumb_label = 'Guía de Problemas'
+      assign breadcrumb_url = '/pages/guia-problemas-plantas'
     when 'plantas-domicilio'
       assign breadcrumb_label = 'Plantas a Domicilio'
+      assign breadcrumb_url = '/pages/plantas-a-domicilio'
   endcase
 -%}
 
@@ -287,12 +292,16 @@
     </div>
   </div>
 
-  {%- comment -%} -- Breadcrumb (after hero) -- {%- endcomment -%}
+  {%- comment -%} -- Breadcrumb (after hero). 2º nivel enlazado a la guía pilar. -- {%- endcomment -%}
   {%- if section.settings.show_breadcrumb -%}
     <nav class="pp-guide__breadcrumb" aria-label="Breadcrumb">
-      <a href="/">Pur Plant</a>
+      <a href="/">Inicio</a>
       <span class="pp-guide__breadcrumb-sep">/</span>
-      <span>{{ breadcrumb_label }}</span>
+      {%- if breadcrumb_url != '' and page.url != breadcrumb_url -%}
+        <a href="{{ breadcrumb_url }}">{{ breadcrumb_label }}</a>
+      {%- else -%}
+        <span>{{ breadcrumb_label }}</span>
+      {%- endif -%}
       <span class="pp-guide__breadcrumb-sep">/</span>
       <span>{{ page.title }}</span>
     </nav>

@@ -11,6 +11,8 @@
   assign variant = product.selected_or_first_available_variant
   assign featured_image = variant.featured_image | default: product.featured_image
   assign second_image = product.images[1]
+  # Clean product URL — strip query params (recommendations API appends ?pr_prod_strat=…&pr_rec_id=… etc.)
+  assign card_url = product.url | split: '?' | first
   assign has_quick_add = false
   if settings.quick_add and product.available
     assign has_quick_add = true
@@ -37,7 +39,7 @@
   data-product-id="{{ product.id }}"
 >
   <a
-    href="{{ product.url }}"
+    href="{{ card_url }}"
     class="product-card__link pp-card__link"
     ref="productCardLink"
   >
@@ -248,7 +250,7 @@
     <div class="pp-card__info">
       <div class="pp-card__title-row">
         <h3 class="pp-card__title">
-          <a href="{{ product.url }}">{{ product.title }}</a>
+          <a href="{{ card_url }}">{{ product.title }}</a>
         </h3>
         {%- comment -%} Swym wishlist button is injected here automatically {%- endcomment -%}
       </div>

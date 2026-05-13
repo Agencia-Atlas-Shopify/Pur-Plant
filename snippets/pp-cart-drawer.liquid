@@ -80,12 +80,12 @@
       >
         {%- comment -%} Header {%- endcomment -%}
         <div class="pp-cart-drawer__header">
-          <h2 class="pp-cart-drawer__title" id="pp-cart-drawer-heading">
+          <div class="pp-cart-drawer__title" id="pp-cart-drawer-heading" role="heading" aria-level="2">
             {{ 'content.cart_title' | t | upcase }}
             <span class="pp-cart-drawer__title-count">
               [<span ref="cartItemCount">{{ cart.item_count }}</span>]
             </span>
-          </h2>
+          </div>
           <button
             ref="closeButton"
             on:click="cart-drawer-component/close"

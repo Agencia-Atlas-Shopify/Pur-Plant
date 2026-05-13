@@ -123,9 +123,9 @@
         </ul>
       </nav>
 
-      {%- comment -%} CENTER: Logo — always visible {%- endcomment -%}
-      <h1 class="pp-header__logo">
-        <a href="{{ routes.root_url }}">
+      {%- comment -%} CENTER: Logo — always visible. div (no h1) — el h1 debe ser el título de la página, no el logo {%- endcomment -%}
+      <div class="pp-header__logo">
+        <a href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
           <span class="sr-only">{{ shop.name }}</span>
           {%- if section.settings.logo != blank -%}
             {{ section.settings.logo | image_url: width: 400 | image_tag:
@@ -139,7 +139,7 @@
             <span class="pp-header__logo-text">{{ shop.name }}</span>
           {%- endif -%}
         </a>
-      </h1>
+      </div>
 
       {%- comment -%} RIGHT: Sobre Pur Plant, ES, icons {%- endcomment -%}
       <nav class="pp-header__secondary-nav" aria-label="Navegación secundaria">
