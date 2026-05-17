@@ -56,7 +56,7 @@
               "type": "image",
               "name": "t:names.image",
               "settings": {
-                "image": "shopify://shop_images/GREEN-MONDAY-IMAGO_368bbd51-dd31-4cb3-bef2-6afb1995c1e1.png",
+                "image": "shopify://shop_images/GREEN_MONDAY_logo.png",
                 "link": "",
                 "image_ratio": "adapt",
                 "width": "custom",
@@ -1183,7 +1183,6 @@
               "type": "image",
               "name": "t:names.image",
               "settings": {
-                "image": "shopify://shop_images/Logo-Principal-e1771413588153-1024x521.png",
                 "link": "",
                 "image_ratio": "adapt",
                 "width": "fill",
