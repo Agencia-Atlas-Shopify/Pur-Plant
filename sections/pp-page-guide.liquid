@@ -232,31 +232,41 @@
   .pp-cta-btn:hover { background: #23372c; color: #fff; }
 
   /* ── RTE fallback (guías nuevas editadas con el editor estándar de Shopify) ──
-     Mismo aspecto que las guías migradas con JSON: tipografía, espaciado e
-     iframes/imágenes responsivos. */
+     Heredan EXACTAMENTE los mismos estilos que las guías migradas con JSON
+     (Aileron headings lowercase con first-letter uppercase, Inter body). */
   .pp-guide .pp-guide__body--rte rte-formatter { display: block; }
+  .pp-guide .pp-guide__body--rte h1,
   .pp-guide .pp-guide__body--rte h2,
   .pp-guide .pp-guide__body--rte h3,
   .pp-guide .pp-guide__body--rte h4 {
-    font-family: 'Crimson Pro', serif;
-    font-weight: 500;
-    color: var(--pp-dark-green);
+    font-family: 'Aileron', sans-serif;
+    font-weight: 800;
+    color: #23372c;
     line-height: 1.2;
-    margin: 32px 0 12px;
+    margin: 40px 0 15px;
+    text-transform: lowercase;
   }
-  .pp-guide .pp-guide__body--rte h2 { font-size: 28px; }
-  .pp-guide .pp-guide__body--rte h3 { font-size: 22px; }
+  .pp-guide .pp-guide__body--rte h1::first-letter,
+  .pp-guide .pp-guide__body--rte h2::first-letter,
+  .pp-guide .pp-guide__body--rte h3::first-letter,
+  .pp-guide .pp-guide__body--rte h4::first-letter { text-transform: uppercase; }
+  .pp-guide .pp-guide__body--rte h1 { font-size: clamp(28px, 4vw, 38px); }
+  .pp-guide .pp-guide__body--rte h2 { font-size: clamp(24px, 3.5vw, 34px); }
+  .pp-guide .pp-guide__body--rte h3 { font-size: clamp(20px, 2.8vw, 26px); }
   .pp-guide .pp-guide__body--rte h4 { font-size: 18px; }
+  .pp-guide .pp-guide__body--rte h1:first-child,
+  .pp-guide .pp-guide__body--rte h2:first-child { margin-top: 0; }
   .pp-guide .pp-guide__body--rte p {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--pp-font-body);
     font-size: 15px;
-    line-height: 1.65;
-    color: #1a1a1a;
+    font-weight: 400;
+    color: var(--pp-text);
+    line-height: 1.75;
     margin: 0 0 16px;
   }
   .pp-guide .pp-guide__body--rte ul,
-  .pp-guide .pp-guide__body--rte ol { margin: 0 0 16px; padding-left: 24px; font-family: 'Inter', sans-serif; }
-  .pp-guide .pp-guide__body--rte li { margin-bottom: 6px; line-height: 1.65; }
+  .pp-guide .pp-guide__body--rte ol { margin: 0 0 16px; padding-left: 24px; font-family: var(--pp-font-body); }
+  .pp-guide .pp-guide__body--rte li { margin-bottom: 6px; line-height: 1.75; }
   .pp-guide .pp-guide__body--rte a { color: var(--pp-dark-green); text-decoration: underline; }
   .pp-guide .pp-guide__body--rte a:hover { opacity: 0.8; }
   .pp-guide .pp-guide__body--rte strong { font-weight: 600; }
