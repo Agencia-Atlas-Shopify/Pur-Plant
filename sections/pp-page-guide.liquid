@@ -507,7 +507,7 @@
           <div class="pp-guide__care-item">
             <img src="{{ 'icono-petfriendly-planta.png' | asset_url }}" alt="Pet Friendly" width="36" height="36" loading="lazy">
             <span class="pp-guide__care-label">Pet Friendly</span>
-            <span class="pp-guide__care-value">{{ icon_pet }}</span>
+            <span class="pp-guide__care-value">{%- if icon_pet == true or icon_pet == 'true' -%}Sí{%- elsif icon_pet == false or icon_pet == 'false' -%}No{%- else -%}{{ icon_pet }}{%- endif -%}</span>
           </div>
         {%- endif -%}
         {%- if icon_toxica != blank -%}
