@@ -171,6 +171,10 @@
   .blog-post-content .pp-blog-embed product-card.pp-product-card-standalone .pp-card__media {
     background: transparent;
   }
+  /* Badge offset extra solo en blog (default 8px → 28px). NO afecta al resto del theme. */
+  .blog-post-content .pp-blog-embed product-card.pp-product-card-standalone .pp-badge-list {
+    inset-block-start: 28px;
+  }
   /* Si el RTE deja un <p> envolviendo el embed (token mid-paragraph), neutralizamos */
   .blog-post-content rte-formatter p:has(> .pp-blog-embed) {
     margin: 0;
