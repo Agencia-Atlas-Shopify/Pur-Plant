@@ -12,6 +12,10 @@
   assign is_care_guide = false
   if page_type == 'guia-cuidado'
     assign is_care_guide = true
+  elsif page.template_suffix contains 'guia-cuidado' or page.template_suffix contains 'cuidado-plantas'
+    # Auto-detect: si la página usa una plantilla de cuidados, activamos los iconos
+    # sin tener que rellenar el metafield page_type a mano.
+    assign is_care_guide = true
   endif
   assign products_per_row = section.settings.products_per_row | default: 4
 
