@@ -166,6 +166,11 @@
     background: transparent;
     clear: both;
   }
+  /* La tarjeta tiene bg #f5f5f5 por defecto; en blog queda como strip gris
+     arriba/abajo del media. Quitamos el bg dentro del embed. */
+  .blog-post-content .pp-blog-embed product-card.pp-product-card-standalone .pp-card__media {
+    background: transparent;
+  }
   /* Si el RTE deja un <p> envolviendo el embed (token mid-paragraph), neutralizamos */
   .blog-post-content rte-formatter p:has(> .pp-blog-embed) {
     margin: 0;
