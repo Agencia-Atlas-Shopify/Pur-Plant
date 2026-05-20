@@ -24,7 +24,7 @@
   {%- assign colls = article.metafields.custom.colecciones_destacadas.value -%}
 
   {%- if prods != blank and prods.size > 0 -%}
-    {%- capture _all_prods -%}
+    {%- capture all_prods_html -%}
       <div class="pp-blog-embed pp-blog-embed--products">
         <div class="pp-blog-embed__grid">
           {%- for p in prods -%}
@@ -33,24 +33,24 @@
         </div>
       </div>
     {%- endcapture -%}
-    {%- assign content = content | replace: '<p>[productos]</p>', _all_prods | replace: '[productos]', _all_prods -%}
+    {%- assign content = content | replace: '<p>[productos]</p>', all_prods_html | replace: '[productos]', all_prods_html -%}
     {%- for p in prods -%}
       {%- assign idx = forloop.index -%}
-      {%- capture _tok_p -%}[productos {{ idx }}]{%- endcapture -%}
-      {%- capture _tok_p_wrap -%}<p>[productos {{ idx }}]</p>{%- endcapture -%}
-      {%- capture _single_p -%}
+      {%- capture tok_p -%}[productos {{ idx }}]{%- endcapture -%}
+      {%- capture tok_p_wrap -%}<p>[productos {{ idx }}]</p>{%- endcapture -%}
+      {%- capture single_p_html -%}
         <div class="pp-blog-embed pp-blog-embed--products pp-blog-embed--single">
           <div class="pp-blog-embed__grid">
             {%- render 'pp-product-card-standalone', product: p, image_ratio: 'portrait' -%}
           </div>
         </div>
       {%- endcapture -%}
-      {%- assign content = content | replace: _tok_p_wrap, _single_p | replace: _tok_p, _single_p -%}
+      {%- assign content = content | replace: tok_p_wrap, single_p_html | replace: tok_p, single_p_html -%}
     {%- endfor -%}
   {%- endif -%}
 
   {%- if colls != blank and colls.size > 0 -%}
-    {%- capture _all_colls -%}
+    {%- capture all_colls_html -%}
       {%- for c in colls -%}
         <div class="pp-blog-embed pp-blog-embed--collection">
           <a href="{{ c.url }}" class="pp-blog-embed__heading-link">
@@ -64,12 +64,12 @@
         </div>
       {%- endfor -%}
     {%- endcapture -%}
-    {%- assign content = content | replace: '<p>[colecciones]</p>', _all_colls | replace: '[colecciones]', _all_colls -%}
+    {%- assign content = content | replace: '<p>[colecciones]</p>', all_colls_html | replace: '[colecciones]', all_colls_html -%}
     {%- for c in colls -%}
       {%- assign idx = forloop.index -%}
-      {%- capture _tok_c -%}[colecciones {{ idx }}]{%- endcapture -%}
-      {%- capture _tok_c_wrap -%}<p>[colecciones {{ idx }}]</p>{%- endcapture -%}
-      {%- capture _single_c -%}
+      {%- capture tok_c -%}[colecciones {{ idx }}]{%- endcapture -%}
+      {%- capture tok_c_wrap -%}<p>[colecciones {{ idx }}]</p>{%- endcapture -%}
+      {%- capture single_c_html -%}
         <div class="pp-blog-embed pp-blog-embed--collection">
           <a href="{{ c.url }}" class="pp-blog-embed__heading-link">
             <h3 class="pp-blog-embed__heading">{{ c.title }}<span class="pp-blog-embed__heading-arrow" aria-hidden="true">→</span></h3>
@@ -81,7 +81,7 @@
           </div>
         </div>
       {%- endcapture -%}
-      {%- assign content = content | replace: _tok_c_wrap, _single_c | replace: _tok_c, _single_c -%}
+      {%- assign content = content | replace: tok_c_wrap, single_c_html | replace: tok_c, single_c_html -%}
     {%- endfor -%}
   {%- endif -%}
 
@@ -155,9 +155,27 @@
   }
 
   /* ── Embeds productos/colecciones via shortcodes ── */
+  /* rte-formatter es custom element (display:inline por defecto); forzar block
+     evita que el navegador parta el contenedor y deje strips inherited del rte */
+  .blog-post-content rte-formatter {
+    display: block;
+  }
   .blog-post-content .pp-blog-embed {
-    margin: 32px 0;
+    margin: 20px 0;
     width: 100%;
+    background: transparent;
+    clear: both;
+  }
+  /* Si el RTE deja un <p> envolviendo el embed (token mid-paragraph), neutralizamos */
+  .blog-post-content rte-formatter p:has(> .pp-blog-embed) {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+  }
+  /* Quitar margen del primer/último elemento de texto inmediatamente adyacente al embed */
+  .blog-post-content rte-formatter > .pp-blog-embed + p,
+  .blog-post-content rte-formatter > p + .pp-blog-embed {
+    margin-top: 8px;
   }
   .blog-post-content .pp-blog-embed__heading-link {
     color: inherit;
