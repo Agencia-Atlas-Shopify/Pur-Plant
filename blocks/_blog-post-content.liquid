@@ -47,6 +47,49 @@
       {%- endcapture -%}
       {%- assign content = content | replace: tok_p_wrap, single_p_html | replace: tok_p, single_p_html -%}
     {%- endfor -%}
+
+    {%- comment -%} [productos N,M] y [productos N,M,O] — multiples productos lado a lado (1..size, sin repetir) {%- endcomment -%}
+    {%- assign psize = prods.size -%}
+    {%- if psize > 1 -%}
+      {%- for i in (1..psize) -%}
+        {%- for j in (1..psize) -%}
+          {%- if j != i -%}
+            {%- assign p1 = prods[i | minus: 1] -%}
+            {%- assign p2 = prods[j | minus: 1] -%}
+            {%- capture tok_pair -%}[productos {{ i }},{{ j }}]{%- endcapture -%}
+            {%- capture tok_pair_wrap -%}<p>[productos {{ i }},{{ j }}]</p>{%- endcapture -%}
+            {%- capture pair_html -%}
+              <div class="pp-blog-embed pp-blog-embed--products">
+                <div class="pp-blog-embed__grid pp-blog-embed__grid--2">
+                  {%- render 'pp-product-card-standalone', product: p1, image_ratio: 'portrait' -%}
+                  {%- render 'pp-product-card-standalone', product: p2, image_ratio: 'portrait' -%}
+                </div>
+              </div>
+            {%- endcapture -%}
+            {%- assign content = content | replace: tok_pair_wrap, pair_html | replace: tok_pair, pair_html -%}
+            {%- if psize > 2 -%}
+              {%- for k in (1..psize) -%}
+                {%- if k != i and k != j -%}
+                  {%- assign p3 = prods[k | minus: 1] -%}
+                  {%- capture tok_tri -%}[productos {{ i }},{{ j }},{{ k }}]{%- endcapture -%}
+                  {%- capture tok_tri_wrap -%}<p>[productos {{ i }},{{ j }},{{ k }}]</p>{%- endcapture -%}
+                  {%- capture tri_html -%}
+                    <div class="pp-blog-embed pp-blog-embed--products">
+                      <div class="pp-blog-embed__grid pp-blog-embed__grid--3">
+                        {%- render 'pp-product-card-standalone', product: p1, image_ratio: 'portrait' -%}
+                        {%- render 'pp-product-card-standalone', product: p2, image_ratio: 'portrait' -%}
+                        {%- render 'pp-product-card-standalone', product: p3, image_ratio: 'portrait' -%}
+                      </div>
+                    </div>
+                  {%- endcapture -%}
+                  {%- assign content = content | replace: tok_tri_wrap, tri_html | replace: tok_tri, tri_html -%}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endfor -%}
+    {%- endif -%}
   {%- endif -%}
 
   {%- if colls != blank and colls.size > 0 -%}
@@ -219,6 +262,13 @@
   .blog-post-content .pp-blog-embed--single .pp-blog-embed__grid {
     grid-template-columns: minmax(0, 280px);
     justify-content: center;
+  }
+  /* Variantes multi-producto en fila: [productos 1,2] y [productos 1,2,3] */
+  .blog-post-content .pp-blog-embed__grid--2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .blog-post-content .pp-blog-embed__grid--3 {
+    grid-template-columns: repeat(3, 1fr);
   }
   @media screen and (max-width: 999px) {
     .blog-post-content .pp-blog-embed__grid {
