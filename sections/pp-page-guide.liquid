@@ -311,6 +311,85 @@
     max-width: 100%;
   }
 
+  /* ── Shortcodes [productos] / [colecciones] dentro de RTE (mismo estilo que blog) ── */
+  .pp-guide .pp-blog-embed { margin: 24px 0; width: 100%; background: transparent; clear: both; }
+  .pp-guide rte-formatter p:has(> .pp-blog-embed) { margin: 0; padding: 0; background: transparent; }
+  .pp-guide .pp-blog-embed__heading-link { color: inherit; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+  .pp-guide .pp-blog-embed__heading {
+    font-family: 'Aileron', sans-serif; font-size: 18px; font-weight: 600;
+    letter-spacing: 0.02em; text-transform: uppercase; color: #23372c;
+    margin: 0 0 16px; display: inline-flex; align-items: center; gap: 8px;
+  }
+  .pp-guide .pp-blog-embed__heading-arrow { transition: transform 0.15s ease; }
+  .pp-guide .pp-blog-embed__heading-link:hover .pp-blog-embed__heading-arrow { transform: translateX(4px); }
+  .pp-guide .pp-blog-embed__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .pp-guide .pp-blog-embed--single .pp-blog-embed__grid { grid-template-columns: minmax(0, 280px); justify-content: center; }
+  .pp-guide .pp-blog-embed__grid--2 { grid-template-columns: repeat(2, 1fr); }
+  .pp-guide .pp-blog-embed__grid--3 { grid-template-columns: repeat(3, 1fr); }
+  .pp-guide .pp-blog-embed product-card.pp-product-card-standalone .pp-card__media { background: transparent; }
+  .pp-guide .pp-blog-embed product-card.pp-product-card-standalone .pp-badge-list { inset-block-start: 28px; }
+  @media screen and (max-width: 999px) {
+    .pp-guide .pp-blog-embed__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media screen and (max-width: 600px) {
+    .pp-guide .pp-blog-embed__grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .pp-guide .pp-blog-embed--single .pp-blog-embed__grid { grid-template-columns: minmax(0, 220px); }
+    .pp-guide .pp-blog-embed__heading { font-size: 15px; }
+  }
+
+  /* ── EXPLORA: colecciones / páginas relacionadas al final de la guía ── */
+  .pp-guide__explora {
+    margin: 56px auto 0;
+    padding: 40px 0;
+    border-top: 1px solid rgba(35, 55, 44, 0.1);
+    text-align: center;
+  }
+  .pp-guide__explora-title {
+    font-family: 'Aileron', sans-serif;
+    font-size: clamp(22px, 3vw, 30px);
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: #23372c;
+    margin: 0 0 28px;
+    text-transform: uppercase;
+  }
+  .pp-guide__explora-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+    max-width: 920px;
+    margin: 0 auto;
+  }
+  .pp-guide__explora-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    gap: 12px;
+  }
+  .pp-guide__explora-img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 12px;
+    background: #f0eee8;
+    transition: transform 0.2s ease;
+  }
+  .pp-guide__explora-img--placeholder { display: block; }
+  .pp-guide__explora-card:hover .pp-guide__explora-img { transform: translateY(-3px); }
+  .pp-guide__explora-card-title {
+    font-family: var(--pp-font-body);
+    font-size: 16px;
+    font-weight: 600;
+    color: #23372c;
+    text-align: center;
+  }
+  @media screen and (max-width: 600px) {
+    .pp-guide__explora { padding: 28px 0; margin-top: 36px; }
+    .pp-guide__explora-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .pp-guide__explora-card-title { font-size: 14px; }
+  }
+
   .pp-content__products-inline {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -463,10 +542,115 @@
     <script type="application/json" data-page-content>{{ page_content_val | json }}</script>
     <div data-content-container class="pp-guide__body"></div>
   {%- elsif page.content != blank -%}
-    {%- comment -%} RTE fallback (new guides) — server-rendered {%- endcomment -%}
+    {%- comment -%} RTE fallback (new guides) — server-rendered.
+       Procesa shortcodes [productos] / [colecciones] como en el blog:
+         [productos]        todos los del metafield productos_destacados
+         [productos N]      el N-ésimo (1-indexed)
+         [productos N,M]    fila 2-cards
+         [productos N,M,O]  fila 3-cards
+         [colecciones]      cada colección de colecciones_relacionadas con cabecera + 4 productos
+         [colecciones N]    sólo la N-ésima
+    {%- endcomment -%}
+    {%- assign rte_content = page.content -%}
+    {%- assign rte_prods = page.metafields.custom.productos_destacados.value -%}
+    {%- assign rte_colls = page.metafields.custom.colecciones_relacionadas.value -%}
+
+    {%- if rte_prods != blank and rte_prods.size > 0 -%}
+      {%- capture rte_all_prods -%}
+        <div class="pp-blog-embed pp-blog-embed--products"><div class="pp-blog-embed__grid">
+          {%- for p in rte_prods -%}{%- render 'pp-product-card-standalone', product: p, image_ratio: 'portrait' -%}{%- endfor -%}
+        </div></div>
+      {%- endcapture -%}
+      {%- assign rte_content = rte_content | replace: '<p>[productos]</p>', rte_all_prods | replace: '[productos]', rte_all_prods -%}
+      {%- for p in rte_prods -%}
+        {%- assign idx = forloop.index -%}
+        {%- capture tok_p -%}[productos {{ idx }}]{%- endcapture -%}
+        {%- capture tok_p_wrap -%}<p>[productos {{ idx }}]</p>{%- endcapture -%}
+        {%- capture single_p -%}
+          <div class="pp-blog-embed pp-blog-embed--products pp-blog-embed--single"><div class="pp-blog-embed__grid">
+            {%- render 'pp-product-card-standalone', product: p, image_ratio: 'portrait' -%}
+          </div></div>
+        {%- endcapture -%}
+        {%- assign rte_content = rte_content | replace: tok_p_wrap, single_p | replace: tok_p, single_p -%}
+      {%- endfor -%}
+      {%- assign psize = rte_prods.size -%}
+      {%- if psize > 1 -%}
+        {%- for i in (1..psize) -%}
+          {%- for j in (1..psize) -%}
+            {%- if j != i -%}
+              {%- assign p1 = nil -%}{%- assign p2 = nil -%}
+              {%- for prod in rte_prods -%}
+                {%- if forloop.index == i -%}{%- assign p1 = prod -%}{%- endif -%}
+                {%- if forloop.index == j -%}{%- assign p2 = prod -%}{%- endif -%}
+              {%- endfor -%}
+              {%- if p1 and p2 -%}
+                {%- capture tok_pair -%}[productos {{ i }},{{ j }}]{%- endcapture -%}
+                {%- capture tok_pair_wrap -%}<p>[productos {{ i }},{{ j }}]</p>{%- endcapture -%}
+                {%- capture pair_html -%}
+                  <div class="pp-blog-embed pp-blog-embed--products"><div class="pp-blog-embed__grid pp-blog-embed__grid--2">
+                    {%- render 'pp-product-card-standalone', product: p1, image_ratio: 'portrait' -%}
+                    {%- render 'pp-product-card-standalone', product: p2, image_ratio: 'portrait' -%}
+                  </div></div>
+                {%- endcapture -%}
+                {%- assign rte_content = rte_content | replace: tok_pair_wrap, pair_html | replace: tok_pair, pair_html -%}
+              {%- endif -%}
+              {%- if psize > 2 -%}
+                {%- for k in (1..psize) -%}
+                  {%- if k != i and k != j -%}
+                    {%- assign p3 = nil -%}
+                    {%- for prod in rte_prods -%}{%- if forloop.index == k -%}{%- assign p3 = prod -%}{%- endif -%}{%- endfor -%}
+                    {%- if p1 and p2 and p3 -%}
+                      {%- capture tok_tri -%}[productos {{ i }},{{ j }},{{ k }}]{%- endcapture -%}
+                      {%- capture tok_tri_wrap -%}<p>[productos {{ i }},{{ j }},{{ k }}]</p>{%- endcapture -%}
+                      {%- capture tri_html -%}
+                        <div class="pp-blog-embed pp-blog-embed--products"><div class="pp-blog-embed__grid pp-blog-embed__grid--3">
+                          {%- render 'pp-product-card-standalone', product: p1, image_ratio: 'portrait' -%}
+                          {%- render 'pp-product-card-standalone', product: p2, image_ratio: 'portrait' -%}
+                          {%- render 'pp-product-card-standalone', product: p3, image_ratio: 'portrait' -%}
+                        </div></div>
+                      {%- endcapture -%}
+                      {%- assign rte_content = rte_content | replace: tok_tri_wrap, tri_html | replace: tok_tri, tri_html -%}
+                    {%- endif -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endfor -%}
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- if rte_colls != blank and rte_colls.size > 0 -%}
+      {%- capture rte_all_colls -%}
+        {%- for c in rte_colls -%}
+          <div class="pp-blog-embed pp-blog-embed--collection">
+            <a href="{{ c.url }}" class="pp-blog-embed__heading-link"><h3 class="pp-blog-embed__heading">{{ c.title }}<span class="pp-blog-embed__heading-arrow" aria-hidden="true">→</span></h3></a>
+            <div class="pp-blog-embed__grid">
+              {%- for p in c.products limit: 4 -%}{%- render 'pp-product-card-standalone', product: p, image_ratio: 'portrait' -%}{%- endfor -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endcapture -%}
+      {%- assign rte_content = rte_content | replace: '<p>[colecciones]</p>', rte_all_colls | replace: '[colecciones]', rte_all_colls -%}
+      {%- for c in rte_colls -%}
+        {%- assign idx = forloop.index -%}
+        {%- capture tok_c -%}[colecciones {{ idx }}]{%- endcapture -%}
+        {%- capture tok_c_wrap -%}<p>[colecciones {{ idx }}]</p>{%- endcapture -%}
+        {%- capture single_c -%}
+          <div class="pp-blog-embed pp-blog-embed--collection">
+            <a href="{{ c.url }}" class="pp-blog-embed__heading-link"><h3 class="pp-blog-embed__heading">{{ c.title }}<span class="pp-blog-embed__heading-arrow" aria-hidden="true">→</span></h3></a>
+            <div class="pp-blog-embed__grid">
+              {%- for p in c.products limit: 4 -%}{%- render 'pp-product-card-standalone', product: p, image_ratio: 'portrait' -%}{%- endfor -%}
+            </div>
+          </div>
+        {%- endcapture -%}
+        {%- assign rte_content = rte_content | replace: tok_c_wrap, single_c | replace: tok_c, single_c -%}
+      {%- endfor -%}
+    {%- endif -%}
+
     <div class="pp-guide__body pp-guide__body--rte rte" data-pp-guide-rte>
       <rte-formatter>
-        {{ page.content }}
+        {{ rte_content }}
       </rte-formatter>
     </div>
   {%- else -%}
@@ -514,6 +698,54 @@
         {%- for product in coll_3.products limit: 8 -%}
           {%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}
         {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%}
+    -- EXPLORA: bloque final con colecciones + páginas relacionadas (Evelin pidió enlazado interno).
+    Sólo aparece si hay items en cualquiera de los dos metafields.
+  {%- endcomment -%}
+  {%- assign rel_colls = page.metafields.custom.colecciones_relacionadas.value -%}
+  {%- assign rel_pages = page.metafields.custom.paginas_relacionadas.value -%}
+  {%- assign has_rel_colls = false -%}
+  {%- if rel_colls != blank and rel_colls.size > 0 -%}{%- assign has_rel_colls = true -%}{%- endif -%}
+  {%- assign has_rel_pages = false -%}
+  {%- if rel_pages != blank and rel_pages.size > 0 -%}{%- assign has_rel_pages = true -%}{%- endif -%}
+  {%- if has_rel_colls or has_rel_pages -%}
+    <div class="pp-guide__explora">
+      <h2 class="pp-guide__explora-title">EXPLORA</h2>
+      <div class="pp-guide__explora-grid">
+        {%- if has_rel_colls -%}
+          {%- for c in rel_colls -%}
+            <a href="{{ c.url }}" class="pp-guide__explora-card">
+              {%- if c.featured_image != blank -%}
+                {{ c.featured_image | image_url: width: 600 | image_tag: class: 'pp-guide__explora-img', alt: c.title, loading: 'lazy', widths: '300, 450, 600' }}
+              {%- elsif c.products.first.featured_image != blank -%}
+                {{ c.products.first.featured_image | image_url: width: 600 | image_tag: class: 'pp-guide__explora-img', alt: c.title, loading: 'lazy', widths: '300, 450, 600' }}
+              {%- else -%}
+                <div class="pp-guide__explora-img pp-guide__explora-img--placeholder"></div>
+              {%- endif -%}
+              <span class="pp-guide__explora-card-title">{{ c.title }}</span>
+            </a>
+          {%- endfor -%}
+        {%- endif -%}
+        {%- if has_rel_pages -%}
+          {%- for pg in rel_pages -%}
+            {%- assign pg_img = pg.metafields.custom.imagen_portada.value -%}
+            {%- assign pg_img_url = pg.metafields.custom.imagen_portada_url | default: '' -%}
+            <a href="{{ pg.url }}" class="pp-guide__explora-card">
+              {%- if pg_img -%}
+                {{ pg_img | image_url: width: 600 | image_tag: class: 'pp-guide__explora-img', alt: pg.title, loading: 'lazy', widths: '300, 450, 600' }}
+              {%- elsif pg_img_url != blank -%}
+                <img src="{{ pg_img_url }}" alt="{{ pg.title | escape }}" class="pp-guide__explora-img" loading="lazy">
+              {%- else -%}
+                <div class="pp-guide__explora-img pp-guide__explora-img--placeholder"></div>
+              {%- endif -%}
+              <span class="pp-guide__explora-card-title">{{ pg.title }}</span>
+            </a>
+          {%- endfor -%}
+        {%- endif -%}
       </div>
     </div>
   {%- endif -%}
