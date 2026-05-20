@@ -11,8 +11,82 @@
     </nav>
   {%- endif -%}
 
+  {%- comment -%}
+    Shortcodes en el cuerpo del artículo:
+      [productos]      → renderiza todos los del metafield custom.productos_destacados
+      [productos N]    → solo el Nº (1-indexed)
+      [colecciones]    → renderiza todas las del metafield custom.colecciones_destacadas
+      [colecciones N]  → solo la Nº (1-indexed)
+    Liquid puro: sin JS, sin parpadeo, server-rendered.
+  {%- endcomment -%}
+  {%- assign content = article.content -%}
+  {%- assign prods = article.metafields.custom.productos_destacados.value -%}
+  {%- assign colls = article.metafields.custom.colecciones_destacadas.value -%}
+
+  {%- if prods != blank and prods.size > 0 -%}
+    {%- capture _all_prods -%}
+      <div class="pp-blog-embed pp-blog-embed--products">
+        <div class="pp-blog-embed__grid">
+          {%- for p in prods -%}
+            {%- render 'pp-product-card-standalone', product: p, image_ratio: 'portrait' -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endcapture -%}
+    {%- assign content = content | replace: '<p>[productos]</p>', _all_prods | replace: '[productos]', _all_prods -%}
+    {%- for p in prods -%}
+      {%- assign idx = forloop.index -%}
+      {%- capture _tok_p -%}[productos {{ idx }}]{%- endcapture -%}
+      {%- capture _tok_p_wrap -%}<p>[productos {{ idx }}]</p>{%- endcapture -%}
+      {%- capture _single_p -%}
+        <div class="pp-blog-embed pp-blog-embed--products pp-blog-embed--single">
+          <div class="pp-blog-embed__grid">
+            {%- render 'pp-product-card-standalone', product: p, image_ratio: 'portrait' -%}
+          </div>
+        </div>
+      {%- endcapture -%}
+      {%- assign content = content | replace: _tok_p_wrap, _single_p | replace: _tok_p, _single_p -%}
+    {%- endfor -%}
+  {%- endif -%}
+
+  {%- if colls != blank and colls.size > 0 -%}
+    {%- capture _all_colls -%}
+      {%- for c in colls -%}
+        <div class="pp-blog-embed pp-blog-embed--collection">
+          <a href="{{ c.url }}" class="pp-blog-embed__heading-link">
+            <h3 class="pp-blog-embed__heading">{{ c.title }}<span class="pp-blog-embed__heading-arrow" aria-hidden="true">→</span></h3>
+          </a>
+          <div class="pp-blog-embed__grid">
+            {%- for p in c.products limit: 4 -%}
+              {%- render 'pp-product-card-standalone', product: p, image_ratio: 'portrait' -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    {%- endcapture -%}
+    {%- assign content = content | replace: '<p>[colecciones]</p>', _all_colls | replace: '[colecciones]', _all_colls -%}
+    {%- for c in colls -%}
+      {%- assign idx = forloop.index -%}
+      {%- capture _tok_c -%}[colecciones {{ idx }}]{%- endcapture -%}
+      {%- capture _tok_c_wrap -%}<p>[colecciones {{ idx }}]</p>{%- endcapture -%}
+      {%- capture _single_c -%}
+        <div class="pp-blog-embed pp-blog-embed--collection">
+          <a href="{{ c.url }}" class="pp-blog-embed__heading-link">
+            <h3 class="pp-blog-embed__heading">{{ c.title }}<span class="pp-blog-embed__heading-arrow" aria-hidden="true">→</span></h3>
+          </a>
+          <div class="pp-blog-embed__grid">
+            {%- for p in c.products limit: 4 -%}
+              {%- render 'pp-product-card-standalone', product: p, image_ratio: 'portrait' -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endcapture -%}
+      {%- assign content = content | replace: _tok_c_wrap, _single_c | replace: _tok_c, _single_c -%}
+    {%- endfor -%}
+  {%- endif -%}
+
   <rte-formatter>
-    {{ article.content }}
+    {{ content }}
   </rte-formatter>
 </div>
 
@@ -78,6 +152,63 @@
   .blog-post-content table {
     max-width: 100%;
     height: auto;
+  }
+
+  /* ── Embeds productos/colecciones via shortcodes ── */
+  .blog-post-content .pp-blog-embed {
+    margin: 32px 0;
+    width: 100%;
+  }
+  .blog-post-content .pp-blog-embed__heading-link {
+    color: inherit;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .blog-post-content .pp-blog-embed__heading {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #23372c;
+    margin: 0 0 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .blog-post-content .pp-blog-embed__heading-arrow {
+    transition: transform 0.15s ease;
+  }
+  .blog-post-content .pp-blog-embed__heading-link:hover .pp-blog-embed__heading-arrow {
+    transform: translateX(4px);
+  }
+  .blog-post-content .pp-blog-embed__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .blog-post-content .pp-blog-embed--single .pp-blog-embed__grid {
+    grid-template-columns: minmax(0, 280px);
+    justify-content: center;
+  }
+  @media screen and (max-width: 999px) {
+    .blog-post-content .pp-blog-embed__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media screen and (max-width: 600px) {
+    .blog-post-content .pp-blog-embed__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .blog-post-content .pp-blog-embed--single .pp-blog-embed__grid {
+      grid-template-columns: minmax(0, 220px);
+    }
+    .blog-post-content .pp-blog-embed__heading {
+      font-size: 15px;
+    }
   }
 
   .blog-post-content {
