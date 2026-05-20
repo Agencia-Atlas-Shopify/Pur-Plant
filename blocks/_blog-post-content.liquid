@@ -54,8 +54,10 @@
       {%- for i in (1..psize) -%}
         {%- for j in (1..psize) -%}
           {%- if j != i -%}
-            {%- assign p1 = prods[i | minus: 1] -%}
-            {%- assign p2 = prods[j | minus: 1] -%}
+            {%- assign i0 = i | minus: 1 -%}
+            {%- assign j0 = j | minus: 1 -%}
+            {%- assign p1 = prods[i0] -%}
+            {%- assign p2 = prods[j0] -%}
             {%- capture tok_pair -%}[productos {{ i }},{{ j }}]{%- endcapture -%}
             {%- capture tok_pair_wrap -%}<p>[productos {{ i }},{{ j }}]</p>{%- endcapture -%}
             {%- capture pair_html -%}
@@ -70,7 +72,8 @@
             {%- if psize > 2 -%}
               {%- for k in (1..psize) -%}
                 {%- if k != i and k != j -%}
-                  {%- assign p3 = prods[k | minus: 1] -%}
+                  {%- assign k0 = k | minus: 1 -%}
+                  {%- assign p3 = prods[k0] -%}
                   {%- capture tok_tri -%}[productos {{ i }},{{ j }},{{ k }}]{%- endcapture -%}
                   {%- capture tok_tri_wrap -%}<p>[productos {{ i }},{{ j }},{{ k }}]</p>{%- endcapture -%}
                   {%- capture tri_html -%}
