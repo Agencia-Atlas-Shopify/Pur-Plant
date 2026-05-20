@@ -231,6 +231,72 @@
   }
   .pp-cta-btn:hover { background: #23372c; color: #fff; }
 
+  /* ── RTE fallback (guías nuevas editadas con el editor estándar de Shopify) ──
+     Mismo aspecto que las guías migradas con JSON: tipografía, espaciado e
+     iframes/imágenes responsivos. */
+  .pp-guide .pp-guide__body--rte rte-formatter { display: block; }
+  .pp-guide .pp-guide__body--rte h2,
+  .pp-guide .pp-guide__body--rte h3,
+  .pp-guide .pp-guide__body--rte h4 {
+    font-family: 'Crimson Pro', serif;
+    font-weight: 500;
+    color: var(--pp-dark-green);
+    line-height: 1.2;
+    margin: 32px 0 12px;
+  }
+  .pp-guide .pp-guide__body--rte h2 { font-size: 28px; }
+  .pp-guide .pp-guide__body--rte h3 { font-size: 22px; }
+  .pp-guide .pp-guide__body--rte h4 { font-size: 18px; }
+  .pp-guide .pp-guide__body--rte p {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    color: #1a1a1a;
+    margin: 0 0 16px;
+  }
+  .pp-guide .pp-guide__body--rte ul,
+  .pp-guide .pp-guide__body--rte ol { margin: 0 0 16px; padding-left: 24px; font-family: 'Inter', sans-serif; }
+  .pp-guide .pp-guide__body--rte li { margin-bottom: 6px; line-height: 1.65; }
+  .pp-guide .pp-guide__body--rte a { color: var(--pp-dark-green); text-decoration: underline; }
+  .pp-guide .pp-guide__body--rte a:hover { opacity: 0.8; }
+  .pp-guide .pp-guide__body--rte strong { font-weight: 600; }
+  .pp-guide .pp-guide__body--rte img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    margin: 24px auto;
+  }
+  /* Vídeos / iframes responsive (YouTube, Vimeo, etc.) — wrap automático */
+  .pp-guide .pp-guide__body--rte .pp-embed {
+    position: relative;
+    width: 100%;
+    max-width: 720px;
+    aspect-ratio: var(--embed-ratio, 16 / 9);
+    margin: 24px auto;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #000;
+  }
+  .pp-guide .pp-guide__body--rte .pp-embed--vertical {
+    max-width: 360px;
+    border-radius: 16px;
+  }
+  .pp-guide .pp-guide__body--rte .pp-embed iframe,
+  .pp-guide .pp-guide__body--rte .pp-embed video,
+  .pp-guide .pp-guide__body--rte .pp-embed embed,
+  .pp-guide .pp-guide__body--rte .pp-embed object {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .pp-guide .pp-guide__body--rte iframe,
+  .pp-guide .pp-guide__body--rte video {
+    max-width: 100%;
+  }
+
   .pp-content__products-inline {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -369,18 +435,31 @@
     {%- endif -%}
   {%- endif -%}
 
-  {%- comment -%} -- JSON data source for page_content -- {%- endcomment -%}
+  {%- comment -%}
+    -- Content body --
+    Guías antiguas migradas: contenido en metafield custom.page_content (JSON).
+    Guías nuevas: si el JSON está vacío, fallback al campo Content estándar de la
+    página (RTE de Shopify) — Maca/equipo edita como cualquier otra página, con
+    texto, imágenes, vídeos de YouTube/Vimeo, etc. El theme aplica los estilos de
+    guía (tipografía, embeds responsive) en ambos casos.
+  {%- endcomment -%}
   {%- assign page_content_val = page.metafields.custom.page_content.value -%}
-  <script type="application/json" data-page-content>
-    {%- if page_content_val != blank -%}
-      {{ page_content_val | json }}
-    {%- else -%}
-      []
-    {%- endif -%}
-  </script>
-
-  {%- comment -%} -- Content container (JS-rendered) -- {%- endcomment -%}
-  <div data-content-container class="pp-guide__body"></div>
+  {%- if page_content_val != blank -%}
+    {%- comment -%} JSON-based (migrated guides) — JS renders {%- endcomment -%}
+    <script type="application/json" data-page-content>{{ page_content_val | json }}</script>
+    <div data-content-container class="pp-guide__body"></div>
+  {%- elsif page.content != blank -%}
+    {%- comment -%} RTE fallback (new guides) — server-rendered {%- endcomment -%}
+    <div class="pp-guide__body pp-guide__body--rte rte" data-pp-guide-rte>
+      <rte-formatter>
+        {{ page.content }}
+      </rte-formatter>
+    </div>
+  {%- else -%}
+    <div class="pp-guide__empty">
+      <p>Esta guia aun no tiene contenido configurado.</p>
+    </div>
+  {%- endif -%}
 
   {%- comment -%} -- Product grids -- {%- endcomment -%}
   {%- assign coll_1 = page.metafields.custom.page_collection_1.value -%}
@@ -468,6 +547,28 @@
     if (p.innerHTML.replace(/&nbsp;/g, '').replace(/\u00a0/g, '').trim() === '') {
       p.classList.add('pp-empty');
     }
+  });
+})();
+
+/* Wrap iframes (YouTube/Vimeo/etc.) en RTE fallback con aspect-ratio responsive */
+(function() {
+  var container = document.querySelector('[data-pp-guide-rte]');
+  if (!container) return;
+  var selectors = 'iframe[src*="youtube"], iframe[src*="youtu.be"], iframe[src*="vimeo"], iframe[src*="dailymotion"], iframe[src*="tiktok"], iframe[src*="instagram"]';
+  container.querySelectorAll(selectors).forEach(function(iframe) {
+    if (iframe.closest('.pp-embed')) return;
+    var w = parseFloat(iframe.getAttribute('width'));
+    var h = parseFloat(iframe.getAttribute('height'));
+    var vertical = (w > 0 && h > 0 && h > w) || (iframe.getAttribute('src') || '').indexOf('/shorts/') !== -1;
+    var wrap = document.createElement('div');
+    wrap.className = 'pp-embed' + (vertical ? ' pp-embed--vertical' : '');
+    wrap.style.setProperty('--embed-ratio', vertical ? '9 / 16' : '16 / 9');
+    iframe.removeAttribute('width');
+    iframe.removeAttribute('height');
+    iframe.style.width = '';
+    iframe.style.height = '';
+    iframe.parentNode.insertBefore(wrap, iframe);
+    wrap.appendChild(iframe);
   });
 })();
 </script>
