@@ -214,7 +214,7 @@
         "badge_dDcpQJ": {
           "type": "badge",
           "settings": {
-            "icon": "shopify://shop_images/ilustracion_envios_pur_plant.png",
+            "icon": "shopify://shop_images/ilustracion_calidad_premium_pur_plant.png",
             "title": "más que plantas",
             "description": "Creemos que las plantas no son solo decoración, sino una forma de transformar cómo vivimos. Queremos que formen parte de tu día a día y te ayuden a volver al  presente, porque lo mágico ocurre cuando entiendes su poder y lo integras en \ntu vida."
           }
@@ -222,6 +222,7 @@
         "badge_Tj73xX": {
           "type": "badge",
           "settings": {
+            "icon": "shopify://shop_images/ilustracion-flores-secas_1.webp",
             "title": "SIEMPRE CONTIGO",
             "description": "Detrás de Pur Plant hay un equipo de Plant Lovers que te acompaña, siempre aprendiendo y con una mirada consciente. Colaboramos con artesanxs locales y cultivadores de toda Europa para ofrecerte calidad cuidada, con alma \ny accesible."
           }
@@ -229,6 +230,7 @@
         "badge_iG4ywW": {
           "type": "badge",
           "settings": {
+            "icon": "shopify://shop_images/ilustracion_envios_pur_plant.png",
             "title": "PACKAGING SEGURO",
             "description": "Cuidamos cada detalle para que tu pedido llegue en perfectas condiciones. Utilizamos un packaging seguro y libre de plásticos, pensado para resistir el trayecto, y apostamos por materiales sostenibles en todo el proceso."
           }
