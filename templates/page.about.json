@@ -214,6 +214,7 @@
         "badge_dDcpQJ": {
           "type": "badge",
           "settings": {
+            "icon": "shopify://shop_images/ilustracion_envios_pur_plant.png",
             "title": "más que plantas",
             "description": "Creemos que las plantas no son solo decoración, sino una forma de transformar cómo vivimos. Queremos que formen parte de tu día a día y te ayuden a volver al  presente, porque lo mágico ocurre cuando entiendes su poder y lo integras en \ntu vida."
           }
