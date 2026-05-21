@@ -174,6 +174,7 @@
       "type": "pp-image-full",
       "name": "PP Image Full",
       "settings": {
+        "image": "shopify://shop_images/ilustracion_siempre_contigo_pur_plant.png",
         "max_width_pct": 35,
         "align": "center",
         "auto_height": true,
