@@ -308,7 +308,7 @@
           "type": "collection_link",
           "settings": {
             "label": "Cuidados",
-            "url": "/collections/sustratos"
+            "url": "shopify://collections/fertilizantes-organicos-box"
           }
         },
         "collection_link_L7Kfck": {
