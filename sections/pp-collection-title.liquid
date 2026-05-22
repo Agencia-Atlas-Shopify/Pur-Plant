@@ -18,15 +18,16 @@
   @media (max-width: 600px) { .pp-coll-breadcrumb { font-size: 11px; } }
 </style>
 
+{%- assign coll = collection | default: section.settings.collection -%}
+
 <section class="pp-coll-title" style="
     padding-top: {{ section.settings.padding_top }}px;
     padding-bottom: {{ section.settings.padding_bottom }}px;
   ">
   <div class="pp-coll-title__inner">
-    {%- comment -%} Breadcrumb: Home / root / ... / parent / [Current]. Walk coleccion_padre chain. {%- endcomment -%}
     {%- assign chain_titles = '' -%}
     {%- assign chain_urls = '' -%}
-    {%- assign walk = collection.metafields.custom.coleccion_padre.value -%}
+    {%- assign walk = coll.metafields.custom.coleccion_padre.value -%}
     {%- for i in (1..8) -%}
       {%- if walk != blank -%}
         {%- if chain_titles == '' -%}
@@ -52,9 +53,9 @@
           <span aria-hidden="true">/</span>
         {%- endfor -%}
       {%- endif -%}
-      <span class="pp-coll-breadcrumb__current">{{ collection.title }}</span>
+      <span class="pp-coll-breadcrumb__current">{{ coll.title }}</span>
     </nav>
-    <h1 class="pp-coll-title__heading">{{ collection.title }}</h1>
+    <h1 class="pp-coll-title__heading">{{ coll.title }}</h1>
   </div>
 </section>
 
@@ -64,6 +65,11 @@
   "tag": "section",
   "class": "pp-coll-title-section",
   "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Colección (solo para páginas)"
+    },
     {
       "type": "range",
       "id": "padding_top",
@@ -85,7 +91,7 @@
       "default": 16
     }
   ],
-  "templates": ["collection"],
+  "templates": ["collection", "page"],
   "presets": [
     {
       "name": "PP Collection Title",
