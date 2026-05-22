@@ -15,10 +15,10 @@
         "slide_863nYF": {
           "type": "slide",
           "settings": {
-            "image_desktop": "shopify://shop_images/plantas-cuidados-organicos-pur-plant.jpg",
-            "image_mobile": "shopify://shop_images/plantas-cuidados-organicos-pur-plant.jpg",
+            "image_desktop": "{{ page.metafields.custom.imagen_portada.value }}",
+            "image_mobile": "{{ page.metafields.custom.imagen_portada.value }}",
             "subheading": "",
-            "heading": "Guía Cuidado de Plantas",
+            "heading": "{{ page.metafields.custom.page_type.value }}",
             "subtitle": "",
             "content_position": "bottom-left",
             "button_text": "",
