@@ -9,19 +9,64 @@
  */
 {
   "sections": {
-    "main": {
-      "type": "pp-page-guide",
-      "disabled": true,
+    "pp_hero_slider_PmHLWg": {
+      "type": "pp-hero-slider",
+      "blocks": {
+        "slide_863nYF": {
+          "type": "slide",
+          "settings": {
+            "image_desktop": "shopify://shop_images/plantas-cuidados-organicos-pur-plant.jpg",
+            "image_mobile": "shopify://shop_images/plantas-cuidados-organicos-pur-plant.jpg",
+            "subheading": "",
+            "heading": "Guía Cuidado de Plantas",
+            "subtitle": "",
+            "content_position": "bottom-left",
+            "button_text": "",
+            "button_link": "",
+            "button_style": "normal",
+            "button_text_2": "",
+            "button_link_2": "",
+            "button_style_2": "inverted",
+            "link": "",
+            "heading_font": "'Aileron', sans-serif",
+            "heading_size": 0,
+            "heading_size_mobile": 0,
+            "heading_weight": "default",
+            "heading_color": "",
+            "subheading_font": "default",
+            "subheading_size": 0,
+            "subheading_size_mobile": 0,
+            "subheading_weight": "default",
+            "subheading_color": "",
+            "btn_font": "default",
+            "btn_size": 0,
+            "btn_weight": "default",
+            "btn_bg_color": "",
+            "btn_text_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_863nYF"
+      ],
+      "name": "PP Hero Slider",
       "settings": {
-        "show_breadcrumb": true,
-        "show_care_icons": true,
-        "products_per_row": 4,
-        "banner_text": "",
-        "banner_cta_text": "",
-        "banner_cta_url": "",
-        "bg_color": "#ffffff",
-        "padding_top": 40,
-        "padding_bottom": 60
+        "enable_transparent_header": false,
+        "full_height_mobile": false,
+        "height_mobile": 500,
+        "full_height_desktop": false,
+        "height_desktop": 700,
+        "autoplay": true,
+        "autoplay_speed": 5,
+        "show_dots": true,
+        "show_arrows": true,
+        "content_max_width": 600,
+        "overlay_opacity": 0,
+        "overlay_direction": "to top",
+        "background_color": "0 0 0",
+        "text_color": "255 255 255",
+        "button_background": "255 255 255",
+        "button_text_color": "0 0 0"
       }
     },
     "section_HBFWtA": {
@@ -398,7 +443,7 @@
     }
   },
   "order": [
-    "main",
+    "pp_hero_slider_PmHLWg",
     "section_HBFWtA",
     "section_kwgypx",
     "pp_page_list_wyaUzA",
