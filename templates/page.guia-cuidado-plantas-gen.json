@@ -256,7 +256,7 @@
       "type": "pp-page-list",
       "name": "PP Page List",
       "settings": {
-        "heading": "Cómo cuidar cada planta según su familia",
+        "heading": "Según su familia",
         "layout_type": "carousel",
         "columns": 5,
         "columns_laptop": 3,
