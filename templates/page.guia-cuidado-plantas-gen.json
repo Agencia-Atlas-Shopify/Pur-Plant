@@ -11,6 +11,7 @@
   "sections": {
     "main": {
       "type": "pp-page-guide",
+      "disabled": true,
       "settings": {
         "show_breadcrumb": true,
         "show_care_icons": true,
