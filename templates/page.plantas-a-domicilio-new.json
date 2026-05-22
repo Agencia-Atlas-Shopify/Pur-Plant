@@ -9,6 +9,15 @@
  */
 {
   "sections": {
+    "pp_collection_title_dJbjzG": {
+      "type": "pp-collection-title",
+      "name": "PP Collection Title",
+      "settings": {
+        "collection": "",
+        "padding_top": 32,
+        "padding_bottom": 16
+      }
+    },
     "hero_39iATj": {
       "type": "hero",
       "blocks": {
@@ -138,6 +147,7 @@
         "custom_liquid_X4yHrN",
         "group_ENwJMi"
       ],
+      "disabled": true,
       "custom_css": [
         ".page-plant-days .hero-section {margin-top: calc(-1 * var(--header-height));}"
       ],
@@ -1231,6 +1241,7 @@
     }
   },
   "order": [
+    "pp_collection_title_dJbjzG",
     "hero_39iATj",
     "1776951229102c0a24",
     "pp_richtext_i9QkTc",
