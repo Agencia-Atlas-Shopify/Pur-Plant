@@ -345,6 +345,137 @@
       margin-top: 36px;
     }
   }
+
+  /* ── 4. Acordeón enlazado (localidades / categorías a domicilio) ── */
+  .pp-domicilio__links {
+    margin-top: 48px;
+    max-width: 760px;
+  }
+  .pp-domicilio__acc {
+    border-bottom: 1px solid rgba(0,0,0,.12);
+  }
+  .pp-domicilio__acc-summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 4px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: #1d2b1f;
+  }
+  .pp-domicilio__acc-summary::-webkit-details-marker { display: none; }
+  .pp-domicilio__acc-summary::after {
+    content: "+";
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1;
+    transition: transform .2s ease;
+  }
+  .pp-domicilio__acc[open] > .pp-domicilio__acc-summary::after {
+    content: "–";
+  }
+  .pp-domicilio__acc-list {
+    list-style: none;
+    margin: 0;
+    padding: 0 4px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .pp-domicilio__acc-list a {
+    color: #3a5a40;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    font-size: 15px;
+  }
+  .pp-domicilio__acc-list a:hover { color: #1d2b1f; }
+
+  /* ── 5. Carrusel de colecciones / páginas relacionadas ── */
+  .pp-domicilio__carousel {
+    margin-top: 48px;
+  }
+  .pp-domicilio__carousel-track {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
+    scrollbar-width: thin;
+  }
+  .pp-domicilio__carousel-card {
+    flex: 0 0 auto;
+    width: 140px;
+    scroll-snap-align: start;
+    text-decoration: none;
+    text-align: center;
+  }
+  .pp-domicilio__carousel-img {
+    display: block;
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 12px;
+    background: rgba(0,0,0,.04);
+    transition: transform .2s ease;
+  }
+  .pp-domicilio__carousel-card:hover .pp-domicilio__carousel-img { transform: translateY(-3px); }
+  .pp-domicilio__carousel-label {
+    display: block;
+    margin-top: 8px;
+    font-size: 13px;
+    color: #1d2b1f;
+  }
+
+  /* ── 6. Contenido SEO en desplegable (Leer más) ── */
+  .pp-domicilio__seo { margin-top: 48px; }
+  .pp-domicilio__seo-clamp {
+    position: relative;
+    overflow: hidden;
+    transition: max-height .3s ease;
+  }
+  .pp-domicilio__seo-clamp[data-collapsed="true"] {
+    max-height: 160px;
+  }
+  .pp-domicilio__seo-clamp[data-collapsed="true"]::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 80px;
+    background: linear-gradient(to bottom, transparent, {{ section.settings.bg_color }});
+    pointer-events: none;
+  }
+  .pp-domicilio__seo-toggle {
+    margin-top: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #3a5a40;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 4px 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .pp-domicilio__seo-toggle:hover { color: #1d2b1f; }
+  .pp-domicilio__seo-toggle::after {
+    content: "⌄";
+    font-size: 14px;
+    transition: transform .2s ease;
+  }
+  .pp-domicilio__seo-toggle[aria-expanded="true"]::after { transform: rotate(180deg); }
+
+  @media (max-width: 749px) {
+    .pp-domicilio__carousel-card,
+    .pp-domicilio__carousel-img { width: 120px; }
+    .pp-domicilio__carousel-img { height: 120px; }
+  }
 </style>
 
 <section
@@ -430,15 +561,7 @@
     </div>
   {%- endif -%}
 
-  {%- comment -%} -- JSON data source for page_content -- {%- endcomment -%}
-  <script type="application/json" data-page-content>
-    {{ page.metafields.custom.page_content | default: '[]' }}
-  </script>
-
-  {%- comment -%} -- Content container (JS-rendered) -- {%- endcomment -%}
-  <div data-content-container></div>
-
-  {%- comment -%} -- Product grids -- {%- endcomment -%}
+  {%- comment -%} -- Product grids (bloque BEST SELLER / colecciones) -- {%- endcomment -%}
   {%- assign coll_1 = page.metafields.custom.page_collection_1.value -%}
   {%- if coll_1 -%}
     <div class="pp-domicilio__product-grid-wrapper">
@@ -478,6 +601,86 @@
           {%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}
         {%- endfor -%}
       </div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%}
+    -- 4. Acordeón enlazado: grupos de enlaces internos (localidades / categorías a domicilio).
+    Cada grupo = título + un menú (linklist). SEO interno editable sin tocar código.
+  {%- endcomment -%}
+  {%- assign acc_groups = '1,2,3,4,5' | split: ',' -%}
+  {%- assign has_acc = false -%}
+  {%- for n in acc_groups -%}
+    {%- assign menu_key = 'group_' | append: n | append: '_menu' -%}
+    {%- assign g_menu = section.settings[menu_key] -%}
+    {%- if g_menu != blank and g_menu.links.size > 0 -%}{%- assign has_acc = true -%}{%- endif -%}
+  {%- endfor -%}
+  {%- if has_acc -%}
+    <div class="pp-domicilio__links">
+      {%- assign acc_first = true -%}
+      {%- for n in acc_groups -%}
+        {%- assign title_key = 'group_' | append: n | append: '_title' -%}
+        {%- assign menu_key = 'group_' | append: n | append: '_menu' -%}
+        {%- assign g_title = section.settings[title_key] -%}
+        {%- assign g_menu = section.settings[menu_key] -%}
+        {%- if g_menu != blank and g_menu.links.size > 0 -%}
+          <details class="pp-domicilio__acc"{% if acc_first %} open{% endif %}>
+            <summary class="pp-domicilio__acc-summary">{{ g_title | default: g_menu.title }}</summary>
+            <ul class="pp-domicilio__acc-list">
+              {%- for link in g_menu.links -%}
+                <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          </details>
+          {%- assign acc_first = false -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  {%- comment -%}
+    -- 5. Carrusel de colecciones/páginas relacionadas (enlazado interno horizontal).
+    Fuente: collection_list de la sección.
+  {%- endcomment -%}
+  {%- assign carousel_colls = section.settings.carousel_collections -%}
+  {%- if carousel_colls != blank and carousel_colls.size > 0 -%}
+    <div class="pp-domicilio__carousel">
+      {%- if section.settings.carousel_title != blank -%}
+        <h2 class="pp-domicilio__product-grid-title">{{ section.settings.carousel_title }}</h2>
+      {%- endif -%}
+      <div class="pp-domicilio__carousel-track">
+        {%- for coll in carousel_colls -%}
+          <a href="{{ coll.url }}" class="pp-domicilio__carousel-card">
+            {%- if coll.featured_image != blank -%}
+              {{ coll.featured_image | image_url: width: 280 | image_tag: class: 'pp-domicilio__carousel-img', alt: coll.title, loading: 'lazy', widths: '140, 280' }}
+            {%- elsif coll.products.first.featured_image != blank -%}
+              {{ coll.products.first.featured_image | image_url: width: 280 | image_tag: class: 'pp-domicilio__carousel-img', alt: coll.title, loading: 'lazy', widths: '140, 280' }}
+            {%- else -%}
+              <span class="pp-domicilio__carousel-img"></span>
+            {%- endif -%}
+            <span class="pp-domicilio__carousel-label">{{ coll.title }}</span>
+          </a>
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%}
+    -- 6. Contenido SEO en desplegable (Leer más). Contenido migrado de WP en page_content.
+  {%- endcomment -%}
+  {%- assign seo_raw = page.metafields.custom.page_content | default: '[]' -%}
+  {%- if seo_raw != '[]' and seo_raw != blank -%}
+    <div class="pp-domicilio__seo">
+      {%- if section.settings.seo_title != blank -%}
+        <h2 class="pp-domicilio__product-grid-title">{{ section.settings.seo_title }}</h2>
+      {%- endif -%}
+      <script type="application/json" data-page-content>
+        {{ seo_raw }}
+      </script>
+      <div class="pp-domicilio__seo-clamp" data-collapsed="true" data-content-container></div>
+      <button type="button" class="pp-domicilio__seo-toggle" aria-expanded="false" data-seo-toggle>
+        {{ section.settings.seo_more_label | default: 'Leer más' }}
+      </button>
     </div>
   {%- endif -%}
 
@@ -603,6 +806,35 @@
       p.classList.add('pp-empty');
     }
   });
+
+  /* SEO "Leer m\u00e1s" toggle. Hide button if content fits within clamp height. */
+  var clamp = container.closest('.pp-domicilio__seo-clamp') || container;
+  var toggle = document.querySelector('[data-seo-toggle]');
+  if (toggle && clamp.hasAttribute('data-collapsed')) {
+    var clampMax = 160;
+    if (clamp.scrollHeight <= clampMax + 20) {
+      clamp.removeAttribute('data-collapsed');
+      clamp.style.maxHeight = 'none';
+      toggle.style.display = 'none';
+    } else {
+      var moreLabel = toggle.textContent.trim();
+      var lessLabel = toggle.getAttribute('data-less') || 'Leer menos';
+      toggle.addEventListener('click', function() {
+        var collapsed = clamp.getAttribute('data-collapsed') === 'true';
+        if (collapsed) {
+          clamp.style.maxHeight = clamp.scrollHeight + 'px';
+          clamp.setAttribute('data-collapsed', 'false');
+          toggle.setAttribute('aria-expanded', 'true');
+          toggle.textContent = lessLabel;
+        } else {
+          clamp.style.maxHeight = clampMax + 'px';
+          clamp.setAttribute('data-collapsed', 'true');
+          toggle.setAttribute('aria-expanded', 'false');
+          toggle.textContent = moreLabel;
+        }
+      });
+    }
+  }
 })();
 </script>
 
@@ -681,6 +913,96 @@
       "id": "badge_guarantee",
       "label": "Trust badge: Guarantee",
       "default": "Garantia de frescura"
+    },
+    {
+      "type": "header",
+      "content": "Enlazado interno (acordeón)",
+      "info": "Cada grupo = un título + un menú de enlaces (Navegación > Menús). El primer grupo aparece abierto."
+    },
+    {
+      "type": "text",
+      "id": "group_1_title",
+      "label": "Grupo 1 · título",
+      "default": "Plantas a domicilio"
+    },
+    {
+      "type": "link_list",
+      "id": "group_1_menu",
+      "label": "Grupo 1 · menú"
+    },
+    {
+      "type": "text",
+      "id": "group_2_title",
+      "label": "Grupo 2 · título",
+      "default": "Plantas a domicilio ciudades"
+    },
+    {
+      "type": "link_list",
+      "id": "group_2_menu",
+      "label": "Grupo 2 · menú"
+    },
+    {
+      "type": "text",
+      "id": "group_3_title",
+      "label": "Grupo 3 · título",
+      "default": "Plantas a domicilio norte"
+    },
+    {
+      "type": "link_list",
+      "id": "group_3_menu",
+      "label": "Grupo 3 · menú"
+    },
+    {
+      "type": "text",
+      "id": "group_4_title",
+      "label": "Grupo 4 · título",
+      "default": "Plantas a domicilio sur"
+    },
+    {
+      "type": "link_list",
+      "id": "group_4_menu",
+      "label": "Grupo 4 · menú"
+    },
+    {
+      "type": "text",
+      "id": "group_5_title",
+      "label": "Grupo 5 · título"
+    },
+    {
+      "type": "link_list",
+      "id": "group_5_menu",
+      "label": "Grupo 5 · menú"
+    },
+    {
+      "type": "header",
+      "content": "Carrusel relacionados"
+    },
+    {
+      "type": "text",
+      "id": "carousel_title",
+      "label": "Carrusel · título"
+    },
+    {
+      "type": "collection_list",
+      "id": "carousel_collections",
+      "label": "Carrusel · colecciones",
+      "limit": 12
+    },
+    {
+      "type": "header",
+      "content": "Contenido SEO (desplegable)"
+    },
+    {
+      "type": "text",
+      "id": "seo_title",
+      "label": "Título sección SEO",
+      "default": "Plantas a domicilio"
+    },
+    {
+      "type": "text",
+      "id": "seo_more_label",
+      "label": "Texto botón \"Leer más\"",
+      "default": "Leer más"
     },
     {
       "type": "color",
