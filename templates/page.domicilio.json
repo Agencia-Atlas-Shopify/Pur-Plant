@@ -13,12 +13,7 @@
       "type": "pp-page-domicilio",
       "settings": {
         "show_breadcrumb": true,
-        "show_hero": true,
-        "show_trust_badges": true,
-        "badge_delivery": "Entrega en 24/48h",
-        "badge_shipping": "Envio gratis +49€",
-        "badge_guarantee": "Garantia de frescura",
-        "bg_color": "#F5F0E8",
+        "bg_color": "#FFFFFF",
         "padding_top": 40,
         "padding_bottom": 60
       }

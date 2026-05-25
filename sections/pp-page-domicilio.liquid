@@ -48,118 +48,19 @@
 -%}
 
 <style>
-  /* --- PP Page Domicilio: type-specific styles --- */
-  .pp-domicilio__hero {
-    background: var(--pp-dark-green);
-    border-radius: var(--pp-radius);
-    padding: 48px 40px;
-    margin: 0 0 40px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .pp-domicilio__hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at 60% 20%, rgba(218, 255, 211, 0.12) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .pp-domicilio__hero-subtitle {
-    font-family: var(--pp-font-section);
-    font-size: 13px;
-    font-weight: 600;
-    color: rgba(218, 255, 211, 0.7);
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    margin: 0 0 12px;
-    position: relative;
-    z-index: 1;
-  }
-
-  .pp-domicilio__hero-title {
+  /* --- PP Page Domicilio: collection-style header --- */
+  .pp-domicilio__title {
     font-family: var(--pp-font-heading);
     font-size: clamp(28px, 5vw, 44px);
     font-weight: 400;
-    color: #fff;
+    color: #23372c;
     line-height: 1.15;
-    margin: 0 0 16px;
-    position: relative;
-    z-index: 1;
+    margin: 0 0 8px;
+  }
+  .pp-domicilio__breadcrumb {
+    margin: 0 0 32px;
   }
 
-  .pp-domicilio__hero-city {
-    color: var(--pp-light-green);
-  }
-
-  .pp-domicilio__hero-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--pp-light-green);
-    color: var(--pp-dark-green);
-    font-family: var(--pp-font-section);
-    font-size: 14px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    padding: 14px 32px;
-    border-radius: 100px;
-    text-decoration: none;
-    transition: transform var(--pp-transition), box-shadow var(--pp-transition);
-    position: relative;
-    z-index: 1;
-  }
-
-  .pp-domicilio__hero-cta:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 20px rgba(218, 255, 211, 0.3);
-  }
-
-  .pp-domicilio__hero-cta svg {
-    width: 16px;
-    height: 16px;
-  }
-
-  /* --- Trust badges --- */
-  .pp-domicilio__trust {
-    display: flex;
-    justify-content: center;
-    gap: 32px;
-    flex-wrap: wrap;
-    margin: 0 0 48px;
-    padding: 24px 0;
-    border-bottom: 1px solid rgba(35, 55, 44, 0.1);
-  }
-
-  .pp-domicilio__trust-badge {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-family: var(--pp-font-body);
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--pp-dark-green);
-  }
-
-  .pp-domicilio__trust-icon {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(35, 55, 44, 0.06);
-    border-radius: 50%;
-    flex-shrink: 0;
-    color: var(--pp-dark-green);
-  }
-
-  .pp-domicilio__trust-icon svg {
-    width: 20px;
-    height: 20px;
-  }
 
   /* --- Content widget styles --- */
   .pp-domicilio .pp-content__heading {
@@ -306,30 +207,6 @@
   }
 
   @media screen and (max-width: 749px) {
-    .pp-domicilio__hero {
-      padding: 32px 20px;
-    }
-
-    .pp-domicilio__trust {
-      gap: 16px;
-    }
-
-    .pp-domicilio__trust-badge {
-      font-size: 13px;
-      gap: 8px;
-      flex: 0 0 calc(50% - 8px);
-    }
-
-    .pp-domicilio__trust-icon {
-      width: 32px;
-      height: 32px;
-    }
-
-    .pp-domicilio__trust-icon svg {
-      width: 16px;
-      height: 16px;
-    }
-
     .pp-domicilio__product-grid {
       grid-template-columns: repeat(2, 1fr);
       gap: 12px;
@@ -488,9 +365,12 @@
   "
 >
 
+  {%- comment -%} -- Collection-style header: H1 arriba, breadcrumb debajo -- {%- endcomment -%}
+  <h1 class="pp-domicilio__title">{{ page.title }}</h1>
+
   {%- comment -%} -- Breadcrumb: 2nd level is a clickable link to the pillar (Plantas/Flores/Árboles a Domicilio) so users + crawlers can ascend. -- {%- endcomment -%}
   {%- if section.settings.show_breadcrumb -%}
-    <nav class="pp-guide__breadcrumb" aria-label="Breadcrumb">
+    <nav class="pp-guide__breadcrumb pp-domicilio__breadcrumb" aria-label="Breadcrumb">
       <a href="/">Inicio</a>
       <span class="pp-guide__breadcrumb-sep">/</span>
       {%- if is_parent_page -%}
@@ -501,64 +381,6 @@
         <span>{{ page.title }}</span>
       {%- endif -%}
     </nav>
-  {%- endif -%}
-
-  {%- comment -%} -- Hero header -- {%- endcomment -%}
-  {%- if section.settings.show_hero -%}
-    <div class="pp-domicilio__hero">
-      <p class="pp-domicilio__hero-subtitle">
-        {%- if is_flores -%}
-          Envío de flores a domicilio
-        {%- elsif is_arboles -%}
-          Envío de árboles a domicilio
-        {%- elsif is_campaign -%}
-          Campaña Pur Plant
-        {%- else -%}
-          Envío de plantas a domicilio
-        {%- endif -%}
-      </p>
-      <h1 class="pp-domicilio__hero-title">{{ page.title }}</h1>
-      {%- unless is_parent_page or cta_url == page.url -%}
-        <a href="{{ cta_url }}" class="pp-domicilio__hero-cta">
-          {{ section.settings.banner_cta_text | default: 'Ver plantas' }}
-          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3.333 8h9.334M8.667 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </a>
-      {%- endunless -%}
-    </div>
-  {%- else -%}
-    <h1 class="pp-guide__title">{{ page.title }}</h1>
-  {%- endif -%}
-
-  {%- comment -%} -- Trust badges -- {%- endcomment -%}
-  {%- if section.settings.show_trust_badges -%}
-    <div class="pp-domicilio__trust">
-      <div class="pp-domicilio__trust-badge">
-        <span class="pp-domicilio__trust-icon">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </span>
-        <span>{{ section.settings.badge_delivery }}</span>
-      </div>
-      <div class="pp-domicilio__trust-badge">
-        <span class="pp-domicilio__trust-icon">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </span>
-        <span>{{ section.settings.badge_shipping }}</span>
-      </div>
-      <div class="pp-domicilio__trust-badge">
-        <span class="pp-domicilio__trust-icon">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </span>
-        <span>{{ section.settings.badge_guarantee }}</span>
-      </div>
-    </div>
   {%- endif -%}
 
   {%- comment -%} -- Product grids (bloque BEST SELLER / colecciones) -- {%- endcomment -%}
@@ -851,18 +673,6 @@
       "default": true
     },
     {
-      "type": "checkbox",
-      "id": "show_hero",
-      "label": "Show hero header",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_trust_badges",
-      "label": "Show trust badges",
-      "default": true
-    },
-    {
       "type": "range",
       "id": "products_per_row",
       "min": 2,
@@ -891,28 +701,6 @@
       "type": "url",
       "id": "banner_cta_url",
       "label": "CTA button link"
-    },
-    {
-      "type": "header",
-      "content": "Trust Badges"
-    },
-    {
-      "type": "text",
-      "id": "badge_delivery",
-      "label": "Trust badge: Delivery",
-      "default": "Entrega en 24/48h"
-    },
-    {
-      "type": "text",
-      "id": "badge_shipping",
-      "label": "Trust badge: Shipping",
-      "default": "Envio gratis +49\u20ac"
-    },
-    {
-      "type": "text",
-      "id": "badge_guarantee",
-      "label": "Trust badge: Guarantee",
-      "default": "Garantia de frescura"
     },
     {
       "type": "header",
@@ -1008,7 +796,7 @@
       "type": "color",
       "id": "bg_color",
       "label": "Background color",
-      "default": "#F5F0E8"
+      "default": "#FFFFFF"
     },
     {
       "type": "header",
