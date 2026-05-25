@@ -323,44 +323,10 @@
     color: #1d2b1f;
   }
 
-  /* ── 6. Contenido SEO en desplegable (Leer más) ── */
-  .pp-domicilio__seo { margin-top: 48px; }
-  .pp-domicilio__seo-clamp {
-    position: relative;
-    overflow: hidden;
-    transition: max-height .3s ease;
-  }
-  .pp-domicilio__seo-clamp[data-collapsed="true"] {
-    max-height: 160px;
-  }
-  .pp-domicilio__seo-clamp[data-collapsed="true"]::after {
-    content: "";
-    position: absolute;
-    left: 0; right: 0; bottom: 0;
-    height: 80px;
-    background: linear-gradient(to bottom, transparent, {{ section.settings.bg_color }});
-    pointer-events: none;
-  }
-  .pp-domicilio__seo-toggle {
-    margin-top: 12px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #3a5a40;
-    font-size: 15px;
-    font-weight: 600;
-    padding: 4px 0;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .pp-domicilio__seo-toggle:hover { color: #1d2b1f; }
-  .pp-domicilio__seo-toggle::after {
-    content: "⌄";
-    font-size: 14px;
-    transition: transform .2s ease;
-  }
-  .pp-domicilio__seo-toggle[aria-expanded="true"]::after { transform: rotate(180deg); }
+  /* ── 6. Contenido SEO en desplegable (usa estilo global .pp-coll-desc) ── */
+  .pp-domicilio__seo { margin-top: 48px; padding: 0; }
+  .pp-domicilio__seo .pp-coll-desc__inner { padding: 0; }
+  .pp-domicilio__seo .pp-coll-desc__header { padding-right: 0; }
 
   @media (max-width: 749px) {
     .pp-domicilio__carousel-card,
@@ -509,18 +475,23 @@
   {%- endcomment -%}
   {%- assign seo_raw = page.metafields.custom.page_content | default: '[]' -%}
   {%- if seo_raw != '[]' and seo_raw != blank -%}
-    <div class="pp-domicilio__seo">
-      {%- if section.settings.seo_title != blank -%}
-        <h2 class="pp-domicilio__product-grid-title">{{ section.settings.seo_title }}</h2>
-      {%- endif -%}
+    <section class="pp-coll-desc pp-domicilio__seo">
+      <div class="pp-coll-desc__inner">
+        <div class="pp-coll-desc__header">
+          <h2 class="pp-coll-desc__title">{{ section.settings.seo_title | default: page.title }}</h2>
+          <button type="button" class="pp-coll-desc__toggle" data-pp-coll-desc-toggle aria-expanded="false">
+            <span class="pp-coll-desc__toggle-text">{{ section.settings.seo_more_label | default: 'Leer más' }}</span>
+            <svg class="pp-coll-desc__arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5.5L7 9.5L11 5.5"/></svg>
+          </button>
+        </div>
+        <div class="pp-coll-desc__body" data-pp-coll-desc-body>
+          <div class="pp-coll-desc__columns" data-content-container></div>
+        </div>
+      </div>
       <script type="application/json" data-page-content>
         {{ seo_raw }}
       </script>
-      <div class="pp-domicilio__seo-clamp" data-collapsed="true" data-content-container></div>
-      <button type="button" class="pp-domicilio__seo-toggle" aria-expanded="false" data-seo-toggle>
-        {{ section.settings.seo_more_label | default: 'Leer más' }}
-      </button>
-    </div>
+    </section>
   {%- endif -%}
 
   {%- comment -%} -- Banner CTA -- {%- endcomment -%}
@@ -646,33 +617,26 @@
     }
   });
 
-  /* SEO "Leer m\u00e1s" toggle. Hide button if content fits within clamp height. */
-  var clamp = container.closest('.pp-domicilio__seo-clamp') || container;
-  var toggle = document.querySelector('[data-seo-toggle]');
-  if (toggle && clamp.hasAttribute('data-collapsed')) {
-    var clampMax = 160;
-    if (clamp.scrollHeight <= clampMax + 20) {
-      clamp.removeAttribute('data-collapsed');
-      clamp.style.maxHeight = 'none';
-      toggle.style.display = 'none';
-    } else {
-      var moreLabel = toggle.textContent.trim();
-      var lessLabel = toggle.getAttribute('data-less') || 'Leer menos';
-      toggle.addEventListener('click', function() {
-        var collapsed = clamp.getAttribute('data-collapsed') === 'true';
-        if (collapsed) {
-          clamp.style.maxHeight = clamp.scrollHeight + 'px';
-          clamp.setAttribute('data-collapsed', 'false');
-          toggle.setAttribute('aria-expanded', 'true');
-          toggle.textContent = lessLabel;
-        } else {
-          clamp.style.maxHeight = clampMax + 'px';
-          clamp.setAttribute('data-collapsed', 'true');
-          toggle.setAttribute('aria-expanded', 'false');
-          toggle.textContent = moreLabel;
-        }
-      });
-    }
+  /* SEO desplegable estilo pp-coll-desc: body max-height 0 -> scrollHeight */
+  var seoToggle = document.querySelector('[data-pp-coll-desc-toggle]');
+  if (seoToggle) {
+    var seoSection = seoToggle.closest('.pp-coll-desc');
+    var seoBody = seoSection.querySelector('[data-pp-coll-desc-body]');
+    var seoText = seoToggle.querySelector('.pp-coll-desc__toggle-text');
+    var moreLabel = {{ section.settings.seo_more_label | default: 'Leer m\u00e1s' | json }};
+    var lessLabel = {{ section.settings.seo_less_label | default: 'Leer menos' | json }};
+    seoToggle.addEventListener('click', function() {
+      var expanded = seoToggle.getAttribute('aria-expanded') === 'true';
+      if (expanded) {
+        seoBody.style.maxHeight = '0';
+        seoToggle.setAttribute('aria-expanded', 'false');
+        if (seoText) seoText.textContent = moreLabel;
+      } else {
+        seoBody.style.maxHeight = seoBody.scrollHeight + 'px';
+        seoToggle.setAttribute('aria-expanded', 'true');
+        if (seoText) seoText.textContent = lessLabel;
+      }
+    });
   }
 })();
 </script>
@@ -808,6 +772,12 @@
       "id": "seo_more_label",
       "label": "Texto botón \"Leer más\"",
       "default": "Leer más"
+    },
+    {
+      "type": "text",
+      "id": "seo_less_label",
+      "label": "Texto botón \"Leer menos\"",
+      "default": "Leer menos"
     },
     {
       "type": "color",
