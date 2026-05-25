@@ -149,7 +149,6 @@
   .pp-domicilio__product-grid-wrapper {
     margin: 56px 0;
     padding: 40px 0;
-    border-top: 1px solid rgba(35, 55, 44, 0.1);
     border-bottom: 1px solid rgba(35, 55, 44, 0.1);
   }
 
@@ -395,9 +394,6 @@
   {%- assign coll_1 = page.metafields.custom.page_collection_1.value -%}
   {%- if coll_1 -%}
     <div class="pp-domicilio__product-grid-wrapper">
-      {%- if coll_1.title != blank -%}
-        <h3 class="pp-domicilio__product-grid-title">{{ coll_1.title }}</h3>
-      {%- endif -%}
       <div class="pp-domicilio__product-grid">
         {%- for product in coll_1.products limit: 8 -%}
           {%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}
@@ -409,9 +405,6 @@
   {%- assign coll_2 = page.metafields.custom.page_collection_2.value -%}
   {%- if coll_2 -%}
     <div class="pp-domicilio__product-grid-wrapper">
-      {%- if coll_2.title != blank -%}
-        <h3 class="pp-domicilio__product-grid-title">{{ coll_2.title }}</h3>
-      {%- endif -%}
       <div class="pp-domicilio__product-grid">
         {%- for product in coll_2.products limit: 8 -%}
           {%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}
@@ -423,9 +416,6 @@
   {%- assign coll_3 = page.metafields.custom.page_collection_3.value -%}
   {%- if coll_3 -%}
     <div class="pp-domicilio__product-grid-wrapper">
-      {%- if coll_3.title != blank -%}
-        <h3 class="pp-domicilio__product-grid-title">{{ coll_3.title }}</h3>
-      {%- endif -%}
       <div class="pp-domicilio__product-grid">
         {%- for product in coll_3.products limit: 8 -%}
           {%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}
