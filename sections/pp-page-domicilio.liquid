@@ -48,13 +48,8 @@
 -%}
 
 <style>
-  /* --- PP Page Domicilio: collection-style header --- */
-  .pp-domicilio__title {
-    font-family: var(--pp-font-heading);
-    font-size: clamp(28px, 5vw, 44px);
-    font-weight: 400;
-    color: #23372c;
-    line-height: 1.15;
+  /* --- PP Page Domicilio: collection-style header (H1 usa .pp-coll-title__heading global) --- */
+  .pp-domicilio .pp-coll-title__heading {
     margin: 0 0 8px;
   }
   .pp-domicilio__breadcrumb {
@@ -366,12 +361,12 @@
 >
 
   {%- comment -%} -- Collection-style header: H1 arriba, breadcrumb debajo -- {%- endcomment -%}
-  <h1 class="pp-domicilio__title">{{ page.title }}</h1>
+  <h1 class="pp-coll-title__heading">{{ page.title }}</h1>
 
   {%- comment -%} -- Breadcrumb: 2nd level is a clickable link to the pillar (Plantas/Flores/Árboles a Domicilio) so users + crawlers can ascend. -- {%- endcomment -%}
   {%- if section.settings.show_breadcrumb -%}
     <nav class="pp-guide__breadcrumb pp-domicilio__breadcrumb" aria-label="Breadcrumb">
-      <a href="/">Inicio</a>
+      <a href="{{ routes.root_url }}">Inicio</a>
       <span class="pp-guide__breadcrumb-sep">/</span>
       {%- if is_parent_page -%}
         <span>{{ parent_label }}</span>
