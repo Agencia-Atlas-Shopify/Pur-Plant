@@ -456,6 +456,18 @@
         {%- endif -%}
       {%- endfor -%}
     </div>
+  {%- else -%}
+    {%- comment -%} Fallback: contenido default cuando no hay menús asignados {%- endcomment -%}
+    <div class="pp-domicilio__links">
+      <details class="pp-domicilio__acc" open>
+        <summary class="pp-domicilio__acc-summary">{{ section.settings.group_1_title | default: 'Plantas a domicilio' }}</summary>
+        <ul class="pp-domicilio__acc-list">
+          <li><a href="/pages/plantas-a-domicilio-para-regalar">Plantas a domicilio para regalo</a></li>
+          <li><a href="/pages/plantas-a-domicilio-baratas">Plantas a domicilio baratas</a></li>
+          <li><a href="/pages/plantas-a-domicilio-cestas">Centro de plantas a domicilio</a></li>
+        </ul>
+      </details>
+    </div>
   {%- endif -%}
 
   {%- comment -%}
