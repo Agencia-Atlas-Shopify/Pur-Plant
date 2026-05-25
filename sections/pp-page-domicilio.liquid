@@ -233,10 +233,12 @@
   /* ── 4. Acordeón enlazado (localidades / categorías a domicilio) ── */
   .pp-domicilio__links {
     margin-top: 48px;
-    max-width: 760px;
+    max-width: 100%;
+    width: 100%;
+    border-top: 1px solid rgba(35, 55, 44, 0.18);
   }
   .pp-domicilio__acc {
-    border-bottom: 1px solid rgba(0,0,0,.12);
+    border-bottom: 1px solid rgba(35, 55, 44, 0.18);
   }
   .pp-domicilio__acc-summary {
     list-style: none;
@@ -244,20 +246,23 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
-    padding: 16px 4px;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: .04em;
+    gap: 16px;
+    padding: 22px 4px;
+    font-family: var(--pp-font-heading);
+    font-size: clamp(20px, 2.4vw, 26px);
+    font-weight: 400;
+    letter-spacing: .01em;
     text-transform: uppercase;
-    color: #1d2b1f;
+    color: #23372c;
   }
   .pp-domicilio__acc-summary::-webkit-details-marker { display: none; }
   .pp-domicilio__acc-summary::after {
     content: "+";
-    font-size: 20px;
-    font-weight: 400;
+    font-family: var(--pp-font-body);
+    font-size: 26px;
+    font-weight: 300;
     line-height: 1;
+    flex-shrink: 0;
     transition: transform .2s ease;
   }
   .pp-domicilio__acc[open] > .pp-domicilio__acc-summary::after {
