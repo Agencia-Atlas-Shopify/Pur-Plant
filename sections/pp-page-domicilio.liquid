@@ -52,9 +52,22 @@
   .pp-domicilio .pp-coll-title__heading {
     margin: 0 0 8px;
   }
-  .pp-domicilio__breadcrumb {
-    margin: 0 0 32px;
+  /* breadcrumb estilo colección (pp-coll-breadcrumb no es global) */
+  .pp-domicilio .pp-coll-breadcrumb {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: #6b7d72;
+    margin: 0 0 28px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
   }
+  .pp-domicilio .pp-coll-breadcrumb a { color: #6b7d72; text-decoration: none; }
+  .pp-domicilio .pp-coll-breadcrumb a:hover { text-decoration: underline; color: #23372c; }
+  .pp-domicilio .pp-coll-breadcrumb span[aria-hidden] { opacity: 0.5; }
+  .pp-domicilio .pp-coll-breadcrumb .pp-coll-breadcrumb__current { color: #23372c; font-weight: 500; }
+  @media (max-width: 600px) { .pp-domicilio .pp-coll-breadcrumb { font-size: 11px; } }
 
 
   /* --- Content widget styles --- */
@@ -365,15 +378,15 @@
 
   {%- comment -%} -- Breadcrumb: 2nd level is a clickable link to the pillar (Plantas/Flores/Árboles a Domicilio) so users + crawlers can ascend. -- {%- endcomment -%}
   {%- if section.settings.show_breadcrumb -%}
-    <nav class="pp-guide__breadcrumb pp-domicilio__breadcrumb" aria-label="Breadcrumb">
+    <nav class="pp-coll-breadcrumb" aria-label="Breadcrumb">
       <a href="{{ routes.root_url }}">Inicio</a>
-      <span class="pp-guide__breadcrumb-sep">/</span>
+      <span aria-hidden="true">/</span>
       {%- if is_parent_page -%}
-        <span>{{ parent_label }}</span>
+        <span class="pp-coll-breadcrumb__current">{{ parent_label }}</span>
       {%- else -%}
         <a href="{{ parent_url }}">{{ parent_label }}</a>
-        <span class="pp-guide__breadcrumb-sep">/</span>
-        <span>{{ page.title }}</span>
+        <span aria-hidden="true">/</span>
+        <span class="pp-coll-breadcrumb__current">{{ page.title }}</span>
       {%- endif -%}
     </nav>
   {%- endif -%}
