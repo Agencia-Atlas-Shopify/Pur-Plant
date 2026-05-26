@@ -1276,6 +1276,22 @@ swym-storefront-layout-as-drawer #swym-storefront-layout-container .swym-storefr
   font-weight: 600;
 }
 
+/* Swym wishlist drawer — botón compartir transparente */
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  border-radius: var(--swym-storefront-layout-button-border-radius);
+  background: transparent;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
 /* ═══════════════════════════════════════════
    Blog post content (article body from rich text)
    Normalises the legacy WP markup so images stay
