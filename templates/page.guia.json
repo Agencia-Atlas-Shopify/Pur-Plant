@@ -22,40 +22,9 @@
         "padding_top": 40,
         "padding_bottom": 60
       }
-    },
-    "pp_product_faq_V7ERHN": {
-      "type": "pp-product-faq",
-      "blocks": {
-        "faq_item_P3tcnb": {
-          "type": "faq_item",
-          "settings": {
-            "question": "¿CUÁNDO RECIBIRÉ MI PEDIDO?",
-            "answer": "<p>Los envíos se realizan en 24-48 horas laborables.</p>"
-          }
-        },
-        "faq_item_8Mzk3M": {
-          "type": "faq_item",
-          "settings": {
-            "question": "¿QUÉ OCURRE SI LLEGA MAL?",
-            "answer": "<p>Los envíos se realizan en 24-48 horas laborables.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "faq_item_P3tcnb",
-        "faq_item_8Mzk3M"
-      ],
-      "name": "PP FAQ",
-      "settings": {
-        "heading": "LO QUE SUELEN PREGUNTARNOS",
-        "faq_category_override": "auto",
-        "padding_top": 40,
-        "padding_bottom": 40
-      }
     }
   },
   "order": [
-    "main",
-    "pp_product_faq_V7ERHN"
+    "main"
   ]
 }
