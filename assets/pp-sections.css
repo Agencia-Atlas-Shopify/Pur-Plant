@@ -1263,23 +1263,22 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
   fill: #22372c !important;
 }
 
-/* Swym wishlist drawer — botón "Añadir al carrito" sólido */
-swym-storefront-layout-as-drawer #swym-storefront-layout-container .swym-storefront-layout-grid-item-add-to-cart-button {
-  background: var(--swym-storefront-layout-button-color-bg-primary, #23372c) !important;
-  color: #fff !important;
-  border: 1px solid var(--swym-storefront-layout-button-color-bg-primary, #000) !important;
-  min-width: 110px !important;
-  padding: 12px 18px !important;
-  font-size: 13px !important;
+/* Swym wishlist drawer overrides — doble-clase para ganar specificity sobre el CSS del app */
+swym-storefront-layout-as-drawer #swym-storefront-layout-container .swym-storefront-layout-grid-item-add-to-cart-button.swym-storefront-layout-grid-item-add-to-cart-button {
+  background: #23372c;
+  color: #fff;
+  border: 1px solid #23372c;
+  min-width: 110px;
+  padding: 12px 18px;
+  font-size: 13px;
 }
 
-/* Swym wishlist drawer — precio en bold */
-.swym-storefront-layout-grid-item-final-price {
+.swym-storefront-layout-grid-item-final-price.swym-storefront-layout-grid-item-final-price {
+  color: #23372c;
   font-weight: 600;
 }
 
-/* Swym wishlist drawer — botón compartir transparente */
-swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn {
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn.swym-storefront-layout-share-footer-share-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1288,8 +1287,9 @@ swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn 
   font-size: 13px;
   font-weight: 600;
   line-height: 1.4;
-  border-radius: var(--swym-storefront-layout-button-border-radius);
   background: transparent;
+  color: #000;
+  border: 1px solid #000;
   cursor: pointer;
   white-space: nowrap;
 }
