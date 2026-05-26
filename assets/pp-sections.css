@@ -1263,12 +1263,14 @@ product-card.pp-product-card-standalone .pp-card__price-compare {
   fill: #22372c !important;
 }
 
-/* Swym wishlist drawer — outlined "Añadir al carrito" button */
+/* Swym wishlist drawer — botón "Añadir al carrito" sólido */
 swym-storefront-layout-as-drawer #swym-storefront-layout-container .swym-storefront-layout-grid-item-add-to-cart-button {
-  border: 1px solid var(--swym-storefront-layout-button-color-bg-primary, #000);
-  min-width: 110px;
-  padding: 12px 18px;
-  font-size: 13px;
+  background: var(--swym-storefront-layout-button-color-bg-primary, #23372c) !important;
+  color: #fff !important;
+  border: 1px solid var(--swym-storefront-layout-button-color-bg-primary, #000) !important;
+  min-width: 110px !important;
+  padding: 12px 18px !important;
+  font-size: 13px !important;
 }
 
 /* Swym wishlist drawer — precio en bold */
