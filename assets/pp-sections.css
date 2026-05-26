@@ -1278,6 +1278,10 @@ swym-storefront-layout-as-drawer #swym-storefront-layout-container .swym-storefr
   font-weight: 600;
 }
 
+.swym-storefront-layout-layout.swym-storefront-layout-layout {
+  background: rgb(255 255 255 / 96%);
+}
+
 swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn.swym-storefront-layout-share-footer-share-btn {
   display: inline-flex;
   align-items: center;
