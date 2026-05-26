@@ -200,9 +200,9 @@
         "mega_sobre_image_link": "",
         "sticky_header": true,
         "transparent_header": true,
-        "transparent_text_color": "#daffd3",
+        "transparent_text_color": "#e4ffd3",
         "transparent_bg_hover": "#23372c",
-        "transparent_text_hover": "#daffd3"
+        "transparent_text_hover": "#e4ffd3"
       }
     }
   },
