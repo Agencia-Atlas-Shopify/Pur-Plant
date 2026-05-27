@@ -139,6 +139,77 @@
         "padding_bottom": 0
       }
     },
+    "17798802611c0a8ba8": {
+      "type": "_blocks",
+      "blocks": {
+        "yotpo_loyalty_rewards_rewards_module_app_block_cQG39F": {
+          "type": "shopify://apps/yotpo-loyalty-rewards/blocks/rewards-module-app-block/2f9660df-5018-4e02-9868-ee1fb88d6ccd",
+          "settings": {
+            "instance_placeholder_id": ""
+          }
+        }
+      },
+      "block_order": [
+        "yotpo_loyalty_rewards_rewards_module_app_block_cQG39F"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "17798802170693c2a9": {
+      "type": "_blocks",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
     "media_with_content_MzgKqp": {
       "type": "media-with-content",
       "blocks": {
@@ -267,6 +338,7 @@
           ]
         }
       },
+      "disabled": true,
       "name": "PP- CLUB 1",
       "settings": {
         "media_position": "left",
@@ -407,6 +479,7 @@
           ]
         }
       },
+      "disabled": true,
       "name": "PP- CLUB 1",
       "settings": {
         "media_position": "left",
@@ -547,6 +620,7 @@
           ]
         }
       },
+      "disabled": true,
       "name": "PP- CLUB 1",
       "settings": {
         "media_position": "left",
@@ -687,6 +761,7 @@
           ]
         }
       },
+      "disabled": true,
       "name": "PP- CLUB 1",
       "settings": {
         "media_position": "left",
@@ -827,6 +902,7 @@
           ]
         }
       },
+      "disabled": true,
       "name": "PP- CLUB 1",
       "settings": {
         "media_position": "left",
@@ -967,6 +1043,7 @@
           ]
         }
       },
+      "disabled": true,
       "name": "PP- CLUB 1",
       "settings": {
         "media_position": "left",
@@ -1107,6 +1184,7 @@
           ]
         }
       },
+      "disabled": true,
       "name": "PP- CLUB 1",
       "settings": {
         "media_position": "left",
@@ -1271,6 +1349,7 @@
       "block_order": [
         "accordion_FWFRba"
       ],
+      "disabled": true,
       "name": "t:names.faq_section",
       "settings": {
         "content_direction": "column",
@@ -1319,6 +1398,8 @@
     "main",
     "pp_hero_slider_9CcLiK",
     "pp_about_split_GApnwF",
+    "17798802611c0a8ba8",
+    "17798802170693c2a9",
     "media_with_content_MzgKqp",
     "media_with_content_T3dxP9",
     "media_with_content_ApytfA",
