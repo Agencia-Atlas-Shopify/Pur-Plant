@@ -363,19 +363,18 @@
       "blocks": {
         "banner_J6Vfaf": {
           "type": "banner",
-          "disabled": true,
           "settings": {
-            "position": 5,
+            "position": 3,
             "width_mobile": 1,
             "width_tablet": 1,
             "width_desktop": 1,
             "height": "portrait",
-            "image": "shopify://shop_images/Plant_Days_Regalamos_Plantas_2.jpg",
+            "image": "shopify://shop_images/ADS_CLUB_PUR_PLANTER_1.jpg",
             "title": "",
             "subtitle": "",
             "button_text": "",
             "button_link": "",
-            "link": "shopify://pages/plant-days",
+            "link": "shopify://pages/rewards",
             "content_position": "bottom-left",
             "text_color": "#ffffff",
             "overlay_color": "#000000",
@@ -385,7 +384,7 @@
         "video_block_6VPFpT": {
           "type": "video_block",
           "settings": {
-            "position": 5,
+            "position": 17,
             "width_mobile": 1,
             "width_tablet": 1,
             "width_desktop": 1,
