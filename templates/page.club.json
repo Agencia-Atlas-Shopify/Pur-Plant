@@ -127,8 +127,8 @@
         "text_align": "left",
         "vertical_align": "center",
         "text_width": 60,
-        "button_label": "",
-        "button_link": "",
+        "button_label": "ÚNETE AL CLUB",
+        "button_link": "shopify://pages/rewards",
         "image": "shopify://shop_images/club-pur-planter_2.png",
         "image_position": "right",
         "image_outer_margin": 16,
@@ -141,17 +141,6 @@
     },
     "17798802611c0a8ba8": {
       "type": "_blocks",
-      "blocks": {
-        "yotpo_loyalty_rewards_rewards_module_app_block_cQG39F": {
-          "type": "shopify://apps/yotpo-loyalty-rewards/blocks/rewards-module-app-block/2f9660df-5018-4e02-9868-ee1fb88d6ccd",
-          "settings": {
-            "instance_placeholder_id": ""
-          }
-        }
-      },
-      "block_order": [
-        "yotpo_loyalty_rewards_rewards_module_app_block_cQG39F"
-      ],
       "settings": {
         "content_direction": "column",
         "vertical_on_mobile": true,
