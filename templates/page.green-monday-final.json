@@ -305,7 +305,7 @@
           "name": "t:names.text",
           "settings": {
             "text": "<p><strong>PLANTAS POR MENOS DE 1€ <br/><br/></strong></p>",
-            "width": "100%",
+            "width": "fit-content",
             "max_width": "none",
             "alignment": "center",
             "type_preset": "h3",
