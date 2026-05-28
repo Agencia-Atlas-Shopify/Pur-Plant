@@ -218,6 +218,11 @@
           "swym_variant_selector_create_list_placeholder_text": "Enter wish list name",
           "swym_variant_selector_create_list_title": "Name Your Wishlist"
         }
+      },
+      "1369284949797581044": {
+        "type": "shopify://apps/tinyseo/blocks/collection-json-ld-embed/0605268f-f7c4-4e95-b560-e43df7d59ae4",
+        "disabled": false,
+        "settings": {}
       }
     },
     "color_schemes": {
