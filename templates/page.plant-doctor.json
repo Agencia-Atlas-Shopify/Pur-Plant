@@ -224,7 +224,7 @@
     "main": {
       "type": "main-page",
       "blocks": {
-        "group_TEzU36": {
+        "group_fXBDFW": {
           "type": "group",
           "settings": {
             "content_direction": "column",
@@ -334,16 +334,10 @@
             "text_ydPkJ7",
             "button_aJAHNy"
           ]
-        },
-        "page-content": {
-          "type": "page-content",
-          "settings": {},
-          "blocks": {}
         }
       },
       "block_order": [
-        "group_TEzU36",
-        "page-content"
+        "group_fXBDFW"
       ],
       "settings": {
         "content_direction": "column",
