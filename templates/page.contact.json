@@ -446,16 +446,15 @@
         "padding-block-end": 40
       }
     },
-    "pp_brand_banner_K4tCJC": {
+    "pp_brand_banner_mYG6f7": {
       "type": "pp-brand-banner",
       "name": "PP Brand Banner",
       "settings": {
-        "heading": "¿necesitas ayuda con tus verdes?",
-        "subheading": "¡HOLA! SOY TU PLANT DOCTOR",
-        "button_label": "Sí, ayúdame",
-        "button_link": "https://wa.me/19897889197?text=PLANT%20DOCTOR",
+        "heading": "PUR PLANT ES LA MARCA QUE CREE EN EL PODER DE LAS PLANTAS",
+        "subheading": "",
+        "button_label": "Más sobre Nosotrxs",
+        "button_link": "",
         "video_url": "",
-        "image": "shopify://shop_images/plant_doctor_ilustracion.png",
         "image_position": "right",
         "image_overflow": 48,
         "video_max_width": 400,
@@ -470,6 +469,6 @@
     "main",
     "form",
     "section_6Y8Unj",
-    "pp_brand_banner_K4tCJC"
+    "pp_brand_banner_mYG6f7"
   ]
 }
