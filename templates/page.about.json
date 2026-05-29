@@ -143,8 +143,8 @@
       "type": "pp-full-text",
       "name": "PP Full Text",
       "settings": {
-        "text": "Volver a la tierra",
-        "letter_spacing": 440,
+        "text": "BACK TO PLANT",
+        "letter_spacing": 1000,
         "text_transform": "uppercase",
         "font_weight": "400",
         "bg_color": "#ffffff",
