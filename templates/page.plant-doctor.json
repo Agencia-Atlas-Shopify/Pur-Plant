@@ -480,7 +480,7 @@
           "type": "_layered-slide",
           "settings": {
             "media_type_1": "image",
-            "image_1": "shopify://shop_images/problemas_con_el_riego_en_plantas.jpg",
+            "image_1": "shopify://shop_images/planta_con_hojas_amarillas.jpg",
             "content_direction": "column",
             "vertical_on_mobile": true,
             "horizontal_alignment": "flex-start",
