@@ -560,15 +560,15 @@
         "faq_item_MhXTQN": {
           "type": "faq_item",
           "settings": {
-            "question": "¿CUÁNDO RECIBIRÉ MI PEDIDO?",
-            "answer": "<p>Los envíos se realizan en 24-48 horas laborables.</p>"
+            "question": "¿Cómo sé si riego demasiado?",
+            "answer": "<p>Lo notarás si la tierra del sustrato está húmeda o si el peso de la maceta a aumentado considerablemente.</p>"
           }
         },
         "faq_item_8yw4yU": {
           "type": "faq_item",
           "settings": {
-            "question": "¿QUÉ OCURRE SI LLEGA MAL?",
-            "answer": "<p>Los envíos se realizan en 24-48 horas laborables.</p>"
+            "question": "¿Cómo funciona el Plant Doctor?",
+            "answer": "<p>¡Muy fácil! Al pinchar en el botón, se abrirá un nuevo chat en whatsapp en el que nuestro servicio de Plant Doctor te ayudará con cualquier consulta relacionada con el estado y cuidado orgánico de plantas. </p>"
           }
         }
       },
@@ -578,8 +578,8 @@
       ],
       "name": "PP FAQ",
       "settings": {
-        "heading": "LO QUE SUELEN PREGUNTARNOS",
-        "faq_category_override": "auto",
+        "heading": "LO QUE SUELEN PREGUNTAR",
+        "faq_category_override": "plantas",
         "padding_top": 40,
         "padding_bottom": 40
       }
@@ -588,7 +588,7 @@
       "type": "pp-page-list",
       "name": "PP Page List",
       "settings": {
-        "heading": "Tipos de Plantas según su especie",
+        "heading": "Algunas Guias que te servirán de ayuda",
         "layout_type": "carousel",
         "columns": 5,
         "columns_laptop": 3,
