@@ -445,11 +445,31 @@
         "padding-block-start": 40,
         "padding-block-end": 40
       }
+    },
+    "pp_brand_banner_Lk3Gxe": {
+      "type": "pp-brand-banner",
+      "name": "PP Plant Doctor Banner",
+      "settings": {
+        "heading": "¡HOLA! SOY TU PLANT DOCTOR!",
+        "subheading": "¿NECESITAS AYUDA CON TUS VERDES?",
+        "button_label": "Sí, ayudame con mis plantas",
+        "button_link": "https://wa.me/19897889197?text=PLANT%20DOCTOR",
+        "video_url": "",
+        "image": "shopify://shop_images/plant_doctor_ilustracion.png",
+        "image_position": "right",
+        "image_overflow": 48,
+        "video_max_width": 400,
+        "bg_color": "#23372c",
+        "text_color": "#daffd3",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
     }
   },
   "order": [
     "main",
     "form",
-    "section_6Y8Unj"
+    "section_6Y8Unj",
+    "pp_brand_banner_Lk3Gxe"
   ]
 }
