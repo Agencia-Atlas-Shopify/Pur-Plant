@@ -235,7 +235,7 @@
             "horizontal_alignment_flex_direction_column": "flex-start",
             "vertical_alignment_flex_direction_column": "center",
             "gap": 12,
-            "width": "custom",
+            "width": "fill",
             "custom_width": 100,
             "width_mobile": "fill",
             "custom_width_mobile": 100,
@@ -360,16 +360,17 @@
           "type": "_layered-slide",
           "settings": {
             "media_type_1": "image",
+            "image_1": "shopify://shop_images/problemas_con_el_riego_en_plantas.jpg",
             "content_direction": "column",
             "vertical_on_mobile": true,
             "horizontal_alignment": "flex-start",
             "vertical_alignment": "center",
             "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "flex-end",
             "gap": 12,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
+            "inherit_color_scheme": false,
+            "color_scheme": "pp-green-dark",
             "toggle_overlay": false,
             "overlay_color": "#00000026",
             "overlay_style": "solid",
@@ -380,54 +381,18 @@
             "padding-inline-end": 32
           },
           "blocks": {
-            "text_Pcbrfm": {
-              "type": "text",
-              "name": "t:names.heading",
+            "jumbo_text_YiUWUY": {
+              "type": "jumbo-text",
+              "name": "t:names.jumbo_text",
               "settings": {
-                "text": "<p><strong>CADA CUÁNTO SE RIEGA O CÓMO SE CUIDA</strong></p>",
-                "width": "fit-content",
-                "max_width": "normal",
+                "text": "CADA CUANTO SE RIEGA O COMO SE CUIDA",
+                "font": "accent",
                 "alignment": "left",
-                "type_preset": "h2",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
+                "line_height": "0.8",
+                "letter_spacing": "-0.03em",
                 "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "text_KEcJ6t": {
-              "type": "text",
-              "settings": {
-                "text": "",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
+                "text_effect": "none",
+                "animation_repeat": false
               },
               "blocks": {}
             },
@@ -447,8 +412,7 @@
             }
           },
           "block_order": [
-            "text_Pcbrfm",
-            "text_KEcJ6t",
+            "jumbo_text_YiUWUY",
             "button_dQz4qp"
           ]
         },
@@ -456,16 +420,17 @@
           "type": "_layered-slide",
           "settings": {
             "media_type_1": "image",
+            "image_1": "shopify://shop_images/que_le_pasa_a_mi_planta.jpg",
             "content_direction": "column",
             "vertical_on_mobile": true,
             "horizontal_alignment": "flex-start",
             "vertical_alignment": "center",
             "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "flex-end",
             "gap": 12,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
+            "inherit_color_scheme": false,
+            "color_scheme": "pp-green-light",
             "toggle_overlay": false,
             "overlay_color": "#00000026",
             "overlay_style": "solid",
@@ -476,62 +441,26 @@
             "padding-inline-end": 32
           },
           "blocks": {
-            "text_Gj3iXN": {
-              "type": "text",
-              "name": "t:names.heading",
+            "jumbo_text_Ar8NPj": {
+              "type": "jumbo-text",
+              "name": "t:names.jumbo_text",
               "settings": {
-                "text": "<h2>Más vendidos</h2>",
-                "width": "fit-content",
-                "max_width": "normal",
+                "text": "CRISIS: NO SÉ QUE LE PASA A MI PLANTA",
+                "font": "accent",
                 "alignment": "left",
-                "type_preset": "h2",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
+                "line_height": "0.8",
+                "letter_spacing": "-0.03em",
                 "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
+                "text_effect": "none",
+                "animation_repeat": false
               },
               "blocks": {}
             },
-            "text_k7icQ8": {
-              "type": "text",
-              "settings": {
-                "text": "<p>Descubre los más vendidos que han conquistado a nuestros clientes por su perfecta combinación de funcionalidad y estilo.</p>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "button_aFLrJB": {
+            "button_4FyCpL": {
               "type": "button",
               "settings": {
-                "label": "Comprar ahora",
-                "link": "shopify://collections/all",
+                "label": "Descubrirlo ahora",
+                "link": "https://wa.me/19897889197?text=PLANT%20DOCTOR",
                 "open_in_new_tab": false,
                 "style_class": "button",
                 "width": "fit-content",
@@ -543,9 +472,8 @@
             }
           },
           "block_order": [
-            "text_Gj3iXN",
-            "text_k7icQ8",
-            "button_aFLrJB"
+            "jumbo_text_Ar8NPj",
+            "button_4FyCpL"
           ]
         },
         "layered_slide_d7HPXL": {
@@ -657,7 +585,7 @@
         "corner_radius": 0,
         "border_width": 1,
         "drop_shadow": false,
-        "color_scheme": "",
+        "color_scheme": "scheme-1",
         "padding-block-start": 40,
         "padding-block-end": 40
       }
