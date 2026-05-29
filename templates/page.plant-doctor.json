@@ -568,7 +568,7 @@
           "type": "faq_item",
           "settings": {
             "question": "¿Cómo funciona el Plant Doctor?",
-            "answer": "<p>¡Muy fácil! Al pinchar en el botón, se abrirá un nuevo chat en whatsapp en el que nuestro servicio de Plant Doctor te ayudará con cualquier consulta relacionada con el estado y cuidado orgánico de plantas. </p>"
+            "answer": "<p>¡Muy fácil! Al pinchar en el botón, se abrirá un nuevo chat en whatsapp en el que nuestro servicio de Plant Doctor  24h totalmente <strong>Gratuito </strong>te ayudará con cualquier consulta relacionada con el estado y cuidado orgánico de plantas. </p>"
           }
         }
       },
@@ -588,7 +588,7 @@
       "type": "pp-page-list",
       "name": "PP Page List",
       "settings": {
-        "heading": "Algunas Guias que te servirán de ayuda",
+        "heading": "Algunas Guías que te servirán de ayuda",
         "layout_type": "carousel",
         "columns": 5,
         "columns_laptop": 3,
