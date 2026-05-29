@@ -347,10 +347,10 @@
       ],
       "settings": {
         "content_direction": "column",
-        "gap": 32,
+        "gap": 0,
         "color_scheme": "",
-        "padding-block-start": 40,
-        "padding-block-end": 80
+        "padding-block-start": 35,
+        "padding-block-end": 16
       }
     },
     "layered_slideshow_xLVQ7z": {
