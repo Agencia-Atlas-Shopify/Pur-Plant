@@ -476,20 +476,21 @@
             "button_4FyCpL"
           ]
         },
-        "layered_slide_d7HPXL": {
+        "layered_slide_M4EC9U": {
           "type": "_layered-slide",
           "settings": {
             "media_type_1": "image",
+            "image_1": "shopify://shop_images/problemas_con_el_riego_en_plantas.jpg",
             "content_direction": "column",
             "vertical_on_mobile": true,
             "horizontal_alignment": "flex-start",
             "vertical_alignment": "center",
             "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "flex-end",
             "gap": 12,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
+            "inherit_color_scheme": false,
+            "color_scheme": "pp-green-dark",
             "toggle_overlay": false,
             "overlay_color": "#00000026",
             "overlay_style": "solid",
@@ -500,62 +501,26 @@
             "padding-inline-end": 32
           },
           "blocks": {
-            "text_XTJQXc": {
-              "type": "text",
-              "name": "t:names.heading",
+            "jumbo_text_yakkUx": {
+              "type": "jumbo-text",
+              "name": "t:names.jumbo_text",
               "settings": {
-                "text": "<h2>Colección destacada</h2>",
-                "width": "fit-content",
-                "max_width": "normal",
+                "text": "EL MISTERIO DE LAS HOJAS AMARILLAS",
+                "font": "accent",
                 "alignment": "left",
-                "type_preset": "h2",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
+                "line_height": "0.8",
+                "letter_spacing": "-0.03em",
                 "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
+                "text_effect": "none",
+                "animation_repeat": false
               },
               "blocks": {}
             },
-            "text_hVwwUL": {
-              "type": "text",
-              "settings": {
-                "text": "<p>Descubre nuestra colección seleccionada con favoritos seleccionados a mano que combinan estilo y calidad.</p>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "button_xdCW8A": {
+            "button_9farib": {
               "type": "button",
               "settings": {
-                "label": "Comprar ahora",
-                "link": "shopify://collections/all",
+                "label": "Descubrirlo ahora",
+                "link": "https://wa.me/19897889197?text=PLANT%20DOCTOR",
                 "open_in_new_tab": false,
                 "style_class": "button",
                 "width": "fit-content",
@@ -567,16 +532,15 @@
             }
           },
           "block_order": [
-            "text_XTJQXc",
-            "text_hVwwUL",
-            "button_xdCW8A"
+            "jumbo_text_yakkUx",
+            "button_9farib"
           ]
         }
       },
       "block_order": [
         "layered_slide_VzKfGw",
         "layered_slide_UCtpjJ",
-        "layered_slide_d7HPXL"
+        "layered_slide_M4EC9U"
       ],
       "name": "t:names.layered_slideshow",
       "settings": {
