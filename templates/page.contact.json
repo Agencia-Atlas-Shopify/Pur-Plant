@@ -445,30 +445,11 @@
         "padding-block-start": 40,
         "padding-block-end": 40
       }
-    },
-    "pp_brand_banner_mYG6f7": {
-      "type": "pp-brand-banner",
-      "name": "PP Brand Banner",
-      "settings": {
-        "heading": "PUR PLANT ES LA MARCA QUE CREE EN EL PODER DE LAS PLANTAS",
-        "subheading": "",
-        "button_label": "Más sobre Nosotrxs",
-        "button_link": "",
-        "video_url": "",
-        "image_position": "right",
-        "image_overflow": 48,
-        "video_max_width": 400,
-        "bg_color": "#23372c",
-        "text_color": "#daffd3",
-        "padding_top": 48,
-        "padding_bottom": 48
-      }
     }
   },
   "order": [
     "main",
     "form",
-    "section_6Y8Unj",
-    "pp_brand_banner_mYG6f7"
+    "section_6Y8Unj"
   ]
 }
