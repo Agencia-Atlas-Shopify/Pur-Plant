@@ -426,6 +426,7 @@
       "blocks": {
         "banner_nzBmt9": {
           "type": "banner",
+          "disabled": true,
           "settings": {
             "position": 7,
             "width_mobile": 1,
