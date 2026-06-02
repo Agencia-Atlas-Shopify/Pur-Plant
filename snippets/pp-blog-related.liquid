@@ -16,6 +16,24 @@
   assign count = 0
 
   comment
+    Pass 0: si el editor ha seleccionado artículos manualmente en el
+    metacampo "articulos_relacionados", usar esos (hasta max).
+  endcomment
+  assign manual_rel = article.metafields.custom.articulos_relacionados.value
+  if manual_rel != blank and manual_rel.size > 0
+    for a in manual_rel
+      if a.id == article.id
+        continue
+      endif
+      if count >= max
+        break
+      endif
+      assign related = related | append: a.id | append: ','
+      assign count = count | plus: 1
+    endfor
+  endif
+
+  comment
     Pass 1: articles that share at least one tag
   endcomment
   for a in pool
