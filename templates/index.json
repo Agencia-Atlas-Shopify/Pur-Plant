@@ -383,6 +383,7 @@
         },
         "banner_kXB937": {
           "type": "banner",
+          "disabled": true,
           "settings": {
             "position": 17,
             "width_mobile": 1,
