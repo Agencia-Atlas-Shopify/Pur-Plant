@@ -404,7 +404,7 @@
         },
         "video_block_6VPFpT": {
           "type": "video_block",
-          "disabled": true,
+          "name": "Video Banner Fiesta Primavera",
           "settings": {
             "position": 17,
             "width_mobile": 1,
