@@ -330,7 +330,11 @@
   .pp-guide .pp-blog-embed__heading {
     font-family: 'Aileron', sans-serif; font-size: 18px; font-weight: 600;
     letter-spacing: 0.02em; text-transform: uppercase; color: #23372c;
-    margin: 0 0 16px; display: inline-flex; align-items: center; gap: 8px;
+    margin: 0 0 16px; display: block;
+  }
+  .pp-guide .pp-blog-embed__heading::first-letter { text-transform: uppercase; }
+  .pp-guide .pp-blog-embed__heading .pp-blog-embed__heading-arrow {
+    display: inline-block; margin-left: 8px; vertical-align: middle;
   }
   .pp-guide .pp-blog-embed__heading-arrow { transition: transform 0.15s ease; }
   .pp-guide .pp-blog-embed__heading-link:hover .pp-blog-embed__heading-arrow { transform: translateX(4px); }
