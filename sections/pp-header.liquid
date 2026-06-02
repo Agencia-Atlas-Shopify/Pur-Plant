@@ -224,6 +224,23 @@
   </header>
 </pp-header-height-observer>
 
+{%- comment -%}
+  Síncrono: mide la altura real del header tras parsearlo y setea
+  --pp-header-height ANTES del primer paint, evitando el flicker entre
+  el fallback 120px y el valor real cuando el ResizeObserver (defer)
+  arranca después. Especialmente visible en PDP (.pp-pdp padding-top).
+{%- endcomment -%}
+<script>
+  (function () {
+    var h = document.getElementById('pp-header-{{ section.id }}');
+    if (!h) return;
+    var px = h.offsetHeight;
+    if (px > 0) {
+      document.documentElement.style.setProperty('--pp-header-height', px + 'px');
+    }
+  })();
+</script>
+
 {%- comment -%} Swym Wishlist handles wishlist functionality via app embed {%- endcomment -%}
 
 {%- comment -%} Mobile Menu Drawer - EME Studios Style {%- endcomment -%}
