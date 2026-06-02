@@ -48,7 +48,6 @@
       "block_order": [
         "slide_6xTadD"
       ],
-      "disabled": true,
       "name": "PP Hero Slider",
       "settings": {
         "enable_transparent_header": false,
@@ -169,6 +168,7 @@
       "block_order": [
         "slide_rGhJQP"
       ],
+      "disabled": true,
       "name": "PP Hero Slider - GREEN MONDAY",
       "settings": {
         "enable_transparent_header": false,
