@@ -225,18 +225,25 @@
 </pp-header-height-observer>
 
 {%- comment -%}
-  Síncrono: mide la altura real del header tras parsearlo y setea
-  --pp-header-height ANTES del primer paint, evitando el flicker entre
-  el fallback 120px y el valor real cuando el ResizeObserver (defer)
-  arranca después. Especialmente visible en PDP (.pp-pdp padding-top).
+  Default realista para --pp-header-height antes de que el ResizeObserver
+  (defer) lo mida. Evita flicker entre el fallback antiguo (120px) y el
+  valor real (~80px). El observer sigue overrideando dinámicamente.
 {%- endcomment -%}
+<style>
+  :root { --pp-header-height: 80px; }
+  @media (max-width: 749px) { :root { --pp-header-height: 64px; } }
+</style>
 <script>
   (function () {
     var h = document.getElementById('pp-header-{{ section.id }}');
     if (!h) return;
-    var px = h.offsetHeight;
-    if (px > 0) {
-      document.documentElement.style.setProperty('--pp-header-height', px + 'px');
+    function measure() {
+      var px = h.offsetHeight;
+      if (px > 0) document.documentElement.style.setProperty('--pp-header-height', px + 'px');
+    }
+    measure();
+    if (document.readyState !== 'complete') {
+      window.addEventListener('load', measure, { once: true });
     }
   })();
 </script>
