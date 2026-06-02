@@ -23,7 +23,8 @@
   assign is_tipos = false
   if page_type == 'guia-tipos'
     assign is_tipos = true
-  elsif page.handle contains 'tipos-de-' or page.handle == 'guia-tipos-plantas'
+  elsif page.handle contains 'tipos-' or page.handle contains '-tipos-' or page.handle == 'guia-tipos-plantas'
+    # Cubre handles: tipos-buganvilla, tipos-de-X, guia-tipos-de-X, X-tipos-Y, etc.
     assign is_tipos = true
   elsif page.template_suffix contains 'tipos'
     assign is_tipos = true
