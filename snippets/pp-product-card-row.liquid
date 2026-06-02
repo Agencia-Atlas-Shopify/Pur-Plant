@@ -1,0 +1,41 @@
+{%- comment -%}
+  PP Product Card Row — Layout horizontal (foto izq + título/desc/botón der).
+  Usado en páginas tipo "tipos de plantas" (guía-tipos).
+
+  @param {object} product — el producto a renderizar
+  @param {string} [desc_chars] — máx caracteres descripción (default 220)
+{%- endcomment -%}
+
+{%- liquid
+  assign card_url = product.url | split: '?' | first
+  assign img = product.featured_image
+  assign desc_chars = desc_chars | default: 220
+  assign desc_raw = product.description | strip_html | strip_newlines
+  assign desc = desc_raw | truncate: desc_chars
+-%}
+
+<article class="pp-card-row">
+  <a href="{{ card_url }}" class="pp-card-row__media" aria-label="{{ product.title | escape }}">
+    {%- if img -%}
+      {{ img | image_url: width: 480 | image_tag:
+            class: 'pp-card-row__img',
+            alt: product.title,
+            loading: 'lazy',
+            widths: '240, 360, 480' }}
+    {%- else -%}
+      <span class="pp-card-row__img pp-card-row__img--placeholder"></span>
+    {%- endif -%}
+  </a>
+  <div class="pp-card-row__body">
+    <a href="{{ card_url }}" class="pp-card-row__title-link">
+      <h3 class="pp-card-row__title">{{ product.title }}</h3>
+    </a>
+    {%- if desc != blank -%}
+      <p class="pp-card-row__desc">{{ desc }}</p>
+    {%- endif -%}
+    <a href="{{ card_url }}" class="pp-card-row__btn">
+      COMPRAR {{ product.title | upcase }}
+      <span aria-hidden="true" class="pp-card-row__btn-arrow">→</span>
+    </a>
+  </div>
+</article>

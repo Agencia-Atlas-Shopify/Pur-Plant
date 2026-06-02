@@ -17,6 +17,17 @@
     # sin tener que rellenar el metafield page_type a mano.
     assign is_care_guide = true
   endif
+
+  # Detección "tipos de plantas" — productos se renderizan en card horizontal
+  # (foto + título + descripción + botón) en vez del grid 4-col estándar.
+  assign is_tipos = false
+  if page_type == 'guia-tipos'
+    assign is_tipos = true
+  elsif page.handle contains 'tipos-de-' or page.handle == 'guia-tipos-plantas'
+    assign is_tipos = true
+  elsif page.template_suffix contains 'tipos'
+    assign is_tipos = true
+  endif
   assign products_per_row = section.settings.products_per_row | default: 4
 
   comment
@@ -420,10 +431,99 @@
     line-height: 1.4;
     font-weight: 500;
   }
+
+  /* ── Card row (tipos de plantas: foto izq + título/desc/botón der) ── */
+  .pp-card-row {
+    display: grid;
+    grid-template-columns: clamp(160px, 22%, 220px) 1fr;
+    gap: 28px;
+    align-items: center;
+    padding: 28px 0;
+    border-bottom: 1px solid rgba(35, 55, 44, 0.12);
+  }
+  .pp-card-row:first-child { border-top: 1px solid rgba(35, 55, 44, 0.12); }
+  .pp-card-row__media {
+    display: block;
+    text-decoration: none;
+    overflow: hidden;
+    border-radius: 8px;
+    background: rgba(0,0,0,.03);
+  }
+  .pp-card-row__img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    transition: transform .25s ease;
+  }
+  .pp-card-row__img--placeholder {
+    aspect-ratio: 1 / 1;
+    background: rgba(0,0,0,.06);
+  }
+  .pp-card-row__media:hover .pp-card-row__img { transform: scale(1.03); }
+  .pp-card-row__body { min-width: 0; }
+  .pp-card-row__title-link { text-decoration: none; color: inherit; }
+  .pp-card-row__title {
+    font-family: 'Tenor Sans', serif;
+    font-size: clamp(20px, 2.4vw, 28px);
+    font-weight: 400;
+    color: #23372c;
+    margin: 0 0 10px;
+    line-height: 1.2;
+  }
+  .pp-card-row__title-link:hover .pp-card-row__title { color: #4B7A5A; }
+  .pp-card-row__desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #23372c;
+    opacity: 0.85;
+    margin: 0 0 16px;
+  }
+  .pp-card-row__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: #23372c;
+    border: 1px solid #23372c;
+    padding: 10px 18px;
+    font-family: 'Aileron', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 100px;
+    transition: background .2s ease, color .2s ease;
+  }
+  .pp-card-row__btn:hover { background: #23372c; color: #fff; }
+  .pp-card-row__btn-arrow { line-height: 1; }
+  @media (max-width: 749px) {
+    .pp-card-row {
+      grid-template-columns: 120px 1fr;
+      gap: 16px;
+      padding: 20px 0;
+    }
+    .pp-card-row__title { font-size: 20px; margin-bottom: 6px; }
+    .pp-card-row__desc { font-size: 14px; margin-bottom: 10px; }
+    .pp-card-row__btn { padding: 8px 14px; font-size: 11px; }
+  }
+
+  /* Cuando is_tipos: los wrappers grid pasan a columna única para acomodar row cards */
+  .pp-guide--tipos .pp-guide__product-grid,
+  .pp-guide--tipos .pp-blog-embed__grid,
+  .pp-guide--tipos .pp-blog-embed__grid--2,
+  .pp-guide--tipos .pp-blog-embed__grid--3 {
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+  }
+  .pp-guide--tipos .pp-card-row:first-child { border-top: 0; }
 </style>
 
 <section
-  class="pp-guide"
+  class="pp-guide{% if is_tipos %} pp-guide--tipos{% endif %}"
   style="
     background-color: {{ section.settings.bg_color }};
     --pp-guide-pad-top: {{ section.settings.padding_top }}px;
@@ -558,7 +658,7 @@
     {%- if rte_prods != blank and rte_prods.size > 0 -%}
       {%- capture rte_all_prods -%}
         <div class="pp-blog-embed pp-blog-embed--products"><div class="pp-blog-embed__grid">
-          {%- for p in rte_prods -%}{%- render 'pp-product-card-standalone', product: p, image_ratio: 'portrait' -%}{%- endfor -%}
+          {%- for p in rte_prods -%}{%- if is_tipos -%}{%- render 'pp-product-card-row', product: p -%}{%- else -%}{%- render 'pp-product-card-standalone', product: p, image_ratio: 'portrait' -%}{%- endif -%}{%- endfor -%}
         </div></div>
       {%- endcapture -%}
       {%- assign rte_content = rte_content | replace: '<p>[productos]</p>', rte_all_prods | replace: '[productos]', rte_all_prods -%}
@@ -568,7 +668,7 @@
         {%- capture tok_p_wrap -%}<p>[productos {{ idx }}]</p>{%- endcapture -%}
         {%- capture single_p -%}
           <div class="pp-blog-embed pp-blog-embed--products pp-blog-embed--single"><div class="pp-blog-embed__grid">
-            {%- render 'pp-product-card-standalone', product: p, image_ratio: 'portrait' -%}
+            {%- if is_tipos -%}{%- render 'pp-product-card-row', product: p -%}{%- else -%}{%- render 'pp-product-card-standalone', product: p, image_ratio: 'portrait' -%}{%- endif -%}
           </div></div>
         {%- endcapture -%}
         {%- assign rte_content = rte_content | replace: tok_p_wrap, single_p | replace: tok_p, single_p -%}
@@ -588,8 +688,8 @@
                 {%- capture tok_pair_wrap -%}<p>[productos {{ i }},{{ j }}]</p>{%- endcapture -%}
                 {%- capture pair_html -%}
                   <div class="pp-blog-embed pp-blog-embed--products"><div class="pp-blog-embed__grid pp-blog-embed__grid--2">
-                    {%- render 'pp-product-card-standalone', product: p1, image_ratio: 'portrait' -%}
-                    {%- render 'pp-product-card-standalone', product: p2, image_ratio: 'portrait' -%}
+                    {%- if is_tipos -%}{%- render 'pp-product-card-row', product: p1 -%}{%- else -%}{%- render 'pp-product-card-standalone', product: p1, image_ratio: 'portrait' -%}{%- endif -%}
+                    {%- if is_tipos -%}{%- render 'pp-product-card-row', product: p2 -%}{%- else -%}{%- render 'pp-product-card-standalone', product: p2, image_ratio: 'portrait' -%}{%- endif -%}
                   </div></div>
                 {%- endcapture -%}
                 {%- assign rte_content = rte_content | replace: tok_pair_wrap, pair_html | replace: tok_pair, pair_html -%}
@@ -604,9 +704,9 @@
                       {%- capture tok_tri_wrap -%}<p>[productos {{ i }},{{ j }},{{ k }}]</p>{%- endcapture -%}
                       {%- capture tri_html -%}
                         <div class="pp-blog-embed pp-blog-embed--products"><div class="pp-blog-embed__grid pp-blog-embed__grid--3">
-                          {%- render 'pp-product-card-standalone', product: p1, image_ratio: 'portrait' -%}
-                          {%- render 'pp-product-card-standalone', product: p2, image_ratio: 'portrait' -%}
-                          {%- render 'pp-product-card-standalone', product: p3, image_ratio: 'portrait' -%}
+                          {%- if is_tipos -%}{%- render 'pp-product-card-row', product: p1 -%}{%- else -%}{%- render 'pp-product-card-standalone', product: p1, image_ratio: 'portrait' -%}{%- endif -%}
+                          {%- if is_tipos -%}{%- render 'pp-product-card-row', product: p2 -%}{%- else -%}{%- render 'pp-product-card-standalone', product: p2, image_ratio: 'portrait' -%}{%- endif -%}
+                          {%- if is_tipos -%}{%- render 'pp-product-card-row', product: p3 -%}{%- else -%}{%- render 'pp-product-card-standalone', product: p3, image_ratio: 'portrait' -%}{%- endif -%}
                         </div></div>
                       {%- endcapture -%}
                       {%- assign rte_content = rte_content | replace: tok_tri_wrap, tri_html | replace: tok_tri, tri_html -%}
@@ -626,7 +726,7 @@
           <div class="pp-blog-embed pp-blog-embed--collection">
             <a href="{{ c.url }}" class="pp-blog-embed__heading-link"><h3 class="pp-blog-embed__heading">{{ c.title }}<span class="pp-blog-embed__heading-arrow" aria-hidden="true">→</span></h3></a>
             <div class="pp-blog-embed__grid">
-              {%- for p in c.products limit: 4 -%}{%- render 'pp-product-card-standalone', product: p, image_ratio: 'portrait' -%}{%- endfor -%}
+              {%- for p in c.products limit: 4 -%}{%- if is_tipos -%}{%- render 'pp-product-card-row', product: p -%}{%- else -%}{%- render 'pp-product-card-standalone', product: p, image_ratio: 'portrait' -%}{%- endif -%}{%- endfor -%}
             </div>
           </div>
         {%- endfor -%}
@@ -640,7 +740,7 @@
           <div class="pp-blog-embed pp-blog-embed--collection">
             <a href="{{ c.url }}" class="pp-blog-embed__heading-link"><h3 class="pp-blog-embed__heading">{{ c.title }}<span class="pp-blog-embed__heading-arrow" aria-hidden="true">→</span></h3></a>
             <div class="pp-blog-embed__grid">
-              {%- for p in c.products limit: 4 -%}{%- render 'pp-product-card-standalone', product: p, image_ratio: 'portrait' -%}{%- endfor -%}
+              {%- for p in c.products limit: 4 -%}{%- if is_tipos -%}{%- render 'pp-product-card-row', product: p -%}{%- else -%}{%- render 'pp-product-card-standalone', product: p, image_ratio: 'portrait' -%}{%- endif -%}{%- endfor -%}
             </div>
           </div>
         {%- endcapture -%}
@@ -668,7 +768,7 @@
       {%- endif -%}
       <div class="pp-guide__product-grid">
         {%- for product in coll_1.products limit: 8 -%}
-          {%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}
+          {%- if is_tipos -%}{%- render 'pp-product-card-row', product: product -%}{%- else -%}{%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}{%- endif -%}
         {%- endfor -%}
       </div>
     </div>
@@ -682,7 +782,7 @@
       {%- endif -%}
       <div class="pp-guide__product-grid">
         {%- for product in coll_2.products limit: 8 -%}
-          {%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}
+          {%- if is_tipos -%}{%- render 'pp-product-card-row', product: product -%}{%- else -%}{%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}{%- endif -%}
         {%- endfor -%}
       </div>
     </div>
@@ -696,7 +796,7 @@
       {%- endif -%}
       <div class="pp-guide__product-grid">
         {%- for product in coll_3.products limit: 8 -%}
-          {%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}
+          {%- if is_tipos -%}{%- render 'pp-product-card-row', product: product -%}{%- else -%}{%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}{%- endif -%}
         {%- endfor -%}
       </div>
     </div>
