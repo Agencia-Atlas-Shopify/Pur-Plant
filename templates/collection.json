@@ -12,6 +12,7 @@
     "pp_collection_title": {
       "type": "pp-collection-title",
       "settings": {
+        "collection": "",
         "padding_top": 32,
         "padding_bottom": 16
       }
@@ -570,11 +571,17 @@
         "padding_top": 0,
         "padding_bottom": 40
       }
+    },
+    "pp_collection_header_t8FHgc": {
+      "type": "pp-collection-header",
+      "name": "PP Collection Header",
+      "settings": {}
     }
   },
   "order": [
     "pp_collection_title",
     "collection_list_HeJ7Ch",
+    "pp_collection_header_t8FHgc",
     "pp_collection_grid",
     "collection_list_ew3LaB",
     "collection_list_V8FVWE",
