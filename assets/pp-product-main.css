@@ -52,7 +52,9 @@
 
 /* ---------- Main Wrapper ---------- */
 .pp-pdp {
-  padding: var(--pp-header-height, 120px) var(--page-margin, 40px) 0;
+  /* A sangre: header transparente position:absolute overlapa el gallery
+     (igual que la PDP de Scuffers). Sin padding-top. */
+  padding: 0 var(--page-margin, 40px);
   font-family: var(--pp-font-body);
   color: var(--pp-dark-green);
   overflow-x: clip;
