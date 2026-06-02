@@ -449,6 +449,7 @@
       "block_order": [
         "banner_nzBmt9"
       ],
+      "disabled": true,
       "name": "PP Featured Grid",
       "settings": {
         "title": "",
@@ -495,6 +496,7 @@
       "block_order": [
         "banner_zYTALG"
       ],
+      "disabled": true,
       "name": "PP Featured Grid",
       "settings": {
         "title": "Plantas por menos de 5€",
@@ -617,6 +619,7 @@
         "video_block_h3UffW",
         "banner_Bct4WJ"
       ],
+      "disabled": true,
       "name": "PP Featured Grid",
       "settings": {
         "title": "Plantas por menos de 10€",
@@ -803,6 +806,7 @@
       "block_order": [
         "banner_6HKeba"
       ],
+      "disabled": true,
       "name": "PP Featured Grid",
       "settings": {
         "title": "Plantas por menos de 20€",
