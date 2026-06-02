@@ -465,6 +465,11 @@
   .pp-card-row__media:hover .pp-card-row__img { transform: scale(1.03); }
   .pp-card-row__body { min-width: 0; }
   .pp-card-row__title-link { text-decoration: none; color: inherit; }
+  /* Override RTE underline (línea 286 lo fuerza en <a> dentro de pp-guide__body--rte) */
+  .pp-guide .pp-guide__body--rte .pp-card-row a,
+  .pp-guide .pp-guide__body--rte .pp-blog-embed a,
+  .pp-guide .pp-card-row a,
+  .pp-guide .pp-blog-embed a { text-decoration: none; }
   .pp-card-row__title {
     font-family: 'Tenor Sans', serif;
     font-size: clamp(20px, 2.4vw, 28px);
