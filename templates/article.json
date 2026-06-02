@@ -14,6 +14,7 @@
       "blocks": {
         "blog-post-image": {
           "type": "_blog-post-featured-image",
+          "disabled": true,
           "static": true,
           "settings": {
             "image_ratio": "adapt",
@@ -78,7 +79,10 @@
         "blog-post-content": {
           "type": "_blog-post-content",
           "static": true,
-          "settings": {},
+          "settings": {
+            "show_toc": true,
+            "toc_title": "Tabla de contenidos"
+          },
           "blocks": {}
         }
       },
