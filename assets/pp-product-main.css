@@ -52,9 +52,7 @@
 
 /* ---------- Main Wrapper ---------- */
 .pp-pdp {
-  /* A sangre: sin padding superior; el header (relative) ya ocupa su espacio.
-     Mantenemos el padding lateral. */
-  padding: 0 var(--page-margin, 40px);
+  padding: var(--pp-header-height, 120px) var(--page-margin, 40px) 0;
   font-family: var(--pp-font-body);
   color: var(--pp-dark-green);
   overflow-x: clip;
