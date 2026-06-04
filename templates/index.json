@@ -85,7 +85,7 @@
             "button_text_2": "",
             "button_link_2": "",
             "button_style_2": "inverted",
-            "link": "shopify://pages/plant-days",
+            "link": "shopify://collections/bday-del-jefe",
             "heading_font": "'Aileron', sans-serif",
             "heading_size": 0,
             "heading_size_mobile": 0,
@@ -107,6 +107,7 @@
       "block_order": [
         "slide_Vr3tUG"
       ],
+      "disabled": true,
       "name": "PP HERO BDAY JEFE",
       "settings": {
         "enable_transparent_header": false,
