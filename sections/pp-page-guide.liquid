@@ -353,6 +353,42 @@
     .pp-guide .pp-blog-embed__heading { font-size: 15px; }
   }
 
+  /* ── FAQ: acordeón preguntas frecuentes ── */
+  .pp-guide-faq { margin: 56px 0 40px; }
+  .pp-guide-faq__title {
+    font-family: 'Aileron', sans-serif; font-size: clamp(22px, 2.8vw, 30px);
+    font-weight: 800; color: #23372c; letter-spacing: -0.02em;
+    margin: 0 0 24px; text-transform: lowercase;
+  }
+  .pp-guide-faq__title::first-letter { text-transform: uppercase; }
+  .pp-guide-faq__list { border-top: 1px solid rgba(35,55,44,0.15); }
+  .pp-guide-faq__item { border-bottom: 1px solid rgba(35,55,44,0.15); }
+  .pp-guide-faq__q {
+    list-style: none; cursor: pointer; display: flex; align-items: center;
+    justify-content: space-between; gap: 16px; padding: 18px 4px;
+    font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 500;
+    color: #23372c;
+  }
+  .pp-guide-faq__q::-webkit-details-marker { display: none; }
+  .pp-guide-faq__q-text { flex: 1; }
+  .pp-guide-faq__icon {
+    font-size: 22px; font-weight: 300; line-height: 1;
+    flex-shrink: 0; transition: transform .2s ease;
+  }
+  .pp-guide-faq__item[open] .pp-guide-faq__icon { transform: rotate(45deg); }
+  .pp-guide-faq__a {
+    padding: 0 4px 20px;
+    font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.65;
+    color: #23372c;
+  }
+  .pp-guide-faq__a p:first-child { margin-top: 0; }
+  .pp-guide-faq__a p:last-child { margin-bottom: 0; }
+  .pp-guide-faq__a a { color: #23372c; text-decoration: underline; text-underline-offset: 3px; }
+  @media (max-width: 749px) {
+    .pp-guide-faq__q { font-size: 15px; padding: 16px 4px; }
+    .pp-guide-faq__a { font-size: 14px; }
+  }
+
   /* ── EXPLORA: colecciones / páginas relacionadas al final de la guía ── */
   .pp-guide__explora {
     margin: 56px auto 0;
@@ -810,6 +846,48 @@
         {%- endfor -%}
       </div>
     </div>
+  {%- endif -%}
+
+  {%- comment -%}
+    -- FAQ: preguntas frecuentes por guía (Evelin pidió, jueves 5jun).
+    Fuente: page.metafields.custom.faqs (list de referencias al metaobject faq_item).
+    Cada item tiene `pregunta` (texto) y `respuesta` (rich text).
+    Render: <details> acordeón + JSON-LD FAQPage para rich snippets en Google.
+  {%- endcomment -%}
+  {%- assign guide_faqs = page.metafields.custom.faqs.value -%}
+  {%- if guide_faqs != blank and guide_faqs.size > 0 -%}
+    <section class="pp-guide-faq">
+      <h2 class="pp-guide-faq__title">Preguntas frecuentes</h2>
+      <div class="pp-guide-faq__list">
+        {%- for faq in guide_faqs -%}
+          <details class="pp-guide-faq__item">
+            <summary class="pp-guide-faq__q">
+              <span class="pp-guide-faq__q-text">{{ faq.pregunta }}</span>
+              <span class="pp-guide-faq__icon" aria-hidden="true">+</span>
+            </summary>
+            <div class="pp-guide-faq__a">{{ faq.respuesta | metafield_tag }}</div>
+          </details>
+        {%- endfor -%}
+      </div>
+    </section>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {%- for faq in guide_faqs -%}
+        {
+          "@type": "Question",
+          "name": {{ faq.pregunta | json }},
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": {{ faq.respuesta | metafield_tag | strip_html | strip_newlines | json }}
+          }
+        }{%- unless forloop.last -%},{%- endunless -%}
+        {%- endfor -%}
+      ]
+    }
+    </script>
   {%- endif -%}
 
   {%- comment -%}
