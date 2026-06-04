@@ -80,7 +80,7 @@
             "subtitle": "PIDE HOY Y RECIBE REGALO",
             "content_position": "bottom-left",
             "button_text": "HACER UN PEDIDO",
-            "button_link": "shopify://collections/plantas",
+            "button_link": "shopify://collections/bday-del-jefe",
             "button_style": "normal",
             "button_text_2": "",
             "button_link_2": "",
@@ -107,7 +107,6 @@
       "block_order": [
         "slide_Vr3tUG"
       ],
-      "disabled": true,
       "name": "PP HERO BDAY JEFE",
       "settings": {
         "enable_transparent_header": false,
