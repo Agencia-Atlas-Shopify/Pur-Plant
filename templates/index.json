@@ -48,6 +48,7 @@
       "block_order": [
         "slide_6xTadD"
       ],
+      "disabled": true,
       "name": "PP Hero Slider",
       "settings": {
         "enable_transparent_header": false,
@@ -107,7 +108,6 @@
       "block_order": [
         "slide_Vr3tUG"
       ],
-      "disabled": true,
       "name": "PP HERO BDAY JEFE",
       "settings": {
         "enable_transparent_header": false,
