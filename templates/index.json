@@ -76,6 +76,7 @@
           "type": "slide",
           "settings": {
             "image_desktop": "shopify://shop_images/HOY_EL_JEFE_METE_UN_REGALO_EN_TU_CAJA.jpg",
+            "image_mobile": "shopify://shop_images/BDAY_DEL_JEFE_2.png",
             "subheading": "",
             "heading": "EL JEFE INVITA",
             "subtitle": "PIDE HOY Y RECIBE REGALO",
@@ -112,7 +113,7 @@
       "settings": {
         "enable_transparent_header": false,
         "full_height_mobile": false,
-        "height_mobile": 400,
+        "height_mobile": 600,
         "full_height_desktop": false,
         "height_desktop": 750,
         "autoplay": false,
