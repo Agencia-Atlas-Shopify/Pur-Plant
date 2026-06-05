@@ -444,19 +444,18 @@
         },
         "banner_kXB937": {
           "type": "banner",
-          "disabled": true,
           "settings": {
             "position": 17,
             "width_mobile": 1,
             "width_tablet": 1,
             "width_desktop": 1,
             "height": "portrait",
-            "image": "shopify://shop_images/green_monday_banner.jpg",
+            "image": "shopify://shop_images/BDAY_DEL_JEFE-regalos.jpg",
             "title": "",
             "subtitle": "",
             "button_text": "",
             "button_link": "",
-            "link": "shopify://pages/green-monday",
+            "link": "shopify://collections/bday-del-jefe",
             "content_position": "bottom-left",
             "text_color": "#ffffff",
             "overlay_color": "#000000",
@@ -466,6 +465,7 @@
         "video_block_6VPFpT": {
           "type": "video_block",
           "name": "Video Banner Fiesta Primavera",
+          "disabled": true,
           "settings": {
             "position": 17,
             "width_mobile": 1,
