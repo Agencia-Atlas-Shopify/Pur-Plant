@@ -110,8 +110,13 @@
     <h2 class="pp-blog-related__title">Seguir leyendo</h2>
     <div class="pp-blog-related__grid">
       {%- comment -%} Manual: render directo desde el metacampo (soporta cross-blog) {%- endcomment -%}
+      <!-- PPDBG manual_rel_blank={% if manual_rel == blank %}1{% else %}0{% endif %} manual_rel_size={{ manual_rel.size }} manual_count={{ manual_count }} -->
       {%- assign rendered_manual = 0 -%}
       {%- if manual_rel != blank and manual_rel.size > 0 -%}
+        <!-- PPDBG entered_manual_loop -->
+        {%- for a in manual_rel -%}
+          <!-- PPDBG iter idx={{ forloop.index }} a_id={{ a.id }} a_title={{ a.title }} a_url={{ a.url }} -->
+        {%- endfor -%}
         {%- for a in manual_rel -%}
           {%- if a.id == article.id -%}{%- continue -%}{%- endif -%}
           {%- if rendered_manual >= max -%}{%- break -%}{%- endif -%}
