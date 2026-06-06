@@ -58,6 +58,7 @@
     {% endif %}
     {%- comment -%} Auto TOC + Related articles {%- endcomment -%}
     {% render 'pp-blog-toc', article: article %}
+    {% comment %} touch v2 force redeploy snippet {% endcomment %}
     {% render 'pp-blog-related', article: article, blog: blog %}
 
     {%- comment -%} Author box {%- endcomment -%}
