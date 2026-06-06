@@ -105,12 +105,19 @@
   assign related_ids = related | split: ','
 -%}
 
+{%- assign mf = article.metafields.custom.articulos_relacionados -%}
+{%- assign mf_val_size = mf.value | size -%}
+{%- assign mf_refs = mf.value -%}
 {%- if count > 0 -%}
   <section class="pp-blog-related"
     data-ppdbg-manual-blank="{% if manual_rel == blank %}1{% else %}0{% endif %}"
     data-ppdbg-manual-size="{{ manual_rel.size }}"
     data-ppdbg-manual-count="{{ manual_count }}"
     data-ppdbg-pass1-related-ids="{{ related }}"
+    data-ppdbg-mf-type="{{ mf.type }}"
+    data-ppdbg-mf-val-size="{{ mf_val_size }}"
+    data-ppdbg-mf-first-id="{% for x in mf.value limit:1 %}{{ x.id }}{% endfor %}"
+    data-ppdbg-mf-iter-count="{% assign ct = 0 %}{% for x in mf.value %}{% assign ct = ct | plus: 1 %}{% endfor %}{{ ct }}"
   >
     <h2 class="pp-blog-related__title">Seguir leyendo</h2>
     <div class="pp-blog-related__grid">
