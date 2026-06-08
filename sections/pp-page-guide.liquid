@@ -8,15 +8,15 @@
 {{ 'pp-page-guide.css' | asset_url | stylesheet_tag }}
 
 {%- liquid
-  assign page_type = page.metafields.custom.page_type | default: ''
-  assign is_care_guide = false
-  if page_type == 'guia-cuidado'
-    assign is_care_guide = true
-  elsif page.template_suffix contains 'guia-cuidado' or page.template_suffix contains 'cuidado-plantas'
-    # Auto-detect: si la página usa una plantilla de cuidados, activamos los iconos
-    # sin tener que rellenar el metafield page_type a mano.
-    assign is_care_guide = true
-  endif
+assign is_care_guide = false
+if page_type == 'guia-cuidado'
+  assign is_care_guide = true
+elsif page.template_suffix contains 'guia-cuidado' or page.template_suffix contains 'cuidado-plantas'
+  assign is_care_guide = true
+elsif page.metafields.custom.page_icon_luz != blank or page.metafields.custom.page_icon_riego != blank or page.metafields.custom.page_icon_clima != blank or page.metafields.custom.page_icon_toxica != blank or page.metafields.custom.page_icon_plagas != blank or page.metafields.custom.page_icon_pet != blank
+  assign is_care_guide = true
+endif
+
 
   # Detección "tipos de plantas" — productos se renderizan en card horizontal
   # (foto + título + descripción + botón) en vez del grid 4-col estándar.
