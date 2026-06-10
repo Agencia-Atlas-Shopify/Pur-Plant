@@ -135,8 +135,9 @@
         "slide_whPjRL": {
           "type": "slide",
           "settings": {
-            "video_desktop": "shopify://files/videos/_Briefing Huele a Verano.mp4",
-            "subheading": "huele a",
+            "video_desktop": "shopify://files/videos/huele a verano.mp4",
+            "video_mobile": "shopify://files/videos/huele a verano 1.1.mp4",
+            "subheading": "",
             "heading": "verano",
             "subtitle": "",
             "content_position": "bottom-left",
@@ -173,9 +174,9 @@
       "settings": {
         "enable_transparent_header": false,
         "full_height_mobile": false,
-        "height_mobile": 310,
+        "height_mobile": 400,
         "full_height_desktop": false,
-        "height_desktop": 430,
+        "height_desktop": 670,
         "autoplay": false,
         "autoplay_speed": 5,
         "show_dots": false,
