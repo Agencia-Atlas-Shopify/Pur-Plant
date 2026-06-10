@@ -800,7 +800,7 @@
               "type": "text",
               "name": "t:names.text",
               "settings": {
-                "text": "<h3><strong>Naturaleza que engancha</strong></h3>",
+                "text": "<h3><strong>Diseña tu Oasis</strong></h3>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -898,12 +898,16 @@
       "name": "t:names.collections_carousel",
       "settings": {
         "collection_list": [
-          "plantas",
-          "macetas-artesanales",
-          "cuidados",
-          "auto-riego",
-          "accesorios",
-          "jardin-eterno"
+          "arboles",
+          "plantas-arboles-frutales",
+          "plantas-aromaticas",
+          "plantas-con-flores",
+          "plantas-cactus",
+          "plantas-palmera",
+          "plantas-trepadoras",
+          "plantas-exterior-sombra",
+          "adelfa",
+          "buganvilla"
         ],
         "layout_type": "carousel",
         "carousel_on_mobile": false,
