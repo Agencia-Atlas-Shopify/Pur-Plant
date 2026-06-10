@@ -401,7 +401,7 @@
       "settings": {
         "title": "",
         "view_all_text": "MUST",
-        "view_all_url": "shopify://collections/summertime",
+        "view_all_url": "shopify://pages/summertime",
         "padding_top": 24,
         "padding_bottom": 16
       }
