@@ -353,41 +353,6 @@
     "pp_collection_nav_bB3YJy": {
       "type": "pp-collection-nav",
       "blocks": {
-        "collection_link_iwez3L": {
-          "type": "collection_link",
-          "settings": {
-            "label": "Interior",
-            "url": "shopify://collections/plantas-interior"
-          }
-        },
-        "collection_link_NkXbAi": {
-          "type": "collection_link",
-          "settings": {
-            "label": "Exterior",
-            "url": "shopify://collections/plantas-exterior-sombra"
-          }
-        },
-        "collection_link_4UtnwJ": {
-          "type": "collection_link",
-          "settings": {
-            "label": "Cuidados",
-            "url": "shopify://collections/cuidados"
-          }
-        },
-        "collection_link_aFL8ei": {
-          "type": "collection_link",
-          "settings": {
-            "label": "Macetas",
-            "url": "shopify://collections/macetas-originales"
-          }
-        },
-        "collection_link_gL94em": {
-          "type": "collection_link",
-          "settings": {
-            "label": "Accesorios",
-            "url": "shopify://collections/accesorios"
-          }
-        },
         "collection_link_PrFQLq": {
           "type": "collection_link",
           "settings": {
@@ -395,22 +360,33 @@
             "url": "shopify://collections/auto-riego"
           }
         },
-        "collection_link_nCjAdc": {
+        "collection_link_iwez3L": {
           "type": "collection_link",
           "settings": {
-            "label": "Sustratos",
-            "url": "shopify://collections/sustratos"
+            "label": "Macetas de Autorriego",
+            "url": "shopify://collections/macetas-autorriego"
+          }
+        },
+        "collection_link_aFL8ei": {
+          "type": "collection_link",
+          "settings": {
+            "label": "Regaderas",
+            "url": "shopify://collections/regaderas"
+          }
+        },
+        "collection_link_NkXbAi": {
+          "type": "collection_link",
+          "settings": {
+            "label": "Insecticidas Plagas",
+            "url": "shopify://collections/fitosanitarios-ecologicos"
           }
         }
       },
       "block_order": [
-        "collection_link_iwez3L",
-        "collection_link_NkXbAi",
-        "collection_link_4UtnwJ",
-        "collection_link_aFL8ei",
-        "collection_link_gL94em",
         "collection_link_PrFQLq",
-        "collection_link_nCjAdc"
+        "collection_link_iwez3L",
+        "collection_link_aFL8ei",
+        "collection_link_NkXbAi"
       ],
       "name": "PP Collection Nav",
       "settings": {
