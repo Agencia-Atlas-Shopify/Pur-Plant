@@ -13,6 +13,7 @@
       "type": "pp-collection-title",
       "disabled": true,
       "settings": {
+        "collection": "",
         "padding_top": 32,
         "padding_bottom": 16
       }
@@ -175,6 +176,27 @@
     "pp_collection_grid": {
       "type": "pp-collection",
       "blocks": {
+        "banner_EF9zgk": {
+          "type": "banner",
+          "settings": {
+            "position": 3,
+            "width_mobile": 1,
+            "width_tablet": 1,
+            "width_desktop": 1,
+            "height": "portrait",
+            "image": "shopify://shop_images/opiniones-banner.gif",
+            "video": "",
+            "title": "",
+            "subtitle": "",
+            "button_text": "",
+            "button_link": "",
+            "link": "",
+            "content_position": "bottom-left",
+            "text_color": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
         "banner_4A9G6J": {
           "type": "banner",
           "settings": {
@@ -198,6 +220,7 @@
         }
       },
       "block_order": [
+        "banner_EF9zgk",
         "banner_4A9G6J"
       ],
       "settings": {
