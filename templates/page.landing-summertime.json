@@ -95,7 +95,7 @@
                 "open_in_new_tab": false,
                 "placeholder": "",
                 "padding-block-start": 0,
-                "padding-block-end": 20,
+                "padding-block-end": 4,
                 "padding-inline-start": 30,
                 "padding-inline-end": 0
               },
@@ -161,7 +161,7 @@
         "vertical_alignment_flex_direction_column": "flex-end",
         "gap": 25,
         "section_width": "full-width",
-        "section_height": "medium",
+        "section_height": "small",
         "section_height_custom": 50,
         "color_scheme": "scheme-5",
         "toggle_overlay": true,
@@ -170,8 +170,8 @@
         "gradient_direction": "to top",
         "blurred_reflection": false,
         "reflection_opacity": 75,
-        "padding-block-start": 40,
-        "padding-block-end": 40
+        "padding-block-start": 23,
+        "padding-block-end": 22
       }
     },
     "1776951229102c0a24": {
@@ -390,9 +390,9 @@
       ],
       "name": "PP Collection Nav",
       "settings": {
-        "title": "SUMMER COLLECTION",
+        "title": "MUST",
         "view_all_text": "Ver todo",
-        "view_all_url": "",
+        "view_all_url": "shopify://collections/summertime",
         "padding_top": 24,
         "padding_bottom": 16
       }
