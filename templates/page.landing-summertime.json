@@ -409,10 +409,10 @@
     "pp_featured_grid_aEMy79": {
       "type": "pp-featured-grid",
       "blocks": {
-        "banner_nzBmt9": {
+        "banner_8HrcYx": {
           "type": "banner",
           "settings": {
-            "position": 18,
+            "position": 3,
             "width_mobile": 1,
             "width_tablet": 1,
             "width_desktop": 1,
@@ -452,7 +452,7 @@
         "video_block_FAg4kT": {
           "type": "video_block",
           "settings": {
-            "position": 5,
+            "position": 9,
             "width_mobile": 1,
             "width_tablet": 1,
             "width_desktop": 1,
@@ -472,7 +472,7 @@
         }
       },
       "block_order": [
-        "banner_nzBmt9",
+        "banner_8HrcYx",
         "banner_DPBJeY",
         "video_block_FAg4kT"
       ],
