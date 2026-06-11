@@ -135,8 +135,6 @@
         "slide_whPjRL": {
           "type": "slide",
           "settings": {
-            "video_desktop": "shopify://files/videos/huele a verano.mp4",
-            "video_mobile": "shopify://files/videos/huele a verano 1.1.mp4",
             "subheading": "",
             "heading": "verano",
             "subtitle": "",
@@ -495,7 +493,7 @@
         "heading": "¡HOLA! SOY TU PLANT DOCTOR!",
         "subheading": "¿NECESITAS AYUDA CON TUS VERDES?",
         "button_label": "Sí, ayudame con mis plantas",
-        "button_link": "https://wa.me/19897889197?text=PLANT%20DOCTOR",
+        "button_link": "https://wa.me/19897889197?text=SOY%20TU%20PLANT%20DOCTOR",
         "video_url": "",
         "image": "shopify://shop_images/plant_doctor_ilustracion.png",
         "image_position": "right",
