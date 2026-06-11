@@ -719,8 +719,8 @@
             "button_L3HC8Q": {
               "type": "button",
               "settings": {
-                "label": "Comprar ahora",
-                "link": "shopify://collections/all",
+                "label": "Ver Insecticidas Eco",
+                "link": "shopify://collections/fitosanitarios-ecologicos",
                 "open_in_new_tab": false,
                 "style_class": "button",
                 "width": "fit-content",
