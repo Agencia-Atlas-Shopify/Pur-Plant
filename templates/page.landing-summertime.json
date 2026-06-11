@@ -596,7 +596,7 @@
               "type": "text",
               "disabled": true,
               "settings": {
-                "text": "<p>Te presentamos nuestros productos más recientes, diseñados especialmente para la temporada. ¡Compra tus favoritos antes de que se agoten!</p>",
+                "text": "<p>No dejes que las plagas se apoderen de tu jungla y cultivos</p>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -622,8 +622,8 @@
               "type": "button",
               "disabled": true,
               "settings": {
-                "label": "Comprar ahora",
-                "link": "shopify://collections/all",
+                "label": "Combatir Plagas",
+                "link": "shopify://collections/fitosanitarios-ecologicos",
                 "open_in_new_tab": false,
                 "style_class": "button",
                 "width": "fit-content",
@@ -643,7 +643,8 @@
         "slide_XCWm38": {
           "type": "_slide",
           "settings": {
-            "media_type_1": "image",
+            "media_type_1": "video",
+            "video_1": "shopify://files/videos/plagas verano.mp4",
             "content_direction": "column",
             "vertical_on_mobile": true,
             "horizontal_alignment": "flex-start",
@@ -668,7 +669,7 @@
               "type": "text",
               "name": "t:names.heading",
               "settings": {
-                "text": "<h2>Más vendidos</h2>",
+                "text": "<h4>Insecticidas & Preventivos</h4>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
