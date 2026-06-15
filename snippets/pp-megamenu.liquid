@@ -119,8 +119,30 @@
 
           <div class="pp-mega__image pp-mega__image--dynamic">
             {%- for sub in top.links -%}
+              {%- comment -%}
+                Imagen por subcategoría: usa la featured_image de la colección
+                a la que apunta el link. Si no hay, cae al primer producto.
+                Último fallback: panel_img global.
+              {%- endcomment -%}
+              {%- assign slot_img = panel_img -%}
+              {%- assign sub_coll = nil -%}
+              {%- if sub.object_type == 'collection' and sub.object != blank -%}
+                {%- assign sub_coll = sub.object -%}
+              {%- else -%}
+                {%- assign sub_handle = sub.url | split: '/collections/' | last | split: '/' | first | split: '?' | first -%}
+                {%- if sub_handle != blank and collections[sub_handle] != blank -%}
+                  {%- assign sub_coll = collections[sub_handle] -%}
+                {%- endif -%}
+              {%- endif -%}
+              {%- if sub_coll != blank -%}
+                {%- if sub_coll.image != blank -%}
+                  {%- assign slot_img = sub_coll.image | image_url: width: 290 -%}
+                {%- elsif sub_coll.products.first.featured_image != blank -%}
+                  {%- assign slot_img = sub_coll.products.first.featured_image | image_url: width: 290 -%}
+                {%- endif -%}
+              {%- endif -%}
               <a href="{{ sub.url }}" class="pp-mega__image-slot{% if forloop.first %} is-active{% endif %}" data-mega-img="{{ sub.title | handleize }}">
-                <img src="{{ panel_img }}" alt="{{ sub.title | escape }}" width="200" height="250" loading="lazy">
+                <img src="{{ slot_img }}" alt="{{ sub.title | escape }}" width="200" height="250" loading="lazy">
               </a>
             {%- endfor -%}
           </div>
