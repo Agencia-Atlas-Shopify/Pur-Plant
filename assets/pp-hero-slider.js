@@ -24,7 +24,7 @@ class PPHeroSlider extends HTMLElement {
     this.nextBtn = this.querySelector('[data-next]');
     this.muteBtn = this.querySelector('[data-mute]');
     this.unmuteBtn = this.querySelector('[data-unmute]');
-
+    
     // CAMBIO 1: Ocultar botones de sonido
     if (this.muteBtn) this.muteBtn.style.display = 'none';
     if (this.unmuteBtn) this.unmuteBtn.style.display = 'none';
@@ -39,8 +39,10 @@ class PPHeroSlider extends HTMLElement {
     this.setupDrag();
     this.setupVolume();
     this.setupAutoplay();
-    // CAMBIO 3: Hacer slides clicables
+    
+// CAMBIO 3: Hacer slides clicables
     this.setupSlideLinks();
+
     this.goToSlide(0);
   }
 
