@@ -751,22 +751,24 @@
           "type": "feature",
           "settings": {
             "image": "shopify://shop_images/Insecticida_Ecologico.jpg",
-            "label": "Insecticidas Ecológicos - para plagas sin químicos",
+            "label": "Insecticidas Ecológicos → para plagas sin químicos",
             "link": "shopify://collections/insecticidas-ecologicos"
           }
         },
         "feature_wGAtmX": {
           "type": "feature",
           "settings": {
-            "label": "Autorriegos",
-            "link": ""
+            "image": "shopify://shop_images/Fungicida_Ecologico.jpg",
+            "label": "Fungicidas Ecológicos → para hongos y enfermedade",
+            "link": "shopify://collections/fungicidas-ecologicos"
           }
         },
         "feature_MNKMVc": {
           "type": "feature",
           "settings": {
-            "label": "Poca Luz",
-            "link": ""
+            "image": "shopify://shop_images/Fertilizantes_Organicos_1.jpg",
+            "label": "Fertilizantes Orgánicos → para carencias de nutrientes",
+            "link": "shopify://collections/fertilizantes-organicos"
           }
         },
         "feature_rcVPxd": {
