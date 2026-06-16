@@ -4944,3 +4944,8 @@ product-recommendations:has([data-has-recommendations='false']) {
     translate: 0px var(--atc-destination, 0px);
   }
 }
+/* Botón CTA más grande */
+.pp-hero-slider__button {
+  padding: 16px 40px !important;
+  font-size: 1.8rem !important;
+}
