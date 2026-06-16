@@ -774,8 +774,9 @@
         "feature_rcVPxd": {
           "type": "feature",
           "settings": {
-            "label": "Fáciles de cuidar",
-            "link": ""
+            "image": "shopify://shop_images/Sustratos_Organicos_para_Plantas.jpg",
+            "label": "Sustratos Orgánicos → para trasplantes y mejora del drenaje",
+            "link": "shopify://collections/sustratos"
           }
         },
         "feature_3VQJRy": {
