@@ -782,8 +782,9 @@
         "feature_3VQJRy": {
           "type": "feature",
           "settings": {
-            "label": "Terrarios",
-            "link": ""
+            "image": "shopify://shop_images/guia_problemas_en_plantas.jpg",
+            "label": "Guía de Problemas de Plantas → autodiagnóstico por síntoma",
+            "link": "shopify://pages/guia-problemas-plantas"
           }
         }
       },
