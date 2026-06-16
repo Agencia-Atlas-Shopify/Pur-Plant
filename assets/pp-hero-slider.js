@@ -39,9 +39,23 @@ class PPHeroSlider extends HTMLElement {
     this.setupDrag();
     this.setupVolume();
     this.setupAutoplay();
-    
+
 // CAMBIO 3: Hacer slides clicables
-    this.setupSlideLinks();
+    setupSlideLinks() {
+  this.slides.forEach(slide => {
+    const link = slide.querySelector('a[href]');
+    if (!link) return;
+
+    slide.style.cursor = 'pointer';
+
+    slide.addEventListener('click', (e) => {
+      if (this.isDragging) return;
+      if (e.target.closest('button, a')) return;
+      window.location.href = link.href;
+    });
+  });
+}
+
 
     this.goToSlide(0);
   }
