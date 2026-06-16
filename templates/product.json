@@ -111,6 +111,10 @@
             "open_by_default": false
           }
         },
+        "yotpo_loyalty_rewards_product_points_module_app_block_tVwB3A": {
+          "type": "shopify://apps/yotpo-loyalty-rewards/blocks/product-points-module-app-block/2f9660df-5018-4e02-9868-ee1fb88d6ccd",
+          "settings": {}
+        },
         "variants": {
           "type": "variant_picker",
           "settings": {
@@ -174,6 +178,7 @@
         "accordion_cuidados",
         "accordion_about",
         "accordion_envios",
+        "yotpo_loyalty_rewards_product_points_module_app_block_tVwB3A",
         "variants",
         "volume_discount_GaEAwi",
         "shipping",
