@@ -4954,8 +4954,13 @@ pp-hero-slider .pp-hero-slider__button {
   border-radius: 999px !important;
 }
 
-/* Subheading más grande */
+/* Subheading y subtitle más grandes */
 pp-hero-slider .pp-hero-slider__subheading {
-  font-size: 1.4rem !important;
+  font-size: 1.2rem !important;
 }
+
+pp-hero-slider .pp-hero-slider__subtitle {
+  font-size: 1.6rem !important;
+}
+
 
