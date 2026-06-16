@@ -47,19 +47,27 @@ class PPHeroSlider extends HTMLElement {
     this.stopAutoplay();
   }
   setupSlideLinks() {
-    this.slides.forEach(slide => {
-      const link = slide.querySelector('a[href]');
-      if (!link) return;
+  this.slides.forEach(slide => {
+    const link = slide.querySelector('a[href]');
+    if (!link) return;
 
-      slide.style.cursor = 'pointer';
+    slide.style.cursor = 'pointer';
 
-      slide.addEventListener('click', (e) => {
-        if (this.isDragging) return;
-        if (e.target.closest('button, a')) return;
-        window.location.href = link.href;
-      });
+    slide.addEventListener('mousedown', () => {
+      this._clickStartX = event.clientX;
     });
-  }
+
+    slide.addEventListener('click', (e) => {
+      // Ignorar si hubo arrastre real (más de 5px)
+      const moved = Math.abs((e.clientX || 0) - (this._clickStartX || 0));
+      if (moved > 5) return;
+      // Ignorar clicks directos en botones o links
+      if (e.target.closest('button, a')) return;
+      window.location.href = link.href;
+    });
+  });
+}
+
 
   setupNavigation() {
     if (this.prevBtn) {
