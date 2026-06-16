@@ -568,6 +568,13 @@
     "pp_product_faq_MdRmrF": {
       "type": "pp-product-faq",
       "blocks": {
+        "faq_item_aUiXwb": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Por qué se ponen amarillas las hojas de mis plantas?",
+            "answer": "<p>Las hojas amarillas son el síntoma más común y pueden tener varias causas: exceso de riego (la causa más frecuente), falta de luz, carencia de nutrientes,o simplemente envejecimiento natural de las hojas más viejas. </p><p>Para un buen diagnóstico escrbe a nuestro <a href=\"https://wa.me/19897889197?text=MI%20PLANT%20DOCTOR\" title=\"https://wa.me/19897889197?text=MI%20PLANT%20DOCTOR\">PLANT DOCTOR</a><br/><br/></p>"
+          }
+        },
         "faq_item_MhXTQN": {
           "type": "faq_item",
           "settings": {
@@ -584,13 +591,14 @@
         }
       },
       "block_order": [
+        "faq_item_aUiXwb",
         "faq_item_MhXTQN",
         "faq_item_8yw4yU"
       ],
       "name": "PP FAQ",
       "settings": {
         "heading": "LO QUE SUELEN PREGUNTAR",
-        "faq_category_override": "plantas",
+        "faq_category_override": "generico",
         "padding_top": 40,
         "padding_bottom": 40
       }
