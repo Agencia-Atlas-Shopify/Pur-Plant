@@ -528,3 +528,11 @@
   position: absolute;
   inset: -0.5rem;
 }
+.pp-hero-slider__content {
+  pointer-events: none;
+}
+
+.pp-hero-slider__content button,
+.pp-hero-slider__content a {
+  pointer-events: auto;
+}
