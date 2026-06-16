@@ -135,7 +135,9 @@
         "slide_whPjRL": {
           "type": "slide",
           "settings": {
-            "subheading": "",
+            "video_desktop": "shopify://files/videos/huele a verano pc.mp4",
+            "video_mobile": "shopify://files/videos/huele a verano movil.mp4",
+            "subheading": "huele a",
             "heading": "verano",
             "subtitle": "",
             "content_position": "bottom-left",
