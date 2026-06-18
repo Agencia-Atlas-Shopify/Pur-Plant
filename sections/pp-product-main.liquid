@@ -418,7 +418,9 @@
       -%}
       {%- if has_recs and rec_products != blank -%}
         <div class="pp-pdp__routine">
-          <p class="pp-pdp__routine-title">{{ section.settings.recommended_title | default: 'INICIA TU RUTINA' }}</p>
+          {%- if section.settings.recommended_title != blank -%}
+  <p class="pp-pdp__routine-title">{{ section.settings.recommended_title }}</p>
+{%- endif -%}
           <div class="pp-pdp__routine-slider" data-pp-routine-slider>
             {%- for rec in rec_products limit: 8 -%}
               {%- if rec.id == product.id -%}{%- continue -%}{%- endif -%}
