@@ -4962,5 +4962,11 @@ pp-hero-slider .pp-hero-slider__subheading {
 pp-hero-slider .pp-hero-slider__subtitle {
   font-size: 1.1rem !important;
 }
+@media (max-width: 749px) {
+  .yotpo-loyalty-rewards-product-points-module {
+    margin-top: 24px;
+    margin-bottom: 24px;
+  }
+}
 
 
