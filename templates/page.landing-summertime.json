@@ -442,7 +442,7 @@
             "subtitle": "",
             "button_text": "",
             "button_link": "",
-            "link": "",
+            "link": "shopify://collections/regaderas",
             "content_position": "bottom-left",
             "text_color": "#ffffff",
             "overlay_color": "#000000",
@@ -654,7 +654,7 @@
             "vertical_alignment_flex_direction_column": "center",
             "gap": 12,
             "inherit_color_scheme": false,
-            "color_scheme": "scheme-6",
+            "color_scheme": "pp-green-dark",
             "toggle_overlay": false,
             "overlay_color": "#00000026",
             "overlay_style": "solid",
@@ -810,7 +810,7 @@
       "settings": {
         "heading": "¡LAS PLANTAS EN VERANO TAMBIÉN NECESITAN COMIDA!",
         "subheading": "",
-        "button_label": "LA QUIERO",
+        "button_label": "LO QUIERO",
         "button_link": "shopify://products/plant-food",
         "video_url": "",
         "image": "shopify://shop_images/beauty-plantbox-food_2.jpg",
@@ -1011,6 +1011,8 @@
       "name": "t:names.collections_carousel",
       "settings": {
         "collection_list": [
+          "plantas-de-exterior-resistentes",
+          "plantas-interior-resistentes",
           "arboles",
           "plantas-arboles-frutales",
           "plantas-aromaticas",
