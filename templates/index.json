@@ -858,7 +858,7 @@
             "text_X7XbYM": {
               "type": "text",
               "settings": {
-                "text": "<h3><strong>DÍA DE LA MADRE</strong></h3>",
+                "text": "<h3><strong>YA HUELE A VERANO</strong></h3>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -888,8 +888,8 @@
         "button_WdkjBK": {
           "type": "button",
           "settings": {
-            "label": "Descubrir Regalos",
-            "link": "shopify://collections/dia-de-la-madre",
+            "label": "Descubrir Colección",
+            "link": "shopify://pages/summertime",
             "open_in_new_tab": false,
             "style_class": "button",
             "width": "fit-content",
@@ -905,17 +905,16 @@
         "marquee_nJidBH",
         "button_WdkjBK"
       ],
-      "disabled": true,
       "name": "HEADER-FOOTER-CAMPAÑAS",
       "settings": {
         "media_type_1": "image",
-        "image_1": "shopify://shop_images/dia_de_la_madre_header.jpg",
+        "image_1": "shopify://shop_images/Huele_a_Verano_summer.jpg",
         "media_type_2": "image",
         "stack_media_on_mobile": false,
         "custom_mobile_media": false,
         "media_type_1_mobile": "image",
         "media_type_2_mobile": "image",
-        "link": "shopify://collections/dia-de-la-madre",
+        "link": "shopify://pages/summertime",
         "open_in_new_tab": false,
         "content_direction": "column",
         "vertical_on_mobile": true,
