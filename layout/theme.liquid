@@ -198,7 +198,73 @@ id: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNDBhYzU4YmUtM2UzZS0xMW
 };
 </script>
 <script async src="https://cdn.kimeratechnologies.com/api/km-load.min.js"></script>
-
+{% if page.handle == 'plant-doctor' %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "¿Llegará bien mi pedido?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Cuidamos cada parte del proceso para que recibas tu pedido en las mejores condiciones. Envolvemos con papeles reciclados y compostables en un packaging 100% libre de plásticos y emisiones."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Cuándo recibiré mi pedido?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Los pedidos se entregan en un plazo de 24 a 48 horas una vez que recibes el correo de confirmación de envío. Procesamos los pedidos de lunes a viernes de 8:00 a 18:00h (excepto festivos)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Qué hago si mi planta tiene hojas marrones?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Las manchas marrones pueden indicar quemadura solar, baja humedad ambiental, exceso de cal en el agua de riego, o una enfermedad fúngica. El Plant Doctor identifica el tipo de mancha y te da la solución exacta con productos orgánicos."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Por qué se ponen amarillas las hojas de mis plantas?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Las hojas amarillas pueden tener varias causas: exceso de riego (la más frecuente), falta de luz, carencia de nutrientes, o envejecimiento natural de las hojas más viejas."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Cómo sé si riego demasiado o muy poco?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "El exceso de riego se manifiesta en hojas amarillas blandas, sustrato que tarda en secarse y raíces marrones. La falta de riego produce hojas caídas y sustrato completamente seco separado de los bordes de la maceta."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Cómo funciona el Plant Doctor?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pulsa el botón de WhatsApp, escribe MI PLANT DOCTOR y cuéntanos qué le pasa a tu planta. Puedes mandarnos fotos directamente. Nuestro equipo de expertos te responde con el diagnóstico y la solución en minutos, todos los días."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Es realmente gratis el Plant Doctor?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sí, completamente gratis. No hay que comprar nada para usar el Plant Doctor. Es nuestro compromiso con la comunidad PurPlanter: que ninguna planta muera por falta de información."
+      }
+    }
+  ]
+}
+</script>
+{% endif %}
+</head>
   </head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }} template-{{ template.name }}">
