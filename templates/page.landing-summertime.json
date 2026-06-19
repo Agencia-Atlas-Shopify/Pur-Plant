@@ -141,7 +141,7 @@
       "custom_css": [
         ".page-plant-days .hero-section {margin-top: calc(-1 * var(--header-height));}"
       ],
-      "name": "HERO PLANT DAYS",
+      "name": "HERO huele a verano",
       "settings": {
         "media_type_1": "image",
         "image_1": "shopify://shop_images/Huele_a_Verano_summer.jpg",
@@ -437,7 +437,7 @@
             "width_tablet": 1,
             "width_desktop": 1,
             "height": "portrait",
-            "image": "shopify://shop_images/autorriegos_hechos_a_mano_verano_summertime.jpg",
+            "image": "shopify://shop_images/autorriego-banner.jpg",
             "title": "",
             "subtitle": "",
             "button_text": "",
@@ -457,7 +457,7 @@
             "width_tablet": 1,
             "width_desktop": 1,
             "height": "portrait",
-            "image": "shopify://shop_images/regaderas_hechas_a_mano_verano_summertime.jpg",
+            "image": "shopify://shop_images/regaderas_summer.jpg",
             "title": "",
             "subtitle": "",
             "button_text": "",
