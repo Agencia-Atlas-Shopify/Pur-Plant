@@ -9,6 +9,66 @@
  */
 {
   "sections": {
+    "pp_hero_slider_w3E8ht": {
+      "type": "pp-hero-slider",
+      "blocks": {
+        "slide_whPjRL": {
+          "type": "slide",
+          "settings": {
+            "video_desktop": "shopify://files/videos/huele a verano pc.mp4",
+            "video_mobile": "shopify://files/videos/huele a verano movil.mp4",
+            "subheading": "huele a",
+            "heading": "verano",
+            "subtitle": "",
+            "content_position": "bottom-left",
+            "button_text": "VER COLECCIÓN",
+            "button_link": "shopify://pages/summertime",
+            "button_style": "normal",
+            "button_text_2": "",
+            "button_link_2": "",
+            "button_style_2": "inverted",
+            "link": "shopify://pages/plant-days",
+            "heading_font": "'Aileron', sans-serif",
+            "heading_size": 0,
+            "heading_size_mobile": 0,
+            "heading_weight": "default",
+            "heading_color": "",
+            "subheading_font": "default",
+            "subheading_size": 0,
+            "subheading_size_mobile": 0,
+            "subheading_weight": "default",
+            "subheading_color": "",
+            "btn_font": "default",
+            "btn_size": 0,
+            "btn_weight": "default",
+            "btn_bg_color": "",
+            "btn_text_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_whPjRL"
+      ],
+      "name": "PP Hero Slider Summer",
+      "settings": {
+        "enable_transparent_header": false,
+        "full_height_mobile": false,
+        "height_mobile": 400,
+        "full_height_desktop": false,
+        "height_desktop": 670,
+        "autoplay": false,
+        "autoplay_speed": 5,
+        "show_dots": false,
+        "show_arrows": false,
+        "content_max_width": 600,
+        "overlay_opacity": 0,
+        "overlay_direction": "to top",
+        "background_color": "0 0 0",
+        "text_color": "255 255 255",
+        "button_background": "255 255 255",
+        "button_text_color": "0 0 0"
+      }
+    },
     "pp_hero_slider_wX8GrT": {
       "type": "pp-hero-slider",
       "blocks": {
@@ -118,66 +178,6 @@
         "height_mobile": 520,
         "full_height_desktop": false,
         "height_desktop": 750,
-        "autoplay": false,
-        "autoplay_speed": 5,
-        "show_dots": false,
-        "show_arrows": false,
-        "content_max_width": 600,
-        "overlay_opacity": 0,
-        "overlay_direction": "to top",
-        "background_color": "0 0 0",
-        "text_color": "255 255 255",
-        "button_background": "255 255 255",
-        "button_text_color": "0 0 0"
-      }
-    },
-    "pp_hero_slider_w3E8ht": {
-      "type": "pp-hero-slider",
-      "blocks": {
-        "slide_whPjRL": {
-          "type": "slide",
-          "settings": {
-            "video_desktop": "shopify://files/videos/huele a verano pc.mp4",
-            "video_mobile": "shopify://files/videos/huele a verano movil.mp4",
-            "subheading": "huele a",
-            "heading": "verano",
-            "subtitle": "",
-            "content_position": "bottom-left",
-            "button_text": "VER COLECCIÓN",
-            "button_link": "shopify://pages/summertime",
-            "button_style": "normal",
-            "button_text_2": "",
-            "button_link_2": "",
-            "button_style_2": "inverted",
-            "link": "shopify://pages/plant-days",
-            "heading_font": "'Aileron', sans-serif",
-            "heading_size": 0,
-            "heading_size_mobile": 0,
-            "heading_weight": "default",
-            "heading_color": "",
-            "subheading_font": "default",
-            "subheading_size": 0,
-            "subheading_size_mobile": 0,
-            "subheading_weight": "default",
-            "subheading_color": "",
-            "btn_font": "default",
-            "btn_size": 0,
-            "btn_weight": "default",
-            "btn_bg_color": "",
-            "btn_text_color": ""
-          }
-        }
-      },
-      "block_order": [
-        "slide_whPjRL"
-      ],
-      "name": "PP Hero Slider Summer",
-      "settings": {
-        "enable_transparent_header": false,
-        "full_height_mobile": false,
-        "height_mobile": 400,
-        "full_height_desktop": false,
-        "height_desktop": 670,
         "autoplay": false,
         "autoplay_speed": 5,
         "show_dots": false,
@@ -453,8 +453,8 @@
             "width_tablet": 1,
             "width_desktop": 1,
             "height": "auto",
-            "video": "shopify://files/videos/fiesta-primavera.mp4",
-            "video_url": "shopify://collections/fiesta-primavera",
+            "video": "shopify://files/videos/Reel kit tubo autorriegos pequeños..MP4",
+            "video_url": "shopify://pages/summertime",
             "title": "",
             "subtitle": "",
             "button_text": "",
