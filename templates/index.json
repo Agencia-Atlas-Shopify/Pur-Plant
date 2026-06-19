@@ -17,7 +17,7 @@
           "settings": {
             "video_desktop": "shopify://files/videos/huele a verano pc.mp4",
             "video_mobile": "shopify://files/videos/huele a verano movil.mp4",
-            "subheading": "huele a",
+            "subheading": "huele  a",
             "heading": "verano",
             "subtitle": "",
             "content_position": "bottom-left",
@@ -27,7 +27,7 @@
             "button_text_2": "",
             "button_link_2": "",
             "button_style_2": "inverted",
-            "link": "shopify://pages/plant-days",
+            "link": "shopify://pages/summertime",
             "heading_font": "'Aileron', sans-serif",
             "heading_size": 0,
             "heading_size_mobile": 0,
