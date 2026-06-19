@@ -14,6 +14,7 @@
       "blocks": {
         "slide_6xTadD": {
           "type": "slide",
+          "disabled": true,
           "settings": {
             "video_desktop": "shopify://files/videos/pur (1).mp4",
             "subheading": "FIESTA DE LA",
@@ -48,6 +49,7 @@
       "block_order": [
         "slide_6xTadD"
       ],
+      "disabled": true,
       "name": "PP Hero Slider",
       "settings": {
         "enable_transparent_header": false,
@@ -169,7 +171,6 @@
       "block_order": [
         "slide_whPjRL"
       ],
-      "disabled": true,
       "name": "PP Hero Slider Summer",
       "settings": {
         "enable_transparent_header": false,
@@ -898,9 +899,9 @@
     }
   },
   "order": [
+    "pp_hero_slider_w3E8ht",
     "pp_hero_slider_wX8GrT",
     "pp_hero_slider_VGBDPT",
-    "pp_hero_slider_w3E8ht",
     "pp_hero_slider_RBqrkx",
     "cat_nav_pp",
     "pp_collection_nav_zLxaVU",
