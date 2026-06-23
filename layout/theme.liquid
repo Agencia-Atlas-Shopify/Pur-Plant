@@ -191,6 +191,17 @@
       {%- render 'theme-editor' -%}
     {% endif %}
 
+    {%- comment -%}
+      Multi-mercado (Shopify Markets): respeta locale activo en metadata social.
+      Shopify Markets inyecta hreflang automáticamente via content_for_header.
+    {%- endcomment -%}
+    <meta property="og:locale" content="{{ request.locale.iso_code | replace: '-', '_' | default: 'es_ES' }}">
+    {%- for locale in shop.published_locales -%}
+      {%- unless locale.iso_code == request.locale.iso_code -%}
+        <meta property="og:locale:alternate" content="{{ locale.iso_code | replace: '-', '_' }}">
+      {%- endunless -%}
+    {%- endfor -%}
+
     {{ content_for_header }}
     <script>
 window.kimeraUnifiedConfig = {

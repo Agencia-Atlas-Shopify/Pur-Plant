@@ -47,6 +47,7 @@
 {
   "@context": "https://schema.org/",
   "@type": "Product",
+  "inLanguage": {{ request.locale.iso_code | default: 'es' | json }},
   "name": {{ product.title | json }},
   "description": {{ product.description | strip_html | truncate: 5000 | json }},
   "image": [
