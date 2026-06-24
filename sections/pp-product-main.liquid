@@ -422,9 +422,12 @@
   <p class="pp-pdp__routine-title">{{ section.settings.recommended_title }}</p>
 {%- endif -%}
           <div class="pp-pdp__routine-slider" data-pp-routine-slider>
-            {%- for rec in rec_products limit: 8 -%}
+            {%- assign rec_count = 0 -%}
+            {%- for rec in rec_products -%}
               {%- if rec.id == product.id -%}{%- continue -%}{%- endif -%}
               {%- unless rec.available -%}{%- continue -%}{%- endunless -%}
+              {%- if rec_count >= 4 -%}{%- break -%}{%- endif -%}
+              {%- assign rec_count = rec_count | plus: 1 -%}
               {%- liquid
                 assign rec_variant = rec.selected_or_first_available_variant
                 assign rec_can_direct_add = false
@@ -434,41 +437,62 @@
 
                 assign has_badge = false
                 assign badge_text = ''
-                if rec.compare_at_price > rec.price
+                assign rec_pct = 0
+                if rec.compare_at_price > rec.price and rec.compare_at_price > 0
+                  assign rec_diff = rec.compare_at_price | minus: rec.price
+                  assign rec_pct = rec_diff | times: 100 | divided_by: rec.compare_at_price
                   assign has_badge = true
-                  assign badge_text = 'Oferta'
+                  assign badge_text = '-' | append: rec_pct | append: '%'
                 elsif rec.tags contains 'New In' or rec.tags contains 'new in' or rec.tags contains 'Novedades'
                   assign has_badge = true
-                  assign badge_text = 'New In'
+                  assign badge_text = 'NEW'
                 elsif rec.tags contains 'Best Sellers' or rec.tags contains 'Top Ventas'
                   assign has_badge = true
-                  assign badge_text = 'Top'
+                  assign badge_text = 'TOP'
                 endif
+                assign rec_desc_raw = rec.description | strip_html | strip_newlines | truncate: 180
               -%}
-              <div class="pp-pdp__routine-item">
+              <div class="pp-pdp__routine-item" data-pp-routine-item>
                 <a href="{{ rec.url }}" class="pp-pdp__routine-link" aria-label="{{ rec.title }}">
                   <div class="pp-pdp__routine-img">
                     {%- if rec.featured_image != blank -%}
-                      <img src="{{ rec.featured_image | image_url: width: 200 }}" alt="{{ rec.title }}" width="80" height="100" loading="lazy">
+                      {{ rec.featured_image | image_url: width: 360 | image_tag:
+                          alt: rec.title,
+                          class: 'pp-pdp__routine-img-el',
+                          loading: 'lazy',
+                          widths: '180, 280, 360' }}
                     {%- endif -%}
                     {%- if has_badge -%}
-                      <span class="pp-pdp__routine-badge">{{ badge_text }}</span>
+                      <span class="pp-pdp__routine-badge{% if rec_pct > 0 %} pp-pdp__routine-badge--sale{% endif %}">{{ badge_text }}</span>
                     {%- endif -%}
                   </div>
                 </a>
-                <div class="pp-pdp__routine-footer">
-                  <span class="pp-pdp__routine-price">{{ rec.price | money }}</span>
-                  {%- if rec_can_direct_add -%}
-                    <button
-                      type="button"
-                      class="pp-pdp__routine-add"
-                      data-pp-add-to-cart
-                      data-variant-id="{{ rec_variant.id }}"
-                      aria-label="Añadir {{ rec.title | escape }}">+</button>
-                  {%- else -%}
-                    <a href="{{ rec.url }}" class="pp-pdp__routine-add" aria-label="Ver {{ rec.title | escape }}">→</a>
-                  {%- endif -%}
+                <div class="pp-pdp__routine-body">
+                  <a href="{{ rec.url }}" class="pp-pdp__routine-name-link">
+                    <span class="pp-pdp__routine-name">{{ rec.title }}</span>
+                  </a>
+                  <div class="pp-pdp__routine-footer">
+                    <div class="pp-pdp__routine-prices">
+                      <span class="pp-pdp__routine-price">{{ rec.price | money }}</span>
+                      {%- if rec.compare_at_price > rec.price -%}
+                        <s class="pp-pdp__routine-compare">{{ rec.compare_at_price | money }}</s>
+                      {%- endif -%}
+                    </div>
+                    {%- if rec_can_direct_add -%}
+                      <button
+                        type="button"
+                        class="pp-pdp__routine-add"
+                        data-pp-add-to-cart
+                        data-variant-id="{{ rec_variant.id }}"
+                        aria-label="Añadir {{ rec.title | escape }}">+</button>
+                    {%- else -%}
+                      <a href="{{ rec.url }}" class="pp-pdp__routine-add" aria-label="Ver {{ rec.title | escape }}">→</a>
+                    {%- endif -%}
+                  </div>
                 </div>
+                {%- if rec_desc_raw != blank -%}
+                  <div class="pp-pdp__routine-tooltip" role="tooltip">{{ rec_desc_raw }}</div>
+                {%- endif -%}
               </div>
             {%- endfor -%}
           </div>
