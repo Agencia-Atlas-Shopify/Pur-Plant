@@ -127,7 +127,14 @@
           assign badge = 'pur'
         endif
 
-        if badge == '' and product.compare_at_price > product.price
+        # Badge "-XX%" cuando hay descuento (mail Evelin 22jun pt.3 estilo Sklum).
+        # Si no se puede calcular, fallback a etiqueta "OFERTA".
+        assign discount_pct = 0
+        if product.compare_at_price > product.price and product.compare_at_price > 0
+          assign discount_diff = product.compare_at_price | minus: product.price
+          assign discount_pct = discount_diff | times: 100 | divided_by: product.compare_at_price
+        endif
+        if badge == '' and discount_pct > 0
           assign badge = 'oferta'
         endif
 
@@ -143,7 +150,7 @@
             {%- when 'nuevo' -%}<span class="pp-badge pp-badge--new">NOVEDAD</span>
             {%- when 'facil' -%}<span class="pp-badge pp-badge--facil">FÁCIL CUIDADO</span>
             {%- when 'pur' -%}<span class="pp-badge pp-badge--pur">PURIFICADORA</span>
-            {%- when 'oferta' -%}<span class="pp-badge pp-badge--sale">OFERTA</span>
+            {%- when 'oferta' -%}<span class="pp-badge pp-badge--sale">-{{ discount_pct }}%</span>
             {%- when 'last' -%}<span class="pp-badge pp-badge--last-units">ÚLTIMAS UNIDADES</span>
             {%- when 'pronto' -%}<span class="pp-badge pp-badge--sold-out">VUELVE PRONTO</span>
           {%- endcase -%}
@@ -500,11 +507,17 @@
 
   .pp-badge--custom,
   .pp-badge--last-units,
-  .pp-badge--sale,
   .pp-badge--sold-out {
     background: #DAFFD3;
     border-color: #37433F;
     color: #37433F;
+  }
+  /* Badge sale "-XX%" estilo Sklum: contraste fuerte para destacar el descuento */
+  .pp-badge--sale {
+    background: #E63946;
+    border-color: #E63946;
+    color: #fff;
+    font-weight: 700;
   }
 
   .pp-card__quick-add {
