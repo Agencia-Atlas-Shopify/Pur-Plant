@@ -1142,40 +1142,84 @@ a.pp-pdp__acerca-tag--link:hover {
 
 .pp-pdp__routine-img {
   position: relative;
-  width: 64px;
-  height: 80px;
+  width: 100%;
+  aspect-ratio: 3 / 4;
   overflow: hidden;
-  border-radius: 6px;
+  border-radius: 10px;
   background: #f5f5f5;
 }
 
+.pp-pdp__routine-img-el,
 .pp-pdp__routine-img img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 .pp-pdp__routine-badge {
   position: absolute;
-  top: 4px;
-  left: 4px;
+  top: 6px;
+  left: 6px;
   font-family: 'Inter', sans-serif;
-  font-size: 8px;
-  font-weight: 500;
+  font-size: 10px;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.02em;
   background: #DAFFD3;
   border: 1px solid #37433F;
   border-radius: 20px;
   color: #37433F;
-  padding: 2px 6px;
-  line-height: 1.2;
+  padding: 2px 8px;
+  line-height: 1.3;
+}
+.pp-pdp__routine-badge--sale {
+  background: #E63946;
+  border-color: #E63946;
+  color: #fff;
+  font-weight: 700;
 }
 
+.pp-pdp__routine-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 4px 2px 0;
+}
+.pp-pdp__routine-name-link {
+  text-decoration: none;
+  color: inherit;
+}
+.pp-pdp__routine-name {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--pp-dark-green);
+}
+
+.pp-pdp__routine-prices {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  flex-wrap: wrap;
+}
 .pp-pdp__routine-price {
   font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--pp-dark-green);
+}
+.pp-pdp__routine-compare {
+  font-family: 'Inter', sans-serif;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 400;
+  color: #999;
+  text-decoration: line-through;
 }
 
 .pp-pdp__routine-link {
@@ -1188,9 +1232,49 @@ a.pp-pdp__acerca-tag--link:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 4px;
-  margin-top: 2px;
-  width: 64px;
+  gap: 6px;
+  margin-top: 4px;
+  width: 100%;
+}
+
+/* Tooltip on hover sobre el card — info adicional del producto */
+.pp-pdp__routine-item {
+  position: relative;
+}
+.pp-pdp__routine-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  width: max-content;
+  max-width: 240px;
+  padding: 8px 10px;
+  background: #23372c;
+  color: #e4ffd3;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  line-height: 1.4;
+  border-radius: 8px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.pp-pdp__routine-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: #23372c;
+}
+@media (hover: hover) {
+  .pp-pdp__routine-item:hover .pp-pdp__routine-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 }
 
 .pp-pdp__routine-add {
