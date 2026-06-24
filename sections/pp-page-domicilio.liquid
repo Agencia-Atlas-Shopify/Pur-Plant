@@ -13,13 +13,20 @@
   assign products_per_row = section.settings.products_per_row | default: 4
   assign is_flores = false
   assign is_arboles = false
+  assign is_macetas = false
   assign is_campaign = false
   if page_type == 'flores-domicilio'
     assign is_flores = true
   elsif page_type == 'arboles-domicilio'
     assign is_arboles = true
+  elsif page_type == 'macetas-domicilio'
+    assign is_macetas = true
   elsif page_type == 'campaign'
     assign is_campaign = true
+  endif
+  # Auto-detect por handle si el metafield no está set (macetas-a-domicilio*)
+  if page_type == blank and page.handle contains 'macetas-a-domicilio'
+    assign is_macetas = true
   endif
 
   # Parent landing for breadcrumb 2nd level + "Ver plantas" CTA fallback (avoid self-ref)
@@ -31,6 +38,9 @@
   elsif is_arboles
     assign parent_label = 'Árboles a Domicilio'
     assign parent_url = '/pages/arboles'
+  elsif is_macetas
+    assign parent_label = 'Macetas a Domicilio'
+    assign parent_url = '/pages/macetas-a-domicilio'
   elsif is_campaign
     assign parent_label = 'Ofertas'
     assign parent_url = '/collections/all'
