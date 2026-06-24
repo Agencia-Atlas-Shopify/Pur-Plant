@@ -443,7 +443,7 @@
     {%- comment -%} Fallback: contenido default cuando no hay menús asignados {%- endcomment -%}
     <div class="pp-domicilio__links">
       <details class="pp-domicilio__acc" open>
-        <summary class="pp-domicilio__acc-summary">{{ section.settings.group_1_title | default: 'Plantas a domicilio' }}</summary>
+        <summary class="pp-domicilio__acc-summary">{{ section.settings.group_1_title | default: parent_label }}</summary>
         <ul class="pp-domicilio__acc-list">
           <li><a href="/pages/plantas-a-domicilio-para-regalar">Plantas a domicilio para regalo</a></li>
           <li><a href="/pages/plantas-a-domicilio-baratas">Plantas a domicilio baratas</a></li>
@@ -488,7 +488,7 @@
     <section class="pp-coll-desc pp-domicilio__seo">
       <div class="pp-coll-desc__inner">
         <div class="pp-coll-desc__header">
-          <h2 class="pp-coll-desc__title">{{ section.settings.seo_title | default: page.title }}</h2>
+          <h2 class="pp-coll-desc__title">{{ section.settings.seo_title | default: parent_label }}</h2>
           <button type="button" class="pp-coll-desc__toggle" data-pp-coll-desc-toggle aria-expanded="false">
             <span class="pp-coll-desc__toggle-text">{{ section.settings.seo_more_label | default: 'Leer más' }}</span>
             <svg class="pp-coll-desc__arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5.5L7 9.5L11 5.5"/></svg>
