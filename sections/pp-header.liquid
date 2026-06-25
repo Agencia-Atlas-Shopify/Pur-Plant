@@ -13,26 +13,30 @@
       var main = document.querySelector('main#MainContent, main.content-for-layout');
       var firstSec = main ? main.querySelector(':scope > .shopify-section:first-child') : null;
       var hasHero = firstSec && firstSec.querySelector(HERO_SEL);
-      if (!hasHero) document.body.classList.add('pp-transparent-header-needs-offset');
+      // Quitar la clase si DESPUÉS detectamos hero (puede haberse parseado tarde).
+      // Antes solo añadía y nunca quitaba → flicker permanente cuando el observer
+      // disparaba antes de que el <pp-hero-slider> apareciera en el DOM.
+      if (hasHero) document.body.classList.remove('pp-transparent-header-needs-offset');
+      else document.body.classList.add('pp-transparent-header-needs-offset');
+      return !!hasHero;
     }
-    function start(){
-      var main = document.querySelector('main#MainContent, main.content-for-layout');
-      if (main && main.firstElementChild) { applyClasses(); return true; }
-      return false;
+    // Re-evaluar en cada hito: DOMContentLoaded + load + cada mutación del body
+    if (document.readyState !== 'loading') applyClasses();
+    else document.addEventListener('DOMContentLoaded', applyClasses, { once: true });
+    window.addEventListener('load', applyClasses, { once: true });
+    function observeBody(){
+      if (!document.body) return false;
+      var done = applyClasses();
+      if (done) return true;
+      var obs = new MutationObserver(function(){ if (applyClasses()) obs.disconnect(); });
+      obs.observe(document.body, { childList:true, subtree:true });
+      // Cortar a los 3s para no dejar el observer corriendo eternamente.
+      setTimeout(function(){ obs.disconnect(); }, 3000);
+      return true;
     }
-    if (!start()) {
-      var obs = new MutationObserver(function(){ if (start()) obs.disconnect(); });
-      if (document.body) obs.observe(document.body, { childList:true, subtree:true });
-      else {
-        var docObs = new MutationObserver(function(){
-          if (document.body) {
-            obs.observe(document.body, { childList:true, subtree:true });
-            docObs.disconnect();
-            start();
-          }
-        });
-        docObs.observe(document.documentElement, { childList:true, subtree:true });
-      }
+    if (!observeBody()) {
+      var docObs = new MutationObserver(function(){ if (observeBody()) docObs.disconnect(); });
+      docObs.observe(document.documentElement, { childList:true, subtree:true });
     }
   })();
 </script>
