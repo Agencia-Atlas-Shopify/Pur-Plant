@@ -39,8 +39,12 @@
 {%- comment -%} Inline critical CSS: hide FOUC panels + pre-apply transparent-header offset to avoid layout shift {%- endcomment -%}
 <style>
   /* Pre-aplica vars y bg crítico del header ANTES de que pp-header.css cargue (preloaded async).
-     Sin esto, el inner pintaba blanco/transparente unos ms hasta que el var quedaba definido —
-     ese era el flicker reportado al abrir tienda en pestaña nueva. */
+     Sin esto:
+       1) el inner pintaba blanco hasta que --pp-header-bg quedaba definido;
+       2) (más visible) .pp-header--transparent { position:absolute } no aplicaba
+          → el header se quedaba en flujo normal empujando el hero hacia abajo
+          → cuando el CSS terminaba de cargar saltaba a absolute y el hero
+          se desplazaba bruscamente hacia arriba. */
   :root {
     --pp-header-bg: 35 55 44;
     --pp-header-text: 218 255 211;
@@ -48,6 +52,14 @@
   }
   .pp-header__inner {
     background-color: rgb(var(--pp-header-bg));
+  }
+  .pp-header { position: relative; z-index: 100; width: 100%; }
+  .pp-header--transparent {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+  }
+  .pp-header--transparent.pp-header--sticky {
+    position: fixed;
   }
   .pp-search, .pp-search__banner, .pp-search__backdrop, [data-pp-megamenu], .pp-cart-drawer__dialog:not([open]) {
     display: none !important;
