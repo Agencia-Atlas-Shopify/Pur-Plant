@@ -59,6 +59,17 @@
       "default": "EXPLORA LA COLECCIÓN"
     },
     {
+      "type": "select",
+      "id": "intent",
+      "label": "Tipo de recomendación",
+      "info": "related = misma familia/colección; complementary = accesorios/cross-sell",
+      "options": [
+        { "value": "related", "label": "Related (misma colección)" },
+        { "value": "complementary", "label": "Complementary (cross-sell)" }
+      ],
+      "default": "related"
+    },
+    {
       "type": "range",
       "id": "max_products",
       "min": 2,
