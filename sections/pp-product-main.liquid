@@ -426,7 +426,7 @@
             {%- for rec in rec_products -%}
               {%- if rec.id == product.id -%}{%- continue -%}{%- endif -%}
               {%- unless rec.available -%}{%- continue -%}{%- endunless -%}
-              {%- if rec_count >= 4 -%}{%- break -%}{%- endif -%}
+              {%- comment -%} Sin límite (Evelin 25jun): permitir todos los productos del metafield. {%- endcomment -%}
               {%- assign rec_count = rec_count | plus: 1 -%}
               {%- liquid
                 assign rec_variant = rec.selected_or_first_available_variant
@@ -520,8 +520,13 @@
         </div>
       {%- endif -%}
 
-      {%- comment -%} Total {%- endcomment -%}
-      <div class="pp-pdp__total" data-pp-total>
+      {%- comment -%}
+        Total — Evelin 25jun: el "TOTAL X€" justo arriba del botón Añadir
+        sobraba (ya hay total en el footer fijo móvil + tarjeta multiplicador).
+        Lo dejamos en el DOM con `hidden` porque el JS lo lee como fuente
+        de precio para otros widgets (data-pp-total-price).
+      {%- endcomment -%}
+      <div class="pp-pdp__total" data-pp-total hidden>
         <span class="pp-pdp__total-label">TOTAL</span>
         <span class="pp-pdp__total-label" data-pp-total-price>{{ current_variant.price | money }}</span>
       </div>

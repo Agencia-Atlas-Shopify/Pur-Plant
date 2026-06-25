@@ -322,19 +322,20 @@
   padding: 2px 8px;
 }
 
-/* Badge "-XX%" en PDP estilo Sklum (mail Evelin 22jun pt.3) */
+/* Badge "-XX%" en PDP en verde brand (Evelin 25jun: respetar identidad visual) */
 .pp-pdp__save-badge {
   display: inline-flex;
   align-items: center;
   margin-left: 8px;
   padding: 4px 10px;
-  background: #E63946;
-  color: #fff;
+  background: #DAFFD3;
+  color: #37433F;
+  border: 1px solid #37433F;
   font-family: var(--pp-font-body);
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.02em;
-  border-radius: 4px;
+  border-radius: var(--pp-radius-pill, 20px);
   vertical-align: middle;
 }
 
@@ -1097,16 +1098,17 @@ a.pp-pdp__acerca-tag--link:hover {
   margin: 0 0 8px;
 }
 
+/* Diseño limpio/minimalista (Evelin 25jun): sin border exterior, sin border-radius en cards/slider, imgs más grandes (estilo cesta Scuffers) */
 .pp-pdp__routine-slider {
   display: flex;
-  gap: 0;
+  gap: 10px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  border: 1px solid black;
-  padding: 8px 10px 6px 12px;
-  border-radius: 24px;
+  border: 0;
+  padding: 0;
+  border-radius: 0;
   min-width: 0;
   max-width: 100%;
   width: 100%;
@@ -1117,35 +1119,35 @@ a.pp-pdp__acerca-tag--link:hover {
 }
 
 .pp-pdp__routine-item {
-  flex: 0 0 calc((100% - 18px) / 4);
+  flex: 0 0 calc((100% - 30px) / 4);
   scroll-snap-align: start;
 }
 
 @media screen and (max-width: 1200px) {
   .pp-pdp__routine-item {
-    flex: 0 0 calc((100% - 12px) / 3);
+    flex: 0 0 calc((100% - 20px) / 3);
   }
 }
 
 .pp-pdp__routine-item {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
   text-decoration: none;
   color: var(--pp-dark-green);
 }
 
 .pp-pdp__routine-item:first-child {
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .pp-pdp__routine-img {
   position: relative;
   width: 100%;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 1 / 1.15;
   overflow: hidden;
-  border-radius: 10px;
+  border-radius: 0;
   background: #f5f5f5;
 }
 
@@ -1174,10 +1176,10 @@ a.pp-pdp__acerca-tag--link:hover {
   line-height: 1.3;
 }
 .pp-pdp__routine-badge--sale {
-  background: #E63946;
-  border-color: #E63946;
-  color: #fff;
-  font-weight: 700;
+  background: #DAFFD3;
+  border-color: #37433F;
+  color: #37433F;
+  font-weight: 600;
 }
 
 .pp-pdp__routine-body {
