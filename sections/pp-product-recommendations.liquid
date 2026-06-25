@@ -1,5 +1,27 @@
 {{ 'pp-sections.css' | asset_url | stylesheet_tag }}
 
+{%- comment -%}
+  PP Recommendations (Evelin 25jun pt.4.2).
+  Prioridad por intent (override manual via metacampo del producto):
+    - complementary (MEJOR CON):     product.metafields.custom.mejor_con.value
+    - related      (EXPLORA COLECC.): product.metafields.custom.explora_la_coleccion.value.products
+  Si el metacampo está vacío → fallback a Shopify Recommendations API (intent=*).
+  Filtro stock: descarta productos sin disponibilidad (rec.available == false).
+{%- endcomment -%}
+{%- liquid
+  assign intent = section.settings.intent | default: 'related'
+  assign limit = section.settings.max_products | default: 4
+  assign manual_products = null
+  if intent == 'complementary'
+    assign manual_products = product.metafields.custom.mejor_con.value
+  elsif intent == 'related'
+    assign explora_coll = product.metafields.custom.explora_la_coleccion.value
+    if explora_coll != blank
+      assign manual_products = explora_coll.products
+    endif
+  endif
+-%}
+
 <section class="pp-recommendations" style="
     padding-top: {{ section.settings.padding_top }}px;
     padding-bottom: {{ section.settings.padding_bottom }}px;
@@ -9,40 +31,76 @@
       <h2 class="pp-recommendations__heading">{{ section.settings.heading }}</h2>
     {%- endif -%}
 
-    <div class="pp-recommendations__grid" id="pp-recs-grid-{{ section.id }}" data-product-id="{{ product.id }}" data-section-id="{{ section.id }}" data-limit="{{ section.settings.max_products }}" data-intent="{{ section.settings.intent | default: 'related' }}">
-      {%- if recommendations.performed and recommendations.products.size > 0 -%}
-        {%- for rec_product in recommendations.products limit: section.settings.max_products -%}
+    <div class="pp-recommendations__grid" id="pp-recs-grid-{{ section.id }}" data-product-id="{{ product.id }}" data-section-id="{{ section.id }}" data-limit="{{ limit }}" data-intent="{{ intent }}">
+      {%- if manual_products != blank and manual_products.size > 0 -%}
+        {%- comment -%} Override manual desde metacampo {%- endcomment -%}
+        {%- assign rendered = 0 -%}
+        {%- for rec_product in manual_products -%}
+          {%- if rec_product.id == product.id -%}{%- continue -%}{%- endif -%}
+          {%- unless rec_product.available -%}{%- continue -%}{%- endunless -%}
+          {%- if rendered >= limit -%}{%- break -%}{%- endif -%}
           <div class="pp-recommendations__item">
             {%- render 'pp-product-card-standalone', product: rec_product, image_ratio: section.settings.image_ratio -%}
           </div>
+          {%- assign rendered = rendered | plus: 1 -%}
+        {%- endfor -%}
+      {%- elsif recommendations.performed and recommendations.products.size > 0 -%}
+        {%- comment -%} Fallback Shopify API por intent + filtro stock {%- endcomment -%}
+        {%- assign rendered = 0 -%}
+        {%- for rec_product in recommendations.products -%}
+          {%- unless rec_product.available -%}{%- continue -%}{%- endunless -%}
+          {%- if rendered >= limit -%}{%- break -%}{%- endif -%}
+          <div class="pp-recommendations__item">
+            {%- render 'pp-product-card-standalone', product: rec_product, image_ratio: section.settings.image_ratio -%}
+          </div>
+          {%- assign rendered = rendered | plus: 1 -%}
         {%- endfor -%}
       {%- endif -%}
     </div>
 
-    <script>
-      (function() {
-        var grid = document.getElementById('pp-recs-grid-{{ section.id }}');
-        if (!grid || grid.children.length > 0) return;
-        var productId = grid.dataset.productId;
-        var sectionId = grid.dataset.sectionId;
-        var limit = grid.dataset.limit || 4;
-        var intent = grid.dataset.intent || 'related';
-        if (!productId) return;
+    {%- comment -%}
+      JS fallback async cuando el grid está vacío (sólo aplica si NO hay
+      manual_products configurado, porque ese render es síncrono server-side).
+    {%- endcomment -%}
+    {%- if manual_products == blank -%}
+      <script>
+        (function() {
+          var grid = document.getElementById('pp-recs-grid-{{ section.id }}');
+          if (!grid || grid.children.length > 0) return;
+          var productId = grid.dataset.productId;
+          var sectionId = grid.dataset.sectionId;
+          var limit = parseInt(grid.dataset.limit) || 4;
+          var intent = grid.dataset.intent || 'related';
+          if (!productId) return;
 
-        var url = '/recommendations/products?product_id=' + productId + '&limit=' + limit + '&section_id=' + sectionId + '&intent=' + intent;
-        fetch(url)
-          .then(function(r) { return r.text(); })
-          .then(function(html) {
-            var div = document.createElement('div');
-            div.innerHTML = html;
-            var newGrid = div.querySelector('#pp-recs-grid-' + sectionId);
-            if (newGrid && newGrid.children.length > 0) {
-              grid.innerHTML = newGrid.innerHTML;
-            }
-          })
-          .catch(function() {});
-      })();
-    </script>
+          // Pedimos 2x el límite para tener margen al filtrar sold-outs en cliente.
+          var url = '/recommendations/products?product_id=' + productId + '&limit=' + (limit * 2) + '&section_id=' + sectionId + '&intent=' + intent;
+          fetch(url)
+            .then(function(r) { return r.text(); })
+            .then(function(html) {
+              var div = document.createElement('div');
+              div.innerHTML = html;
+              var newGrid = div.querySelector('#pp-recs-grid-' + sectionId);
+              if (!newGrid) return;
+              var items = newGrid.querySelectorAll('.pp-recommendations__item');
+              var kept = 0;
+              var frag = document.createDocumentFragment();
+              items.forEach(function(it) {
+                if (kept >= limit) return;
+                // Filtrar sold-out: card standalone marca con .pp-badge--sold-out (VUELVE PRONTO)
+                if (it.querySelector('.pp-badge--sold-out')) return;
+                frag.appendChild(it);
+                kept++;
+              });
+              if (kept > 0) {
+                grid.innerHTML = '';
+                grid.appendChild(frag);
+              }
+            })
+            .catch(function() {});
+        })();
+      </script>
+    {%- endif -%}
   </div>
 </section>
 
