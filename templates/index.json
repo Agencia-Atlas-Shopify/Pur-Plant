@@ -69,6 +69,67 @@
         "button_text_color": "0 0 0"
       }
     },
+    "pp_hero_slider_UVW76A": {
+      "type": "pp-hero-slider",
+      "blocks": {
+        "slide_c3LgrA": {
+          "type": "slide",
+          "settings": {
+            "image_desktop": "shopify://shop_images/rebajas_pur_plant.jpg",
+            "image_mobile": "shopify://shop_images/rebajas_pur_plant.jpg",
+            "subheading": "",
+            "heading": "REBAJAS",
+            "subtitle": "",
+            "content_position": "bottom-left",
+            "button_text": "HASTA 50%",
+            "button_link": "shopify://collections/rebajas",
+            "button_style": "normal",
+            "button_text_2": "",
+            "button_link_2": "",
+            "button_style_2": "inverted",
+            "link": "shopify://pages/summertime",
+            "heading_font": "'Aileron', sans-serif",
+            "heading_size": 0,
+            "heading_size_mobile": 0,
+            "heading_weight": "default",
+            "heading_color": "",
+            "subheading_font": "default",
+            "subheading_size": 0,
+            "subheading_size_mobile": 0,
+            "subheading_weight": "default",
+            "subheading_color": "",
+            "btn_font": "default",
+            "btn_size": 0,
+            "btn_weight": "default",
+            "btn_bg_color": "",
+            "btn_text_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_c3LgrA"
+      ],
+      "disabled": true,
+      "name": "PP Hero Slider REBAJAS",
+      "settings": {
+        "enable_transparent_header": false,
+        "full_height_mobile": false,
+        "height_mobile": 400,
+        "full_height_desktop": false,
+        "height_desktop": 670,
+        "autoplay": false,
+        "autoplay_speed": 5,
+        "show_dots": false,
+        "show_arrows": false,
+        "content_max_width": 600,
+        "overlay_opacity": 0,
+        "overlay_direction": "to top",
+        "background_color": "0 0 0",
+        "text_color": "255 255 255",
+        "button_background": "255 255 255",
+        "button_text_color": "0 0 0"
+      }
+    },
     "pp_hero_slider_wX8GrT": {
       "type": "pp-hero-slider",
       "blocks": {
@@ -941,6 +1002,7 @@
   },
   "order": [
     "pp_hero_slider_w3E8ht",
+    "pp_hero_slider_UVW76A",
     "pp_hero_slider_wX8GrT",
     "pp_hero_slider_VGBDPT",
     "pp_hero_slider_RBqrkx",
