@@ -155,13 +155,19 @@
             {%- endif -%}
           {%- endfor -%}
 
-          {%- comment -%} Render product card {%- endcomment -%}
-          <div class="pp-collection__item">
-            {%- render 'pp-product-card-standalone',
-              product: product,
-              image_ratio: section.settings.image_ratio
-            -%}
-          </div>
+          {%- comment -%}
+            Render product card (Evelin 25jun pt.4.2: no mostrar sold-outs).
+            Los blocks/banners en esa posición sí se siguen renderizando arriba,
+            solo el card de producto se omite si product.available == false.
+          {%- endcomment -%}
+          {%- if product.available -%}
+            <div class="pp-collection__item">
+              {%- render 'pp-product-card-standalone',
+                product: product,
+                image_ratio: section.settings.image_ratio
+              -%}
+            </div>
+          {%- endif -%}
         {%- endfor -%}
 
         {%- comment -%} Blocks after last product {%- endcomment -%}
