@@ -59,7 +59,7 @@
         "accordion_descripcion": {
           "type": "accordion",
           "settings": {
-            "heading": "DESCRIPCI\u00d3N",
+            "heading": "DESCRIPCIÓN",
             "content_source": "description",
             "custom_content": "",
             "metafield_key": "",
@@ -103,9 +103,9 @@
         "accordion_envios": {
           "type": "accordion",
           "settings": {
-            "heading": "ENV\u00cdOS",
+            "heading": "ENVÍOS",
             "content_source": "custom",
-            "custom_content": "<p>P\u00eddelo hoy, rec\u00edbelo en 24\u201348h laborales</p><p>Env\u00edo cuidado al detalle: seguro, sostenible y pensado para que llegue perfecto (y a prueba de repartidores)</p><p>\ud83d\udc49 Haz tu pedido hoy y lo tendr\u00e1s en casa antes de lo que esperas.</p><p></p>",
+            "custom_content": "<p>Pídelo hoy, recíbelo en 24–48h laborales</p><p>Envío cuidado al detalle: seguro, sostenible y pensado para que llegue perfecto (y a prueba de repartidores)</p><p>👉 Haz tu pedido hoy y lo tendrás en casa antes de lo que esperas.</p><p></p>",
             "metafield_key": "",
             "video_url": "https://youtu.be/P9bTqV43Qz4?si=TfX_cJk2ePr6Ff0l",
             "open_by_default": false
@@ -149,7 +149,7 @@
         "buy": {
           "type": "buy_button",
           "settings": {
-            "button_text": "A\u00f1adir",
+            "button_text": "Añadir",
             "show_quantity": false,
             "show_dynamic_checkout": true
           }
@@ -194,7 +194,7 @@
         "recommended_source": "metafield",
         "recommended_title": "",
         "shipping_bottom_image1": "shopify://shop_images/mistery-planta-ilustracion-24x24.png",
-        "shipping_bottom_line1": "REC\u00cdBE TU PEDIDO EN 24/48H",
+        "shipping_bottom_line1": "RECÍBE TU PEDIDO EN 24/48H",
         "shipping_bottom_line2": ""
       }
     },
@@ -206,7 +206,11 @@
         "image_ratio": "portrait-tall",
         "padding_top": 48,
         "padding_bottom": 48,
-        "intent": "complementary"
+        "intent": "complementary",
+        "coll_macetas_source": "macetas-artesanales",
+        "coll_plantas_source": "plantas-interior",
+        "coll_plantas_terrarios": "plantas-terrario",
+        "match_range_cm": 5
       }
     },
     "pp_recently_viewed_nYDbpx": {
@@ -222,7 +226,7 @@
       "settings": {
         "heading": "PUR PLANT ES LA MARCA QUE CREE EN EL PODER DE LAS PLANTAS",
         "subheading": "",
-        "button_label": "M\u00e1s sobre Nosotrxs",
+        "button_label": "Más sobre Nosotrxs",
         "button_link": "",
         "video": "shopify://files/videos/AQOYR48pAnCzNSJNqSnEF1YV7AQeL3FpyeUXK5KePf-Rcvq0eghIzLiJwQ-QtUmibBTOfxZntikszfPpB3BiJgALVvi7X8eCgDk8MVY.mp4",
         "video_url": "",
@@ -242,7 +246,7 @@
           "type": "badge",
           "settings": {
             "icon": "shopify://shop_images/ilustracion_envios_pur_plant.png",
-            "title": "ENV\u00cdOS R\u00c1PIDOS Y SEGUROS",
+            "title": "ENVÍOS RÁPIDOS Y SEGUROS",
             "description": ""
           }
         },
@@ -269,7 +273,7 @@
         "badge_3"
       ],
       "settings": {
-        "heading": "POR QU\u00c9 COMPRAR EN PUR PLANT",
+        "heading": "POR QUÉ COMPRAR EN PUR PLANT",
         "padding_top": 100,
         "padding_bottom": 52,
         "icon_size": 310
@@ -331,12 +335,16 @@
     "explora_coleccion": {
       "type": "pp-product-recommendations",
       "settings": {
-        "heading": "EXPLORA LA COLECCI\u00d3N",
+        "heading": "EXPLORA LA COLECCIÓN",
         "intent": "related",
         "max_products": 4,
         "image_ratio": "portrait-tall",
         "padding_top": 48,
-        "padding_bottom": 48
+        "padding_bottom": 48,
+        "coll_macetas_source": "macetas-artesanales",
+        "coll_plantas_source": "plantas-interior",
+        "coll_plantas_terrarios": "plantas-terrario",
+        "match_range_cm": 5
       }
     }
   },
