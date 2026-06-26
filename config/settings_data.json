@@ -150,36 +150,6 @@
         "disabled": false,
         "settings": {}
       },
-      "9652119864611087242": {
-        "type": "shopify://apps/planet-discounts-upsells/blocks/widgets/7760a1dc-aa67-41be-af44-a96da1e75b18",
-        "disabled": false,
-        "settings": {
-          "formSelector": "form:has([name='id']):has(button[type='submit'])",
-          "buttonSelector": "button[type='submit']",
-          "freeGiftVersion": "v2",
-          "modalHeaderText": "Select an alternative",
-          "modalButtonText": "Select",
-          "upsellPopupEnabled": false,
-          "upsellPopupKeepOpenedInEditor": false,
-          "upsellPopupFormSelector": "form[action*=\"/cart/add\"]:has(button)",
-          "upsellPopupTitle": "Complete your order",
-          "upsellPopupSkipText": "Open cart",
-          "upsellPopupAddText": "Add to cart",
-          "upsellPopupAddedMessageSingular": "Product added to the cart",
-          "upsellPopupAddedMessagePlural": "{quantity} Products added to the cart",
-          "upsellPopupDiscountLabelText": "Save {discount}",
-          "upsellPopupMaxProducts": 10,
-          "upsellPopupCompareAtPrice": "ORIGINAL",
-          "upsellPopupHideProductsInCart": true,
-          "upsellPopupPreventSameProductMultipleTimes": false,
-          "upsellPopupButtonCorners": 6,
-          "upsellPopupImageCorners": 6,
-          "upsellPopupTextsColor": "#000000",
-          "upsellPopupButtonsTextColor": "#ffffff",
-          "upsellPopupButtonsBackgroundColor": "#000000",
-          "upsellPopupDiscountedPriceColor": "#de242b"
-        }
-      },
       "8962992520437913685": {
         "type": "shopify://apps/yotpo-loyalty-rewards/blocks/loader-app-embed-block/2f9660df-5018-4e02-9868-ee1fb88d6ccd",
         "disabled": false,
@@ -218,6 +188,36 @@
           "smart_cart_css": "",
           "form_action_buttons_selector": "form[action*='/cart/add']:has(button)",
           "link_action_buttons_selector": "a[href$='/cart']"
+        }
+      },
+      "9652119864611087242": {
+        "type": "shopify://apps/planet-discounts-upsells/blocks/widgets/7760a1dc-aa67-41be-af44-a96da1e75b18",
+        "disabled": false,
+        "settings": {
+          "formSelector": "form:has([name='id']):has(button[type='submit'])",
+          "buttonSelector": "button[type='submit']",
+          "freeGiftVersion": "none",
+          "modalHeaderText": "Select an alternative",
+          "modalButtonText": "Select",
+          "upsellPopupEnabled": false,
+          "upsellPopupKeepOpenedInEditor": false,
+          "upsellPopupFormSelector": "form[action*=\"/cart/add\"]:has(button)",
+          "upsellPopupTitle": "Complete your order",
+          "upsellPopupSkipText": "Open cart",
+          "upsellPopupAddText": "Add to cart",
+          "upsellPopupAddedMessageSingular": "Product added to the cart",
+          "upsellPopupAddedMessagePlural": "{quantity} Products added to the cart",
+          "upsellPopupDiscountLabelText": "Save {discount}",
+          "upsellPopupMaxProducts": 10,
+          "upsellPopupCompareAtPrice": "ORIGINAL",
+          "upsellPopupHideProductsInCart": true,
+          "upsellPopupPreventSameProductMultipleTimes": false,
+          "upsellPopupButtonCorners": 6,
+          "upsellPopupImageCorners": 6,
+          "upsellPopupTextsColor": "#000000",
+          "upsellPopupButtonsTextColor": "#ffffff",
+          "upsellPopupButtonsBackgroundColor": "#000000",
+          "upsellPopupDiscountedPriceColor": "#de242b"
         }
       }
     },
