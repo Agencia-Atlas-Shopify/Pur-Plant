@@ -805,6 +805,8 @@ a.pp-pdp__acerca-tag--link:hover {
   margin-top: 4px;
   font-family: var(--pp-font-body);
 }
+/* Atributo hidden debe ganar al display:flex (Evelin 26jun) */
+.pp-pdp__total[hidden] { display: none !important; }
 
 .pp-pdp__total-label {
   font-size: 22px;
