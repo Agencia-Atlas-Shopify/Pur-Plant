@@ -11,6 +11,9 @@
   "markets": {
     "portugal": {
       "parent": "@default"
+    },
+    "es": {
+      "parent": "@default"
     }
   }
 }
