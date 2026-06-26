@@ -796,6 +796,70 @@
     qtyInput.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
+  /* ----------------------------------------------------------
+     5b. Routine card ATC ("+" button on cross-sell items)
+     Delegado a document — independiente del handler de
+     pp-product-card-standalone (que solo se carga si las
+     secciones MEJOR CON / EXPLORA renderizan productos).
+  ---------------------------------------------------------- */
+
+  function initRoutineAddToCart() {
+    if (window.__ppRoutineAtcBound) return;
+    window.__ppRoutineAtcBound = true;
+
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest('.pp-pdp__routine-add[data-pp-add-to-cart]');
+      if (!btn || btn.classList.contains('is-loading')) return;
+      e.preventDefault();
+      e.stopPropagation();
+
+      var variantId = parseInt(btn.dataset.variantId, 10);
+      if (!variantId) return;
+
+      var original = btn.textContent;
+      btn.classList.add('is-loading');
+      btn.disabled = true;
+
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ id: variantId, quantity: 1 })
+      })
+      .then(function (r) {
+        if (!r.ok) return r.json().then(function (d) { throw new Error(d.description || d.message || 'add failed'); });
+        return r.json();
+      })
+      .then(function () {
+        btn.classList.remove('is-loading');
+        btn.classList.add('is-added');
+        btn.textContent = '✓';
+        if (typeof window.ppRefreshCartDrawer === 'function') {
+          try { window.ppRefreshCartDrawer({ open: true }); } catch (e) {}
+        }
+        fetch('/cart.js', { credentials: 'same-origin' })
+          .then(function (r) { return r.json(); })
+          .then(function (c) {
+            document.querySelectorAll('.pp-header__cart-count, [data-cart-count]').forEach(function (el) {
+              el.textContent = c.item_count;
+            });
+            document.dispatchEvent(new CustomEvent('cart:update', { bubbles: true, detail: { sourceId: 'pp-pdp-routine' } }));
+          })
+          .catch(function () {});
+        setTimeout(function () {
+          btn.classList.remove('is-added');
+          btn.textContent = original;
+          btn.disabled = false;
+        }, 1500);
+      })
+      .catch(function (err) {
+        btn.classList.remove('is-loading');
+        btn.textContent = '!';
+        setTimeout(function () { btn.textContent = original; btn.disabled = false; }, 1500);
+        console.error('[pp-pdp routine] add failed:', err);
+      });
+    }, true);
+  }
+
   function initQuantitySelector() {
     if (!pdp) return;
 
@@ -842,6 +906,7 @@
       initMobileDots();
       initAccordions();
       initAddToCart();
+      initRoutineAddToCart();
       initQuantitySelector();
 
       // Set initial active thumb
