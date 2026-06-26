@@ -74,15 +74,31 @@
         assign direct_products = section.settings.cross_fertilizantes
       endif
     elsif intent == 'related'
-      if ptype == 'AUTORRIEGOS' and diam > 0
-        assign algo_source = section.settings.coll_plantas_source
-        assign min_d = diam | minus: match_range
-        assign max_d = diam | plus: match_range
-        assign use_diameter_match = true
+      # EXPLORA por tipo: lista manual gana sobre colección si tiene elementos.
+      if ptype == 'PLANTAS'
+        assign direct_products = section.settings.explora_plantas_list
+        if direct_products == blank or direct_products.size == 0
+          assign direct_products = null
+          assign direct_collection = section.settings.explora_plantas_coll
+        endif
+      elsif ptype == 'MACETAS' or ptype == 'AUTORRIEGOS'
+        assign direct_products = section.settings.explora_cuidados_list
+        if direct_products == blank or direct_products.size == 0
+          assign direct_products = null
+          assign direct_collection = section.settings.explora_cuidados_coll
+        endif
       elsif ptype == 'TERRARIOS'
-        assign direct_collection = section.settings.coll_plantas_terrarios
+        assign direct_products = section.settings.explora_terrarios_list
+        if direct_products == blank or direct_products.size == 0
+          assign direct_products = null
+          assign direct_collection = section.settings.explora_terrarios_coll
+        endif
       elsif ptype == 'FERTILIZANTES'
-        assign direct_collection = section.settings.coll_plantas_bestsellers
+        assign direct_products = section.settings.explora_fertilizantes_list
+        if direct_products == blank or direct_products.size == 0
+          assign direct_products = null
+          assign direct_collection = section.settings.explora_fertilizantes_coll
+        endif
       endif
     endif
   endif
@@ -352,18 +368,59 @@
     },
     {
       "type": "header",
+      "content": "Plantas → EXPLORA"
+    },
+    {
+      "type": "product_list",
+      "id": "explora_plantas_list",
+      "label": "EXPLORA Plantas — productos manuales",
+      "limit": 12,
+      "info": "Si lo dejas vacío, se usa la colección de abajo."
+    },
+    {
+      "type": "collection",
+      "id": "explora_plantas_coll",
+      "label": "EXPLORA Plantas — colección fallback",
+      "info": "Sugerencia: cuidados orgánicos. Solo se usa si la lista manual está vacía."
+    },
+    {
+      "type": "header",
+      "content": "Macetas y Autorriegos → EXPLORA"
+    },
+    {
+      "type": "product_list",
+      "id": "explora_cuidados_list",
+      "label": "EXPLORA Cuidados — productos manuales",
+      "limit": 12,
+      "info": "Mostrado en MACETAS y AUTORRIEGOS. Sugerencia: sustratos + fertilizantes + autorriegos."
+    },
+    {
+      "type": "collection",
+      "id": "explora_cuidados_coll",
+      "label": "EXPLORA Cuidados — colección fallback"
+    },
+    {
+      "type": "header",
       "content": "Terrarios"
     },
     {
       "type": "product_list",
       "id": "cross_terrarios",
       "label": "MEJOR CON (cross-sell)",
-      "limit": 8
+      "limit": 8,
+      "info": "Food 50ml + Pulverizador 100ml + Mini Herramientas, etc."
+    },
+    {
+      "type": "product_list",
+      "id": "explora_terrarios_list",
+      "label": "EXPLORA Terrarios — productos manuales",
+      "limit": 12,
+      "info": "Otros terrarios. Si vacío, se usa la colección de abajo."
     },
     {
       "type": "collection",
-      "id": "coll_plantas_terrarios",
-      "label": "EXPLORA (plantas para terrarios)"
+      "id": "explora_terrarios_coll",
+      "label": "EXPLORA Terrarios — colección fallback"
     },
     {
       "type": "header",
@@ -373,12 +430,20 @@
       "type": "product_list",
       "id": "cross_fertilizantes",
       "label": "MEJOR CON (cross-sell)",
-      "limit": 8
+      "limit": 8,
+      "info": "Guantes + Tijeras Poda + Pulverizador, etc."
+    },
+    {
+      "type": "product_list",
+      "id": "explora_fertilizantes_list",
+      "label": "EXPLORA Fertilizantes — productos manuales",
+      "limit": 12,
+      "info": "Otros cuidados / bestsellers. Si vacío, se usa la colección de abajo."
     },
     {
       "type": "collection",
-      "id": "coll_plantas_bestsellers",
-      "label": "EXPLORA (plantas bestsellers)"
+      "id": "explora_fertilizantes_coll",
+      "label": "EXPLORA Fertilizantes — colección fallback"
     },
     {
       "type": "header",
