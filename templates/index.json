@@ -49,6 +49,7 @@
       "block_order": [
         "slide_whPjRL"
       ],
+      "disabled": true,
       "name": "PP Hero Slider Summer",
       "settings": {
         "enable_transparent_header": false,
@@ -87,7 +88,7 @@
             "button_text_2": "",
             "button_link_2": "",
             "button_style_2": "inverted",
-            "link": "shopify://pages/summertime",
+            "link": "shopify://collections/rebajas",
             "heading_font": "'Aileron', sans-serif",
             "heading_size": 0,
             "heading_size_mobile": 0,
@@ -109,7 +110,6 @@
       "block_order": [
         "slide_c3LgrA"
       ],
-      "disabled": true,
       "name": "PP Hero Slider REBAJAS",
       "settings": {
         "enable_transparent_header": false,
