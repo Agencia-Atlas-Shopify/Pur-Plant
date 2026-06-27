@@ -134,7 +134,7 @@
             "heading_color": "",
             "subheading_font": "'Aileron', sans-serif",
             "subheading_size": 36,
-            "subheading_size_mobile": 21,
+            "subheading_size_mobile": 34,
             "subheading_weight": "default",
             "subheading_color": "",
             "btn_font": "default",
@@ -200,7 +200,7 @@
         "banner_4A9G6J": {
           "type": "banner",
           "settings": {
-            "position": 21,
+            "position": 9,
             "width_mobile": 1,
             "width_tablet": 1,
             "width_desktop": 1,
