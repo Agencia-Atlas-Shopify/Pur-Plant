@@ -176,6 +176,27 @@
     "pp_collection_grid": {
       "type": "pp-collection",
       "blocks": {
+        "banner_QktDjN": {
+          "type": "banner",
+          "settings": {
+            "position": 21,
+            "width_mobile": 1,
+            "width_tablet": 1,
+            "width_desktop": 1,
+            "height": "portrait",
+            "image": "shopify://shop_images/rebajas-img-box_1.jpg",
+            "video": "",
+            "title": "",
+            "subtitle": "",
+            "button_text": "",
+            "button_link": "",
+            "link": "",
+            "content_position": "bottom-left",
+            "text_color": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
         "banner_EF9zgk": {
           "type": "banner",
           "settings": {
@@ -219,6 +240,7 @@
         }
       },
       "block_order": [
+        "banner_QktDjN",
         "banner_EF9zgk",
         "banner_4A9G6J"
       ],
