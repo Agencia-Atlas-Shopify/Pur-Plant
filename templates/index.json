@@ -549,7 +549,7 @@
           "type": "video_block",
           "name": "Video Banner Fiesta Primavera",
           "settings": {
-            "position": 9,
+            "position": 21,
             "width_mobile": 1,
             "width_tablet": 1,
             "width_desktop": 1,
@@ -566,13 +566,36 @@
             "overlay_color": "#000000",
             "overlay_opacity": 0
           }
+        },
+        "video_block_xJKjyA": {
+          "type": "video_block",
+          "name": "Video Banner Rebajas",
+          "settings": {
+            "position": 9,
+            "width_mobile": 1,
+            "width_tablet": 1,
+            "width_desktop": 1,
+            "height": "auto",
+            "video": "shopify://files/videos/banner rebajas.mp4",
+            "video_url": "shopify://collections/rebajas",
+            "title": "",
+            "subtitle": "",
+            "button_text": "",
+            "button_link": "",
+            "link": "shopify://collections/rebajas",
+            "content_position": "bottom-left",
+            "text_color": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
         }
       },
       "block_order": [
         "banner_J6Vfaf",
         "banner_GQjiWe",
         "banner_DLmnzn",
-        "video_block_6VPFpT"
+        "video_block_6VPFpT",
+        "video_block_xJKjyA"
       ],
       "name": "PP Featured Grid",
       "settings": {
