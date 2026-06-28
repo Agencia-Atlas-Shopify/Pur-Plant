@@ -202,15 +202,18 @@
       "type": "pp-product-recommendations",
       "settings": {
         "heading": "MEJOR CON",
+        "intent": "complementary",
         "max_products": 4,
         "image_ratio": "portrait-tall",
-        "padding_top": 48,
-        "padding_bottom": 48,
-        "intent": "complementary",
+        "match_range_cm": 5,
         "coll_macetas_source": "macetas-artesanales",
         "coll_plantas_source": "plantas-interior",
-        "coll_plantas_terrarios": "plantas-terrario",
-        "match_range_cm": 5
+        "explora_plantas_coll": "fertilizantes-organicos",
+        "explora_cuidados_coll": "accesorios",
+        "explora_terrarios_coll": "terrarios-marimo",
+        "explora_fertilizantes_coll": "fertilizantes-organicos",
+        "padding_top": 48,
+        "padding_bottom": 48
       }
     },
     "pp_recently_viewed_nYDbpx": {
@@ -339,12 +342,15 @@
         "intent": "related",
         "max_products": 4,
         "image_ratio": "portrait-tall",
-        "padding_top": 48,
-        "padding_bottom": 48,
+        "match_range_cm": 5,
         "coll_macetas_source": "macetas-artesanales",
         "coll_plantas_source": "plantas-interior",
-        "coll_plantas_terrarios": "plantas-terrario",
-        "match_range_cm": 5
+        "explora_plantas_coll": "fertilizantes-organicos",
+        "explora_cuidados_coll": "accesorios",
+        "explora_terrarios_coll": "terrarios-marimo",
+        "explora_fertilizantes_coll": "fertilizantes-organicos",
+        "padding_top": 48,
+        "padding_bottom": 48
       }
     }
   },
