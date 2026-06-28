@@ -205,7 +205,56 @@
         "max_products": 4,
         "image_ratio": "portrait-tall",
         "padding_top": 48,
-        "padding_bottom": 48
+        "padding_bottom": 48,
+        "coll_macetas_source": "macetas-artesanales",
+        "coll_plantas_source": "plantas-interior",
+        "match_range_cm": 5,
+        "explora_plantas_coll": "fertilizantes-organicos",
+        "explora_cuidados_coll": "accesorios",
+        "explora_terrarios_coll": "terrarios-marimo",
+        "explora_fertilizantes_coll": "fertilizantes-organicos",
+        "cross_terrarios": [
+          "plant-food",
+          "pulverizador-ambar-negro-100-ml",
+          "kit-herramientas-trasplante-mini-plantas-y-terrarios"
+        ],
+        "cross_fertilizantes": [
+          "guantes-para-limpiar-hojas",
+          "tijeras-de-poda",
+          "pulverizador-ambar-negro-100-ml"
+        ],
+        "explora_plantas_list": [
+          "humus-lombriz-liquido",
+          "plant-food",
+          "jabon-potasico",
+          "makeup-plantas-aceite-neem",
+          "humus-de-lombriz-3l",
+          "fertilizante-organico-500gr"
+        ],
+        "explora_cuidados_list": [
+          "sustrato-plantas-interior",
+          "humus-lombriz-liquido",
+          "tubo-de-auto-riego-para-plantas-colgantes",
+          "sustrato-organico-acidofilas-y-flores-3l",
+          "plant-food",
+          "autorriego-macetas-grandes"
+        ],
+        "explora_terrarios_list": [
+          "with-love-terrario-hoya-kerrii",
+          "botanic-terrario-ficus-microcarpa",
+          "terrario-ovo-fittonias-mix",
+          "kit-terrario-ovo-diy",
+          "valley-terrario-fittonias-mix",
+          "kit-terrario-diy"
+        ],
+        "explora_fertilizantes_list": [
+          "humus-lombriz-liquido",
+          "plant-food",
+          "jabon-potasico",
+          "makeup-plantas-aceite-neem",
+          "humus-de-lombriz-3l",
+          "fertilizante-organico-500gr"
+        ]
       }
     },
     "pp_recently_viewed_nYDbpx": {
@@ -334,7 +383,56 @@
         "max_products": 4,
         "image_ratio": "portrait-tall",
         "padding_top": 48,
-        "padding_bottom": 48
+        "padding_bottom": 48,
+        "coll_macetas_source": "macetas-artesanales",
+        "coll_plantas_source": "plantas-interior",
+        "match_range_cm": 5,
+        "explora_plantas_coll": "fertilizantes-organicos",
+        "explora_cuidados_coll": "accesorios",
+        "explora_terrarios_coll": "terrarios-marimo",
+        "explora_fertilizantes_coll": "fertilizantes-organicos",
+        "cross_terrarios": [
+          "plant-food",
+          "pulverizador-ambar-negro-100-ml",
+          "kit-herramientas-trasplante-mini-plantas-y-terrarios"
+        ],
+        "cross_fertilizantes": [
+          "guantes-para-limpiar-hojas",
+          "tijeras-de-poda",
+          "pulverizador-ambar-negro-100-ml"
+        ],
+        "explora_plantas_list": [
+          "humus-lombriz-liquido",
+          "plant-food",
+          "jabon-potasico",
+          "makeup-plantas-aceite-neem",
+          "humus-de-lombriz-3l",
+          "fertilizante-organico-500gr"
+        ],
+        "explora_cuidados_list": [
+          "sustrato-plantas-interior",
+          "humus-lombriz-liquido",
+          "tubo-de-auto-riego-para-plantas-colgantes",
+          "sustrato-organico-acidofilas-y-flores-3l",
+          "plant-food",
+          "autorriego-macetas-grandes"
+        ],
+        "explora_terrarios_list": [
+          "with-love-terrario-hoya-kerrii",
+          "botanic-terrario-ficus-microcarpa",
+          "terrario-ovo-fittonias-mix",
+          "kit-terrario-ovo-diy",
+          "valley-terrario-fittonias-mix",
+          "kit-terrario-diy"
+        ],
+        "explora_fertilizantes_list": [
+          "humus-lombriz-liquido",
+          "plant-food",
+          "jabon-potasico",
+          "makeup-plantas-aceite-neem",
+          "humus-de-lombriz-3l",
+          "fertilizante-organico-500gr"
+        ]
       }
     }
   },
