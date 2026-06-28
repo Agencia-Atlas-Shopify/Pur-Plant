@@ -254,7 +254,8 @@
           "makeup-plantas-aceite-neem",
           "humus-de-lombriz-3l",
           "fertilizante-organico-500gr"
-        ]
+        ],
+        "intent": "complementary"
       }
     },
     "pp_recently_viewed_nYDbpx": {
@@ -432,7 +433,8 @@
           "makeup-plantas-aceite-neem",
           "humus-de-lombriz-3l",
           "fertilizante-organico-500gr"
-        ]
+        ],
+        "intent": "related"
       }
     }
   },
