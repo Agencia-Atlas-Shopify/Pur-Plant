@@ -1,16 +1,39 @@
 {{ 'pp-sections.css' | asset_url | stylesheet_tag }}
 
 {%- comment -%}
-  PP Recommendations (Evelin 25jun pt.4.2).
-  Prioridad por intent (override manual via metacampo del producto):
-    - complementary (MEJOR CON):     product.metafields.custom.mejor_con.value
-    - related      (EXPLORA COLECC.): product.metafields.custom.explora_la_coleccion.value.products
-  Si el metacampo está vacío → fallback a Shopify Recommendations API (intent=*).
-  Filtro stock: descarta productos sin disponibilidad (rec.available == false).
+  PP Recommendations — Reglas dinámicas por product.type + diametro_maceta_cm
+  ---------------------------------------------------------------------------
+  Prioridad:
+    1. Override manual desde metacampo del producto:
+       - intent=complementary → product.metafields.custom.mejor_con
+       - intent=related       → product.metafields.custom.explora_la_coleccion
+    2. Regla algorítmica por product.type + intent (ver tabla abajo).
+    3. Fallback Shopify Recommendations API.
+
+  Reglas algorítmicas (intent=complementary → MEJOR CON):
+    - PLANTAS  + diametro D → macetas con diametro ∈ [D, D+R]
+    - MACETAS  + diametro D → plantas con diametro ∈ [D-R, D]
+    - AUTORRIEGOS + diametro D → macetas con diametro ∈ [D-2, D+2]
+    - TERRARIOS    → settings.cross_terrarios (manual)
+    - FERTILIZANTES → settings.cross_fertilizantes (manual)
+
+  Reglas algorítmicas (intent=related → EXPLORA / segunda fila):
+    - AUTORRIEGOS + diametro D → plantas con diametro ∈ [D-R, D+R]
+    - TERRARIOS    → settings.coll_plantas_terrarios
+    - FERTILIZANTES → settings.coll_plantas_bestsellers
+    - PLANTAS/MACETAS → fallback API related
+
+  R = section.settings.match_range_cm (default 5).
+  Stock filter aplicado SIEMPRE: descarta rec.available == false.
 {%- endcomment -%}
+
 {%- liquid
   assign intent = section.settings.intent | default: 'related'
   assign limit = section.settings.max_products | default: 4
+  assign match_range = section.settings.match_range_cm | default: 5
+  assign ptype = product.type | upcase | strip
+  assign diam = product.metafields.custom.diametro_maceta_cm | plus: 0
+
   assign manual_products = null
   if intent == 'complementary'
     assign manual_products = product.metafields.custom.mejor_con.value
@@ -18,6 +41,65 @@
     assign explora_coll = product.metafields.custom.explora_la_coleccion.value
     if explora_coll != blank
       assign manual_products = explora_coll.products
+    endif
+  endif
+
+  assign algo_source = null
+  assign min_d = 0
+  assign max_d = 0
+  assign use_diameter_match = false
+  assign direct_products = null
+  assign direct_collection = null
+
+  if manual_products == blank
+    if intent == 'complementary'
+      if ptype == 'PLANTAS' and diam > 0
+        assign algo_source = section.settings.coll_macetas_source
+        assign min_d = diam
+        assign max_d = diam | plus: match_range
+        assign use_diameter_match = true
+      elsif ptype == 'MACETAS' and diam > 0
+        assign algo_source = section.settings.coll_plantas_source
+        assign min_d = diam | minus: match_range
+        assign max_d = diam
+        assign use_diameter_match = true
+      elsif ptype == 'AUTORRIEGOS' and diam > 0
+        assign algo_source = section.settings.coll_macetas_source
+        assign min_d = diam | minus: 2
+        assign max_d = diam | plus: 2
+        assign use_diameter_match = true
+      elsif ptype == 'TERRARIOS'
+        assign direct_products = section.settings.cross_terrarios
+      elsif ptype == 'FERTILIZANTES'
+        assign direct_products = section.settings.cross_fertilizantes
+      endif
+    elsif intent == 'related'
+      # EXPLORA por tipo: lista manual gana sobre colección si tiene elementos.
+      if ptype == 'PLANTAS'
+        assign direct_products = section.settings.explora_plantas_list
+        if direct_products == blank or direct_products.size == 0
+          assign direct_products = null
+          assign direct_collection = section.settings.explora_plantas_coll
+        endif
+      elsif ptype == 'MACETAS' or ptype == 'AUTORRIEGOS'
+        assign direct_products = section.settings.explora_cuidados_list
+        if direct_products == blank or direct_products.size == 0
+          assign direct_products = null
+          assign direct_collection = section.settings.explora_cuidados_coll
+        endif
+      elsif ptype == 'TERRARIOS'
+        assign direct_products = section.settings.explora_terrarios_list
+        if direct_products == blank or direct_products.size == 0
+          assign direct_products = null
+          assign direct_collection = section.settings.explora_terrarios_coll
+        endif
+      elsif ptype == 'FERTILIZANTES'
+        assign direct_products = section.settings.explora_fertilizantes_list
+        if direct_products == blank or direct_products.size == 0
+          assign direct_products = null
+          assign direct_collection = section.settings.explora_fertilizantes_coll
+        endif
+      endif
     endif
   endif
 -%}
@@ -31,38 +113,147 @@
       <h2 class="pp-recommendations__heading">{{ section.settings.heading }}</h2>
     {%- endif -%}
 
-    <div class="pp-recommendations__grid" id="pp-recs-grid-{{ section.id }}" data-product-id="{{ product.id }}" data-section-id="{{ section.id }}" data-limit="{{ limit }}" data-intent="{{ intent }}">
-      {%- if manual_products != blank and manual_products.size > 0 -%}
-        {%- comment -%} Override manual desde metacampo {%- endcomment -%}
-        {%- assign rendered = 0 -%}
-        {%- for rec_product in manual_products -%}
-          {%- if rec_product.id == product.id -%}{%- continue -%}{%- endif -%}
-          {%- unless rec_product.available -%}{%- continue -%}{%- endunless -%}
-          {%- if rendered >= limit -%}{%- break -%}{%- endif -%}
-          <div class="pp-recommendations__item">
-            {%- render 'pp-product-card-standalone', product: rec_product, image_ratio: section.settings.image_ratio -%}
-          </div>
-          {%- assign rendered = rendered | plus: 1 -%}
-        {%- endfor -%}
-      {%- elsif recommendations.performed and recommendations.products.size > 0 -%}
-        {%- comment -%} Fallback Shopify API por intent + filtro stock {%- endcomment -%}
-        {%- assign rendered = 0 -%}
-        {%- for rec_product in recommendations.products -%}
-          {%- unless rec_product.available -%}{%- continue -%}{%- endunless -%}
-          {%- if rendered >= limit -%}{%- break -%}{%- endif -%}
-          <div class="pp-recommendations__item">
-            {%- render 'pp-product-card-standalone', product: rec_product, image_ratio: section.settings.image_ratio -%}
-          </div>
-          {%- assign rendered = rendered | plus: 1 -%}
-        {%- endfor -%}
-      {%- endif -%}
+    <div class="pp-recommendations__viewport" id="pp-recs-viewport-{{ section.id }}">
+      <button type="button" class="pp-recommendations__nav pp-recommendations__nav--prev" data-pp-recs-prev aria-label="Anterior" hidden>
+        <svg viewBox="0 0 20 35" width="10" height="16" fill="currentColor" aria-hidden="true">
+          <path d="M0.748048 17.3633L19.1328 -6.01032e-08L19.8203 0.726562L2.20508 17.3633L19.8203 34L19.1328 34.7266L0.748048 17.3633Z"/>
+        </svg>
+      </button>
+      <button type="button" class="pp-recommendations__nav pp-recommendations__nav--next" data-pp-recs-next aria-label="Siguiente" hidden>
+        <svg viewBox="0 0 20 35" width="10" height="16" fill="currentColor" aria-hidden="true">
+          <path d="M19.8203 17.3633L1.43555 34.7266L0.748047 34L18.3633 17.3633L0.748047 0.726562L1.43555 0L19.8203 17.3633Z"/>
+        </svg>
+      </button>
+
+      <div class="pp-recommendations__grid" id="pp-recs-grid-{{ section.id }}" data-product-id="{{ product.id }}" data-section-id="{{ section.id }}" data-limit="{{ limit }}" data-intent="{{ intent }}">
+        {%- if manual_products != blank and manual_products.size > 0 -%}
+          {%- comment -%} 1. Override manual desde metacampo del producto {%- endcomment -%}
+          {%- assign rendered = 0 -%}
+          {%- for rec in manual_products -%}
+            {%- if rec.id == product.id -%}{%- continue -%}{%- endif -%}
+            {%- unless rec.available -%}{%- continue -%}{%- endunless -%}
+            {%- if rendered >= limit -%}{%- break -%}{%- endif -%}
+            <div class="pp-recommendations__item">
+              {%- render 'pp-product-card-standalone', product: rec, image_ratio: section.settings.image_ratio -%}
+            </div>
+            {%- assign rendered = rendered | plus: 1 -%}
+          {%- endfor -%}
+
+        {%- elsif use_diameter_match and algo_source != blank -%}
+          {%- comment -%} 2a. Match por diámetro contra colección fuente {%- endcomment -%}
+          {%- assign rendered = 0 -%}
+          {%- for rec in algo_source.products -%}
+            {%- if rec.id == product.id -%}{%- continue -%}{%- endif -%}
+            {%- unless rec.available -%}{%- continue -%}{%- endunless -%}
+            {%- assign rec_diam = rec.metafields.custom.diametro_maceta_cm | plus: 0 -%}
+            {%- if rec_diam <= 0 -%}{%- continue -%}{%- endif -%}
+            {%- if rec_diam < min_d -%}{%- continue -%}{%- endif -%}
+            {%- if rec_diam > max_d -%}{%- continue -%}{%- endif -%}
+            {%- if rendered >= limit -%}{%- break -%}{%- endif -%}
+            <div class="pp-recommendations__item">
+              {%- render 'pp-product-card-standalone', product: rec, image_ratio: section.settings.image_ratio -%}
+            </div>
+            {%- assign rendered = rendered | plus: 1 -%}
+          {%- endfor -%}
+
+        {%- elsif direct_products != blank and direct_products.size > 0 -%}
+          {%- comment -%} 2b. Lista directa (settings: cross_terrarios / cross_fertilizantes) {%- endcomment -%}
+          {%- assign rendered = 0 -%}
+          {%- for rec in direct_products -%}
+            {%- if rec.id == product.id -%}{%- continue -%}{%- endif -%}
+            {%- unless rec.available -%}{%- continue -%}{%- endunless -%}
+            {%- if rendered >= limit -%}{%- break -%}{%- endif -%}
+            <div class="pp-recommendations__item">
+              {%- render 'pp-product-card-standalone', product: rec, image_ratio: section.settings.image_ratio -%}
+            </div>
+            {%- assign rendered = rendered | plus: 1 -%}
+          {%- endfor -%}
+
+        {%- elsif direct_collection != blank -%}
+          {%- comment -%} 2c. Colección directa (settings: coll_plantas_terrarios / coll_plantas_bestsellers) {%- endcomment -%}
+          {%- assign rendered = 0 -%}
+          {%- for rec in direct_collection.products -%}
+            {%- if rec.id == product.id -%}{%- continue -%}{%- endif -%}
+            {%- unless rec.available -%}{%- continue -%}{%- endunless -%}
+            {%- if rendered >= limit -%}{%- break -%}{%- endif -%}
+            <div class="pp-recommendations__item">
+              {%- render 'pp-product-card-standalone', product: rec, image_ratio: section.settings.image_ratio -%}
+            </div>
+            {%- assign rendered = rendered | plus: 1 -%}
+          {%- endfor -%}
+
+        {%- elsif recommendations.performed and recommendations.products.size > 0 -%}
+          {%- comment -%} 3. Fallback Shopify Recommendations API {%- endcomment -%}
+          {%- assign rendered = 0 -%}
+          {%- for rec in recommendations.products -%}
+            {%- unless rec.available -%}{%- continue -%}{%- endunless -%}
+            {%- if rendered >= limit -%}{%- break -%}{%- endif -%}
+            <div class="pp-recommendations__item">
+              {%- render 'pp-product-card-standalone', product: rec, image_ratio: section.settings.image_ratio -%}
+            </div>
+            {%- assign rendered = rendered | plus: 1 -%}
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
     </div>
 
+    <script>
+      /* Slider nav: flechas prev/next, scroll por step de 1 item, oculta flechas en límites */
+      (function() {
+        var viewport = document.getElementById('pp-recs-viewport-{{ section.id }}');
+        if (!viewport) return;
+        var grid = viewport.querySelector('.pp-recommendations__grid');
+        var prev = viewport.querySelector('[data-pp-recs-prev]');
+        var next = viewport.querySelector('[data-pp-recs-next]');
+        if (!grid || !prev || !next) return;
+
+        function updateNav() {
+          var max = grid.scrollWidth - grid.clientWidth;
+          if (max <= 4) {
+            prev.hidden = true;
+            next.hidden = true;
+            return;
+          }
+          prev.hidden = grid.scrollLeft <= 4;
+          next.hidden = grid.scrollLeft >= max - 4;
+        }
+
+        function step(dir) {
+          var item = grid.querySelector('.pp-recommendations__item');
+          var stepSize = item ? (item.offsetWidth + 20) : grid.clientWidth * 0.8;
+          grid.scrollBy({ left: stepSize * dir, behavior: 'smooth' });
+        }
+
+        prev.addEventListener('click', function(){ step(-1); });
+        next.addEventListener('click', function(){ step(1); });
+        grid.addEventListener('scroll', updateNav, { passive: true });
+        window.addEventListener('resize', updateNav);
+
+        updateNav();
+        setTimeout(updateNav, 100);
+        setTimeout(updateNav, 800);
+        setTimeout(updateNav, 2000);
+        new MutationObserver(updateNav).observe(grid, { childList: true });
+      })();
+    </script>
+
     {%- comment -%}
-      JS fallback async cuando el grid está vacío (sólo aplica si NO hay
-      manual_products configurado, porque ese render es síncrono server-side).
+      JS fallback async: solo si NO hay match efectivo en server-side.
+      Casos cubiertos:
+        - manual vacío + ninguna regla aplicó
+        - regla diametro_match pero algo_source no configurado en settings
+        - directos blank/sin elementos
+      Llama a Shopify Recommendations API y filtra sold-outs en cliente.
     {%- endcomment -%}
+    {%- assign needs_async_fallback = false -%}
     {%- if manual_products == blank -%}
+      {%- if use_diameter_match == false and direct_products == blank and direct_collection == blank -%}
+        {%- assign needs_async_fallback = true -%}
+      {%- elsif use_diameter_match and algo_source == blank -%}
+        {%- assign needs_async_fallback = true -%}
+      {%- endif -%}
+    {%- endif -%}
+    {%- if needs_async_fallback -%}
       <script>
         (function() {
           var grid = document.getElementById('pp-recs-grid-{{ section.id }}');
@@ -73,7 +264,6 @@
           var intent = grid.dataset.intent || 'related';
           if (!productId) return;
 
-          // Pedimos 2x el límite para tener margen al filtrar sold-outs en cliente.
           var url = '/recommendations/products?product_id=' + productId + '&limit=' + (limit * 2) + '&section_id=' + sectionId + '&intent=' + intent;
           fetch(url)
             .then(function(r) { return r.text(); })
@@ -87,7 +277,6 @@
               var frag = document.createDocumentFragment();
               items.forEach(function(it) {
                 if (kept >= limit) return;
-                // Filtrar sold-out: card standalone marca con .pp-badge--sold-out (VUELVE PRONTO)
                 if (it.querySelector('.pp-badge--sold-out')) return;
                 frag.appendChild(it);
                 kept++;
@@ -120,10 +309,10 @@
       "type": "select",
       "id": "intent",
       "label": "Tipo de recomendación",
-      "info": "related = misma familia/colección; complementary = accesorios/cross-sell",
+      "info": "complementary = MEJOR CON (cross-sell); related = EXPLORA / plantas relacionadas",
       "options": [
-        { "value": "related", "label": "Related (misma colección)" },
-        { "value": "complementary", "label": "Complementary (cross-sell)" }
+        { "value": "related", "label": "Related (EXPLORA / plantas relacionadas)" },
+        { "value": "complementary", "label": "Complementary (MEJOR CON / cross-sell)" }
       ],
       "default": "related"
     },
@@ -146,6 +335,119 @@
         { "value": "square", "label": "Square (1:1)" }
       ],
       "default": "portrait-tall"
+    },
+    {
+      "type": "header",
+      "content": "Reglas por tipo de producto"
+    },
+    {
+      "type": "paragraph",
+      "content": "Las reglas se aplican automáticamente según product.type. Si el producto tiene custom.mejor_con o custom.explora_la_coleccion, ese override gana."
+    },
+    {
+      "type": "range",
+      "id": "match_range_cm",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "cm",
+      "label": "Rango ± diámetro maceta (cm)",
+      "default": 5
+    },
+    {
+      "type": "collection",
+      "id": "coll_macetas_source",
+      "label": "Fuente: Macetas",
+      "info": "Colección master de macetas para el match por diámetro (Plantas/Autorriegos)"
+    },
+    {
+      "type": "collection",
+      "id": "coll_plantas_source",
+      "label": "Fuente: Plantas",
+      "info": "Colección master de plantas para el match por diámetro (Macetas/Autorriegos)"
+    },
+    {
+      "type": "header",
+      "content": "Plantas → EXPLORA"
+    },
+    {
+      "type": "product_list",
+      "id": "explora_plantas_list",
+      "label": "EXPLORA Plantas — productos manuales",
+      "limit": 12,
+      "info": "Si lo dejas vacío, se usa la colección de abajo."
+    },
+    {
+      "type": "collection",
+      "id": "explora_plantas_coll",
+      "label": "EXPLORA Plantas — colección fallback",
+      "info": "Sugerencia: cuidados orgánicos. Solo se usa si la lista manual está vacía."
+    },
+    {
+      "type": "header",
+      "content": "Macetas y Autorriegos → EXPLORA"
+    },
+    {
+      "type": "product_list",
+      "id": "explora_cuidados_list",
+      "label": "EXPLORA Cuidados — productos manuales",
+      "limit": 12,
+      "info": "Mostrado en MACETAS y AUTORRIEGOS. Sugerencia: sustratos + fertilizantes + autorriegos."
+    },
+    {
+      "type": "collection",
+      "id": "explora_cuidados_coll",
+      "label": "EXPLORA Cuidados — colección fallback"
+    },
+    {
+      "type": "header",
+      "content": "Terrarios"
+    },
+    {
+      "type": "product_list",
+      "id": "cross_terrarios",
+      "label": "MEJOR CON (cross-sell)",
+      "limit": 8,
+      "info": "Food 50ml + Pulverizador 100ml + Mini Herramientas, etc."
+    },
+    {
+      "type": "product_list",
+      "id": "explora_terrarios_list",
+      "label": "EXPLORA Terrarios — productos manuales",
+      "limit": 12,
+      "info": "Otros terrarios. Si vacío, se usa la colección de abajo."
+    },
+    {
+      "type": "collection",
+      "id": "explora_terrarios_coll",
+      "label": "EXPLORA Terrarios — colección fallback"
+    },
+    {
+      "type": "header",
+      "content": "Fertilizantes e insecticidas"
+    },
+    {
+      "type": "product_list",
+      "id": "cross_fertilizantes",
+      "label": "MEJOR CON (cross-sell)",
+      "limit": 8,
+      "info": "Guantes + Tijeras Poda + Pulverizador, etc."
+    },
+    {
+      "type": "product_list",
+      "id": "explora_fertilizantes_list",
+      "label": "EXPLORA Fertilizantes — productos manuales",
+      "limit": 12,
+      "info": "Otros cuidados / bestsellers. Si vacío, se usa la colección de abajo."
+    },
+    {
+      "type": "collection",
+      "id": "explora_fertilizantes_coll",
+      "label": "EXPLORA Fertilizantes — colección fallback"
+    },
+    {
+      "type": "header",
+      "content": "Espaciado"
     },
     {
       "type": "range",
