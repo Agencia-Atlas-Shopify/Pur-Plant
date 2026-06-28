@@ -213,7 +213,49 @@
         "explora_terrarios_coll": "terrarios-marimo",
         "explora_fertilizantes_coll": "fertilizantes-organicos",
         "padding_top": 48,
-        "padding_bottom": 48
+        "padding_bottom": 48,
+        "cross_terrarios": [
+          "gid://shopify/Product/15620990730572",
+          "gid://shopify/Product/15621193793868",
+          "gid://shopify/Product/15621221253452"
+        ],
+        "cross_fertilizantes": [
+          "gid://shopify/Product/15621178065228",
+          "gid://shopify/Product/15621178196300",
+          "gid://shopify/Product/15621193793868"
+        ],
+        "explora_plantas_list": [
+          "gid://shopify/Product/15620989321548",
+          "gid://shopify/Product/15620990730572",
+          "gid://shopify/Product/15620990665036",
+          "gid://shopify/Product/15620991025484",
+          "gid://shopify/Product/15620990009676",
+          "gid://shopify/Product/15620989190476"
+        ],
+        "explora_cuidados_list": [
+          "gid://shopify/Product/15620998922572",
+          "gid://shopify/Product/15620989321548",
+          "gid://shopify/Product/15620996858188",
+          "gid://shopify/Product/15621184192844",
+          "gid://shopify/Product/15620990730572",
+          "gid://shopify/Product/15621009047884"
+        ],
+        "explora_terrarios_list": [
+          "gid://shopify/Product/15621072683340",
+          "gid://shopify/Product/15621072879948",
+          "gid://shopify/Product/15621073371468",
+          "gid://shopify/Product/15621077631308",
+          "gid://shopify/Product/15621073043788",
+          "gid://shopify/Product/15621077336396"
+        ],
+        "explora_fertilizantes_list": [
+          "gid://shopify/Product/15620989321548",
+          "gid://shopify/Product/15620990730572",
+          "gid://shopify/Product/15620990665036",
+          "gid://shopify/Product/15620991025484",
+          "gid://shopify/Product/15620990009676",
+          "gid://shopify/Product/15620989190476"
+        ]
       }
     },
     "pp_recently_viewed_nYDbpx": {
@@ -350,7 +392,49 @@
         "explora_terrarios_coll": "terrarios-marimo",
         "explora_fertilizantes_coll": "fertilizantes-organicos",
         "padding_top": 48,
-        "padding_bottom": 48
+        "padding_bottom": 48,
+        "cross_terrarios": [
+          "gid://shopify/Product/15620990730572",
+          "gid://shopify/Product/15621193793868",
+          "gid://shopify/Product/15621221253452"
+        ],
+        "cross_fertilizantes": [
+          "gid://shopify/Product/15621178065228",
+          "gid://shopify/Product/15621178196300",
+          "gid://shopify/Product/15621193793868"
+        ],
+        "explora_plantas_list": [
+          "gid://shopify/Product/15620989321548",
+          "gid://shopify/Product/15620990730572",
+          "gid://shopify/Product/15620990665036",
+          "gid://shopify/Product/15620991025484",
+          "gid://shopify/Product/15620990009676",
+          "gid://shopify/Product/15620989190476"
+        ],
+        "explora_cuidados_list": [
+          "gid://shopify/Product/15620998922572",
+          "gid://shopify/Product/15620989321548",
+          "gid://shopify/Product/15620996858188",
+          "gid://shopify/Product/15621184192844",
+          "gid://shopify/Product/15620990730572",
+          "gid://shopify/Product/15621009047884"
+        ],
+        "explora_terrarios_list": [
+          "gid://shopify/Product/15621072683340",
+          "gid://shopify/Product/15621072879948",
+          "gid://shopify/Product/15621073371468",
+          "gid://shopify/Product/15621077631308",
+          "gid://shopify/Product/15621073043788",
+          "gid://shopify/Product/15621077336396"
+        ],
+        "explora_fertilizantes_list": [
+          "gid://shopify/Product/15620989321548",
+          "gid://shopify/Product/15620990730572",
+          "gid://shopify/Product/15620990665036",
+          "gid://shopify/Product/15620991025484",
+          "gid://shopify/Product/15620990009676",
+          "gid://shopify/Product/15620989190476"
+        ]
       }
     }
   },
