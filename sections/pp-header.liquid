@@ -136,6 +136,22 @@
           </span>
         </button>
 
+        {%- comment -%}
+          Selector país versión móvil (Evelin 29jun): junto a la hamburguesa.
+          Visible solo en mobile (la versión desktop sigue en secondary-nav).
+        {%- endcomment -%}
+        {%- if localization.available_countries.size > 1 -%}
+          {%- form 'localization', id: 'header-country-form-mobile', class: 'pp-header__country-form pp-header__country-form--mobile' -%}
+            <input type="hidden" name="locale_code" id="pp-header-locale-mobile" value="{{ localization.language.iso_code }}">
+            <label for="pp-header-country-mobile" class="visually-hidden">{{ 'general.country' | t | default: 'País' }}</label>
+            <select id="pp-header-country-mobile" name="country_code" class="pp-header__country-select" data-pp-country-locale-map='{"ES":"es","PT":"pt-PT"}'>
+              {%- for country in localization.available_countries -%}
+                <option value="{{ country.iso_code }}"{% if country.iso_code == localization.country.iso_code %} selected{% endif %}>{{ country.iso_code }}</option>
+              {%- endfor -%}
+            </select>
+          {%- endform -%}
+        {%- endif -%}
+
         {%- comment -%} Desktop nav — hardcoded from PDF reference {%- endcomment -%}
         <ul class="pp-header__desktop-menu mobile:hidden">
           <li class="pp-header__desktop-menu-item">
@@ -187,19 +203,21 @@
                 </select>
               {%- endform -%}
               <script>
-                /* Selector país header: cambiar país también cambia el idioma del market
-                   (ES → es, PT → pt-PT). El locale debe estar publicado en Settings → Languages
-                   para que Shopify lo respete. */
+                /* Selector país header (desktop + mobile): cambiar país también cambia el idioma
+                   del market (ES → es, PT → pt-PT). El locale debe estar publicado en
+                   Settings → Languages para que Shopify lo respete. */
                 (function() {
-                  var sel = document.getElementById('pp-header-country');
-                  if (!sel || !sel.form) return;
-                  var hiddenLocale = sel.form.querySelector('input[name="locale_code"]');
-                  var map = {};
-                  try { map = JSON.parse(sel.dataset.ppCountryLocaleMap || '{}'); } catch (e) {}
-                  sel.addEventListener('change', function() {
-                    var locale = map[sel.value];
-                    if (locale && hiddenLocale) hiddenLocale.value = locale;
-                    sel.form.submit();
+                  var selectors = document.querySelectorAll('select.pp-header__country-select');
+                  selectors.forEach(function (sel) {
+                    if (!sel.form) return;
+                    var hiddenLocale = sel.form.querySelector('input[name="locale_code"]');
+                    var map = {};
+                    try { map = JSON.parse(sel.dataset.ppCountryLocaleMap || '{}'); } catch (e) {}
+                    sel.addEventListener('change', function() {
+                      var locale = map[sel.value];
+                      if (locale && hiddenLocale) hiddenLocale.value = locale;
+                      sel.form.submit();
+                    });
                   });
                 })();
               </script>
@@ -313,6 +331,26 @@
     background-repeat: no-repeat;
   }
   .pp-header__country-select:focus { outline: 1px dotted currentColor; outline-offset: 2px; }
+  /* Evelin 29jun: las opciones del dropdown nativo deben tener fondo verde oscuro
+     para que el texto blanco se lea (Chrome/FF/Edge respetan estos estilos en option;
+     Safari las muestra con su default). */
+  .pp-header__country-select option {
+    background-color: #23372c;
+    color: #ffffff;
+  }
+  /* Selector país en versión móvil: junto a la hamburguesa */
+  .pp-header__country-form--mobile {
+    display: none;
+    margin-left: 6px;
+  }
+  @media (max-width: 989px) {
+    .pp-header__country-form--mobile { display: inline-flex; }
+  }
+  .pp-header__country-form--mobile .pp-header__country-select {
+    font-size: 13px;
+    font-weight: 500;
+    padding: 4px 14px 4px 4px;
+  }
 </style>
 <script>
   (function () {
