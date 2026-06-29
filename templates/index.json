@@ -522,8 +522,8 @@
       ],
       "name": "PP Collection Nav",
       "settings": {
-        "title": "PLANTAS",
-        "view_all_text": "Ver todo",
+        "title": "Plantas Más Vendidas",
+        "view_all_text": "Ver todas",
         "view_all_url": "shopify://collections/plantas",
         "padding_top": 24,
         "padding_bottom": 16
