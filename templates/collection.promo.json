@@ -198,6 +198,7 @@
         },
         "banner_EF9zgk": {
           "type": "banner",
+          "disabled": true,
           "settings": {
             "position": 3,
             "width_mobile": 1,
