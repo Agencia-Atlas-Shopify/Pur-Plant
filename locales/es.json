@@ -346,6 +346,7 @@
     },
     "previous": "Anterior",
     "next": "Siguiente",
-    "go_to_slide": "Ir a la diapositiva {{ index }}"
+    "go_to_slide": "Ir a la diapositiva {{ index }}",
+    "country": "País"
   }
 }

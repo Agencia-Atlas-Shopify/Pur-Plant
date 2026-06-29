@@ -350,6 +350,7 @@
     "next": "Próximo",
     "previous": "Anterior",
     "go_to_slide": "Ir para o slide {{ index }}",
+    "country": "País",
     "pagination": {
       "nav_label": "Paginação",
       "page": "Página {{ current }} / {{ total }}",
