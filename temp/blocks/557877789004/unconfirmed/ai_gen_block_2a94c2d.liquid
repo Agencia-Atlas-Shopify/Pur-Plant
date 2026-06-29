@@ -1,6 +1,116 @@
+{% doc %}
+  @prompt
+    generame un h1 en color blanco
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-heading-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+  }
+
+  .ai-heading-{{ ai_gen_id }} h1 {
+    color: {{ block.settings.heading_color }};
+    margin: 0;
+    font-size: {{ block.settings.font_size }}px;
+    text-align: {{ block.settings.text_align }};
+    line-height: {{ block.settings.line_height }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-heading-{{ ai_gen_id }} h1 {
+      font-size: calc({{ block.settings.font_size }}px * 0.7);
+    }
+  }
+{% endstyle %}
+
+<div class="ai-heading-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <h1>{{ block.settings.heading_text }}</h1>
+</div>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Título H1",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading_text",
+      "label": "Texto del título",
+      "default": "Tu título aquí"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Color del texto",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Tamaño de fuente",
+      "min": 20,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Alineación",
+      "options": [
+        {
+          "value": "left",
+          "label": "Izquierda"
+        },
+        {
+          "value": "center",
+          "label": "Centro"
+        },
+        {
+          "value": "right",
+          "label": "Derecha"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "line_height",
+      "label": "Altura de línea",
+      "options": [
+        {
+          "value": "1",
+          "label": "Compacta"
+        },
+        {
+          "value": "1.2",
+          "label": "Normal"
+        },
+        {
+          "value": "1.5",
+          "label": "Espaciada"
+        }
+      ],
+      "default": "1.2"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Ancho en escritorio",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Título H1"
+    }
+  ]
+}
 {% endschema %}
