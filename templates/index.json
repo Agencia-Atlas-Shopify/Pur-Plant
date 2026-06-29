@@ -411,6 +411,53 @@
         "padding-block-end": 24
       }
     },
+    "17827284476ac98208": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_aae43b1_gpqD9W": {
+          "type": "ai_gen_block_aae43b1",
+          "settings": {
+            "heading": "Comprar plantas online. Envío a domicilio",
+            "text_color": "#FFFFFF",
+            "text_alignment": "center",
+            "font_size": 48,
+            "font_size_mobile": 32,
+            "desktop_width_percent": 100
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_aae43b1_gpqD9W"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
     "pp_collection_nav_zLxaVU": {
       "type": "pp-collection-nav",
       "blocks": {
@@ -1021,6 +1068,64 @@
         "padding-block-start": 0,
         "padding-block-end": 40
       }
+    },
+    "media_with_content_NXjpRA": {
+      "type": "media-with-content",
+      "blocks": {
+        "media": {
+          "type": "_media-without-appearance",
+          "static": true,
+          "settings": {
+            "media_type": "image",
+            "link": "",
+            "video_loop": true,
+            "video_autoplay": false,
+            "image_position": "cover",
+            "video_position": "cover"
+          },
+          "blocks": {}
+        },
+        "content": {
+          "type": "_content-without-appearance",
+          "static": true,
+          "settings": {
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "flex-end",
+            "gap": 24
+          },
+          "blocks": {
+            "jumbo_text_y3bTLT": {
+              "type": "jumbo-text",
+              "name": "t:names.jumbo_text",
+              "settings": {
+                "text": "Sube\nLa\nApuesta",
+                "font": "heading",
+                "alignment": "right",
+                "line_height": "0.8",
+                "letter_spacing": "-0.03em",
+                "case": "uppercase",
+                "text_effect": "none",
+                "animation_repeat": false
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "jumbo_text_y3bTLT"
+          ]
+        }
+      },
+      "name": "t:names.editorial_jumbo_text",
+      "settings": {
+        "media_position": "right",
+        "media_width": "medium",
+        "media_height": "60svh",
+        "section_width": "full-width",
+        "extend_media": true,
+        "color_scheme": "scheme-3",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
     }
   },
   "order": [
@@ -1029,6 +1134,7 @@
     "pp_hero_slider_wX8GrT",
     "pp_hero_slider_VGBDPT",
     "pp_hero_slider_RBqrkx",
+    "17827284476ac98208",
     "cat_nav_pp",
     "pp_collection_nav_zLxaVU",
     "pp_featured_grid_eWihzK",
@@ -1040,6 +1146,7 @@
     "brand_banner_pp",
     "divider_RFBCXX",
     "pp_trustindex_reviews",
-    "hero_nNAq77"
+    "hero_nNAq77",
+    "media_with_content_NXjpRA"
   ]
 }
