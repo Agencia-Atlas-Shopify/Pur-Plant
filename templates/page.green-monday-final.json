@@ -153,7 +153,7 @@
         "heading": "EL PRÓXIMO GREEN MONDAY EMPIEZA EN...",
         "description": "",
         "end_date": "2026-07-06",
-        "end_time": "23:59",
+        "end_time": "00:00",
         "hide_on_end": true,
         "show_progress_bar": true,
         "days_label": "DÍAS",
