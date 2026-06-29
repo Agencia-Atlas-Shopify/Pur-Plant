@@ -177,6 +177,7 @@
       "blocks": {
         "banner_QktDjN": {
           "type": "banner",
+          "disabled": true,
           "settings": {
             "position": 21,
             "width_mobile": 1,
@@ -198,9 +199,8 @@
         },
         "banner_EF9zgk": {
           "type": "banner",
-          "disabled": true,
           "settings": {
-            "position": 3,
+            "position": 21,
             "width_mobile": 1,
             "width_tablet": 1,
             "width_desktop": 1,
