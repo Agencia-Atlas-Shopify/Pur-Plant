@@ -151,9 +151,9 @@
       "settings": {
         "enable_transparent_header": false,
         "full_height_mobile": false,
-        "height_mobile": 500,
+        "height_mobile": 350,
         "full_height_desktop": false,
-        "height_desktop": 610,
+        "height_desktop": 450,
         "autoplay": true,
         "autoplay_speed": 5,
         "show_dots": true,
