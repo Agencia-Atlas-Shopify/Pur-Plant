@@ -4983,15 +4983,15 @@ pp-hero-slider .pp-hero-slider__subtitle {
   font-weight: 950;
 }
 
-/* Botón añadir al carrito - formato cápsula */
-.ai_gen_block_155601d .product-form__submit,
-.ai_gen_block_155601d button[type="submit"] {
+/* Green Monday - botón cápsula */
+#shopify-section-template--29777548771660__1782827590c35cc2e3 .product-form__submit,
+#shopify-section-template--29777548771660__1782827590c35cc2e3 button[type="submit"] {
   border-radius: 9999px !important;
 }
 
-/* Título y precio alineados a la izquierda */
-.ai_gen_block_155601d .card__heading,
-.ai_gen_block_155601d .price {
+/* Green Monday - título y precio a la izquierda */
+#shopify-section-template--29777548771660__1782827590c35cc2e3 .card__heading,
+#shopify-section-template--29777548771660__1782827590c35cc2e3 .price {
   text-align: left !important;
 }
 
