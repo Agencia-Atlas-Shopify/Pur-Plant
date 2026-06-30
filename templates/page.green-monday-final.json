@@ -710,6 +710,7 @@
       "block_order": [
         "ai_gen_block_c49abc1_EaW69H"
       ],
+      "name": "productos cross",
       "settings": {
         "content_direction": "column",
         "vertical_on_mobile": true,
