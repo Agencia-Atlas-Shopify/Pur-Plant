@@ -816,7 +816,7 @@
           "type": "text",
           "settings": {
             "text": "<p>El próximo Green Monday llega el primer lunes de mes. Apúntate y recibe el aviso antes que nadie.</p>",
-            "width": "100%",
+            "width": "fit-content",
             "max_width": "normal",
             "alignment": "center",
             "type_preset": "paragraph",
@@ -832,8 +832,8 @@
             "corner_radius": 0,
             "padding-block-start": 0,
             "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
+            "padding-inline-start": 8,
+            "padding-inline-end": 9
           },
           "blocks": {}
         },
