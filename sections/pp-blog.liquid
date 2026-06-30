@@ -20,7 +20,7 @@
         <a href="/blogs/plantas" class="pp-blog__cat-link{% if blog.handle == 'plantas' %} is-active{% endif %}">
           Todos
         </a>
-        {%- assign blog_handles = 'news,arboles,decoracion,sustratos,fertilizante,insecticidas,permacultura,kokedamas,huerto-urbano,blog' | split: ',' -%}
+        {%- assign blog_handles = 'news,árboles,decoración,sustratos,fertilizante,insecticidas,permacultura,kokedamas,huerto-urbano,blog' | split: ',' -%}
         {%- for handle in blog_handles -%}
           {%- assign b = blogs[handle] -%}
           {%- if b and b.articles_count > 0 -%}
