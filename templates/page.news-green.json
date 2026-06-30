@@ -12,21 +12,69 @@
     "main": {
       "type": "main-page",
       "blocks": {
-        "page-content": {
-          "type": "page-content",
-          "settings": {},
+        "text_xG98Cb": {
+          "type": "text",
+          "name": "t:names.text",
+          "settings": {
+            "text": "<p>Hola <em>Plant Lover, </em>el próximo <strong>GREEN MONDAY </strong>está a punto de llegar. </p><p>El primer lunes de cada mes te espera el Gran Mercado de Plantas con plantas por menos de 1€, 5€ ,10€ y 20€.</p><p>Deja tu correo para acceso anticipado, te desvelamos los detalles👇</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
           "blocks": {}
         },
-        "klaviyo_email_marketing_sms_form_embed_block_PyW4AA": {
+        "klaviyo_email_marketing_sms_form_embed_block_HBzf8i": {
           "type": "shopify://apps/klaviyo-email-marketing-sms/blocks/form-embed-block/2632fe16-c075-4321-a88b-50b567f42507",
           "settings": {
             "formId": "RkNe2P"
           }
+        },
+        "text_T6bJJ8": {
+          "type": "text",
+          "name": "t:names.text",
+          "settings": {
+            "text": "<p>*Si ya estás suscrito a nuestra base de datos o has iniciado sesión, el formulario de registro no será visible ¡No te preocupes! Recibirás la información igualmente.</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
         }
       },
       "block_order": [
-        "page-content",
-        "klaviyo_email_marketing_sms_form_embed_block_PyW4AA"
+        "text_xG98Cb",
+        "klaviyo_email_marketing_sms_form_embed_block_HBzf8i",
+        "text_T6bJJ8"
       ],
       "settings": {
         "content_direction": "column",
