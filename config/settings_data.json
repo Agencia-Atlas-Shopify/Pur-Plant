@@ -106,7 +106,7 @@
     "swym_header_icon_show_count": true,
     "swym_header_icon_custom_html": "",
     "swym_header_icon_count_bubble_html": "",
-    "swym_header_icon_custom_css": "",
+    "swym_header_icon_custom_css": ".klaviyo-form { margin-top: 0 !important; margin-bottom: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; }\n.klaviyo-form-container { margin-top: 0 !important; margin-bottom: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; }\n[data-section-id=\"template--29777548771660__section_xAgFDR\"] { margin-top: 0 !important; margin-bottom: 0 !important; }",
     "swym_header_icon_selector_desktop": ".pp-header__wishlist-link",
     "swym_header_icon_selector_mobile": ".pp-header__wishlist-link",
     "pp_limit_under_1_enabled": true,
