@@ -1,0 +1,91 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "blocks": {
+        "text_xG98Cb": {
+          "type": "text",
+          "name": "t:names.text",
+          "settings": {
+            "text": "<p>Hola <em>Plant Lover, </em>el próximo <strong>GREEN MONDAY </strong>está a punto de llegar. </p><p>El primer lunes de cada mes te espera el Gran Mercado de Plantas con plantas por menos de 1€, 5€ ,10€ y 20€.</p><p>Deja tu correo para acceso anticipado, te desvelamos los detalles👇</p>",
+            "width": "100%",
+            "max_width": "normal",
+            "alignment": "center",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": true,
+            "background_color": "#BCFFDD",
+            "corner_radius": 22,
+            "padding-block-start": 25,
+            "padding-block-end": 25,
+            "padding-inline-start": 20,
+            "padding-inline-end": 20
+          },
+          "blocks": {}
+        },
+        "klaviyo_email_marketing_sms_form_embed_block_HBzf8i": {
+          "type": "shopify://apps/klaviyo-email-marketing-sms/blocks/form-embed-block/2632fe16-c075-4321-a88b-50b567f42507",
+          "settings": {
+            "formId": "RkNe2P"
+          }
+        },
+        "text_T6bJJ8": {
+          "type": "text",
+          "name": "t:names.text",
+          "settings": {
+            "text": "<p>*Si ya estás suscrito a nuestra base de datos o has iniciado sesión, el formulario de registro no será visible ¡No te preocupes! Recibirás la información igualmente.</p>",
+            "width": "100%",
+            "max_width": "normal",
+            "alignment": "center",
+            "type_preset": "custom",
+            "font": "var(--font-body--family)",
+            "font_size": "0.75rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "text_xG98Cb",
+        "klaviyo_email_marketing_sms_form_embed_block_HBzf8i",
+        "text_T6bJJ8"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "gap": 32,
+        "color_scheme": "",
+        "padding-block-start": 40,
+        "padding-block-end": 80
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
