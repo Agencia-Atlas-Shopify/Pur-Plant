@@ -681,63 +681,62 @@
         "padding-block-end": 0
       }
     },
-    "178282669396fb64eb": {
+    "1782827590c35cc2e3": {
       "type": "_blocks",
       "blocks": {
-        "ai_gen_block_c49abc1_EaW69H": {
-          "type": "ai_gen_block_c49abc1",
+        "ai_gen_block_155601d_CzxyDD": {
+          "type": "ai_gen_block_155601d",
           "settings": {
-            "title": "¿Plantas nuevas?",
-            "description": "Un sustrato les sirve a todas.  Dales el mejor comienzo y ayúdalas a crecer. Envío Gratis a partir de 49€",
-            "text_alignment": "center",
+            "title": "¿Plantas Nuevas?",
+            "description": "Un sustrato les sirve a todas. Dales el mejor comienzo y ayúdalas a crecer. Envío Gratis a partir de 49€",
             "product_1": "plant-food",
             "product_2": "sustrato-plantas-interior",
-            "product_3": "mini-maceta-9cm",
-            "product_4": "tubo-de-auto-riego-para-plantas-colgantes",
-            "desktop_width_percent": 100,
-            "grid_gap": 20,
-            "card_border_radius": 0,
-            "background_color": "#ffffff",
-            "card_background_color": "#ffffff",
-            "text_color": "#000000",
-            "price_color": "#23372c",
-            "title_size": 32,
-            "description_size": 16
+            "product_3": "tubo-de-auto-riego-para-plantas-colgantes",
+            "product_4": "mini-maceta-9cm",
+            "product_5": "maceta-terracota-m",
+            "button_text": "Añadir al carrito",
+            "button_bg_color": "#bcffdd",
+            "button_text_color": "#23372c",
+            "button_hover_bg_color": "#70927f",
+            "title_color": "#23372c",
+            "description_color": "#333333",
+            "product_title_color": "#23372c",
+            "product_price_color": "#23372c"
           },
           "blocks": {}
         }
       },
       "block_order": [
-        "ai_gen_block_c49abc1_EaW69H"
+        "ai_gen_block_155601d_CzxyDD"
       ],
       "disabled": true,
-      "name": "productos cross",
+      "name": "cross selling",
       "settings": {
         "content_direction": "column",
         "vertical_on_mobile": true,
         "horizontal_alignment": "flex-start",
         "vertical_alignment": "center",
         "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "center",
+        "horizontal_alignment_flex_direction_column": "flex-start",
         "vertical_alignment_flex_direction_column": "center",
-        "gap": 12,
+        "gap": 20,
         "section_width": "page-width",
         "section_height": "",
         "section_height_custom": 50,
-        "color_scheme": "",
+        "color_scheme": "pp-beige-warm",
         "background_media": "none",
         "video_position": "cover",
         "background_image_position": "cover",
         "border": "none",
         "border_width": 1,
         "border_opacity": 100,
-        "border_radius": 0,
+        "border_radius": 61,
         "toggle_overlay": false,
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 0,
-        "padding-block-end": 0
+        "padding-block-start": 20,
+        "padding-block-end": 20
       }
     },
     "blocks_WCXpU4": {
@@ -904,63 +903,6 @@
         "gradient_direction": "to top",
         "padding-block-start": 9,
         "padding-block-end": 15
-      }
-    },
-    "1782827590c35cc2e3": {
-      "type": "_blocks",
-      "blocks": {
-        "ai_gen_block_155601d_CzxyDD": {
-          "type": "ai_gen_block_155601d",
-          "settings": {
-            "title": "¿Plantas Nuevas?",
-            "description": "Un sustrato les sirve a todas. Dales el mejor comienzo y ayúdalas a crecer. Envío Gratis a partir de 49€",
-            "product_1": "plant-food",
-            "product_2": "sustrato-plantas-interior",
-            "product_3": "tubo-de-auto-riego-para-plantas-colgantes",
-            "product_4": "mini-maceta-9cm",
-            "product_5": "maceta-terracota-m",
-            "button_text": "Añadir al carrito",
-            "button_bg_color": "#bcffdd",
-            "button_text_color": "#23372c",
-            "button_hover_bg_color": "#70927f",
-            "title_color": "#23372c",
-            "description_color": "#666666",
-            "product_title_color": "#23372c",
-            "product_price_color": "#23372c"
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "ai_gen_block_155601d_CzxyDD"
-      ],
-      "name": "cross selling",
-      "settings": {
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 12,
-        "section_width": "page-width",
-        "section_height": "",
-        "section_height_custom": 50,
-        "color_scheme": "scheme-3",
-        "background_media": "none",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 25,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 0,
-        "padding-block-end": 0
       }
     },
     "pp_brand_banner_wyeWPw": {
@@ -1665,10 +1607,9 @@
     "blocks_yrPTJH",
     "pp_featured_grid_dKDFVd",
     "blocks_9AjR7U",
-    "178282669396fb64eb",
+    "1782827590c35cc2e3",
     "blocks_WCXpU4",
     "section_xAgFDR",
-    "1782827590c35cc2e3",
     "pp_brand_banner_wyeWPw",
     "blocks_NR6qMw",
     "collection_list_H4PkiH",
