@@ -4988,5 +4988,22 @@ pp-hero-slider .pp-hero-slider__subtitle {
   border-radius: 9999px !important;
 }
 
+/* Green Monday - título a la izquierda */
+.ai-product-row-product-title-ardfjeu1oamcywwzazaigenblock155601dczxydd {
+  text-align: left !important;
+}
+
+/* Green Monday - precio a la izquierda */
+.ai-product-row-product-price-ardfjeu1oamcywwzazaigenblock155601dczxydd {
+  text-align: left !important;
+}
+
+/* Green Monday - imagen más alta */
+.ai-product-row-image-ardfjeu1oamcywwzazaigenblock155601dczxydd {
+  height: 300px !important;
+  object-fit: cover !important;
+  width: 100% !important;
+}
+
 
 
