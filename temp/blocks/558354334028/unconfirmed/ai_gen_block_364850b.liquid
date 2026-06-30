@@ -1,6 +1,361 @@
+{% doc %}
+  @prompt
+    crea una seccion con titulo en negrita y descripcion justificados a la izquierda, y posiblidad de elegir 5 productos. Los productos deben seguir los estilos del tema, por ejemplo el bloque pp featured grid. Las imagenes tienen formato vertical, y todos tienen boton en formato capsula con borde redondeado para poder añadir al carrito directamente. En pc se ven en una linea y en movil en carrusel
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-product-grid-{{ ai_gen_id }} {
+    width: 100%;
+    display: block;
+  }
+
+  .ai-product-grid-container-{{ ai_gen_id }} {
+    padding: {{ block.settings.section_padding }}px 0;
+  }
+
+  .ai-product-grid-header-{{ ai_gen_id }} {
+    text-align: left;
+    margin-bottom: 32px;
+  }
+
+  .ai-product-grid-title-{{ ai_gen_id }} {
+    font-weight: 700;
+    margin: 0 0 12px 0;
+    color: rgb(var(--color-foreground-heading));
+  }
+
+  .ai-product-grid-description-{{ ai_gen_id }} {
+    margin: 0;
+    color: rgb(var(--color-foreground));
+  }
+
+  .ai-product-grid-products-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+  }
+
+  .ai-product-card-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .ai-product-image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 12px;
+  }
+
+  .ai-product-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .ai-product-card-{{ ai_gen_id }}:hover .ai-product-image-{{ ai_gen_id }} {
+    transform: scale(1.05);
+  }
+
+  .ai-product-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-product-image-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-product-info-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .ai-product-title-{{ ai_gen_id }} {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0;
+    color: rgb(var(--color-foreground-heading));
+  }
+
+  .ai-product-price-{{ ai_gen_id }} {
+    font-size: 14px;
+    color: rgb(var(--color-foreground));
+  }
+
+  .ai-product-atc-button-{{ ai_gen_id }} {
+    margin-top: 8px;
+    padding: 10px 16px;
+    background-color: rgb(var(--color-primary-button-background));
+    color: rgb(var(--color-primary-button-text));
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    width: 100%;
+  }
+
+  .ai-product-atc-button-{{ ai_gen_id }}:hover {
+    background-color: rgb(var(--color-primary-button-hover-background));
+  }
+
+  .ai-product-atc-button-{{ ai_gen_id }}:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-product-grid-products-{{ ai_gen_id }} {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 16px;
+      padding-bottom: 16px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .ai-product-card-{{ ai_gen_id }} {
+      flex: 0 0 70%;
+      scroll-snap-align: start;
+    }
+  }
+
+  @media screen and (min-width: 750px) and (max-width: 989px) {
+    .ai-product-grid-products-{{ ai_gen_id }} {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+{% endstyle %}
+
+<product-grid-{{ ai_gen_id }} class="ai-product-grid-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-product-grid-container-{{ ai_gen_id }}">
+    <div class="ai-product-grid-header-{{ ai_gen_id }}">
+      {% if block.settings.title != blank %}
+        <h2 class="ai-product-grid-title-{{ ai_gen_id }}">{{ block.settings.title }}</h2>
+      {% endif %}
+      {% if block.settings.description != blank %}
+        <div class="ai-product-grid-description-{{ ai_gen_id }}">{{ block.settings.description }}</div>
+      {% endif %}
+    </div>
+
+    <div class="ai-product-grid-products-{{ ai_gen_id }}">
+      {% for i in (1..5) %}
+        {% liquid
+          assign product_key = 'product_' | append: i
+          assign product = block.settings[product_key]
+        %}
+
+        {% if product != blank %}
+          <div class="ai-product-card-{{ ai_gen_id }}">
+            <a href="{{ product.url }}" class="ai-product-image-wrapper-{{ ai_gen_id }}">
+              {% if product.featured_image %}
+                <img
+                  src="{{ product.featured_image | image_url: width: 600 }}"
+                  alt="{{ product.featured_image.alt | escape }}"
+                  class="ai-product-image-{{ ai_gen_id }}"
+                  loading="lazy"
+                  width="600"
+                  height="800"
+                >
+              {% else %}
+                <div class="ai-product-image-placeholder-{{ ai_gen_id }}">
+                  {{ 'product-1' | placeholder_svg_tag }}
+                </div>
+              {% endif %}
+            </a>
+
+            <div class="ai-product-info-{{ ai_gen_id }}">
+              <h3 class="ai-product-title-{{ ai_gen_id }}">
+                <a href="{{ product.url }}">{{ product.title }}</a>
+              </h3>
+              <div class="ai-product-price-{{ ai_gen_id }}">
+                {{ product.price | money }}
+              </div>
+              <button
+                class="ai-product-atc-button-{{ ai_gen_id }}"
+                data-product-id="{{ product.id }}"
+                data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+                {% unless product.available %}disabled{% endunless %}
+              >
+                {% if product.available %}
+                  {{ block.settings.button_text }}
+                {% else %}
+                  Agotado
+                {% endif %}
+              </button>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</product-grid-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class ProductGrid{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.buttons = this.querySelectorAll('.ai-product-atc-button-{{ ai_gen_id }}');
+        this.setupEventListeners();
+      }
+
+      setupEventListeners() {
+        this.buttons.forEach((button) => {
+          button.addEventListener('click', this.handleAddToCart.bind(this));
+        });
+      }
+
+      async handleAddToCart(event) {
+        const button = event.target;
+        const variantId = button.dataset.variantId;
+        
+        if (!variantId || button.disabled) return;
+
+        button.disabled = true;
+        const originalText = button.textContent;
+        button.textContent = 'Añadiendo...';
+
+        try {
+          const response = await fetch('/cart/add.js', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              items: [{
+                id: variantId,
+                quantity: 1
+              }]
+            })
+          });
+
+          if (!response.ok) throw new Error('Error al añadir al carrito');
+
+          button.textContent = '¡Añadido!';
+          
+          setTimeout(() => {
+            button.textContent = originalText;
+            button.disabled = false;
+          }, 2000);
+
+          document.dispatchEvent(new CustomEvent('cart:refresh'));
+          
+          const cartDrawer = document.querySelector('cart-drawer');
+          if (cartDrawer) {
+            cartDrawer.open();
+          }
+
+        } catch (error) {
+          console.error('Error:', error);
+          button.textContent = 'Error';
+          setTimeout(() => {
+            button.textContent = originalText;
+            button.disabled = false;
+          }, 2000);
+        }
+      }
+    }
+
+    customElements.define('product-grid-{{ ai_gen_id }}', ProductGrid{{ ai_gen_id }});
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Cuadrícula de productos",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Contenido"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "Productos destacados"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Descripción"
+    },
+    {
+      "type": "header",
+      "content": "Productos"
+    },
+    {
+      "type": "product",
+      "id": "product_1",
+      "label": "Producto 1"
+    },
+    {
+      "type": "product",
+      "id": "product_2",
+      "label": "Producto 2"
+    },
+    {
+      "type": "product",
+      "id": "product_3",
+      "label": "Producto 3"
+    },
+    {
+      "type": "product",
+      "id": "product_4",
+      "label": "Producto 4"
+    },
+    {
+      "type": "product",
+      "id": "product_5",
+      "label": "Producto 5"
+    },
+    {
+      "type": "header",
+      "content": "Botón"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Texto del botón",
+      "default": "Añadir al carrito"
+    },
+    {
+      "type": "header",
+      "content": "Espaciado"
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "label": "Espaciado vertical",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Cuadrícula de productos"
+    }
+  ]
+}
 {% endschema %}
