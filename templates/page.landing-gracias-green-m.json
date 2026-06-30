@@ -16,7 +16,7 @@
           "type": "text",
           "name": "t:names.text",
           "settings": {
-            "text": "<p>Hola <em>Plant Lover, </em>el próximo <strong>GREEN MONDAY </strong>está a punto de llegar. </p><p>El primer lunes de cada mes te espera el Gran Mercado de Plantas con plantas por menos de 1€, 5€ ,10€ y 20€.</p><p>Deja tu correo para acceso anticipado, te desvelamos los detalles👇</p>",
+            "text": "<h4><strong>Ya estás en la lista ✅</strong></h4><p>Recibirás el aviso del próximo Green Monday antes que nadie.<br/>Mientras tanto, esto te puede interesar:</p>",
             "width": "100%",
             "max_width": "normal",
             "alignment": "center",
@@ -29,7 +29,7 @@
             "wrap": "pretty",
             "color": "var(--color-foreground)",
             "background": true,
-            "background_color": "#BCFFDD",
+            "background_color": "#bcffdd",
             "corner_radius": 22,
             "padding-block-start": 25,
             "padding-block-end": 25,
@@ -37,44 +37,10 @@
             "padding-inline-end": 20
           },
           "blocks": {}
-        },
-        "klaviyo_email_marketing_sms_form_embed_block_HBzf8i": {
-          "type": "shopify://apps/klaviyo-email-marketing-sms/blocks/form-embed-block/2632fe16-c075-4321-a88b-50b567f42507",
-          "settings": {
-            "formId": "RkNe2P"
-          }
-        },
-        "text_T6bJJ8": {
-          "type": "text",
-          "name": "t:names.text",
-          "settings": {
-            "text": "<p>*Si ya estás suscrito a nuestra base de datos o has iniciado sesión, el formulario de registro no será visible ¡No te preocupes! Recibirás la información igualmente.</p>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "center",
-            "type_preset": "custom",
-            "font": "var(--font-body--family)",
-            "font_size": "0.75rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
         }
       },
       "block_order": [
-        "text_xG98Cb",
-        "klaviyo_email_marketing_sms_form_embed_block_HBzf8i",
-        "text_T6bJJ8"
+        "text_xG98Cb"
       ],
       "settings": {
         "content_direction": "column",
@@ -83,9 +49,29 @@
         "padding-block-start": 40,
         "padding-block-end": 80
       }
+    },
+    "pp_brand_banner_XHqzm8": {
+      "type": "pp-brand-banner",
+      "name": "PP Brand Banner",
+      "settings": {
+        "heading": "Únete también al Club Pur Planter\n\n25 puntos solo por registrarte, gratis",
+        "subheading": "",
+        "button_label": "Unirme",
+        "button_link": "shopify://pages/rewards",
+        "video_url": "",
+        "image": "shopify://shop_images/banner_club.jpg",
+        "image_position": "right",
+        "image_overflow": 48,
+        "video_max_width": 400,
+        "bg_color": "#23372c",
+        "text_color": "#daffd3",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "pp_brand_banner_XHqzm8"
   ]
 }
