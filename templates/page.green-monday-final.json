@@ -681,63 +681,6 @@
         "padding-block-end": 0
       }
     },
-    "1782827590c35cc2e3": {
-      "type": "_blocks",
-      "blocks": {
-        "ai_gen_block_155601d_CzxyDD": {
-          "type": "ai_gen_block_155601d",
-          "settings": {
-            "title": "¿Plantas Nuevas?",
-            "description": "Un sustrato les sirve a todas. Dales el mejor comienzo y ayúdalas a crecer. Envío Gratis a partir de 49€",
-            "product_1": "plant-food",
-            "product_2": "sustrato-plantas-interior",
-            "product_3": "tubo-de-auto-riego-para-plantas-colgantes",
-            "product_4": "mini-maceta-9cm",
-            "product_5": "maceta-terracota-m",
-            "button_text": "Añadir al carrito",
-            "button_bg_color": "#BCFFDD",
-            "button_text_color": "#23372C",
-            "button_hover_bg_color": "#70927F",
-            "title_color": "#23372C",
-            "description_color": "#666666",
-            "product_title_color": "#23372C",
-            "product_price_color": "#23372C"
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "ai_gen_block_155601d_CzxyDD"
-      ],
-      "name": "cross selling",
-      "settings": {
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 12,
-        "section_width": "page-width",
-        "section_height": "",
-        "section_height_custom": 50,
-        "color_scheme": "",
-        "background_media": "none",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 0,
-        "padding-block-end": 0
-      }
-    },
     "178282669396fb64eb": {
       "type": "_blocks",
       "blocks": {
@@ -900,12 +843,39 @@
           "settings": {
             "formId": "<div class=\"klaviyo-form-RkNe2P\"></div>"
           }
+        },
+        "text_qR8Kcg": {
+          "type": "text",
+          "name": "t:names.text",
+          "settings": {
+            "text": "<p>*Si ya estás suscrito a nuestra base de datos o has iniciado sesión, el formulario de registro no será visible ¡No te preocupes! Recibirás la información igualmente.</p>",
+            "width": "100%",
+            "max_width": "normal",
+            "alignment": "center",
+            "type_preset": "custom",
+            "font": "var(--font-body--family)",
+            "font_size": "0.75rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
         }
       },
       "block_order": [
         "text_8tgeTd",
         "text_qMtikJ",
-        "klaviyo_email_marketing_sms_form_embed_block_ENYbNm"
+        "klaviyo_email_marketing_sms_form_embed_block_ENYbNm",
+        "text_qR8Kcg"
       ],
       "name": "t:names.email_signup",
       "settings": {
@@ -934,6 +904,63 @@
         "gradient_direction": "to top",
         "padding-block-start": 9,
         "padding-block-end": 15
+      }
+    },
+    "1782827590c35cc2e3": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_155601d_CzxyDD": {
+          "type": "ai_gen_block_155601d",
+          "settings": {
+            "title": "¿Plantas Nuevas?",
+            "description": "Un sustrato les sirve a todas. Dales el mejor comienzo y ayúdalas a crecer. Envío Gratis a partir de 49€",
+            "product_1": "plant-food",
+            "product_2": "sustrato-plantas-interior",
+            "product_3": "tubo-de-auto-riego-para-plantas-colgantes",
+            "product_4": "mini-maceta-9cm",
+            "product_5": "maceta-terracota-m",
+            "button_text": "Añadir al carrito",
+            "button_bg_color": "#bcffdd",
+            "button_text_color": "#23372c",
+            "button_hover_bg_color": "#70927f",
+            "title_color": "#23372c",
+            "description_color": "#666666",
+            "product_title_color": "#23372c",
+            "product_price_color": "#23372c"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_155601d_CzxyDD"
+      ],
+      "name": "cross selling",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 0,
+        "padding-block-end": 0
       }
     },
     "pp_brand_banner_wyeWPw": {
