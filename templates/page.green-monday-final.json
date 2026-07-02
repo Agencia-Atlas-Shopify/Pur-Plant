@@ -58,11 +58,11 @@
               "settings": {
                 "image": "shopify://shop_images/GREEN_MONDAY_logo.png",
                 "link": "",
-                "image_ratio": "adapt",
-                "width": "custom",
-                "custom_width": 100,
+                "image_ratio": "square",
+                "width": "fill",
+                "custom_width": 12,
                 "width_mobile": "custom",
-                "custom_width_mobile": 51,
+                "custom_width_mobile": 18,
                 "height": "fill",
                 "border": "none",
                 "border_width": 1,
@@ -123,16 +123,16 @@
         "media_type_2_mobile": "image",
         "link": "",
         "open_in_new_tab": false,
-        "content_direction": "row",
+        "content_direction": "column",
         "vertical_on_mobile": true,
         "horizontal_alignment": "flex-start",
         "vertical_alignment": "center",
         "align_baseline": false,
         "horizontal_alignment_flex_direction_column": "flex-end",
         "vertical_alignment_flex_direction_column": "flex-end",
-        "gap": 1,
+        "gap": 2,
         "section_width": "full-width",
-        "section_height": "small",
+        "section_height": "auto",
         "section_height_custom": 50,
         "color_scheme": "scheme-5",
         "toggle_overlay": true,
@@ -170,6 +170,45 @@
         "button_text_color": "#000000",
         "padding_mobile": 32,
         "padding_desktop": 48
+      }
+    },
+    "pp_collection_nav_A6d3Ah": {
+      "type": "pp-collection-nav",
+      "blocks": {
+        "collection_link_YGHQYM": {
+          "type": "collection_link",
+          "settings": {
+            "label": "Por menos de 5€",
+            "url": "shopify://collections/plantas-5-euros"
+          }
+        },
+        "collection_link_Rn8iTw": {
+          "type": "collection_link",
+          "settings": {
+            "label": "Por menos de 10€",
+            "url": "shopify://collections/plantas-10-euros"
+          }
+        },
+        "collection_link_KmTKxF": {
+          "type": "collection_link",
+          "settings": {
+            "label": "Por menos de 20€",
+            "url": "shopify://collections/plantas-20-euros"
+          }
+        }
+      },
+      "block_order": [
+        "collection_link_YGHQYM",
+        "collection_link_Rn8iTw",
+        "collection_link_KmTKxF"
+      ],
+      "name": "PP Collection Nav",
+      "settings": {
+        "title": "Plantas a 1€",
+        "view_all_text": "Ver todas",
+        "view_all_url": "shopify://collections/plantas-por-menos-1",
+        "padding_top": 24,
+        "padding_bottom": 16
       }
     },
     "section_RaCrjy": {
@@ -1598,6 +1637,7 @@
   "order": [
     "hero_39iATj",
     "pp_countdown_banner_Em43cQ",
+    "pp_collection_nav_A6d3Ah",
     "section_RaCrjy",
     "pp_featured_grid_aEMy79",
     "pp_featured_grid_4V9fwj",
