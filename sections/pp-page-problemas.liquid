@@ -453,141 +453,107 @@
     </nav>
   {%- endif -%}
 
-  {%- comment -%} -- 2. Detectar si hay widgets numerados (page_heading_N) -- {%- endcomment -%}
-  {%- assign has_numbered = false -%}
-  {%- for i in (1..50) -%}
-    {%- assign hk = 'page_heading_' | append: i -%}
-    {%- if page.metafields.custom[hk].value != blank -%}
-      {%- assign has_numbered = true -%}
-      {%- break -%}
-    {%- endif -%}
-  {%- endfor -%}
+  {%- comment -%} -- 2. JSON data source for page_content --
+       Build from page_heading_N / page_text_N / page_image_N metafields.
+       Fallback: existing page.metafields.custom.page_content (legacy).
+  {%- endcomment -%}
+  {%- capture widgets_json -%}
+    [
+    {%- assign first = true -%}
+    {%- for i in (1..50) -%}
+      {%- assign hk = 'page_heading_' | append: i -%}
+      {%- assign tk = 'page_text_' | append: i -%}
+      {%- assign ik = 'page_image_' | append: i -%}
+      {%- assign hv = page.metafields.custom[hk].value -%}
+      {%- assign tv = page.metafields.custom[tk].value -%}
+      {%- assign iv = page.metafields.custom[ik].value -%}
+      {%- if hv != blank -%}
+        {%- unless first -%},{%- endunless -%}
+        {"type":"heading","value":{{ hv | json }}}
+        {%- assign first = false -%}
+      {%- endif -%}
+      {%- if iv != blank -%}
+        {%- unless first -%},{%- endunless -%}
+        {"type":"image","src":{{ iv | json }},"alt":""}
+        {%- assign first = false -%}
+      {%- endif -%}
+      {%- if tv != blank -%}
+        {%- unless first -%},{%- endunless -%}
+        {"type":"text","value":{{ tv | json }}}
+        {%- assign first = false -%}
+      {%- endif -%}
+    {%- endfor -%}
+    ]
+  {%- endcapture -%}
   {%- assign page_content_val = page.metafields.custom.page_content.value -%}
+  <script type="application/json" data-page-content>
+    {%- if page_content_val != blank -%}
+      {{ page_content_val | json }}
+    {%- elsif widgets_json contains '"type"' -%}
+      {{ widgets_json }}
+    {%- else -%}
+      []
+    {%- endif -%}
+  </script>
 
-  {%- comment -%} -- 3a. Fallback page.content RTE si no hay ni widgets numerados ni page_content -- {%- endcomment -%}
-  {%- if has_numbered == false and page_content_val == blank and page.content != blank -%}
+  {%- comment -%} -- 3a. Main page body — only if no structured widgets exist -- {%- endcomment -%}
+  {%- assign has_widgets = false -%}
+  {%- if page_content_val != blank -%}{%- assign has_widgets = true -%}{%- endif -%}
+  {%- if widgets_json contains '"type"' -%}{%- assign has_widgets = true -%}{%- endif -%}
+  {%- if has_widgets == false and page.content != blank -%}
     <div class="pp-problemas__page-body rte">
       {{ page.content }}
     </div>
   {%- endif -%}
 
-  {%- comment -%} -- 3b. Contenido SSR desde metafields numerados o legacy page_content -- {%- endcomment -%}
-  {%- if has_numbered or page_content_val != blank -%}
-    {%- assign grid_1_val = page.metafields.custom.page_collection_1.value -%}
-    {%- assign grid_2_val = page.metafields.custom.page_collection_2.value -%}
-    {%- assign grid_3_val = page.metafields.custom.page_collection_3.value -%}
+  {%- comment -%} -- 3b. Content container (JS-rendered from metafields) -- {%- endcomment -%}
+  <div data-content-container></div>
 
-    {%- capture grid_1_html -%}
-      {%- if grid_1_val -%}
-        <div class="pp-problemas__product-grid-wrapper" data-product-grid="1">
-          {%- if grid_1_val.title != blank -%}<h3 class="pp-problemas__product-grid-title">{{ grid_1_val.title }}</h3>{%- endif -%}
-          <div class="pp-problemas__product-grid">
-            {%- for product in grid_1_val.products limit: 8 -%}{%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}{%- endfor -%}
-          </div>
-        </div>
-      {%- endif -%}
-    {%- endcapture -%}
-    {%- capture grid_2_html -%}
-      {%- if grid_2_val -%}
-        <div class="pp-problemas__product-grid-wrapper" data-product-grid="2">
-          {%- if grid_2_val.title != blank -%}<h3 class="pp-problemas__product-grid-title">{{ grid_2_val.title }}</h3>{%- endif -%}
-          <div class="pp-problemas__product-grid">
-            {%- for product in grid_2_val.products limit: 8 -%}{%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}{%- endfor -%}
-          </div>
-        </div>
-      {%- endif -%}
-    {%- endcapture -%}
-    {%- capture grid_3_html -%}
-      {%- if grid_3_val -%}
-        <div class="pp-problemas__product-grid-wrapper" data-product-grid="3">
-          {%- if grid_3_val.title != blank -%}<h3 class="pp-problemas__product-grid-title">{{ grid_3_val.title }}</h3>{%- endif -%}
-          <div class="pp-problemas__product-grid">
-            {%- for product in grid_3_val.products limit: 8 -%}{%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}{%- endfor -%}
-          </div>
-        </div>
-      {%- endif -%}
-    {%- endcapture -%}
+  {%- comment -%} -- 4. Product grid placeholders (JS inserts content sections between them) -- {%- endcomment -%}
+  {%- comment -%}
+    Product grids are rendered server-side via Liquid since they need collection data.
+    JS will move them into the right position after rendering content sections.
+  {%- endcomment -%}
 
-    <div class="pp-problemas__content">
-      {%- assign heading_count = 0 -%}
-      {%- assign coll_used = 0 -%}
-
-      {%- if has_numbered -%}
-        {%- for i in (1..50) -%}
-          {%- assign hk = 'page_heading_' | append: i -%}
-          {%- assign tk = 'page_text_' | append: i -%}
-          {%- assign ik = 'page_image_' | append: i -%}
-          {%- assign hv = page.metafields.custom[hk].value -%}
-          {%- assign tv = page.metafields.custom[tk].value -%}
-          {%- assign iv = page.metafields.custom[ik].value -%}
-          {%- if hv != blank -%}
-            {%- assign heading_count = heading_count | plus: 1 -%}
-            {%- if heading_count > 1 and coll_used < 3 -%}
-              {%- assign prev = heading_count | minus: 1 -%}
-              {%- assign mod = prev | modulo: grid_after -%}
-              {%- if mod == 0 -%}
-                {%- assign coll_used = coll_used | plus: 1 -%}
-                {%- if coll_used == 1 -%}{{ grid_1_html }}{%- endif -%}
-                {%- if coll_used == 2 -%}{{ grid_2_html }}{%- endif -%}
-                {%- if coll_used == 3 -%}{{ grid_3_html }}{%- endif -%}
-              {%- endif -%}
-            {%- endif -%}
-            <div class="pp-problemas__section">
-              <h2 class="pp-content__heading">{{ hv }}</h2>
-              {%- if iv != blank and tv != blank -%}
-                <div class="pp-problemas__section-body pp-problemas__section-body--with-image">
-                  <div class="pp-problemas__section-image"><img src="{{ iv }}" alt="{{ hv | escape }}" loading="lazy"></div>
-                  <div class="pp-problemas__section-text">{{ tv }}</div>
-                </div>
-              {%- else -%}
-                {%- if iv != blank -%}<div class="pp-content__image"><img src="{{ iv }}" alt="{{ hv | escape }}" loading="lazy"></div>{%- endif -%}
-                {%- if tv != blank -%}<div class="pp-content__text">{{ tv }}</div>{%- endif -%}
-              {%- endif -%}
-            </div>
-          {%- else -%}
-            {%- if iv != blank -%}<div class="pp-content__image"><img src="{{ iv }}" loading="lazy"></div>{%- endif -%}
-            {%- if tv != blank -%}<div class="pp-content__text">{{ tv }}</div>{%- endif -%}
-          {%- endif -%}
+  {%- assign coll_1 = page.metafields.custom.page_collection_1.value -%}
+  {%- if coll_1 -%}
+    <div class="pp-problemas__product-grid-wrapper" data-product-grid="1" style="display:none;">
+      {%- if coll_1.title != blank -%}
+        <h3 class="pp-problemas__product-grid-title">{{ coll_1.title }}</h3>
+      {%- endif -%}
+      <div class="pp-problemas__product-grid">
+        {%- for product in coll_1.products limit: 8 -%}
+          {%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}
         {%- endfor -%}
-      {%- elsif page_content_val != blank -%}
-        {%- for w in page_content_val -%}
-          {%- case w.type -%}
-            {%- when 'heading' -%}
-              {%- if w.value != blank -%}
-                {%- assign heading_count = heading_count | plus: 1 -%}
-                {%- if heading_count > 1 and coll_used < 3 -%}
-                  {%- assign prev = heading_count | minus: 1 -%}
-                  {%- assign mod = prev | modulo: grid_after -%}
-                  {%- if mod == 0 -%}
-                    {%- assign coll_used = coll_used | plus: 1 -%}
-                    {%- if coll_used == 1 -%}{{ grid_1_html }}{%- endif -%}
-                    {%- if coll_used == 2 -%}{{ grid_2_html }}{%- endif -%}
-                    {%- if coll_used == 3 -%}{{ grid_3_html }}{%- endif -%}
-                  {%- endif -%}
-                {%- endif -%}
-                <div class="pp-problemas__section"><h2 class="pp-content__heading">{{ w.value }}</h2></div>
-              {%- endif -%}
-            {%- when 'text' -%}
-              {%- if w.value != blank -%}<div class="pp-content__text">{{ w.value }}</div>{%- endif -%}
-            {%- when 'image' -%}
-              {%- if w.src != blank -%}
-                <div class="pp-content__image">
-                  {%- if w.link != blank -%}<a href="{{ w.link }}"><img src="{{ w.src }}" alt="{{ w.alt | default: '' }}" loading="lazy"></a>
-                  {%- else -%}<img src="{{ w.src }}" alt="{{ w.alt | default: '' }}" loading="lazy">{%- endif -%}
-                </div>
-              {%- endif -%}
-            {%- when 'cta' -%}
-              {%- if w.url != blank and w.text != blank -%}
-                <div class="pp-content__cta"><a class="pp-cta-btn" href="{{ w.url }}">{{ w.text }} <span aria-hidden="true">&rarr;</span></a></div>
-              {%- endif -%}
-          {%- endcase -%}
-        {%- endfor -%}
-      {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
 
-      {%- comment -%} Product grids sobrantes que no se intercalaron van al final {%- endcomment -%}
-      {%- if coll_used < 1 and grid_1_val -%}{{ grid_1_html }}{%- endif -%}
-      {%- if coll_used < 2 and grid_2_val -%}{{ grid_2_html }}{%- endif -%}
-      {%- if coll_used < 3 and grid_3_val -%}{{ grid_3_html }}{%- endif -%}
+  {%- assign coll_2 = page.metafields.custom.page_collection_2.value -%}
+  {%- if coll_2 -%}
+    <div class="pp-problemas__product-grid-wrapper" data-product-grid="2" style="display:none;">
+      {%- if coll_2.title != blank -%}
+        <h3 class="pp-problemas__product-grid-title">{{ coll_2.title }}</h3>
+      {%- endif -%}
+      <div class="pp-problemas__product-grid">
+        {%- for product in coll_2.products limit: 8 -%}
+          {%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- assign coll_3 = page.metafields.custom.page_collection_3.value -%}
+  {%- if coll_3 -%}
+    <div class="pp-problemas__product-grid-wrapper" data-product-grid="3" style="display:none;">
+      {%- if coll_3.title != blank -%}
+        <h3 class="pp-problemas__product-grid-title">{{ coll_3.title }}</h3>
+      {%- endif -%}
+      <div class="pp-problemas__product-grid">
+        {%- for product in coll_3.products limit: 8 -%}
+          {%- render 'pp-product-card-standalone', product: product, image_ratio: 'portrait' -%}
+        {%- endfor -%}
+      </div>
     </div>
   {%- endif -%}
 
@@ -611,8 +577,89 @@
 </section>
 
 <script>
-/* IIFE JSON-legacy eliminado: contenido ahora es SSR (loop Liquid arriba).
-   Widgets, product-grids intercalados y párrafos vacíos se emiten server-side. */
+(function() {
+  var dataEl = document.querySelector('[data-page-content]');
+  var container = document.querySelector('[data-content-container]');
+  var emptyMsg = document.querySelector('[data-pp-empty]');
+  if (!dataEl || !container) return;
+
+  var widgets;
+  try { widgets = JSON.parse(dataEl.textContent); } catch(e) { widgets = []; }
+  dataEl.remove();
+
+  if (!Array.isArray(widgets) || !widgets.length) {
+    if (emptyMsg) emptyMsg.style.display = '';
+    return;
+  }
+
+  var GRID_AFTER = {{ grid_after }};
+  var sectionCount = 0;
+  var collectionIndex = 0;
+  var html = '';
+
+  /* Group widgets into "sections": a heading starts a new section.
+     After every GRID_AFTER sections, insert the next product grid. */
+  widgets.forEach(function(w, i) {
+    if (!w || !w.type) return;
+
+    if (w.type === 'heading') {
+      /* A heading marks a new section boundary */
+      sectionCount++;
+
+      /* Insert product grid every GRID_AFTER sections */
+      if (sectionCount > 1 && ((sectionCount - 1) % GRID_AFTER === 0) && collectionIndex < 3) {
+        collectionIndex++;
+        var gridEl = document.querySelector('[data-product-grid="' + collectionIndex + '"]');
+        if (gridEl) html += gridEl.outerHTML.replace('style="display:none;"', '');
+      }
+
+      html += '<div class="pp-problemas__section"><h2 class="pp-content__heading">' + w.value + '</h2></div>';
+
+    } else if (w.type === 'image') {
+      var nextText = widgets[i + 1];
+      var imgTag = '<img src="' + w.src + '" alt="' + (w.alt || '') + '" loading="lazy">';
+      var imgWrapped = w.link ? '<a href="' + w.link + '">' + imgTag + '</a>' : imgTag;
+      if (nextText && nextText.type === 'text') {
+        html += '<div class="pp-problemas__section">';
+        html += '<div class="pp-problemas__section-body pp-problemas__section-body--with-image">';
+        html += '<div class="pp-problemas__section-image">' + imgWrapped + '</div>';
+        html += '<div class="pp-problemas__section-text">' + nextText.value + '</div>';
+        html += '</div>';
+        html += '</div>';
+        widgets[i + 1] = { type: '_consumed' };
+      } else {
+        html += '<div class="pp-content__image">' + imgWrapped + '</div>';
+      }
+    } else if (w.type === 'text') {
+      html += '<div class="pp-content__text">' + w.value + '</div>';
+    } else if (w.type === 'cta') {
+      html += '<div class="pp-content__cta"><a class="pp-cta-btn" href="' + w.url + '">' + w.text + ' <span aria-hidden="true">→</span></a></div>';
+    }
+  });
+
+  /* Insert any remaining product grids that were not shown inline */
+  for (var g = collectionIndex + 1; g <= 3; g++) {
+    var gridEl = document.querySelector('[data-product-grid="' + g + '"]');
+    if (gridEl) {
+      html += gridEl.outerHTML.replace('style="display:none;"', '');
+    }
+  }
+
+  container.innerHTML = html;
+
+  /* Collapse empty &nbsp; paragraphs */
+  container.querySelectorAll('.pp-content__text p').forEach(function(p) {
+    if (p.innerHTML.replace(/&nbsp;/g, '').replace(/\u00a0/g, '').trim() === '') {
+      p.classList.add('pp-empty');
+    }
+  });
+
+  /* Remove the original hidden product grid elements (they are now duplicated inside container) */
+  var origGrids = document.querySelectorAll('[data-product-grid]');
+  origGrids.forEach(function(el) {
+    if (!container.contains(el)) el.remove();
+  });
+})();
 </script>
 
 {% schema %}
