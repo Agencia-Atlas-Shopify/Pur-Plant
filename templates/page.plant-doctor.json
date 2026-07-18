@@ -221,6 +221,23 @@
         "padding-block-end": 23
       }
     },
+    "pp_richtext_intro": {
+      "type": "pp-richtext",
+      "name": "PP Rich Text - Intro Plant Doctor",
+      "settings": {
+        "content": "<p>El <strong>Plant Doctor de Pur Plant<\/strong> es un servicio de diagnóstico gratuito de plantas por WhatsApp disponible las 24 horas. Con más de 4.600 plantas diagnosticadas y una valoración media de 4.8★, es el servicio de atención a plantas más valorado de España. Solo tienes que enviar una foto de tu planta por WhatsApp y recibirás un diagnóstico personalizado en minutos — completamente gratis, sin registro y sin límite de consultas.<\/p>",
+        "font_size": 17,
+        "font_weight": "400",
+        "line_height": 16,
+        "text_align": "left",
+        "max_width": 860,
+        "bg_color": "#ffffff",
+        "text_color": "#23372c",
+        "padding_top": 32,
+        "padding_bottom": 16,
+        "padding_inline": 24
+      }
+    },
     "main": {
       "type": "main-page",
       "blocks": {
@@ -568,45 +585,61 @@
     "pp_product_faq_MdRmrF": {
       "type": "pp-product-faq",
       "blocks": {
-        "faq_item_AGN89q": {
+        "faq_item_pd1": {
           "type": "faq_item",
           "settings": {
-            "question": "¿Qué hago si mi planta tiene hojas marrones?",
-            "answer": "<p>Las manchas marrones pueden indicar quemadura solar (manchas secas y crujientesen las zonas con más luz), baja humedad ambiental (bordes marrones), exceso de cal en el agua de riego, o una enfermedad fúngica. El Plant Doctor identifica el tipo de mancha y te da la solución exacta con productos orgánicos.</p>"
+            "question": "¿Qué es el Plant Doctor de Pur Plant?",
+            "answer": "<p>Es un servicio gratuito de diagnóstico de plantas por WhatsApp disponible 24h. Envías una foto de tu planta y recibes un diagnóstico personalizado en minutos.</p>"
           }
         },
-        "faq_item_aUiXwb": {
+        "faq_item_pd2": {
           "type": "faq_item",
           "settings": {
-            "question": "¿Por qué se ponen amarillas las hojas de mis plantas?",
-            "answer": "<p>Las hojas amarillas son el síntoma más común y pueden tener varias causas: exceso de riego (la causa más frecuente), falta de luz, carencia de nutrientes,o simplemente envejecimiento natural de las hojas más viejas. </p><p>Para un buen diagnóstico escrbe a nuestro <a href=\"https://wa.me/19897889197?text=MI%20PLANT%20DOCTOR\" title=\"https://wa.me/19897889197?text=MI%20PLANT%20DOCTOR\">PLANT DOCTOR</a><br/><br/></p>"
+            "question": "¿Cuánto cuesta el Plant Doctor?",
+            "answer": "<p>Es completamente gratuito. No hay límite de consultas y no requiere registro ni compra previa.</p>"
           }
         },
-        "faq_item_MhXTQN": {
-          "type": "faq_item",
-          "settings": {
-            "question": "¿Cómo sé si riego demasiado o muy poco?",
-            "answer": "<p>El exceso de riego es la causa número uno de muerte de plantas de interior. Los síntomas son: hojas amarillas blandas, sustrato que tarda mucho en secarse, olor a tierra húmeda, y raíces marrones al sacar la planta de la maceta. Lafalta de riego se manifiesta en hojas caídas, sustrato completamente seco yseparado de los bordes de la maceta. Mándanos una foto y te ayudamos a dar con la solución.<br/><br/></p>"
-          }
-        },
-        "faq_item_8yw4yU": {
+        "faq_item_pd3": {
           "type": "faq_item",
           "settings": {
             "question": "¿Cómo funciona el Plant Doctor?",
-            "answer": "<p>¡Muy fácil! Al pinchar en el botón, se abrirá un nuevo chat en whatsapp en el que nuestro servicio de Plant Doctor  24h totalmente <strong>Gratuito </strong>te ayudará con cualquier consulta relacionada con el estado y cuidado orgánico de plantas. </p>"
+            "answer": "<p>Haces clic en el botón de WhatsApp, envías una foto de tu planta con una descripción del problema y nuestro equipo te responde con el diagnóstico y solución en menos de 24h.</p>"
+          }
+        },
+        "faq_item_pd4": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Qué problemas de plantas resuelve el Plant Doctor?",
+            "answer": "<p>Diagnostica hojas amarillas, manchas, plagas, hongos, problemas de riego, falta de luz y cualquier síntoma de estrés en plantas de interior y exterior.</p>"
+          }
+        },
+        "faq_item_pd5": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿El Plant Doctor está disponible para clientes de toda España?",
+            "answer": "<p>Sí, el servicio es gratuito para cualquier persona en España, Portugal y LATAM, sin necesidad de haber comprado en Pur Plant.</p>"
+          }
+        },
+        "faq_item_pd6": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Cuándo responde el Plant Doctor?",
+            "answer": "<p>El equipo responde en un máximo de 24h. En horario de 9h a 21h la respuesta suele llegar en menos de 2 horas.</p>"
           }
         }
       },
       "block_order": [
-        "faq_item_AGN89q",
-        "faq_item_aUiXwb",
-        "faq_item_MhXTQN",
-        "faq_item_8yw4yU"
+        "faq_item_pd1",
+        "faq_item_pd2",
+        "faq_item_pd3",
+        "faq_item_pd4",
+        "faq_item_pd5",
+        "faq_item_pd6"
       ],
       "name": "PP FAQ",
       "settings": {
         "heading": "LO QUE SUELEN PREGUNTAR",
-        "faq_category_override": "generico",
+        "faq_category_override": "plantdoctor",
         "padding_top": 40,
         "padding_bottom": 40
       }
@@ -826,6 +859,7 @@
   },
   "order": [
     "hero_87fLNj",
+    "pp_richtext_intro",
     "main",
     "pp_richtext_pgJ8Mg",
     "layered_slideshow_xLVQ7z",
