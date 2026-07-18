@@ -483,25 +483,57 @@
   {%- comment -%}
     -- 6. Contenido SEO en desplegable (Leer más). Contenido migrado de WP en page_content.
   {%- endcomment -%}
-  {%- assign seo_raw = page.metafields.custom.page_content | default: '[]' -%}
-  {%- if seo_raw != '[]' and seo_raw != blank -%}
-    <section class="pp-coll-desc pp-domicilio__seo">
-      <div class="pp-coll-desc__inner">
-        <div class="pp-coll-desc__header">
-          <h2 class="pp-coll-desc__title">{{ section.settings.seo_title | default: parent_label }}</h2>
-          <button type="button" class="pp-coll-desc__toggle" data-pp-coll-desc-toggle aria-expanded="false">
-            <span class="pp-coll-desc__toggle-text">{{ section.settings.seo_more_label | default: 'Leer más' }}</span>
-            <svg class="pp-coll-desc__arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5.5L7 9.5L11 5.5"/></svg>
-          </button>
+  {%- comment -%}
+    Contenido SEO en desplegable (Leer más). Renderizado SSR desde el metafield
+    JSON page_content (heading/text/image/cta). Se emite en orden natural para
+    que los crawlers (GPTBot, Googlebot sin JS) vean el texto en el HTML crudo.
+  {%- endcomment -%}
+  {%- assign seo_widgets = page.metafields.custom.page_content.value -%}
+  {%- if seo_widgets != blank -%}
+    {%- assign seo_has_content = false -%}
+    {%- for w in seo_widgets -%}
+      {%- if w.type == 'heading' or w.type == 'text' or w.type == 'image' or w.type == 'cta' -%}
+        {%- assign seo_has_content = true -%}
+        {%- break -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- if seo_has_content -%}
+      <section class="pp-coll-desc pp-domicilio__seo">
+        <div class="pp-coll-desc__inner">
+          <div class="pp-coll-desc__header">
+            <h2 class="pp-coll-desc__title">{{ section.settings.seo_title | default: parent_label }}</h2>
+            <button type="button" class="pp-coll-desc__toggle" data-pp-coll-desc-toggle aria-expanded="false">
+              <span class="pp-coll-desc__toggle-text">{{ section.settings.seo_more_label | default: 'Leer más' }}</span>
+              <svg class="pp-coll-desc__arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5.5L7 9.5L11 5.5"/></svg>
+            </button>
+          </div>
+          <div class="pp-coll-desc__body" data-pp-coll-desc-body>
+            <div class="pp-coll-desc__columns">
+              {%- for w in seo_widgets -%}
+                {%- case w.type -%}
+                  {%- when 'heading' -%}
+                    {%- if w.value != blank -%}<h2 class="pp-content__heading">{{ w.value }}</h2>{%- endif -%}
+                  {%- when 'text' -%}
+                    {%- if w.value != blank -%}<div class="pp-content__text">{{ w.value }}</div>{%- endif -%}
+                  {%- when 'image' -%}
+                    {%- if w.src != blank -%}
+                      <div class="pp-content__image">
+                        {%- if w.link != blank -%}<a href="{{ w.link }}">{%- endif -%}
+                        <img src="{{ w.src }}" alt="{{ w.alt | default: '' }}" loading="lazy">
+                        {%- if w.link != blank -%}</a>{%- endif -%}
+                      </div>
+                    {%- endif -%}
+                  {%- when 'cta' -%}
+                    {%- if w.url != blank and w.text != blank -%}
+                      <div class="pp-content__cta"><a class="pp-cta-btn" href="{{ w.url }}">{{ w.text }} <span aria-hidden="true">&rarr;</span></a></div>
+                    {%- endif -%}
+                {%- endcase -%}
+              {%- endfor -%}
+            </div>
+          </div>
         </div>
-        <div class="pp-coll-desc__body" data-pp-coll-desc-body>
-          <div class="pp-coll-desc__columns" data-content-container></div>
-        </div>
-      </div>
-      <script type="application/json" data-page-content>
-        {{ seo_raw }}
-      </script>
-    </section>
+      </section>
+    {%- endif -%}
   {%- endif -%}
 
   {%- comment -%} -- Banner CTA -- {%- endcomment -%}
@@ -528,126 +560,46 @@
 
 <script>
 (function() {
-  var dataEl = document.querySelector('[data-page-content]');
-  var container = document.querySelector('[data-content-container]');
-  var emptyMsg = document.querySelector('[data-pp-empty]');
-  if (!dataEl || !container) return;
+  /* Contenido ahora es SSR. Este IIFE sólo maneja el toggle del acordeón
+     .pp-coll-desc pp-domicilio__seo: colapsa/expande contenido YA presente en
+     el DOM, sin inyectar nada. Mismo patrón scrollHeight que
+     pp-collection-description.liquid, así el CSS actual sigue igual. */
+  var seoToggle = document.querySelector('.pp-domicilio__seo [data-pp-coll-desc-toggle]');
+  if (!seoToggle) return;
+  var seoSection = seoToggle.closest('.pp-coll-desc');
+  if (!seoSection) return;
+  var seoBody = seoSection.querySelector('[data-pp-coll-desc-body]');
+  if (!seoBody) return;
+  var seoText = seoToggle.querySelector('.pp-coll-desc__toggle-text');
+  var moreLabel = {{ section.settings.seo_more_label | default: 'Leer m\u00e1s' | json }};
+  var lessLabel = {{ section.settings.seo_less_label | default: 'Leer menos' | json }};
 
-  var widgets;
-  try { widgets = JSON.parse(dataEl.textContent); } catch(e) { widgets = []; }
-  dataEl.remove();
-
-  if (!Array.isArray(widgets) || !widgets.length) {
-    if (emptyMsg) emptyMsg.style.display = '';
-    return;
-  }
-
-  /* Drop orphan headings (heading with no text/image before next heading) — noise from
-     WP section labels that pointed to deleted product grids. */
-  var filtered = [];
-  for (var i = 0; i < widgets.length; i++) {
-    var w = widgets[i];
-    if (!w || !w.type) continue;
-    if (w.type === 'heading') {
-      var hasBody = false;
-      for (var j = i + 1; j < widgets.length; j++) {
-        var nx = widgets[j];
-        if (!nx || !nx.type) continue;
-        if (nx.type === 'heading') break;
-        if (nx.type === 'text' || nx.type === 'image') { hasBody = true; break; }
-      }
-      if (!hasBody) continue; // skip orphan
-    }
-    filtered.push(w);
-  }
-
-  /* Reorder [heading, image, text] → [heading, text, image] so text pairs with heading
-     and image attaches to the pair. WP Elementor often emits image between heading and text. */
-  for (var k = 0; k < filtered.length - 2; k++) {
-    if (filtered[k].type === 'heading'
-     && filtered[k + 1].type === 'image'
-     && filtered[k + 2].type === 'text') {
-      var tmp = filtered[k + 1];
-      filtered[k + 1] = filtered[k + 2];
-      filtered[k + 2] = tmp;
-    }
-  }
-
-  /* Group into semantic blocks (heading + text(s)) + optional image pair.
-     A new heading starts a new block. An image attaches to current block
-     and flushes it; a standalone image (no preceding text/heading) renders alone. */
-  var blocks = [];
-  var cur = null;
-  function renderHead(v){ return '<h2 class="pp-content__heading">' + v + '</h2>'; }
-  function renderText(v){ return '<div class="pp-content__text">' + v + '</div>'; }
-  function renderImage(w){ return '<div class="pp-content__image"><img src="' + w.src + '" alt="' + (w.alt || '') + '" loading="lazy"></div>'; }
-  function flushCur(){ if (cur) { blocks.push({ kind: 'block', html: cur.html }); cur = null; } }
-
-  filtered.forEach(function(w) {
-    if (w.type === 'heading') {
-      // new heading → new block (flush previous if any)
-      flushCur();
-      cur = { html: renderHead(w.value) };
-    } else if (w.type === 'text') {
-      if (!cur) cur = { html: '' };
-      cur.html += renderText(w.value);
-    } else if (w.type === 'image') {
-      var imgHtml = renderImage(w);
-      if (cur) {
-        blocks.push({ kind: 'row', text: cur.html, image: imgHtml });
-        cur = null;
-      } else {
-        blocks.push({ kind: 'image', html: imgHtml });
-      }
-    }
-  });
-  flushCur();
-
-  var rowIdx = 0;
-  var html = '';
-  blocks.forEach(function(b) {
-    if (b.kind === 'row') {
-      var rev = (rowIdx % 2 === 1) ? ' pp-content__row--reverse' : '';
-      html += '<div class="pp-content__row' + rev + '">'
-            +   '<div class="pp-content__row-text">' + b.text + '</div>'
-            +   '<div class="pp-content__row-image">' + b.image + '</div>'
-            + '</div>';
-      rowIdx++;
+  seoToggle.addEventListener('click', function() {
+    var expanded = seoToggle.getAttribute('aria-expanded') === 'true';
+    if (expanded) {
+      seoBody.style.maxHeight = '0';
+      seoToggle.setAttribute('aria-expanded', 'false');
+      if (seoText) seoText.textContent = moreLabel;
     } else {
-      html += b.html;
+      seoBody.style.maxHeight = seoBody.scrollHeight + 'px';
+      seoToggle.setAttribute('aria-expanded', 'true');
+      if (seoText) seoText.textContent = lessLabel;
     }
   });
 
-  container.innerHTML = html;
+  /* Recalcular alto si la ventana cambia (im\u00e1genes que reflowean) */
+  window.addEventListener('resize', function() {
+    if (seoToggle.getAttribute('aria-expanded') === 'true') {
+      seoBody.style.maxHeight = seoBody.scrollHeight + 'px';
+    }
+  });
 
-  /* Collapse empty &nbsp; paragraphs */
-  container.querySelectorAll('.pp-content__text p').forEach(function(p) {
+  /* Colapsar p\u00e1rrafos vac\u00edos (s\u00f3lo &nbsp;) que WP a veces deja */
+  seoBody.querySelectorAll('.pp-content__text p').forEach(function(p) {
     if (p.innerHTML.replace(/&nbsp;/g, '').replace(/\u00a0/g, '').trim() === '') {
       p.classList.add('pp-empty');
     }
   });
-
-  /* SEO desplegable estilo pp-coll-desc: body max-height 0 -> scrollHeight */
-  var seoToggle = document.querySelector('[data-pp-coll-desc-toggle]');
-  if (seoToggle) {
-    var seoSection = seoToggle.closest('.pp-coll-desc');
-    var seoBody = seoSection.querySelector('[data-pp-coll-desc-body]');
-    var seoText = seoToggle.querySelector('.pp-coll-desc__toggle-text');
-    var moreLabel = {{ section.settings.seo_more_label | default: 'Leer m\u00e1s' | json }};
-    var lessLabel = {{ section.settings.seo_less_label | default: 'Leer menos' | json }};
-    seoToggle.addEventListener('click', function() {
-      var expanded = seoToggle.getAttribute('aria-expanded') === 'true';
-      if (expanded) {
-        seoBody.style.maxHeight = '0';
-        seoToggle.setAttribute('aria-expanded', 'false');
-        if (seoText) seoText.textContent = moreLabel;
-      } else {
-        seoBody.style.maxHeight = seoBody.scrollHeight + 'px';
-        seoToggle.setAttribute('aria-expanded', 'true');
-        if (seoText) seoText.textContent = lessLabel;
-      }
-    });
-  }
 })();
 </script>
 

@@ -684,9 +684,28 @@ endif
   {%- endcomment -%}
   {%- assign page_content_val = page.metafields.custom.page_content.value -%}
   {%- if page_content_val != blank -%}
-    {%- comment -%} JSON-based (migrated guides) — JS renders {%- endcomment -%}
-    <script type="application/json" data-page-content>{{ page_content_val | json }}</script>
-    <div data-content-container class="pp-guide__body"></div>
+    {%- comment -%} JSON-based (migrated guides) — SSR loop para AI-crawlers {%- endcomment -%}
+    <div class="pp-guide__body">
+      {%- for w in page_content_val -%}
+        {%- case w.type -%}
+          {%- when 'heading' -%}
+            {%- if w.value != blank -%}<h2 class="pp-content__heading">{{ w.value }}</h2>{%- endif -%}
+          {%- when 'text' -%}
+            {%- if w.value != blank -%}<div class="pp-content__text">{{ w.value }}</div>{%- endif -%}
+          {%- when 'image' -%}
+            {%- if w.src != blank -%}
+              <div class="pp-content__image">
+                {%- if w.link != blank -%}<a href="{{ w.link }}"><img src="{{ w.src }}" alt="{{ w.alt | default: '' }}" loading="lazy"></a>
+                {%- else -%}<img src="{{ w.src }}" alt="{{ w.alt | default: '' }}" loading="lazy">{%- endif -%}
+              </div>
+            {%- endif -%}
+          {%- when 'cta' -%}
+            {%- if w.url != blank and w.text != blank -%}
+              <div class="pp-content__cta"><a class="pp-cta-btn" href="{{ w.url }}">{{ w.text }} <span aria-hidden="true">&rarr;</span></a></div>
+            {%- endif -%}
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
   {%- elsif page.content != blank -%}
     {%- comment -%} RTE fallback (new guides) — server-rendered.
        Procesa shortcodes [productos] / [colecciones] como en el blog:
@@ -946,43 +965,8 @@ endif
 </section>
 
 <script>
-(function() {
-  var dataEl = document.querySelector('[data-page-content]');
-  var container = document.querySelector('[data-content-container]');
-  var emptyMsg = document.querySelector('[data-pp-empty]');
-  if (!dataEl || !container) return;
-
-  var widgets;
-  try { widgets = JSON.parse(dataEl.textContent); } catch(e) { widgets = []; }
-  dataEl.remove();
-
-  if (!Array.isArray(widgets) || !widgets.length) {
-    if (emptyMsg) emptyMsg.style.display = '';
-    return;
-  }
-
-  var html = '';
-  widgets.forEach(function(w) {
-    if (!w || !w.type) return;
-
-    if (w.type === 'heading') {
-      html += '<h2 class="pp-content__heading">' + w.value + '</h2>';
-    } else if (w.type === 'text') {
-      html += '<div class="pp-content__text">' + w.value + '</div>';
-    } else if (w.type === 'image') {
-      html += '<div class="pp-content__image"><img src="' + w.src + '" alt="' + (w.alt || '') + '" loading="lazy"></div>';
-    }
-  });
-
-  container.innerHTML = html;
-
-  /* Collapse empty &nbsp; paragraphs */
-  container.querySelectorAll('.pp-content__text p').forEach(function(p) {
-    if (p.innerHTML.replace(/&nbsp;/g, '').replace(/\u00a0/g, '').trim() === '') {
-      p.classList.add('pp-empty');
-    }
-  });
-})();
+/* JSON-legacy IIFE removido: contenido ahora es SSR (loop Liquid arriba).
+   El IIFE de wrap de iframes (YouTube/Vimeo) sigue vivo para la rama RTE fallback. */
 
 /* Wrap iframes (YouTube/Vimeo/etc.) en RTE fallback con aspect-ratio responsive */
 (function() {
