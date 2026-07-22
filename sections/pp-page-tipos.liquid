@@ -60,25 +60,34 @@
     endfor
   endif
 
-  # Pre-pass 3: detect an FAQ block embedded inside a text widget.
-  # Trigger: a heading containing "preguntas frecuentes" or "faq" immediately
-  # followed by a text widget that includes <details> markup.
+  # Pre-pass 3: detect the FAQ and Explora blocks embedded inside a text widget.
+  # Trigger: a heading containing "preguntas frecuentes"/"faq"/"explora" immediately
+  # followed by a text widget.
   assign faq_html_source = ''
-  assign faq_prev_was_heading = false
+  assign faq_heading_value = ''
+  assign explora_html_source = ''
+  assign explora_heading_value = ''
+  assign _prev_special = ''
   if widgets_size > 0
     for w in widgets
       if w.type == 'heading'
         assign heading_lc = w.value | downcase
         if heading_lc contains 'preguntas frecuentes' or heading_lc contains 'faq'
-          assign faq_prev_was_heading = true
+          assign _prev_special = 'faq'
+          assign faq_heading_value = w.value
+        elsif heading_lc contains 'explora'
+          assign _prev_special = 'explora'
+          assign explora_heading_value = w.value
         else
-          assign faq_prev_was_heading = false
+          assign _prev_special = ''
         endif
-      elsif w.type == 'text' and faq_prev_was_heading and faq_html_source == ''
-        if w.value contains '<details' or w.value contains 'pp-faq'
+      elsif w.type == 'text' and _prev_special != ''
+        if _prev_special == 'faq' and faq_html_source == ''
           assign faq_html_source = w.value
+        elsif _prev_special == 'explora' and explora_html_source == ''
+          assign explora_html_source = w.value
         endif
-        assign faq_prev_was_heading = false
+        assign _prev_special = ''
       endif
     endfor
   endif
@@ -568,6 +577,25 @@
           {%- if forloop.index0 <= skip_until -%}{%- continue -%}{%- endif -%}
           {%- if w.type != 'heading' -%}{%- continue -%}{%- endif -%}
 
+          {%- comment -%} Skip headings FAQ/Explora — se emiten después como sección aparte. Consumimos su ventana con skip_until para no emitir sus text widgets. {%- endcomment -%}
+          {%- assign _hlc_main = w.value | downcase -%}
+          {%- assign _skip_card = false -%}
+          {%- if _hlc_main contains 'preguntas frecuentes' or _hlc_main contains 'faq' -%}{%- assign _skip_card = true -%}{%- endif -%}
+          {%- if _hlc_main contains 'explora' -%}{%- assign _skip_card = true -%}{%- endif -%}
+          {%- if _skip_card -%}
+            {%- assign _i_skip = forloop.index0 -%}
+            {%- assign _last_skip = _i_skip -%}
+            {%- for j in (1..6) -%}
+              {%- assign k = _i_skip | plus: j -%}
+              {%- if k >= widgets_size -%}{%- break -%}{%- endif -%}
+              {%- assign nw = widgets[k] -%}
+              {%- if nw.type == 'heading' -%}{%- break -%}{%- endif -%}
+              {%- assign _last_skip = k -%}
+            {%- endfor -%}
+            {%- assign skip_until = _last_skip -%}
+            {%- continue -%}
+          {%- endif -%}
+
           {%- assign card_count = card_count | plus: 1 -%}
           {%- assign i = forloop.index0 -%}
           {%- assign card_img = '' -%}
@@ -638,8 +666,28 @@
       </div>
     {%- endif -%}
 
+    {%- comment -%} 2c. FAQ section (fuera del cards-grid, tras las variedades) {%- endcomment -%}
+    {%- if faq_html_source != '' -%}
+      <section class="pp-tipos__faq-section pp-tipos__faq">
+        {%- if faq_heading_value != '' -%}
+          <h2 class="pp-content__heading">{{ faq_heading_value }}</h2>
+        {%- endif -%}
+        <div class="pp-content__text">{{ faq_html_source }}</div>
+      </section>
+    {%- endif -%}
+
+    {%- comment -%} 2d. Explora section (fuera del cards-grid, al final) {%- endcomment -%}
+    {%- if explora_html_source != '' -%}
+      <section class="pp-tipos__explora-section">
+        {%- if explora_heading_value != '' -%}
+          <h2 class="pp-content__heading">{{ explora_heading_value }}</h2>
+        {%- endif -%}
+        <div class="pp-content__text">{{ explora_html_source }}</div>
+      </section>
+    {%- endif -%}
+
   {%- elsif page.content != blank -%}
-    {%- comment -%} 2c. Fallback: legacy RTE body (ficus/monstera without metafield) {%- endcomment -%}
+    {%- comment -%} 2e. Fallback: legacy RTE body (ficus/monstera without metafield) {%- endcomment -%}
     <div class="pp-tipos__page-body rte">{{ page.content }}</div>
   {%- endif -%}
 
