@@ -1,9 +1,13 @@
 {%- comment -%}
-  PP Page Tipos — Renders plant variety/types guide pages
-  Reads content from page.metafields.custom.page_content JSON array.
-  Widget types: heading, text (raw HTML), image.
-  Layout: first text = intro, then heading+image+text groups = variety cards (2-col grid).
-  Also uses: page_collection_1..3 for product grids.
+  PP Page Tipos — Renders plant variety/types guide pages (SSR).
+  Reads content from page.metafields.custom.page_content JSON array and renders
+  100% server-side (no client hydration) so crawlers (ClaudeBot / GPTBot /
+  PerplexityBot / Google) see the full HTML.
+  Widget types: heading, text (raw HTML), image, cta.
+  Layout: first text = intro; every heading opens a variety card and consumes
+  the next non-heading widgets (up to 6) picking the first image/text/cta.
+  Also emits BreadcrumbList + ItemList + FAQPage JSON-LD.
+  Product grids come from page_collection_1..3 metafields (unchanged).
 {%- endcomment -%}
 
 {{ 'pp-page-guide.css' | asset_url | stylesheet_tag }}
@@ -11,6 +15,95 @@
 {%- liquid
   assign products_per_row = section.settings.products_per_row | default: 4
   assign cards_per_row = section.settings.cards_per_row | default: 2
+
+  assign widgets = page.metafields.custom.page_content.value
+  assign widgets_size = 0
+  if widgets != blank
+    assign widgets_size = widgets.size
+  endif
+
+  # Pre-pass 1: locate the first text widget (intro). Matches the JS behavior
+  # (`startIndex = intro_idx + 1`) — headings before the intro are discarded.
+  assign intro_idx = -1
+  if widgets_size > 0
+    for w in widgets
+      if w.type == 'text' and intro_idx == -1
+        assign intro_idx = forloop.index0
+        break
+      endif
+    endfor
+  endif
+  assign start_idx = intro_idx | plus: 1
+
+  # Pre-pass 2: count variety cards (headings after start_idx) so we know
+  # whether to open the .pp-tipos__cards-grid wrapper and whether to emit
+  # the ItemList JSON-LD. Excluye headings de FAQ y "Explora" (no son variedades).
+  assign total_cards = 0
+  if widgets_size > 0
+    for w in widgets
+      if forloop.index0 < start_idx
+        continue
+      endif
+      if w.type == 'heading'
+        assign heading_lc_pre2 = w.value | downcase
+        assign is_special_heading = false
+        if heading_lc_pre2 contains 'preguntas frecuentes' or heading_lc_pre2 contains 'faq'
+          assign is_special_heading = true
+        endif
+        if heading_lc_pre2 contains 'explora'
+          assign is_special_heading = true
+        endif
+        unless is_special_heading
+          assign total_cards = total_cards | plus: 1
+        endunless
+      endif
+    endfor
+  endif
+
+  # Pre-pass 3: detect an FAQ block embedded inside a text widget.
+  # Trigger: a heading containing "preguntas frecuentes" or "faq" immediately
+  # followed by a text widget that includes <details> markup.
+  assign faq_html_source = ''
+  assign faq_prev_was_heading = false
+  if widgets_size > 0
+    for w in widgets
+      if w.type == 'heading'
+        assign heading_lc = w.value | downcase
+        if heading_lc contains 'preguntas frecuentes' or heading_lc contains 'faq'
+          assign faq_prev_was_heading = true
+        else
+          assign faq_prev_was_heading = false
+        endif
+      elsif w.type == 'text' and faq_prev_was_heading and faq_html_source == ''
+        if w.value contains '<details' or w.value contains 'pp-faq'
+          assign faq_html_source = w.value
+        endif
+        assign faq_prev_was_heading = false
+      endif
+    endfor
+  endif
+
+  # Count valid Q/A pairs to decide whether to emit FAQPage schema.
+  # Tolerante a <summary> con atributos (ej. <summary style="...">): usa split '<summary'
+  # (sin '>') y descarta el resto de la etiqueta apertura hasta el primer '>'.
+  # Antes de strip_html, inserta espacios en </p>, </li>, <br> para no pegar tokens al concatenar.
+  assign faq_count = 0
+  if faq_html_source != ''
+    assign faq_blocks_pre = faq_html_source | split: '</details>'
+    for block in faq_blocks_pre
+      if block contains '<summary'
+        assign after_open_pre = block | split: '<summary' | last
+        assign after_summary_pre = after_open_pre | split: '>' | last
+        assign _q_pre = after_summary_pre | split: '</summary>' | first | strip_html | strip | strip_newlines
+        assign _a_html_pre = after_summary_pre | split: '</summary>' | last
+        assign _a_spaced_pre = _a_html_pre | replace: '</p>', ' ' | replace: '</li>', ' ' | replace: '<br>', ' ' | replace: '<br/>', ' ' | replace: '<br />', ' '
+        assign _a_pre = _a_spaced_pre | strip_html | strip | strip_newlines
+        if _q_pre != '' and _a_pre != ''
+          assign faq_count = faq_count | plus: 1
+        endif
+      endif
+    endfor
+  endif
 -%}
 
 <style>
@@ -216,6 +309,21 @@
   }
   .pp-tipos__card-name a { color: inherit; text-decoration: none; }
   .pp-tipos__card-image a { display: block; }
+
+  /* --- Page body fallback (page.content RTE) --- */
+  .pp-tipos__page-body {
+    max-width: var(--pp-content-max);
+    margin: 0 auto 48px;
+    font-family: var(--pp-font-body);
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--pp-text);
+  }
+  .pp-tipos__page-body p { margin: 0 0 16px; }
+  .pp-tipos__page-body p:last-child { margin-bottom: 0; }
+  .pp-tipos__page-body a { color: var(--pp-dark-green); text-decoration: underline; }
+  .pp-tipos__page-body h2,
+  .pp-tipos__page-body h3 { font-family: 'Aileron', sans-serif; color: var(--pp-dark-green); }
 
   /* --- Product grid --- */
   .pp-tipos__product-grid-wrapper {
@@ -441,23 +549,101 @@
     </nav>
   {%- endif -%}
 
-  {%- comment -%} -- 2. JSON data source -- {%- endcomment -%}
-  {%- assign page_content_val = page.metafields.custom.page_content.value -%}
-  <script type="application/json" data-page-content>
-    {%- if page_content_val != blank -%}
-      {{ page_content_val | json }}
-    {%- else -%}
-      []
+  {%- comment -%} -- 2. Page content (SSR) -- {%- endcomment -%}
+  {%- if widgets_size > 0 -%}
+
+    {%- comment -%} 2a. Intro paragraph (first text widget) {%- endcomment -%}
+    {%- if intro_idx >= 0 -%}
+      {%- assign intro_widget = widgets[intro_idx] -%}
+      <div class="pp-tipos__intro" data-tipos-intro>{{ intro_widget.value }}</div>
     {%- endif -%}
-  </script>
 
-  {%- comment -%} -- 3. Intro container (JS fills with first text widget) -- {%- endcomment -%}
-  <div data-tipos-intro></div>
+    {%- comment -%} 2b. Variety cards grid (heading + look-ahead image/text/cta) {%- endcomment -%}
+    {%- if total_cards > 0 -%}
+      <div class="pp-tipos__cards-grid" data-tipos-cards>
+        {%- assign card_count = 0 -%}
+        {%- assign skip_until = -1 -%}
+        {%- for w in widgets -%}
+          {%- if forloop.index0 < start_idx -%}{%- continue -%}{%- endif -%}
+          {%- if forloop.index0 <= skip_until -%}{%- continue -%}{%- endif -%}
+          {%- if w.type != 'heading' -%}{%- continue -%}{%- endif -%}
 
-  {%- comment -%} -- 4. Cards grid container (JS fills with heading+image+text cards) -- {%- endcomment -%}
-  <div data-tipos-cards></div>
+          {%- assign card_count = card_count | plus: 1 -%}
+          {%- assign i = forloop.index0 -%}
+          {%- assign card_img = '' -%}
+          {%- assign card_img_alt = '' -%}
+          {%- assign card_img_link = '' -%}
+          {%- assign card_text = '' -%}
+          {%- assign card_cta_text = '' -%}
+          {%- assign card_cta_url = '' -%}
+          {%- assign last_consumed = i -%}
 
-  {%- comment -%} -- 5. Product grids (server-rendered) -- {%- endcomment -%}
+          {%- for j in (1..6) -%}
+            {%- assign k = i | plus: j -%}
+            {%- if k >= widgets_size -%}{%- break -%}{%- endif -%}
+            {%- assign nw = widgets[k] -%}
+            {%- if nw.type == 'heading' -%}{%- break -%}{%- endif -%}
+            {%- assign last_consumed = k -%}
+            {%- if nw.type == 'image' and card_img == '' -%}
+              {%- assign card_img = nw.src -%}
+              {%- assign card_img_alt = nw.alt | default: '' -%}
+              {%- assign card_img_link = nw.link | default: '' -%}
+            {%- elsif nw.type == 'text' and card_text == '' -%}
+              {%- assign card_text = nw.value -%}
+            {%- elsif nw.type == 'cta' and card_cta_url == '' -%}
+              {%- assign card_cta_text = nw.text | default: '' -%}
+              {%- assign card_cta_url = nw.url | default: '' -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- assign skip_until = last_consumed -%}
+
+          {%- assign target_url = card_cta_url -%}
+          {%- if target_url == blank -%}{%- assign target_url = card_img_link -%}{%- endif -%}
+          {%- assign no_img_class = '' -%}
+          {%- if card_img == '' -%}{%- assign no_img_class = ' pp-tipos__card--no-image' -%}{%- endif -%}
+
+          <article class="pp-tipos__card pp-tipos__variety{{ no_img_class }}" id="variety-{{ card_count }}">
+            {%- if card_img != '' -%}
+              <div class="pp-tipos__card-image pp-content__image">
+                {%- if target_url != blank -%}
+                  <a href="{{ target_url }}"><img src="{{ card_img }}" alt="{{ card_img_alt | escape }}" loading="lazy"></a>
+                {%- else -%}
+                  <img src="{{ card_img }}" alt="{{ card_img_alt | escape }}" loading="lazy">
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+            <div class="pp-tipos__card-body">
+              <h2 class="pp-tipos__card-name pp-content__heading">
+                {%- if target_url != blank -%}
+                  <a href="{{ target_url }}">{{ w.value | escape }}</a>
+                {%- else -%}
+                  {{ w.value | escape }}
+                {%- endif -%}
+              </h2>
+              {%- if card_text != '' -%}
+                <div class="pp-tipos__card-desc pp-content__text">{{ card_text }}</div>
+              {%- endif -%}
+              {%- if target_url != blank -%}
+                {%- assign cta_label = card_cta_text -%}
+                {%- if cta_label == blank -%}
+                  {%- assign cta_label = 'Comprar ' | append: w.value -%}
+                {%- endif -%}
+                <div class="pp-content__cta">
+                  <a class="pp-tipos__card-cta pp-cta-btn" href="{{ target_url }}">{{ cta_label | escape }} <span aria-hidden="true">→</span></a>
+                </div>
+              {%- endif -%}
+            </div>
+          </article>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+  {%- elsif page.content != blank -%}
+    {%- comment -%} 2c. Fallback: legacy RTE body (ficus/monstera without metafield) {%- endcomment -%}
+    <div class="pp-tipos__page-body rte">{{ page.content }}</div>
+  {%- endif -%}
+
+  {%- comment -%} -- 3. Product grids (server-rendered) -- {%- endcomment -%}
   {%- assign coll_1 = page.metafields.custom.page_collection_1.value -%}
   {%- if coll_1 -%}
     <div class="pp-tipos__product-grid-wrapper">
@@ -500,7 +686,7 @@
     </div>
   {%- endif -%}
 
-  {%- comment -%} -- 6. Banner CTA -- {%- endcomment -%}
+  {%- comment -%} -- 4. Banner CTA (kept, hidden by CSS) -- {%- endcomment -%}
   {%- if section.settings.banner_text != blank -%}
     <div class="pp-tipos__banner" style="background-color: {{ section.settings.hero_bg_color }};">
       <p class="pp-tipos__banner-text">{{ section.settings.banner_text }}</p>
@@ -512,112 +698,145 @@
     </div>
   {%- endif -%}
 
-  {%- comment -%} -- Fallback -- {%- endcomment -%}
-  <div class="pp-guide__empty" data-pp-empty style="display:none;">
-    <p>Esta guia aun no tiene contenido configurado.</p>
-  </div>
+  {%- comment -%} -- Fallback for empty page (no metafield, no page.content) -- {%- endcomment -%}
+  {%- if widgets_size == 0 and page.content == blank -%}
+    <div class="pp-guide__empty">
+      <p>Esta guía aún no tiene contenido configurado.</p>
+    </div>
+  {%- endif -%}
 
 </section>
 
-<script>
-(function() {
-  var dataEl = document.querySelector('[data-page-content]');
-  var introContainer = document.querySelector('[data-tipos-intro]');
-  var cardsContainer = document.querySelector('[data-tipos-cards]');
-  var emptyMsg = document.querySelector('[data-pp-empty]');
-  if (!dataEl || !introContainer || !cardsContainer) return;
+{%- comment -%} ==========================================================
+     JSON-LD structured data (server-side, crawler-visible)
+     ========================================================================== {%- endcomment -%}
 
-  var widgets;
-  try { widgets = JSON.parse(dataEl.textContent); } catch(e) { widgets = []; }
-  dataEl.remove();
-
-  if (!Array.isArray(widgets) || !widgets.length) {
-    if (emptyMsg) emptyMsg.style.display = '';
-    return;
-  }
-
-  /* First text widget = intro paragraph */
-  var introHtml = '';
-  var startIndex = 0;
-  for (var i = 0; i < widgets.length; i++) {
-    if (widgets[i] && widgets[i].type === 'text') {
-      introHtml = '<div class="pp-tipos__intro">' + widgets[i].value + '</div>';
-      startIndex = i + 1;
-      break;
+{%- comment -%} -- BreadcrumbList -- {%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Inicio",
+      "item": {{ shop.url | append: '/' | json }}
     }
-  }
-  introContainer.innerHTML = introHtml;
-
-  /* Remaining widgets: group heading + next image + next text into variety cards.
-     Any standalone text/image between card groups renders inline. */
-  var cards = [];
-  var idx = startIndex;
-
-  while (idx < widgets.length) {
-    var w = widgets[idx];
-    if (!w || !w.type) { idx++; continue; }
-
-    if (w.type === 'heading') {
-      var card = { heading: w.value, image: null, imageAlt: '', imageLink: '', text: '', ctaText: '', ctaUrl: '' };
-
-      /* Consume the next few widgets that belong to this card */
-      var j = idx + 1;
-      while (j < widgets.length && widgets[j] && widgets[j].type !== 'heading' && (j - idx) < 6) {
-        var nw = widgets[j];
-        if (nw.type === 'image' && !card.image) {
-          card.image = nw.src;
-          card.imageAlt = nw.alt || '';
-          card.imageLink = nw.link || '';
-        } else if (nw.type === 'text' && !card.text) {
-          card.text = nw.value;
-        } else if (nw.type === 'cta' && !card.ctaUrl) {
-          card.ctaText = nw.text;
-          card.ctaUrl = nw.url;
-        }
-        j++;
-      }
-      cards.push(card);
-      idx = j;
-      continue;
+    {%- if page.handle != 'guia-tipos-plantas' -%}
+    ,{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Guía Tipos Plantas",
+      "item": {{ shop.url | append: '/pages/guia-tipos-plantas' | json }}
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": {{ page.title | json }},
+      "item": {{ shop.url | append: page.url | json }}
     }
-    idx++;
-  }
-
-  if (cards.length === 0 && !introHtml) {
-    if (emptyMsg) emptyMsg.style.display = '';
-    return;
-  }
-
-  /* Build cards grid HTML */
-  if (cards.length > 0) {
-    var html = '<div class="pp-tipos__cards-grid">';
-    cards.forEach(function(card, ci) {
-      var noImg = card.image ? '' : ' pp-tipos__card--no-image';
-      var targetUrl = card.ctaUrl || card.imageLink || '';
-      html += '<div class="pp-tipos__card' + noImg + '" id="variety-' + (ci + 1) + '">';
-      if (card.image) {
-        var imgTag = '<img src="' + card.image + '" alt="' + card.imageAlt + '" loading="lazy">';
-        html += '<div class="pp-tipos__card-image">';
-        html += targetUrl ? '<a href="' + targetUrl + '">' + imgTag + '</a>' : imgTag;
-        html += '</div>';
-      }
-      html += '<div class="pp-tipos__card-body">';
-      html += '<h3 class="pp-tipos__card-name">';
-      html += targetUrl ? '<a href="' + targetUrl + '">' + card.heading + '</a>' : card.heading;
-      html += '</h3>';
-      if (card.text) {
-        html += '<div class="pp-tipos__card-desc">' + card.text + '</div>';
-      }
-      if (targetUrl) {
-        html += '<a class="pp-tipos__card-cta" href="' + targetUrl + '">' + (card.ctaText || ('Comprar ' + card.heading)) + ' <span aria-hidden="true">→</span></a>';
-      }
-      html += '</div></div>';
-    });
-    html += '</div>';
-    cardsContainer.innerHTML = html;
-  }
-})();
+    {%- else -%}
+    ,{
+      "@type": "ListItem",
+      "position": 2,
+      "name": {{ page.title | json }},
+      "item": {{ shop.url | append: page.url | json }}
+    }
+    {%- endif -%}
+  ]
+}
 </script>
+
+{%- comment -%} -- ItemList of variety cards (only if we detected >=1 heading) -- {%- endcomment -%}
+{%- if total_cards > 0 -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": {{ page.title | json }},
+  "numberOfItems": {{ total_cards }},
+  "itemListElement": [
+    {%- assign _pos = 0 -%}
+    {%- assign _skip = -1 -%}
+    {%- for w in widgets -%}
+      {%- if forloop.index0 < start_idx -%}{%- continue -%}{%- endif -%}
+      {%- if forloop.index0 <= _skip -%}{%- continue -%}{%- endif -%}
+      {%- if w.type != 'heading' -%}{%- continue -%}{%- endif -%}
+
+      {%- assign _pos = _pos | plus: 1 -%}
+      {%- assign _i = forloop.index0 -%}
+      {%- assign _img = '' -%}
+      {%- assign _img_link = '' -%}
+      {%- assign _cta_url = '' -%}
+      {%- assign _last = _i -%}
+      {%- for j in (1..6) -%}
+        {%- assign _k = _i | plus: j -%}
+        {%- if _k >= widgets_size -%}{%- break -%}{%- endif -%}
+        {%- assign _nw = widgets[_k] -%}
+        {%- if _nw.type == 'heading' -%}{%- break -%}{%- endif -%}
+        {%- assign _last = _k -%}
+        {%- if _nw.type == 'image' and _img == '' -%}
+          {%- assign _img = _nw.src -%}
+          {%- assign _img_link = _nw.link | default: '' -%}
+        {%- elsif _nw.type == 'cta' and _cta_url == '' -%}
+          {%- assign _cta_url = _nw.url | default: '' -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- assign _skip = _last -%}
+
+      {%- assign _target = _cta_url -%}
+      {%- if _target == blank -%}{%- assign _target = _img_link -%}{%- endif -%}
+
+      {%- if _pos > 1 -%},{%- endif -%}
+      {
+        "@type": "ListItem",
+        "position": {{ _pos }},
+        "name": {{ w.value | json }}
+        {%- if _target != blank -%},"url": {{ _target | json }}{%- endif -%}
+        {%- if _img != '' -%},"image": {{ _img | json }}{%- endif -%}
+      }
+    {%- endfor -%}
+  ]
+}
+</script>
+{%- endif -%}
+
+{%- comment -%} -- FAQPage (parsed from <details><summary>Q</summary>A</details>) -- {%- endcomment -%}
+{%- if faq_count > 0 -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {%- assign faq_blocks = faq_html_source | split: '</details>' -%}
+    {%- assign _fpos = 0 -%}
+    {%- for block in faq_blocks -%}
+      {%- if block contains '<summary' -%}
+        {%- assign after_open_tag = block | split: '<summary' | last -%}
+        {%- assign after_summary = after_open_tag | split: '>' | last -%}
+        {%- assign _q = after_summary | split: '</summary>' | first | strip_html | strip | strip_newlines -%}
+        {%- assign _a_html = after_summary | split: '</summary>' | last -%}
+        {%- assign _a_spaced = _a_html | replace: '</p>', ' ' | replace: '</li>', ' ' | replace: '<br>', ' ' | replace: '<br/>', ' ' | replace: '<br />', ' ' -%}
+        {%- assign _a = _a_spaced | strip_html | strip | strip_newlines -%}
+        {%- if _q != '' and _a != '' -%}
+          {%- assign _fpos = _fpos | plus: 1 -%}
+          {%- if _fpos > 1 -%},{%- endif -%}
+          {
+            "@type": "Question",
+            "name": {{ _q | json }},
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": {{ _a | json }}
+            }
+          }
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+  ]
+}
+</script>
+{%- endif -%}
 
 {% schema %}
 {
