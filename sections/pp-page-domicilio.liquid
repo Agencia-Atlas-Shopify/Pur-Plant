@@ -24,9 +24,13 @@
   elsif page_type == 'campaign'
     assign is_campaign = true
   endif
-  # Auto-detect por handle si el metafield no está set (macetas-a-domicilio*)
+  # Auto-detect por handle si el metafield no está set
   if page_type == blank and page.handle contains 'macetas-a-domicilio'
     assign is_macetas = true
+  elsif page_type == blank and page.handle contains 'flores-a-domicilio'
+    assign is_flores = true
+  elsif page_type == blank and page.handle contains 'arboles'
+    assign is_arboles = true
   endif
 
   # Parent landing for breadcrumb 2nd level + "Ver plantas" CTA fallback (avoid self-ref)
@@ -381,12 +385,15 @@
   }
   </script>
 
-  {%- comment -%} FAQPage: parsear <details><summary class="ppx-faq__q">Q</summary>A</details> del metafield page_content {%- endcomment -%}
+  {%- comment -%} FAQPage: parsear <details><summary>Q</summary>A</details> del metafield page_content.
+       Filtro: solo widgets 'text' que contengan un <summary real> (no confundir con widgets que traigan
+       la clase ppx-faq__q dentro de un <style>). Extracción robusta: aislar Q como el texto ENTRE el
+       primer '>' del <summary...> y el </summary>, sin usar `split '>' | last` que atravesaba </summary>. {%- endcomment -%}
   {%- assign _faq_source = '' -%}
   {%- assign _pc = page.metafields.custom.page_content.value -%}
   {%- if _pc != blank -%}
     {%- for _w in _pc -%}
-      {%- if _w.type == 'text' and _w.value contains 'ppx-faq__q' -%}
+      {%- if _w.type == 'text' and _w.value contains '<summary' and _w.value contains '</summary>' -%}
         {%- assign _faq_source = _w.value -%}
         {%- break -%}
       {%- endif -%}
@@ -396,11 +403,20 @@
     {%- assign _faq_count = 0 -%}
     {%- assign _faq_blocks_pre = _faq_source | split: '</details>' -%}
     {%- for block in _faq_blocks_pre -%}
-      {%- if block contains 'ppx-faq__q' -%}
-        {%- assign _after_open = block | split: '<summary' | last -%}
-        {%- assign _after_sum = _after_open | split: '>' | last -%}
-        {%- assign _q_pre = _after_sum | split: '</summary>' | first | strip_html | strip | strip_newlines -%}
-        {%- assign _a_pre = _after_sum | split: '</summary>' | last | replace: '</p>', ' ' | replace: '</li>', ' ' | replace: '<br>', ' ' | replace: '<br/>', ' ' | replace: '<br />', ' ' | strip_html | strip | strip_newlines -%}
+      {%- if block contains '<summary' and block contains '</summary>' -%}
+        {%- assign _q_raw = block | split: '<summary' | last | split: '</summary>' | first -%}
+        {%- assign _q_pieces = _q_raw | split: '>' -%}
+        {%- assign _q_body = '' -%}
+        {%- for _p in _q_pieces -%}
+          {%- unless forloop.first -%}
+            {%- if _q_body != '' -%}{%- assign _q_body = _q_body | append: '>' -%}{%- endif -%}
+            {%- assign _q_body = _q_body | append: _p -%}
+          {%- endunless -%}
+        {%- endfor -%}
+        {%- assign _q_pre = _q_body | strip_html | strip | strip_newlines -%}
+        {%- assign _a_html = block | split: '</summary>' | last -%}
+        {%- assign _a_spaced = _a_html | replace: '</p>', ' ' | replace: '</li>', ' ' | replace: '<br>', ' ' | replace: '<br/>', ' ' | replace: '<br />', ' ' -%}
+        {%- assign _a_pre = _a_spaced | strip_html | strip | strip_newlines -%}
         {%- if _q_pre != '' and _a_pre != '' -%}
           {%- assign _faq_count = _faq_count | plus: 1 -%}
         {%- endif -%}
@@ -414,11 +430,20 @@
         "mainEntity": [
           {%- assign _fpos = 0 -%}
           {%- for block in _faq_blocks_pre -%}
-            {%- if block contains 'ppx-faq__q' -%}
-              {%- assign _after_open2 = block | split: '<summary' | last -%}
-              {%- assign _after_sum2 = _after_open2 | split: '>' | last -%}
-              {%- assign _q = _after_sum2 | split: '</summary>' | first | strip_html | strip | strip_newlines -%}
-              {%- assign _a = _after_sum2 | split: '</summary>' | last | replace: '</p>', ' ' | replace: '</li>', ' ' | replace: '<br>', ' ' | replace: '<br/>', ' ' | replace: '<br />', ' ' | strip_html | strip | strip_newlines -%}
+            {%- if block contains '<summary' and block contains '</summary>' -%}
+              {%- assign _q_raw2 = block | split: '<summary' | last | split: '</summary>' | first -%}
+              {%- assign _q_pieces2 = _q_raw2 | split: '>' -%}
+              {%- assign _q_body2 = '' -%}
+              {%- for _p2 in _q_pieces2 -%}
+                {%- unless forloop.first -%}
+                  {%- if _q_body2 != '' -%}{%- assign _q_body2 = _q_body2 | append: '>' -%}{%- endif -%}
+                  {%- assign _q_body2 = _q_body2 | append: _p2 -%}
+                {%- endunless -%}
+              {%- endfor -%}
+              {%- assign _q = _q_body2 | strip_html | strip | strip_newlines -%}
+              {%- assign _a_html2 = block | split: '</summary>' | last -%}
+              {%- assign _a_spaced2 = _a_html2 | replace: '</p>', ' ' | replace: '</li>', ' ' | replace: '<br>', ' ' | replace: '<br/>', ' ' | replace: '<br />', ' ' -%}
+              {%- assign _a = _a_spaced2 | strip_html | strip | strip_newlines -%}
               {%- if _q != '' and _a != '' -%}
                 {%- assign _fpos = _fpos | plus: 1 -%}
                 {%- if _fpos > 1 -%},{%- endif -%}

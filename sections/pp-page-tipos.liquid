@@ -93,21 +93,30 @@
   endif
 
   # Count valid Q/A pairs to decide whether to emit FAQPage schema.
-  # Tolerante a <summary> con atributos (ej. <summary style="...">): usa split '<summary'
-  # (sin '>') y descarta el resto de la etiqueta apertura hasta el primer '>'.
-  # Antes de strip_html, inserta espacios en </p>, </li>, <br> para no pegar tokens al concatenar.
+  # Extracción robusta: aislar la Q como el contenido entre <summary...> y </summary>,
+  # descartando SOLO los atributos hasta el primer '>' (el bug anterior de `split '>' | last`
+  # atravesaba también el </summary> y aterrizaba en la answer → Q === A).
   assign faq_count = 0
   if faq_html_source != ''
     assign faq_blocks_pre = faq_html_source | split: '</details>'
     for block in faq_blocks_pre
-      if block contains '<summary'
-        assign after_open_pre = block | split: '<summary' | last
-        assign after_summary_pre = after_open_pre | split: '>' | last
-        assign _q_pre = after_summary_pre | split: '</summary>' | first | strip_html | strip | strip_newlines
-        assign _a_html_pre = after_summary_pre | split: '</summary>' | last
-        assign _a_spaced_pre = _a_html_pre | replace: '</p>', ' ' | replace: '</li>', ' ' | replace: '<br>', ' ' | replace: '<br/>', ' ' | replace: '<br />', ' '
-        assign _a_pre = _a_spaced_pre | strip_html | strip | strip_newlines
-        if _q_pre != '' and _a_pre != ''
+      if block contains '<summary' and block contains '</summary>'
+        assign q_raw_pre = block | split: '<summary' | last | split: '</summary>' | first
+        assign q_pieces_pre = q_raw_pre | split: '>'
+        assign q_body_pre = ''
+        for piece in q_pieces_pre
+          unless forloop.first
+            if q_body_pre != ''
+              assign q_body_pre = q_body_pre | append: '>'
+            endif
+            assign q_body_pre = q_body_pre | append: piece
+          endunless
+        endfor
+        assign q_pre = q_body_pre | strip_html | strip | strip_newlines
+        assign a_html_pre = block | split: '</summary>' | last
+        assign a_spaced_pre = a_html_pre | replace: '</p>', ' ' | replace: '</li>', ' ' | replace: '<br>', ' ' | replace: '<br/>', ' ' | replace: '<br />', ' '
+        assign a_pre = a_spaced_pre | strip_html | strip | strip_newlines
+        if q_pre != '' and a_pre != ''
           assign faq_count = faq_count | plus: 1
         endif
       endif
@@ -812,6 +821,13 @@
       {%- if forloop.index0 <= _skip -%}{%- continue -%}{%- endif -%}
       {%- if w.type != 'heading' -%}{%- continue -%}{%- endif -%}
 
+      {%- assign _heading_lc = w.value | downcase -%}
+      {%- assign _is_special = false -%}
+      {%- if _heading_lc contains 'preguntas frecuentes' or _heading_lc contains 'faq' or _heading_lc contains 'explora' -%}
+        {%- assign _is_special = true -%}
+      {%- endif -%}
+      {%- if _is_special -%}{%- continue -%}{%- endif -%}
+
       {%- assign _pos = _pos | plus: 1 -%}
       {%- assign _i = forloop.index0 -%}
       {%- assign _img = '' -%}
@@ -835,14 +851,30 @@
 
       {%- assign _target = _cta_url -%}
       {%- if _target == blank -%}{%- assign _target = _img_link -%}{%- endif -%}
+      {%- assign _target_abs = '' -%}
+      {%- if _target != blank -%}
+        {%- if _target contains '://' -%}
+          {%- assign _target_abs = _target -%}
+        {%- else -%}
+          {%- assign _target_abs = shop.url | append: _target -%}
+        {%- endif -%}
+      {%- endif -%}
+      {%- assign _img_abs = '' -%}
+      {%- if _img != '' -%}
+        {%- if _img contains '://' -%}
+          {%- assign _img_abs = _img -%}
+        {%- else -%}
+          {%- assign _img_abs = shop.url | append: _img -%}
+        {%- endif -%}
+      {%- endif -%}
 
       {%- if _pos > 1 -%},{%- endif -%}
       {
         "@type": "ListItem",
         "position": {{ _pos }},
         "name": {{ w.value | json }}
-        {%- if _target != blank -%},"url": {{ _target | json }}{%- endif -%}
-        {%- if _img != '' -%},"image": {{ _img | json }}{%- endif -%}
+        {%- if _target_abs != '' -%},"url": {{ _target_abs | json }}{%- endif -%}
+        {%- if _img_abs != '' -%},"image": {{ _img_abs | json }}{%- endif -%}
       }
     {%- endfor -%}
   ]
@@ -860,11 +892,18 @@
     {%- assign faq_blocks = faq_html_source | split: '</details>' -%}
     {%- assign _fpos = 0 -%}
     {%- for block in faq_blocks -%}
-      {%- if block contains '<summary' -%}
-        {%- assign after_open_tag = block | split: '<summary' | last -%}
-        {%- assign after_summary = after_open_tag | split: '>' | last -%}
-        {%- assign _q = after_summary | split: '</summary>' | first | strip_html | strip | strip_newlines -%}
-        {%- assign _a_html = after_summary | split: '</summary>' | last -%}
+      {%- if block contains '<summary' and block contains '</summary>' -%}
+        {%- assign _q_raw = block | split: '<summary' | last | split: '</summary>' | first -%}
+        {%- assign _q_pieces = _q_raw | split: '>' -%}
+        {%- assign _q_body = '' -%}
+        {%- for _p in _q_pieces -%}
+          {%- unless forloop.first -%}
+            {%- if _q_body != '' -%}{%- assign _q_body = _q_body | append: '>' -%}{%- endif -%}
+            {%- assign _q_body = _q_body | append: _p -%}
+          {%- endunless -%}
+        {%- endfor -%}
+        {%- assign _q = _q_body | strip_html | strip | strip_newlines -%}
+        {%- assign _a_html = block | split: '</summary>' | last -%}
         {%- assign _a_spaced = _a_html | replace: '</p>', ' ' | replace: '</li>', ' ' | replace: '<br>', ' ' | replace: '<br/>', ' ' | replace: '<br />', ' ' -%}
         {%- assign _a = _a_spaced | strip_html | strip | strip_newlines -%}
         {%- if _q != '' and _a != '' -%}
