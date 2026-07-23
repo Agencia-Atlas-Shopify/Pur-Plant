@@ -384,10 +384,12 @@
     </div>
   {%- endif -%}
 
-  {%- comment -%} -- Fallback -- {%- endcomment -%}
-  <div class="pp-guide__empty" data-pp-empty style="display:none;">
-    <p>Esta pagina aun no tiene contenido configurado.</p>
-  </div>
+  {%- comment -%} -- Fallback solo en editor del theme, NO en HTML público (Google lo indexa) -- {%- endcomment -%}
+  {%- if request.design_mode -%}
+    <div class="pp-guide__empty" data-pp-empty>
+      <p>Esta página aún no tiene contenido configurado.</p>
+    </div>
+  {%- endif -%}
 
 </section>
 

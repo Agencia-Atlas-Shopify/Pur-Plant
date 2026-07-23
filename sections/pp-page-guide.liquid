@@ -818,9 +818,9 @@ endif
         {{ rte_content }}
       </rte-formatter>
     </div>
-  {%- else -%}
+  {%- elsif request.design_mode -%}
     <div class="pp-guide__empty">
-      <p>Esta guia aun no tiene contenido configurado.</p>
+      <p>Esta guía aún no tiene contenido configurado.</p>
     </div>
   {%- endif -%}
 
@@ -957,10 +957,12 @@ endif
     </div>
   {%- endif -%}
 
-  {%- comment -%} -- Fallback -- {%- endcomment -%}
-  <div class="pp-guide__empty" data-pp-empty style="display:none;">
-    <p>Esta guia aun no tiene contenido configurado.</p>
-  </div>
+  {%- comment -%} -- Fallback solo en editor del theme, NO en HTML público (Google lo indexa) -- {%- endcomment -%}
+  {%- if request.design_mode -%}
+    <div class="pp-guide__empty" data-pp-empty>
+      <p>Esta guía aún no tiene contenido configurado.</p>
+    </div>
+  {%- endif -%}
 
 </section>
 

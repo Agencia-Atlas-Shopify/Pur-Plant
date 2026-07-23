@@ -746,8 +746,8 @@
     </div>
   {%- endif -%}
 
-  {%- comment -%} -- Fallback for empty page (no metafield, no page.content) -- {%- endcomment -%}
-  {%- if widgets_size == 0 and page.content == blank -%}
+  {%- comment -%} -- Fallback solo en editor del theme, NO en HTML público (Google lo indexa) -- {%- endcomment -%}
+  {%- if widgets_size == 0 and page.content == blank and request.design_mode -%}
     <div class="pp-guide__empty">
       <p>Esta guía aún no tiene contenido configurado.</p>
     </div>

@@ -355,6 +355,83 @@
   "
 >
 
+  {%- comment -%} ─────────────────────────────────────────────────────────
+       Schema.org JSON-LD emitido server-side para SEO / AI-crawlers.
+       BreadcrumbList: Inicio > pillar (Plantas/Flores/Árboles/Macetas a Domicilio) > page.title
+       FAQPage: extraído del contenido de page_content si contiene <details><summary class="ppx-faq__q">
+       (patrón usado en las páginas de ciudad: Madrid, Barcelona, etc.)
+  ───────────────────────────────────────────────────────── {%- endcomment -%}
+  {%- assign _shop_url = shop.url | append: routes.root_url | replace: shop.url | prepend: shop.url -%}
+  {%- capture crumb_home_url -%}{{ shop.url }}/{%- endcapture -%}
+  {%- capture crumb_parent_url -%}{{ shop.url }}{{ parent_url }}{%- endcapture -%}
+  {%- capture crumb_current_url -%}{{ shop.url }}{{ page.url }}{%- endcapture -%}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type":"ListItem","position":1,"name":"Inicio","item":{{ crumb_home_url | json }}}
+      {%- unless is_parent_page -%}
+        ,{"@type":"ListItem","position":2,"name":{{ parent_label | json }},"item":{{ crumb_parent_url | json }}}
+        ,{"@type":"ListItem","position":3,"name":{{ page.title | json }},"item":{{ crumb_current_url | json }}}
+      {%- else -%}
+        ,{"@type":"ListItem","position":2,"name":{{ parent_label | json }},"item":{{ crumb_current_url | json }}}
+      {%- endunless -%}
+    ]
+  }
+  </script>
+
+  {%- comment -%} FAQPage: parsear <details><summary class="ppx-faq__q">Q</summary>A</details> del metafield page_content {%- endcomment -%}
+  {%- assign _faq_source = '' -%}
+  {%- assign _pc = page.metafields.custom.page_content.value -%}
+  {%- if _pc != blank -%}
+    {%- for _w in _pc -%}
+      {%- if _w.type == 'text' and _w.value contains 'ppx-faq__q' -%}
+        {%- assign _faq_source = _w.value -%}
+        {%- break -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+  {%- if _faq_source != '' -%}
+    {%- assign _faq_count = 0 -%}
+    {%- assign _faq_blocks_pre = _faq_source | split: '</details>' -%}
+    {%- for block in _faq_blocks_pre -%}
+      {%- if block contains 'ppx-faq__q' -%}
+        {%- assign _after_open = block | split: '<summary' | last -%}
+        {%- assign _after_sum = _after_open | split: '>' | last -%}
+        {%- assign _q_pre = _after_sum | split: '</summary>' | first | strip_html | strip | strip_newlines -%}
+        {%- assign _a_pre = _after_sum | split: '</summary>' | last | replace: '</p>', ' ' | replace: '</li>', ' ' | replace: '<br>', ' ' | replace: '<br/>', ' ' | replace: '<br />', ' ' | strip_html | strip | strip_newlines -%}
+        {%- if _q_pre != '' and _a_pre != '' -%}
+          {%- assign _faq_count = _faq_count | plus: 1 -%}
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- if _faq_count > 0 -%}
+      <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {%- assign _fpos = 0 -%}
+          {%- for block in _faq_blocks_pre -%}
+            {%- if block contains 'ppx-faq__q' -%}
+              {%- assign _after_open2 = block | split: '<summary' | last -%}
+              {%- assign _after_sum2 = _after_open2 | split: '>' | last -%}
+              {%- assign _q = _after_sum2 | split: '</summary>' | first | strip_html | strip | strip_newlines -%}
+              {%- assign _a = _after_sum2 | split: '</summary>' | last | replace: '</p>', ' ' | replace: '</li>', ' ' | replace: '<br>', ' ' | replace: '<br/>', ' ' | replace: '<br />', ' ' | strip_html | strip | strip_newlines -%}
+              {%- if _q != '' and _a != '' -%}
+                {%- assign _fpos = _fpos | plus: 1 -%}
+                {%- if _fpos > 1 -%},{%- endif -%}
+                {"@type":"Question","name":{{ _q | json }},"acceptedAnswer":{"@type":"Answer","text":{{ _a | json }}}}
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        ]
+      }
+      </script>
+    {%- endif -%}
+  {%- endif -%}
+
   {%- comment -%} -- Collection-style header: H1 arriba, breadcrumb debajo -- {%- endcomment -%}
   <h1 class="pp-coll-title__heading">{{ page.title }}</h1>
 
@@ -551,10 +628,12 @@
     </div>
   {%- endif -%}
 
-  {%- comment -%} -- Fallback -- {%- endcomment -%}
-  <div class="pp-guide__empty" data-pp-empty style="display:none;">
-    <p>Esta pagina aun no tiene contenido configurado.</p>
-  </div>
+  {%- comment -%} -- Fallback solo en editor del theme, NO en HTML público (Google lo indexa) -- {%- endcomment -%}
+  {%- if request.design_mode -%}
+    <div class="pp-guide__empty" data-pp-empty>
+      <p>Esta página aún no tiene contenido configurado.</p>
+    </div>
+  {%- endif -%}
 
 </section>
 
